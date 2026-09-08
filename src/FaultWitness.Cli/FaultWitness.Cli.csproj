@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework></PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FaultWitness.Core\FaultWitness.Core.csproj" />
+    <ProjectReference Include="..\FaultWitness.Platform\FaultWitness.Platform.csproj" />
+    <ProjectReference Include="..\FaultWitness.Platform.Windows\FaultWitness.Platform.Windows.csproj" />
+    <ProjectReference Include="..\FaultWitness.Rules\FaultWitness.Rules.csproj" />
+    <ProjectReference Include="..\FaultWitness.Export\FaultWitness.Export.csproj" />
+  </ItemGroup>
+
+</Project>

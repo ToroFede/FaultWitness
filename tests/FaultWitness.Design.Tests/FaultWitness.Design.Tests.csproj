@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><IsPackable>false</IsPackable></PropertyGroup>
+  <ItemGroup><PackageReference Include="Microsoft.NET.Test.Sdk"/><PackageReference Include="xunit"/><PackageReference Include="xunit.runner.visualstudio"/><PackageReference Include="coverlet.collector"/></ItemGroup>
+  <ItemGroup><ProjectReference Include="..\..\src\FaultWitness.Design\FaultWitness.Design.csproj"/></ItemGroup>
+  <ItemGroup><Using Include="Xunit"/></ItemGroup>
+</Project>

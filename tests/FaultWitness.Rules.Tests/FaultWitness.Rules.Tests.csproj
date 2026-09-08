@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+  <ItemGroup><ProjectReference Include="..\..\src\FaultWitness.Rules\FaultWitness.Rules.csproj" /></ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\fixtures\scenarios\*.json" Link="fixtures\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\fixtures\rule-expectations.json" Link="fixtures\rule-expectations.json" CopyToOutputDirectory="PreserveNewest" />
+    <ProjectReference Include="..\..\src\FaultWitness.Localization\FaultWitness.Localization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

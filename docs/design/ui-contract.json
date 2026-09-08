@@ -1,0 +1,365 @@
+{
+  "version": "1.0.1",
+  "components": [
+    {
+      "id": "PrimaryAction",
+      "role": "one dominant next step",
+      "allowedUse": "primary workflow",
+      "forbiddenUse": "destructive or multiple peers",
+      "visualPriority": 3,
+      "typographyToken": "text.bodyStrong",
+      "surfaceToken": "semantic.color.accent",
+      "foregroundToken": "semantic.color.surface",
+      "borderToken": "semantic.color.accent",
+      "minSize": "component.action.primary.minHeight",
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "focused",
+        "disabled"
+      ],
+      "accessibilityRole": "button",
+      "keyboardBehavior": "Space or Enter invokes",
+      "iconPolicy": "optional; label required",
+      "textPolicy": "active verb"
+    },
+    {
+      "id": "SecondaryAction",
+      "role": "supporting action",
+      "allowedUse": "alternative workflow",
+      "forbiddenUse": "compete with primary",
+      "visualPriority": 2,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.surface",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "component.action.standard.minHeight",
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "focused",
+        "disabled"
+      ],
+      "accessibilityRole": "button",
+      "keyboardBehavior": "Space or Enter invokes",
+      "iconPolicy": "optional; label required",
+      "textPolicy": "active verb"
+    },
+    {
+      "id": "SubtleAction",
+      "role": "tertiary command",
+      "allowedUse": "low emphasis command",
+      "forbiddenUse": "only path to critical workflow",
+      "visualPriority": 1,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.canvas",
+      "foregroundToken": "semantic.color.accent",
+      "borderToken": "semantic.color.canvas",
+      "minSize": "component.action.standard.minHeight",
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "focused",
+        "disabled"
+      ],
+      "accessibilityRole": "button",
+      "keyboardBehavior": "Space or Enter invokes",
+      "iconPolicy": "optional; ambiguous icon forbidden",
+      "textPolicy": "short active verb"
+    },
+    {
+      "id": "DangerAction",
+      "role": "destructive command",
+      "allowedUse": "irreversible or data deletion",
+      "forbiddenUse": "ordinary primary workflow",
+      "visualPriority": 2,
+      "typographyToken": "text.bodyStrong",
+      "surfaceToken": "semantic.color.surface",
+      "foregroundToken": "semantic.color.error",
+      "borderToken": "semantic.color.error",
+      "minSize": "component.action.standard.minHeight",
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "focused",
+        "disabled"
+      ],
+      "accessibilityRole": "button",
+      "keyboardBehavior": "Space or Enter; confirmation",
+      "iconPolicy": "optional; label required",
+      "textPolicy": "explicit destructive verb"
+    },
+    {
+      "id": "NavigationItem",
+      "role": "destination",
+      "allowedUse": "primary destination",
+      "forbiddenUse": "one-shot action",
+      "visualPriority": 2,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.selection",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "component.navigation.itemHeight",
+      "states": [
+        "default",
+        "hover",
+        "focused",
+        "selected",
+        "disabled"
+      ],
+      "accessibilityRole": "navigation link",
+      "keyboardBehavior": "Tab then Space or Enter",
+      "iconPolicy": "optional; label required",
+      "textPolicy": "short noun",
+      "selection": {
+        "indicatorWidthToken": "component.selection.indicatorWidth",
+        "foregroundToken": "semantic.color.accent",
+        "textWeight": "SemiBold",
+        "accessibleState": "current destination help text",
+        "inactiveAppearance": "enabled neutral text; transparent surface"
+      }
+    },
+    {
+      "id": "NavigationGroup",
+      "role": "destination grouping",
+      "allowedUse": "separate settings footer",
+      "forbiddenUse": "deep hierarchy",
+      "visualPriority": 1,
+      "typographyToken": "text.metadata",
+      "surfaceToken": "semantic.color.canvas",
+      "foregroundToken": "semantic.color.textMuted",
+      "borderToken": "semantic.color.border",
+      "minSize": "component.navigation.itemHeight",
+      "states": [
+        "default"
+      ],
+      "accessibilityRole": "navigation",
+      "keyboardBehavior": "logical tab order",
+      "iconPolicy": "consistent set or none",
+      "textPolicy": "destination concepts"
+    },
+    {
+      "id": "SectionHeading",
+      "role": "section hierarchy",
+      "allowedUse": "introduce related region",
+      "forbiddenUse": "decoration",
+      "visualPriority": 2,
+      "typographyToken": "text.sectionTitle",
+      "surfaceToken": "semantic.color.canvas",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.canvas",
+      "minSize": "primitive.space.8",
+      "states": [
+        "default"
+      ],
+      "accessibilityRole": "heading",
+      "keyboardBehavior": "not focusable",
+      "iconPolicy": "none",
+      "textPolicy": "concise noun phrase"
+    },
+    {
+      "id": "StatusBadge",
+      "role": "textual status",
+      "allowedUse": "priority, evidence, coverage",
+      "forbiddenUse": "color-only status",
+      "visualPriority": 1,
+      "typographyToken": "text.metadata",
+      "surfaceToken": "semantic.color.surfaceMuted",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "primitive.space.6",
+      "states": [
+        "default",
+        "unknown",
+        "attention",
+        "ready",
+        "error"
+      ],
+      "accessibilityRole": "text",
+      "keyboardBehavior": "not focusable",
+      "iconPolicy": "icon may reinforce text",
+      "textPolicy": "always state in words"
+    },
+    {
+      "id": "IncidentRow",
+      "role": "dense incident summary",
+      "allowedUse": "virtualized incident/history list",
+      "forbiddenUse": "oversized card",
+      "visualPriority": 2,
+      "typographyToken": "text.rowTitle",
+      "surfaceToken": "semantic.color.surface",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "component.row.minHeight",
+      "states": [
+        "default",
+        "hover",
+        "focused",
+        "selected"
+      ],
+      "accessibilityRole": "list item",
+      "keyboardBehavior": "arrows select; Enter opens",
+      "iconPolicy": "category icon optional",
+      "textPolicy": "title, time, evidence, priority",
+      "selection": {
+        "surfaceToken": "semantic.color.selection",
+        "indicatorWidthToken": "component.selection.indicatorWidth",
+        "accessibilityRole": "selected list item"
+      }
+    },
+    {
+      "id": "SummaryMetric",
+      "role": "scan summary",
+      "allowedUse": "compact actionable count and label strip; stack on small screens and wrap when translated labels need space",
+      "forbiddenUse": "health score or equal KPI dashboard",
+      "visualPriority": 1,
+      "typographyToken": "text.bodyStrong",
+      "surfaceToken": "semantic.color.canvas",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.canvas",
+      "minSize": "primitive.space.10",
+      "states": [
+        "default"
+      ],
+      "accessibilityRole": "text",
+      "keyboardBehavior": "only focusable if actionable",
+      "iconPolicy": "optional",
+      "textPolicy": "count plus semantic label"
+    },
+    {
+      "id": "Callout",
+      "role": "important explanation",
+      "allowedUse": "uncertainty, next step, error",
+      "forbiddenUse": "decoration",
+      "visualPriority": 2,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.surfaceMuted",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "primitive.space.10",
+      "states": [
+        "information",
+        "attention",
+        "error",
+        "unknown"
+      ],
+      "accessibilityRole": "note",
+      "keyboardBehavior": "content order",
+      "iconPolicy": "icon reinforces label",
+      "textPolicy": "actionable and conservative"
+    },
+    {
+      "id": "Disclosure",
+      "role": "progressive detail",
+      "allowedUse": "technical/raw detail",
+      "forbiddenUse": "hide primary result",
+      "visualPriority": 1,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.canvas",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "component.action.standard.minHeight",
+      "states": [
+        "collapsed",
+        "expanded",
+        "focused"
+      ],
+      "accessibilityRole": "button",
+      "keyboardBehavior": "Space or Enter toggles",
+      "iconPolicy": "standard disclosure indicator",
+      "textPolicy": "name hidden content"
+    },
+    {
+      "id": "CommandArea",
+      "role": "related commands",
+      "allowedUse": "one primary with subordinate actions",
+      "forbiddenUse": "multiple primary actions",
+      "visualPriority": 2,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.canvas",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.canvas",
+      "minSize": "primitive.space.10",
+      "states": [
+        "default"
+      ],
+      "accessibilityRole": "group",
+      "keyboardBehavior": "left-to-right then next region",
+      "iconPolicy": "consistent",
+      "textPolicy": "verbs"
+    },
+    {
+      "id": "EmptyState",
+      "role": "explain absence and next step",
+      "allowedUse": "empty data region",
+      "forbiddenUse": "blank panel",
+      "visualPriority": 1,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.surfaceMuted",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "primitive.space.10",
+      "states": [
+        "empty"
+      ],
+      "accessibilityRole": "status",
+      "keyboardBehavior": "action follows text",
+      "iconPolicy": "optional",
+      "textPolicy": "fact then next step"
+    },
+    {
+      "id": "InlineStatus",
+      "role": "operation state",
+      "allowedUse": "active operation globally; completed/error status scoped to owning page; idle Ready hidden",
+      "forbiddenUse": "PC health conclusion",
+      "visualPriority": 1,
+      "typographyToken": "text.metadata",
+      "surfaceToken": "semantic.color.canvas",
+      "foregroundToken": "semantic.color.textMuted",
+      "borderToken": "semantic.color.canvas",
+      "minSize": "primitive.space.6",
+      "states": [
+        "loading",
+        "complete",
+        "cancelled",
+        "error"
+      ],
+      "accessibilityRole": "status",
+      "keyboardBehavior": "live region when changing",
+      "iconPolicy": "optional",
+      "textPolicy": "specific operation"
+    },
+    {
+      "id": "Dialog",
+      "role": "focused decision",
+      "allowedUse": "confirmation or export options",
+      "forbiddenUse": "routine navigation",
+      "visualPriority": 3,
+      "typographyToken": "text.body",
+      "surfaceToken": "semantic.color.surface",
+      "foregroundToken": "semantic.color.text",
+      "borderToken": "semantic.color.border",
+      "minSize": "primitive.space.10",
+      "states": [
+        "open",
+        "focused"
+      ],
+      "accessibilityRole": "dialog",
+      "keyboardBehavior": "focus contained; Escape cancels",
+      "iconPolicy": "optional",
+      "textPolicy": "explicit consequence"
+    }
+  ],
+  "invariants": [
+    "at-most-one-primary-action-per-command-area-zero-is-valid",
+    "danger-is-destructive-only",
+    "navigation-items-are-destinations",
+    "ambiguous-icons-require-labels",
+    "selected-navigation-not-color-only",
+    "disabled-state-distinct"
+  ]
+}

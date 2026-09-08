@@ -1,0 +1,86 @@
+{
+  "Name": "same_signature_different_pid",
+  "Description": "Distinct report IDs/PIDs, same stable signature.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000051",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "Application",
+      "Provider": "Application Error",
+      "EventId": 1000,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "Example.exe",
+      "ProcessId": 100,
+      "Module": "Example.dll",
+      "Device": null,
+      "Fields": {
+        "AppVersion": "1.2.3.4",
+        "ModuleVersion": "2.3.4.5",
+        "ExceptionCode": "c0000005",
+        "ReportId": "crash-a"
+      },
+      "SourceReference": "synthetic:record-51",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000052",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:30.000Z",
+      "Channel": "Application",
+      "Provider": "Application Error",
+      "EventId": 1000,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "Example.exe",
+      "ProcessId": 987,
+      "Module": "Example.dll",
+      "Device": null,
+      "Fields": {
+        "AppVersion": "1.2.3.4",
+        "ModuleVersion": "2.3.4.5",
+        "ExceptionCode": "c0000005",
+        "ReportId": "crash-b"
+      },
+      "SourceReference": "synthetic:record-52",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

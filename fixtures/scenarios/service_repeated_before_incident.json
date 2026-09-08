@@ -1,0 +1,103 @@
+{
+  "Name": "service_repeated_before_incident",
+  "Description": "Repeated same-service failures before user-facing crash.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000080",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T11:58:00.000Z",
+      "Channel": "System",
+      "Provider": "Service Control Manager",
+      "EventId": 7031,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": null,
+      "Fields": {
+        "ServiceName": "ExampleService"
+      },
+      "SourceReference": "synthetic:record-80",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000081",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T11:59:00.000Z",
+      "Channel": "System",
+      "Provider": "Service Control Manager",
+      "EventId": 7031,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": null,
+      "Fields": {
+        "ServiceName": "ExampleService"
+      },
+      "SourceReference": "synthetic:record-81",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000082",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "Application",
+      "Provider": "Application Error",
+      "EventId": 1000,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "Example.exe",
+      "ProcessId": 100,
+      "Module": "Example.dll",
+      "Device": null,
+      "Fields": {
+        "AppVersion": "1.2.3.4",
+        "ModuleVersion": "2.3.4.5",
+        "ExceptionCode": "c0000005",
+        "ReportId": "report-a"
+      },
+      "SourceReference": "synthetic:record-82",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "version": "1.0.1",
+  "automatic": [
+    {
+      "id": "tokens-schema",
+      "check": "Token document contains typed values and valid references"
+    },
+    {
+      "id": "tokens-no-cycles",
+      "check": "Token alias graph is acyclic"
+    },
+    {
+      "id": "themes-complete",
+      "check": "Light and Dark semantic color sets match"
+    },
+    {
+      "id": "contrast",
+      "check": "normal text >=4.5:1; status/icon colors >=3:1 where used"
+    },
+    {
+      "id": "contract-complete",
+      "check": "All required semantic components and structured fields exist"
+    },
+    {
+      "id": "one-primary",
+      "check": "Every declared command area has at most one PrimaryAction"
+    },
+    {
+      "id": "no-health-score",
+      "check": "Design specs and user-facing resources contain no health-score feature"
+    },
+    {
+      "id": "localization",
+      "check": "All language keys and placeholders match English"
+    },
+    {
+      "id": "raw-style-drift",
+      "check": "No raw color literals outside token source and documented platform exceptions"
+    },
+    {
+      "id": "raw-xml-default",
+      "check": "Incident detail raw data disclosure is collapsed initially"
+    },
+    {
+      "id": "navigation-destinations",
+      "check": "Top-level navigation matches Home, Analyze, Incidents, History, System; Settings is separated"
+    },
+    {
+      "id": "keyboard-paths",
+      "check": "Every screen declares a keyboard flow and default focus"
+    },
+    {
+      "id": "brand-no-wrap",
+      "check": "Brand has one text line at 639/640/641 epx in all supported languages"
+    },
+    {
+      "id": "selected-destination",
+      "check": "Current destination has selection class, visible shape, emphasized label and accessible state; Detail maps to Incidents and Readiness to System"
+    },
+    {
+      "id": "home-summary-density",
+      "check": "Medium/large count controls form a compact wrapping strip; small layout stacks"
+    },
+    {
+      "id": "status-scope",
+      "check": "Ready is hidden; completed source checks do not remain visible after navigation; active operation stays accessible"
+    },
+    {
+      "id": "detail-secondary-copy",
+      "check": "Incident detail support preview/copy remains discoverable without PrimaryAction"
+    },
+    {
+      "id": "history-selection",
+      "check": "Selected row uses semantic selection surface and visible indicator without render re-entry"
+    }
+  ],
+  "semiAutomatic": [
+    {
+      "id": "responsive",
+      "check": "Headless layouts at 640, 800, 1000, 1280, and 1920 logical pixels show no normal horizontal overflow"
+    },
+    {
+      "id": "large-data",
+      "check": "Virtualized incident list handles 100, 1000, and 5000 incidents without materializing a huge visual tree"
+    },
+    {
+      "id": "focus",
+      "check": "Primary actions, navigation, list rows, disclosures, and destructive controls are keyboard focusable and named"
+    },
+    {
+      "id": "translations-layout",
+      "check": "All supported languages instantiate main screens at compact and large widths"
+    },
+    {
+      "id": "history-migration",
+      "check": "Earlier databases migrate without losing retained summaries"
+    }
+  ],
+  "manualVisual": [
+    "obvious first focal point",
+    "intentional hierarchy",
+    "dense views remain scannable",
+    "primary action is immediately recognizable",
+    "large-window composition is balanced",
+    "no ambiguous action grouping",
+    "no excessive cardification",
+    "no clipping or wrapping problems",
+    "state is understandable without color",
+    "translated UI remains usable"
+  ]
+}

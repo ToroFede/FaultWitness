@@ -1,0 +1,76 @@
+{
+  "Name": "pnp_219_recurrent",
+  "Description": "Repeated same-device warnings, no observed recovery.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000076",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "System",
+      "Provider": "Microsoft-Windows-Kernel-PnP",
+      "EventId": 219,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": "device-a",
+      "Fields": {},
+      "SourceReference": "synthetic:record-76",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000077",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:01:00.000Z",
+      "Channel": "System",
+      "Provider": "Microsoft-Windows-Kernel-PnP",
+      "EventId": 219,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": "device-a",
+      "Fields": {},
+      "SourceReference": "synthetic:record-77",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

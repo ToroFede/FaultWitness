@@ -1,0 +1,34 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  core:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet restore FaultWitness.slnx
+      - run: dotnet build src/FaultWitness.Core/FaultWitness.Core.csproj --no-restore
+      - run: dotnet build src/FaultWitness.Rules/FaultWitness.Rules.csproj --no-restore
+      - run: dotnet build src/FaultWitness.Storage/FaultWitness.Storage.csproj --no-restore
+      - run: dotnet build src/FaultWitness.Export/FaultWitness.Export.csproj --no-restore
+      - run: dotnet test tests/FaultWitness.Core.Tests/FaultWitness.Core.Tests.csproj --no-restore
+      - run: dotnet test tests/FaultWitness.Rules.Tests/FaultWitness.Rules.Tests.csproj --no-restore
+      - run: dotnet test tests/FaultWitness.Export.Tests/FaultWitness.Export.Tests.csproj --no-restore
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build FaultWitness.slnx
+      - run: dotnet test FaultWitness.slnx --no-build

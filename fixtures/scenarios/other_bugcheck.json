@@ -1,0 +1,61 @@
+{
+  "Name": "other_bugcheck",
+  "Description": "Non-WHEA bugcheck must not match0x124.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000036",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "System",
+      "Provider": "Microsoft-Windows-WER-SystemErrorReporting",
+      "EventId": 1001,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": null,
+      "Fields": {
+        "BugcheckCode": "0x9f",
+        "DumpPath": "synthetic-kernel.dmp"
+      },
+      "SourceReference": "synthetic:record-36",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "required": ["version", "components", "invariants"],
+  "properties": { "version": { "type": "string" }, "components": { "type": "array", "minItems": 16, "items": { "type": "object", "required": ["id", "role", "allowedUse", "forbiddenUse", "visualPriority", "typographyToken", "surfaceToken", "foregroundToken", "borderToken", "minSize", "states", "accessibilityRole", "keyboardBehavior", "iconPolicy", "textPolicy"] } }, "invariants": { "type": "array", "minItems": 5 } }
+}

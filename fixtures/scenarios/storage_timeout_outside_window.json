@@ -1,0 +1,76 @@
+{
+  "Name": "storage_timeout_outside_window",
+  "Description": "Repeated timeout outside window cannot activate local repetition.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000068",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "System",
+      "Provider": "stornvme",
+      "EventId": 129,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": "disk-a",
+      "Fields": {},
+      "SourceReference": "synthetic:record-68",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000069",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:05:01.000Z",
+      "Channel": "System",
+      "Provider": "stornvme",
+      "EventId": 129,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": "disk-a",
+      "Fields": {},
+      "SourceReference": "synthetic:record-69",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

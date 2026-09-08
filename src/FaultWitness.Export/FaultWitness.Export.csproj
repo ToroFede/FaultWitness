@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup><ProjectReference Include="..\FaultWitness.Core\FaultWitness.Core.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="..\FaultWitness.Localization\FaultWitness.Localization.csproj" /></ItemGroup>
+
+</Project>

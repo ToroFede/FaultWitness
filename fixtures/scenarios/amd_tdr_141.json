@@ -1,0 +1,81 @@
+{
+  "Name": "amd_tdr_141",
+  "Description": "Structured LiveKernel code 141 with matching vendor context.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000013",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T11:59:59.000Z",
+      "Channel": "System",
+      "Provider": "amdwddmg",
+      "EventId": 153,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": null,
+      "Fields": {},
+      "SourceReference": "synthetic:record-13",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000014",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "Application",
+      "Provider": "Windows Error Reporting",
+      "EventId": 1001,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": null,
+      "Fields": {
+        "EventName": "LiveKernelEvent",
+        "P1": "141",
+        "Vendor": "AMD",
+        "ReportId": "tdr-a"
+      },
+      "SourceReference": "synthetic:record-14",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

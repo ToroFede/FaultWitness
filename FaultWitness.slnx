@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FaultWitness.App/FaultWitness.App.csproj" />
+    <Project Path="src/FaultWitness.Cli/FaultWitness.Cli.csproj" />
+    <Project Path="src/FaultWitness.Core/FaultWitness.Core.csproj" />
+    <Project Path="src/FaultWitness.Design/FaultWitness.Design.csproj" />
+    <Project Path="src/FaultWitness.ElevatedHelper/FaultWitness.ElevatedHelper.csproj" />
+    <Project Path="src/FaultWitness.Export/FaultWitness.Export.csproj" />
+    <Project Path="src/FaultWitness.Localization/FaultWitness.Localization.csproj" />
+    <Project Path="src/FaultWitness.Platform.Windows/FaultWitness.Platform.Windows.csproj" />
+    <Project Path="src/FaultWitness.Platform/FaultWitness.Platform.csproj" />
+    <Project Path="src/FaultWitness.Rules/FaultWitness.Rules.csproj" />
+    <Project Path="src/FaultWitness.Storage/FaultWitness.Storage.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FaultWitness.Core.Tests/FaultWitness.Core.Tests.csproj" />
+    <Project Path="tests/FaultWitness.Design.Tests/FaultWitness.Design.Tests.csproj" />
+    <Project Path="tests/FaultWitness.Export.Tests/FaultWitness.Export.Tests.csproj" />
+    <Project Path="tests/FaultWitness.Rules.Tests/FaultWitness.Rules.Tests.csproj" />
+    <Project Path="tests/FaultWitness.UI.Tests/FaultWitness.UI.Tests.csproj" />
+    <Project Path="tests/FaultWitness.Windows.Tests/FaultWitness.Windows.Tests.csproj" />
+  </Folder>
+</Solution>

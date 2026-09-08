@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\docs\design\faultwitness.tokens.json" Link="faultwitness.tokens.json" LogicalName="FaultWitness.Design.faultwitness.tokens.json" />
+  </ItemGroup>
+</Project>

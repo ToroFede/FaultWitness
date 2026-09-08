@@ -1,0 +1,7 @@
+{
+  "ruleId": "storage.io_retry",
+  "referenceOnly": true,
+  "canonicalMetadata": "src/FaultWitness.Rules/RuleCatalog.cs",
+  "version": "0.9.1",
+  "note": "Historical JSON example replaced by common structured C# metadata. This file is not loaded as a rule."
+}

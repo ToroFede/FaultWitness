@@ -1,0 +1,111 @@
+{
+  "Name": "application_crash_with_wer_and_reliability",
+  "Description": "Three provenance records, one logical observation.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000045",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "Application",
+      "Provider": "Application Error",
+      "EventId": 1000,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "Example.exe",
+      "ProcessId": 100,
+      "Module": "Example.dll",
+      "Device": null,
+      "Fields": {
+        "AppVersion": "1.2.3.4",
+        "ModuleVersion": "2.3.4.5",
+        "ExceptionCode": "c0000005",
+        "ReportId": "report-a"
+      },
+      "SourceReference": "synthetic:record-45",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000046",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:01.000Z",
+      "Channel": "Application",
+      "Provider": "Windows Error Reporting",
+      "EventId": 1001,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "Example.exe",
+      "ProcessId": null,
+      "Module": "Example.dll",
+      "Device": null,
+      "Fields": {
+        "EventName": "APPCRASH",
+        "AppVersion": "1.2.3.4",
+        "ModuleVersion": "2.3.4.5",
+        "ExceptionCode": "c0000005",
+        "ReportId": "report-a"
+      },
+      "SourceReference": "synthetic:record-46",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000047",
+      "SourceType": "Reliability",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:02.000Z",
+      "Channel": "Reliability",
+      "Provider": "Application Error",
+      "EventId": 1000,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "Example.exe",
+      "ProcessId": null,
+      "Module": "Example.dll",
+      "Device": null,
+      "Fields": {
+        "OriginalChannel": "Application",
+        "AppVersion": "1.2.3.4",
+        "ModuleVersion": "2.3.4.5",
+        "ExceptionCode": "c0000005",
+        "ReportId": "report-a"
+      },
+      "SourceReference": "synthetic:reliability-a",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

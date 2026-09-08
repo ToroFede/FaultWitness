@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="About" xml:space="preserve"><value>O programie</value></data>
+  <data name="action.ApplicationCrash.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.ApplicationHang.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.Audio.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.BugCheck.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.Graphics.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.Hardware.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.PlugAndPlay.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.Power.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.Resources.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.Service.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="action.Storage.investigate" xml:space="preserve"><value>Porównaj oś czasu i powtarzającą się sygnaturę, a następnie zbierz brakujące dowody przed zmianą sprzętu lub konfiguracji.</value></data>
+  <data name="AdditionalReadiness" xml:space="preserve"><value>Dodatkowe możliwości</value></data>
+  <data name="AdditionalReadinessUnavailable" xml:space="preserve"><value>Te kontrole nie są zaimplementowane w tej wersji. Nie zmieniono konfiguracji.</value></data>
+  <data name="AdvancedSources" xml:space="preserve"><value>Zaawansowane: źródła diagnostyczne</value></data>
+  <data name="All" xml:space="preserve"><value>Wszystkie</value></data>
+  <data name="AllCategories" xml:space="preserve"><value>Wszystkie kategorie</value></data>
+  <data name="AllEvidence" xml:space="preserve"><value>Wszystkie poziomy dowodów</value></data>
+  <data name="Analysis" xml:space="preserve"><value>Analiza</value></data>
+  <data name="AnalysisCancelled" xml:space="preserve"><value>Operacja anulowana. Dostępne wyniki zostały zachowane.</value></data>
+  <data name="AnalysisComplete" xml:space="preserve"><value>Analiza zakończona. {0} elementów wymaga uwagi; {1} warto znać.</value></data>
+  <data name="AnalysisError" xml:space="preserve"><value>Nie udało się zakończyć analizy. Sprawdź dostępność źródeł i spróbuj ponownie.</value></data>
+  <data name="AnalysisHelp" xml:space="preserve"><value>Wybierz okres. Wyniki oddzielają istotne zdarzenia od zwykłego kontekstu.</value></data>
+  <data name="AnalysisInProgress" xml:space="preserve"><value>Analiza w toku</value></data>
+  <data name="AnalysisPeriod" xml:space="preserve"><value>Okres analizy</value></data>
+  <data name="AnalyzeImported" xml:space="preserve"><value>Analizuj wybrane pliki</value></data>
+  <data name="AnalyzeRecent" xml:space="preserve"><value>Analizuj ostatnią stabilność</value></data>
+  <data name="Anchor" xml:space="preserve"><value>Zdarzenie odniesienia</value></data>
+  <data name="ApplicationDumps" xml:space="preserve"><value>Zrzuty awarii aplikacji</value></data>
+  <data name="AppTitle" xml:space="preserve"><value>FaultWitness</value></data>
+  <data name="Around" xml:space="preserve"><value>Analizuj czas wokół awarii</value></data>
+  <data name="AroundHelp" xml:space="preserve"><value>Kiedy to się stało? Podaj przybliżoną lokalną datę i godzinę.</value></data>
+  <data name="Assessment" xml:space="preserve"><value>Ocena</value></data>
+  <data name="Back" xml:space="preserve"><value>Wróć do zdarzeń</value></data>
+  <data name="BackgroundDescription" xml:space="preserve"><value>Kontekst zachowany do analizy technicznej.</value></data>
+  <data name="BestNextStep" xml:space="preserve"><value>Zalecany następny krok</value></data>
+  <data name="Browse" xml:space="preserve"><value>Wybierz pliki</value></data>
+  <data name="BundleContents" xml:space="preserve"><value>ZIP zawiera podsumowanie i zanonimizowane wpisy. Podgląd pokazuje podsumowanie; podgląd JSON pokazuje wpisy strukturalne.</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Anuluj</value></data>
+  <data name="Cancelling" xml:space="preserve"><value>Bezpieczne anulowanie…</value></data>
+  <data name="CannotConclude" xml:space="preserve"><value>Czego nie możemy stwierdzić</value></data>
+  <data name="Category" xml:space="preserve"><value>Kategoria</value></data>
+  <data name="CategoryApplicationCrash" xml:space="preserve"><value>Awaria aplikacji</value></data>
+  <data name="CategoryApplicationHang" xml:space="preserve"><value>Aplikacja nie odpowiada</value></data>
+  <data name="CategoryAudio" xml:space="preserve"><value>Zdarzenie procesu audio</value></data>
+  <data name="CategoryBugCheck" xml:space="preserve"><value>Błąd zatrzymania Windows</value></data>
+  <data name="CategoryGraphics" xml:space="preserve"><value>Zdarzenie graficzne</value></data>
+  <data name="CategoryHardware" xml:space="preserve"><value>Wpis błędu sprzętowego</value></data>
+  <data name="CategoryPlugAndPlay" xml:space="preserve"><value>Inicjalizacja urządzenia</value></data>
+  <data name="CategoryPower" xml:space="preserve"><value>Wyłączenie / ponowne uruchomienie</value></data>
+  <data name="CategoryResources" xml:space="preserve"><value>Wyczerpanie zasobów</value></data>
+  <data name="CategoryService" xml:space="preserve"><value>Zakończenie usługi</value></data>
+  <data name="CategoryStorage" xml:space="preserve"><value>Zdarzenie pamięci masowej</value></data>
+  <data name="ChangesNearFirst" xml:space="preserve"><value>Zmiany w pobliżu pierwszego wystąpienia</value></data>
+  <data name="ChangesUnavailable" xml:space="preserve"><value>Historia zmian nie jest dostępna dla tej analizy.</value></data>
+  <data name="CheckCoverage" xml:space="preserve"><value>Sprawdź pokrycie źródeł. Pusty wynik nie dowodzi braku zdarzeń w niedostępnych źródłach.</value></data>
+  <data name="CheckingSources" xml:space="preserve"><value>Sprawdzanie dostępu do źródeł…</value></data>
+  <data name="CheckReadiness" xml:space="preserve"><value>Sprawdź źródła diagnostyczne</value></data>
+  <data name="ClearData" xml:space="preserve"><value>Wyczyść historię FaultWitness</value></data>
+  <data name="ClearDataWarning" xml:space="preserve"><value>Usunąć historię FaultWitness i bieżące wyniki? Dzienniki Windows i importowane pliki pozostaną nietknięte. Język i motyw zostaną zachowane.</value></data>
+  <data name="ClearingData" xml:space="preserve"><value>Czyszczenie lokalnej historii…</value></data>
+  <data name="ClipboardUnavailable" xml:space="preserve"><value>Schowek jest niedostępny. Zapisz podsumowanie.</value></data>
+  <data name="ConfirmClear" xml:space="preserve"><value>Wyczyść historię</value></data>
+  <data name="Context" xml:space="preserve"><value>Kontekst</value></data>
+  <data name="CopyForSupport" xml:space="preserve"><value>Kopiuj dla pomocy technicznej</value></data>
+  <data name="CoverageAccessDenied" xml:space="preserve"><value>Odmowa dostępu</value></data>
+  <data name="CoverageComplete" xml:space="preserve"><value>Pełne</value></data>
+  <data name="CoverageHelpAccessDenied" xml:space="preserve"><value>Windows odmówił dostępu do źródła. Jego zawartość jest nieznana; nie stwierdzamy braku zdarzeń.</value></data>
+  <data name="CoverageHelpComplete" xml:space="preserve"><value>To źródło zgłasza pełne pokrycie podanego zbadanego przedziału.</value></data>
+  <data name="CoverageHelpNotSupported" xml:space="preserve"><value>Źródło nie jest obsługiwane w tym środowisku. Nie pozwala to wnioskować o braku zdarzeń.</value></data>
+  <data name="CoverageHelpPartial" xml:space="preserve"><value>Część danych była dostępna, ale FaultWitness nie może potwierdzić, że obejmuje cały żądany przedział.</value></data>
+  <data name="CoverageHelpUnavailable" xml:space="preserve"><value>Nie można odczytać źródła. Brak danych oznacza nieznane dowody, a nie dowód braku zdarzeń.</value></data>
+  <data name="CoverageNotChecked" xml:space="preserve"><value>Pokrycie źródeł nie zostało jeszcze sprawdzone.</value></data>
+  <data name="CoverageNotSupported" xml:space="preserve"><value>Nieobsługiwane</value></data>
+  <data name="CoveragePartial" xml:space="preserve"><value>Częściowe</value></data>
+  <data name="CoverageUnavailable" xml:space="preserve"><value>Niedostępne</value></data>
+  <data name="DataCleared" xml:space="preserve"><value>Historia FaultWitness wyczyszczona. Oryginalne pliki diagnostyczne nie zostały zmienione.</value></data>
+  <data name="Date" xml:space="preserve"><value>Data</value></data>
+  <data name="DateRange" xml:space="preserve"><value>Zakres dat</value></data>
+  <data name="Days" xml:space="preserve"><value>{0} dni</value></data>
+  <data name="AroundWindowValue" xml:space="preserve"><value>± {0} min</value></data>
+  <data name="DefaultAnalysisPeriod" xml:space="preserve"><value>Domyślny okres analizy</value></data>
+  <data name="DiagnosticFiles" xml:space="preserve"><value>Pliki diagnostyczne</value></data>
+  <data name="DisplayDriverEvent" xml:space="preserve"><value>Zdarzenie sterownika ekranu</value></data>
+  <data name="DoNotRetain" xml:space="preserve"><value>Nie zapisuj historii</value></data>
+  <data name="DropFiles" xml:space="preserve"><value>Upuść tutaj pliki diagnostyczne lub wybierz je.</value></data>
+  <data name="DumpConfiguration" xml:space="preserve"><value>Konfiguracja zrzutów</value></data>
+  <data name="EntireAnalysis" xml:space="preserve"><value>Cała analiza</value></data>
+  <data name="EvaluatingEvidence" xml:space="preserve"><value>Ocena dowodów…</value></data>
+  <data name="Evidence" xml:space="preserve"><value>Dowody</value></data>
+  <data name="evidence.dump.not_observed" xml:space="preserve"><value>Nie zaobserwowano pasującego zrzutu w całkowicie zbadanym przedziale plików diagnostycznych.</value></data>
+  <data name="evidence.dump.unknown" xml:space="preserve"><value>Nie udało się w pełni zweryfikować dostępności zrzutów.</value></data>
+  <data name="evidence.recorded" xml:space="preserve"><value>Zaobserwowano wpis źródła.</value></data>
+  <data name="evidence.source.unknown" xml:space="preserve"><value>To źródło diagnostyczne nie zostało w pełni zbadane.</value></data>
+  <data name="evidence.whea.not_observed" xml:space="preserve"><value>Nie zaobserwowano wpisów WHEA w całkowicie zbadanym przedziale dziennika System.</value></data>
+  <data name="evidence.whea.unknown" xml:space="preserve"><value>Dostępne pokrycie dziennika System nie pozwala stwierdzić braku WHEA.</value></data>
+  <data name="EvidenceNegative" xml:space="preserve"><value>Nie zaobserwowano w badanym przedziale</value></data>
+  <data name="EvidencePositive" xml:space="preserve"><value>Zaobserwowano</value></data>
+  <data name="EvidenceUnknown" xml:space="preserve"><value>Nieznane / nie w pełni zweryfikowane</value></data>
+  <data name="EvidenceValue" xml:space="preserve"><value>Dowody: {0}</value></data>
+  <data name="Export" xml:space="preserve"><value>Eksport / pomoc</value></data>
+  <data name="ExportBundle" xml:space="preserve"><value>Pakiet dla pomocy (ZIP)</value></data>
+  <data name="ExportHelp" xml:space="preserve"><value>Sprawdź zanonimizowany podgląd przed kopiowaniem lub zapisem. Nic nie jest wysyłane automatycznie.</value></data>
+  <data name="ExportSaved" xml:space="preserve"><value>Eksport zapisany lokalnie. Nic nie wysłano.</value></data>
+  <data name="ExportSummary" xml:space="preserve"><value>Krótkie podsumowanie dla pomocy</value></data>
+  <data name="FirstLatest" xml:space="preserve"><value>Pierwsze wystąpienie: {0} · Ostatnie: {1}</value></data>
+  <data name="Format" xml:space="preserve"><value>Format</value></data>
+  <data name="FreeSpace" xml:space="preserve"><value>Wolne miejsce na dysku systemowym</value></data>
+  <data name="FromDate" xml:space="preserve"><value>Od</value></data>
+  <data name="General" xml:space="preserve"><value>Ogólne</value></data>
+  <data name="HistoryError" xml:space="preserve"><value>Wyniki są dostępne, ale nie udało się zaktualizować lokalnej historii.</value></data>
+  <data name="HistoryRetention" xml:space="preserve"><value>Przechowywanie historii</value></data>
+  <data name="Import" xml:space="preserve"><value>Import</value></data>
+  <data name="ImportAccepted" xml:space="preserve"><value>Zaimportowano</value></data>
+  <data name="ImportCoverageHelp" xml:space="preserve"><value>Importowane pliki to częściowe pokrycie, nie pełna historia systemu.</value></data>
+  <data name="ImportedAnalysis" xml:space="preserve"><value>Analiza importowanych danych</value></data>
+  <data name="ImportedData" xml:space="preserve"><value>Importowane dane diagnostyczne</value></data>
+  <data name="ImportHelp" xml:space="preserve"><value>Analizuj pliki diagnostyczne bez traktowania ich jak pełnego skanu tego komputera.</value></data>
+  <data name="ImportReady" xml:space="preserve"><value>Gotowy do importu</value></data>
+  <data name="ImportRejected" xml:space="preserve"><value>Odrzucono — pliku nie można bezpiecznie odczytać. Sprawdź format, dostęp i zawartość archiwum.</value></data>
+  <data name="ImportUnsupported" xml:space="preserve"><value>Nieobsługiwany typ pliku.</value></data>
+  <data name="IncidentHelp" xml:space="preserve"><value>Wyniki według priorytetu. Tło pozostaje dostępne w widoku Wszystkie.</value></data>
+  <data name="Incidents" xml:space="preserve"><value>Zdarzenia</value></data>
+  <data name="IntervalUnknown" xml:space="preserve"><value>Zbadany przedział jest nieznany.</value></data>
+  <data name="IntervalValue" xml:space="preserve"><value>Zbadany przedział: {0} — {1}</value></data>
+  <data name="InvalidTimeRange" xml:space="preserve"><value>Wybierz poprawny okres w przeszłości do 90 dni i okno 1–60 minut.</value></data>
+  <data name="InventoryArchitecture" xml:space="preserve"><value>Architektura systemu</value></data>
+  <data name="InventoryMachineName" xml:space="preserve"><value>Nazwa komputera (tylko lokalnie)</value></data>
+  <data name="InventoryOperatingSystem" xml:space="preserve"><value>System operacyjny</value></data>
+  <data name="InventoryProcessArchitecture" xml:space="preserve"><value>Architektura aplikacji</value></data>
+  <data name="InventoryProcessorCount" xml:space="preserve"><value>Liczba procesorów logicznych</value></data>
+  <data name="ItemsShown" xml:space="preserve"><value>{0} z {1} elementów</value></data>
+  <data name="Language" xml:space="preserve"><value>Język</value></data>
+  <data name="LastAnalysis" xml:space="preserve"><value>Ostatnia analiza</value></data>
+  <data name="License" xml:space="preserve"><value>Licencja</value></data>
+  <data name="Limited" xml:space="preserve"><value>Ograniczone</value></data>
+  <data name="LocalDestinationRequired" xml:space="preserve"><value>Wybierz lokalną lokalizację pakietu pomocy.</value></data>
+  <data name="LocalFirst" xml:space="preserve"><value>Diagnostyka lokalna</value></data>
+  <data name="LocalSystem" xml:space="preserve"><value>Ten system Windows</value></data>
+  <data name="LocalTime" xml:space="preserve"><value>Czas lokalny</value></data>
+  <data name="MoreEvidence" xml:space="preserve"><value>Wszystkie dowody</value></data>
+  <data name="NoActionAvailable" xml:space="preserve"><value>Zbierz brakujące dowody przed zmianą sprzętu lub ustawień.</value></data>
+  <data name="NoAnalysis" xml:space="preserve"><value>Nie przeprowadzono jeszcze analizy</value></data>
+  <data name="NoCauseEstablished" xml:space="preserve"><value>Dostępne dowody nie wskazują jednoznacznej przyczyny.</value></data>
+  <data name="NoEvidenceInGroup" xml:space="preserve"><value>Brak dowodów w tej grupie.</value></data>
+  <data name="NoHistory" xml:space="preserve"><value>Uruchom analizę, aby rozpocząć lokalną historię.</value></data>
+  <data name="NoImport" xml:space="preserve"><value>Nie wybrano plików.</value></data>
+  <data name="NoIncidents" xml:space="preserve"><value>W tym przedziale czasu nie znaleziono istotnych zdarzeń diagnostycznych.</value></data>
+  <data name="NoOtherTests" xml:space="preserve"><value>Te reguły nie wskazują dodatkowych działań diagnostycznych.</value></data>
+  <data name="NoSignificant" xml:space="preserve"><value>W tym przedziale czasu nie znaleziono istotnych zdarzeń diagnostycznych.</value></data>
+  <data name="NotAvailable" xml:space="preserve"><value>Niedostępne</value></data>
+  <data name="OperationError" xml:space="preserve"><value>Nie udało się wykonać operacji. Spróbuj ponownie lub sprawdź szczegóły techniczne.</value></data>
+  <data name="OtherTests" xml:space="preserve"><value>Inne przydatne testy</value></data>
+  <data name="Overview" xml:space="preserve"><value>Przegląd</value></data>
+  <data name="PageFile" xml:space="preserve"><value>Plik stronicowania / gotowość zrzutów</value></data>
+  <data name="PeriodCustom" xml:space="preserve"><value>Własny</value></data>
+  <data name="PeriodDay" xml:space="preserve"><value>Ostatnie 24 godziny</value></data>
+  <data name="PeriodMonth" xml:space="preserve"><value>Ostatnie 30 dni</value></data>
+  <data name="PeriodWeek" xml:space="preserve"><value>Ostatnie 7 dni</value></data>
+  <data name="PossibleExplanations" xml:space="preserve"><value>Możliwe wyjaśnienia</value></data>
+  <data name="Preview" xml:space="preserve"><value>Podgląd</value></data>
+  <data name="Priority" xml:space="preserve"><value>Priorytet</value></data>
+  <data name="PriorityAttention" xml:space="preserve"><value>Wymaga uwagi</value></data>
+  <data name="PriorityBackground" xml:space="preserve"><value>Tło / kontekst</value></data>
+  <data name="PriorityKnowing" xml:space="preserve"><value>Warto wiedzieć</value></data>
+  <data name="Privacy" xml:space="preserve"><value>Prywatność</value></data>
+  <data name="PrivacyStatement" xml:space="preserve"><value>Działanie lokalne. Bez konta, telemetrii i automatycznego wysyłania. Dane pozostają na tym komputerze, chyba że je wyeksportujesz.</value></data>
+  <data name="RawData" xml:space="preserve"><value>Dane surowe</value></data>
+  <data name="RawUnavailable" xml:space="preserve"><value>Dane surowe nie zostały zebrane lub wykluczono je z importu.</value></data>
+  <data name="RawXml" xml:space="preserve"><value>Surowy XML</value></data>
+  <data name="Readiness" xml:space="preserve"><value>Gotowość diagnostyczna</value></data>
+  <data name="ReadinessComplete" xml:space="preserve"><value>Sprawdzanie źródeł zakończone.</value></data>
+  <data name="ReadinessHelp" xml:space="preserve"><value>Czy źródła są czytelne? To dostępność, nie ocena stanu komputera.</value></data>
+  <data name="ReadinessNotChecked" xml:space="preserve"><value>Gotowość diagnostyczna nie została sprawdzona.</value></data>
+  <data name="ReadingSources" xml:space="preserve"><value>Odczytywanie źródeł diagnostycznych…</value></data>
+  <data name="ReadSystem" xml:space="preserve"><value>Odczytaj informacje o systemie</value></data>
+  <data name="Ready" xml:space="preserve"><value>Gotowe</value></data>
+  <data name="RecentSignificant" xml:space="preserve"><value>Ostatnie istotne zdarzenia</value></data>
+  <data name="RecurringCount" xml:space="preserve"><value>Powtarzalność: {0} wystąpień</value></data>
+  <data name="RecurringPattern" xml:space="preserve"><value>Powtarzający się wzorzec</value></data>
+  <data name="RedactionNotice" xml:space="preserve"><value>Ścieżki profilu, nazwa komputera, adresy IPv4 i pola kont są ukrywane. Surowy XML i zrzuty są wykluczone. Sprawdź przed udostępnieniem.</value></data>
+  <data name="RelationDerivedFrom" xml:space="preserve"><value>Reprezentacja pochodna wpisu źródłowego</value></data>
+  <data name="RelationPrecedes" xml:space="preserve"><value>Poprzedza zdarzenie odniesienia</value></data>
+  <data name="RelationSameDevice" xml:space="preserve"><value>To samo urządzenie</value></data>
+  <data name="RelationSameProcess" xml:space="preserve"><value>Ten sam proces</value></data>
+  <data name="RelationSameReport" xml:space="preserve"><value>Ten sam raport; nie jest niezależnym dowodem</value></data>
+  <data name="RelationSameSignature" xml:space="preserve"><value>Zgodna sygnatura</value></data>
+  <data name="ResetFilters" xml:space="preserve"><value>Wyczyść filtry</value></data>
+  <data name="RetentionHelp" xml:space="preserve"><value>Tylko krótkie podsumowania; surowy XML nie jest zapisywany. Okres obowiązuje po następnej lokalnej analizie.</value></data>
+  <data name="rule.application.crash_with_wer.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.application.crash_with_wer.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: większej pewności dzięki zduplikowanym wpisom.</value></data>
+  <data name="rule.application.crash_with_wer.observed" xml:space="preserve"><value>Zgodne reprezentacje tej samej awarii bez zwiększania siły dowodów.</value></data>
+  <data name="rule.application.crash.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.application.crash.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: wskazanego modułu jako głównej przyczyny.</value></data>
+  <data name="rule.application.crash.observed" xml:space="preserve"><value>Zarejestrowano awarię aplikacji.</value></data>
+  <data name="rule.application.hang.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.application.hang.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii z zamknięciem aplikacji.</value></data>
+  <data name="rule.application.hang.observed" xml:space="preserve"><value>Zarejestrowano brak odpowiedzi aplikacji.</value></data>
+  <data name="rule.application.repeated_signature.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.application.repeated_signature.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: pewności co do przyczyny.</value></data>
+  <data name="rule.application.repeated_signature.observed" xml:space="preserve"><value>Powtarzająca się sygnatura awarii; zdarzenia pozostają osobne.</value></data>
+  <data name="rule.application.third_party_faulting_module.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.application.third_party_faulting_module.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: wskazanego modułu jako głównej przyczyny.</value></data>
+  <data name="rule.application.third_party_faulting_module.observed" xml:space="preserve"><value>Zarejestrowano wykonanie w module innej firmy; nie dowodzi to przyczyny.</value></data>
+  <data name="rule.audio.audiodg_crash.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.audio.audiodg_crash.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: sterownika audio jako przyczyny.</value></data>
+  <data name="rule.audio.audiodg_crash.observed" xml:space="preserve"><value>Awaria procesu obsługującego dźwięk.</value></data>
+  <data name="rule.audio.audiodg_third_party_module.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.audio.audiodg_third_party_module.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: modułu jako przyczyny awarii.</value></data>
+  <data name="rule.audio.audiodg_third_party_module.observed" xml:space="preserve"><value>Wykonanie w chwili awarii w module przetwarzania dźwięku innej firmy.</value></data>
+  <data name="rule.audio.repeated_apo_failure.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.audio.repeated_apo_failure.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: modułu jako przyczyny awarii.</value></data>
+  <data name="rule.audio.repeated_apo_failure.observed" xml:space="preserve"><value>Powtarzająca się sygnatura awarii APO; nie dowodzi przyczyny.</value></data>
+  <data name="rule.graphics.adapter_timeout.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.graphics.adapter_timeout.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: fizycznego uszkodzenia GPU.</value></data>
+  <data name="rule.graphics.adapter_timeout.observed" xml:space="preserve"><value>Zarejestrowano przekroczenie czasu oczekiwania karty graficznej.</value></data>
+  <data name="rule.graphics.engine_timeout.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.graphics.engine_timeout.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: fizycznego uszkodzenia GPU.</value></data>
+  <data name="rule.graphics.engine_timeout.observed" xml:space="preserve"><value>Zarejestrowano przekroczenie czasu oczekiwania silnika graficznego.</value></data>
+  <data name="rule.graphics.repeated_timeout_pattern.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.graphics.repeated_timeout_pattern.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: fizycznego uszkodzenia GPU.</value></data>
+  <data name="rule.graphics.repeated_timeout_pattern.observed" xml:space="preserve"><value>Powtarzające się przekroczenia czasu grafiki; wystąpienia pozostają osobne.</value></data>
+  <data name="rule.graphics.tdr_with_app_crash.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.graphics.tdr_with_app_crash.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: fizycznego uszkodzenia GPU.</value></data>
+  <data name="rule.graphics.tdr_with_app_crash.observed" xml:space="preserve"><value>Awaria aplikacji w pobliżu przekroczenia czasu oczekiwania grafiki.</value></data>
+  <data name="rule.graphics.tdr_with_driver_event.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.graphics.tdr_with_driver_event.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uniwersalnego znaczenia zdarzeń producenta.</value></data>
+  <data name="rule.graphics.tdr_with_driver_event.observed" xml:space="preserve"><value>Korelacja czasowa w torze graficznym.</value></data>
+  <data name="rule.hardware.whea_bugcheck_124.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.hardware.whea_bugcheck_124.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii konkretnego podzespołu.</value></data>
+  <data name="rule.hardware.whea_bugcheck_124.observed" xml:space="preserve"><value>Błąd zatrzymania związany z WHEA.</value></data>
+  <data name="rule.hardware.whea.corrected.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.hardware.whea.corrected.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: konieczności wymiany sprzętu.</value></data>
+  <data name="rule.hardware.whea.corrected.observed" xml:space="preserve"><value>Zarejestrowano skorygowany błąd sprzętowy.</value></data>
+  <data name="rule.hardware.whea.memory.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.hardware.whea.memory.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uszkodzenia pamięci.</value></data>
+  <data name="rule.hardware.whea.memory.observed" xml:space="preserve"><value>Wpis błędu związanego z pamięcią.</value></data>
+  <data name="rule.hardware.whea.pcie.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.hardware.whea.pcie.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uszkodzenia urządzenia.</value></data>
+  <data name="rule.hardware.whea.pcie.observed" xml:space="preserve"><value>Błąd sprzętowy w torze PCIe.</value></data>
+  <data name="rule.hardware.whea.processor_mce.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.hardware.whea.processor_mce.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uszkodzenia procesora.</value></data>
+  <data name="rule.hardware.whea.processor_mce.observed" xml:space="preserve"><value>Machine Check pochodzący z procesora; nie potwierdzono uszkodzenia podzespołu.</value></data>
+  <data name="rule.hardware.whea.recurrent_corrected.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.hardware.whea.recurrent_corrected.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: konieczności wymiany sprzętu.</value></data>
+  <data name="rule.hardware.whea.recurrent_corrected.observed" xml:space="preserve"><value>Powtarzające się skorygowane błędy.</value></data>
+  <data name="rule.hardware.whea.uncorrected.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.hardware.whea.uncorrected.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uszkodzenia procesora.</value></data>
+  <data name="rule.hardware.whea.uncorrected.observed" xml:space="preserve"><value>Zarejestrowano nieskorygowany błąd sprzętowy.</value></data>
+  <data name="rule.pnp.recurrent_device_failure.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.pnp.recurrent_device_failure.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uszkodzenia urządzenia USB.</value></data>
+  <data name="rule.pnp.recurrent_device_failure.observed" xml:space="preserve"><value>Powtarzające się ostrzeżenia inicjalizacji; nie dowodzą uszkodzenia sprzętu.</value></data>
+  <data name="rule.pnp.umdf_transient_load_warning.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.pnp.umdf_transient_load_warning.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uszkodzenia urządzenia USB.</value></data>
+  <data name="rule.pnp.umdf_transient_load_warning.observed" xml:space="preserve"><value>Przejściowe ostrzeżenie; poprawny start wyklucza wyróżnienie jako istotne.</value></data>
+  <data name="rule.power.abrupt_restart_no_bugcheck.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.power.abrupt_restart_no_bugcheck.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii zasilacza.</value></data>
+  <data name="rule.power.abrupt_restart_no_bugcheck.observed" xml:space="preserve"><value>W całkowicie zbadanym przedziale nie zarejestrowano błędu zatrzymania.</value></data>
+  <data name="rule.power.bugcheck_reboot.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.power.bugcheck_reboot.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: przyczyny błędu zatrzymania.</value></data>
+  <data name="rule.power.bugcheck_reboot.observed" xml:space="preserve"><value>Błąd zatrzymania związany z ponownym uruchomieniem.</value></data>
+  <data name="rule.power.planned_restart.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.power.planned_restart.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: nieoczekiwanego wyłączenia.</value></data>
+  <data name="rule.power.planned_restart.observed" xml:space="preserve"><value>Zażądano planowego wyłączenia lub ponownego uruchomienia; oczekiwany kontekst.</value></data>
+  <data name="rule.power.unclean_shutdown.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.power.unclean_shutdown.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii zasilacza, przerwy w zasilaniu sieciowym, uszkodzenia sprzętu.</value></data>
+  <data name="rule.power.unclean_shutdown.observed" xml:space="preserve"><value>Zarejestrowano jedynie nieoczekiwane wyłączenie.</value></data>
+  <data name="rule.power.update_restart.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.power.update_restart.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: przyczyny innego zdarzenia.</value></data>
+  <data name="rule.power.update_restart.observed" xml:space="preserve"><value>Aktualizacja w pobliżu żądanego restartu; nie jest to dowód przyczyny.</value></data>
+  <data name="rule.resources.exhaustion_with_hang_or_crash.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.resources.exhaustion_with_hang_or_crash.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: pewności co do przyczyny.</value></data>
+  <data name="rule.resources.exhaustion_with_hang_or_crash.observed" xml:space="preserve"><value>Wyczerpanie zasobów poprzedziło awarię; nie dowodzi związku przyczynowego.</value></data>
+  <data name="rule.resources.memory_exhaustion.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.resources.memory_exhaustion.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: uszkodzenia sprzętu.</value></data>
+  <data name="rule.resources.memory_exhaustion.observed" xml:space="preserve"><value>Zarejestrowano wyczerpanie zasobów.</value></data>
+  <data name="rule.service.repeated_failure.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.service.repeated_failure.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: głównej przyczyny.</value></data>
+  <data name="rule.service.repeated_failure.observed" xml:space="preserve"><value>Powtarzające się błędy usługi przed awarią widoczną dla użytkownika.</value></data>
+  <data name="rule.service.unexpected_termination.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.service.unexpected_termination.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: głównej przyczyny.</value></data>
+  <data name="rule.service.unexpected_termination.observed" xml:space="preserve"><value>Zakończenie usługi; możliwy kontekst po ponownym uruchomieniu.</value></data>
+  <data name="rule.storage.io_retry.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.storage.io_retry.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii dysku.</value></data>
+  <data name="rule.storage.io_retry.observed" xml:space="preserve"><value>Ponowiono operację wejścia/wyjścia; pojedynczy wpis ma ograniczone znaczenie.</value></data>
+  <data name="rule.storage.io_warning.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.storage.io_warning.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii dysku.</value></data>
+  <data name="rule.storage.io_warning.observed" xml:space="preserve"><value>Ostrzeżenie wejścia/wyjścia; nie potwierdzono uszkodzenia dysku.</value></data>
+  <data name="rule.storage.repeated_timeout_pattern.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.storage.repeated_timeout_pattern.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii dysku.</value></data>
+  <data name="rule.storage.repeated_timeout_pattern.observed" xml:space="preserve"><value>Powtarzające się limity czasu lub ponowienia na tym samym urządzeniu.</value></data>
+  <data name="rule.storage.request_timeout.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.storage.request_timeout.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: awarii dysku.</value></data>
+  <data name="rule.storage.request_timeout.observed" xml:space="preserve"><value>Przekroczenie czasu oczekiwania żądania pamięci masowej.</value></data>
+  <data name="rule.system.bugcheck_with_dump.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.system.bugcheck_with_dump.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: ukończonej analizy zrzutu.</value></data>
+  <data name="rule.system.bugcheck_with_dump.observed" xml:space="preserve"><value>Zweryfikowano dostępność zrzutu; zawartość nie została przeanalizowana.</value></data>
+  <data name="rule.system.bugcheck.interpretation" xml:space="preserve"><value>Ta ocena opisuje zarejestrowane dowody. Bliskość czasowa i nazwa modułu nie ustalają przyczyny.</value></data>
+  <data name="rule.system.bugcheck.not_established" xml:space="preserve"><value>Te dane nie potwierdzają: ntoskrnl jako głównej przyczyny.</value></data>
+  <data name="rule.system.bugcheck.observed" xml:space="preserve"><value>Zarejestrowano błąd zatrzymania; ustalenie przyczyny wymaga debugera.</value></data>
+  <data name="RuleDatabase" xml:space="preserve"><value>Baza reguł</value></data>
+  <data name="SaveExport" xml:space="preserve"><value>Zapisz eksport…</value></data>
+  <data name="SavingHistory" xml:space="preserve"><value>Zapisywanie lokalnego podsumowania…</value></data>
+  <data name="ScanComplete" xml:space="preserve"><value>Analiza zakończona. {0} elementów wymaga uwagi; {1} warto znać.</value></data>
+  <data name="Scope" xml:space="preserve"><value>Zakres</value></data>
+  <data name="SearchHint" xml:space="preserve"><value>Szukaj aplikacji, modułu, dostawcy, urządzenia lub oceny</value></data>
+  <data name="SelectedIncident" xml:space="preserve"><value>Wybrane zdarzenie</value></data>
+  <data name="SelectIncident" xml:space="preserve"><value>Wybierz zdarzenie, aby zobaczyć dowody.</value></data>
+  <data name="Settings" xml:space="preserve"><value>Ustawienia</value></data>
+  <data name="SettingsError" xml:space="preserve"><value>Nie udało się zapisać ustawień. Bieżący wybór obowiązuje w tej sesji.</value></data>
+  <data name="SourceApplication" xml:space="preserve"><value>Dziennik zdarzeń Aplikacja</value></data>
+  <data name="SourceArtifacts" xml:space="preserve"><value>Pliki diagnostyczne awarii</value></data>
+  <data name="SourceCoverage" xml:space="preserve"><value>Pokrycie źródeł diagnostycznych</value></data>
+  <data name="SourceEventLog" xml:space="preserve"><value>Dziennik zdarzeń</value></data>
+  <data name="SourceRecord" xml:space="preserve"><value>Wpis diagnostyczny</value></data>
+  <data name="SourceReliability" xml:space="preserve"><value>Historia niezawodności</value></data>
+  <data name="SourcesHelp" xml:space="preserve"><value>Badane są wszystkie dostępne źródła. Niepełne lub niedostępne pozostają wyraźnie oznaczone jako niepewne.</value></data>
+  <data name="SourceSystem" xml:space="preserve"><value>Dziennik zdarzeń System</value></data>
+  <data name="SourceTypeChangeHistory" xml:space="preserve"><value>Zmiany w pobliżu pierwszego wystąpienia</value></data>
+  <data name="SourceTypeCrashArtifact" xml:space="preserve"><value>Pliki diagnostyczne awarii</value></data>
+  <data name="SourceTypeEventLog" xml:space="preserve"><value>Dziennik zdarzeń</value></data>
+  <data name="SourceTypeImported" xml:space="preserve"><value>Importowane dane diagnostyczne</value></data>
+  <data name="SourceTypeInventory" xml:space="preserve"><value>System</value></data>
+  <data name="SourceTypeReliability" xml:space="preserve"><value>Historia niezawodności</value></data>
+  <data name="SourceTypeWer" xml:space="preserve"><value>Raportowanie błędów Windows (WER)</value></data>
+  <data name="SourceUnavailable" xml:space="preserve"><value>Źródło diagnostyczne niedostępne. Nie wnioskujemy o braku zdarzeń.</value></data>
+  <data name="SourceWer" xml:space="preserve"><value>Raportowanie błędów Windows (WER)</value></data>
+  <data name="StartAnalysis" xml:space="preserve"><value>Rozpocznij analizę</value></data>
+  <data name="StrengthInsufficient" xml:space="preserve"><value>Niewystarczające</value></data>
+  <data name="StrengthLimited" xml:space="preserve"><value>Ograniczone</value></data>
+  <data name="StrengthModerate" xml:space="preserve"><value>Umiarkowane</value></data>
+  <data name="StrengthStrong" xml:space="preserve"><value>Mocne</value></data>
+  <data name="SummaryCopied" xml:space="preserve"><value>Podsumowanie diagnostyczne skopiowane.</value></data>
+  <data name="SupportedFormats" xml:space="preserve"><value>Obsługiwane: .evtx, .wer, ZIP FaultWitness. Import osobnego JSON nie jest obsługiwany.</value></data>
+  <data name="SupportTitle" xml:space="preserve"><value>Podsumowanie diagnostyczne</value></data>
+  <data name="System" xml:space="preserve"><value>System</value></data>
+  <data name="SystemDefault" xml:space="preserve"><value>Domyślny systemowy</value></data>
+  <data name="SystemHelp" xml:space="preserve"><value>Pokazujemy wyłącznie informacje faktycznie dostarczone przez bieżący kolektor.</value></data>
+  <data name="Tagline" xml:space="preserve"><value>Dowiedz się, co stało się z Twoim systemem.</value></data>
+  <data name="TechnicalDetails" xml:space="preserve"><value>Szczegóły techniczne</value></data>
+  <data name="Theme" xml:space="preserve"><value>Motyw</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Ciemny</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Jasny</value></data>
+  <data name="ThemeSystem" xml:space="preserve"><value>Zgodnie z systemem</value></data>
+  <data name="Time" xml:space="preserve"><value>Godzina</value></data>
+  <data name="Timeline" xml:space="preserve"><value>Oś czasu</value></data>
+  <data name="ToDate" xml:space="preserve"><value>Do</value></data>
+  <data name="ViewAll" xml:space="preserve"><value>Pokaż wszystkie zdarzenia</value></data>
+  <data name="ViewOccurrences" xml:space="preserve"><value>Pokaż wystąpienia</value></data>
+  <data name="WhatHappened" xml:space="preserve"><value>Co się stało</value></data>
+  <data name="WhyEvidenceFirst" xml:space="preserve"><value>Ta kontrola zbiera informacje bez zmiany konfiguracji. Nie zakłada uszkodzenia podzespołu.</value></data>
+  <data name="WhyThisTest" xml:space="preserve"><value>Dlaczego ten test?</value></data>
+  <data name="Window" xml:space="preserve"><value>Przedział czasu</value></data>
+  <data name="AnalysisDuration" xml:space="preserve"><value>Czas analizy: {0:F2} s</value></data>
+  <data name="NoFilterMatches" xml:space="preserve"><value>Brak incydentów pasujących do tych filtrów.</value></data>
+  <data name="ResetFilterHelp" xml:space="preserve"><value>Zmień lub wyczyść filtry, aby zobaczyć inne wpisy.</value></data>
+  <data name="ImportLimit" xml:space="preserve"><value>Wybierz najwyżej 20 plików do jednej importowanej analizy.</value></data>
+  <data name="PreviewExcerpt" xml:space="preserve"><value>W przypadku dużych raportów wyświetlany jest fragment. Kopiowanie i zapis obejmują cały wybrany zakres.</value></data>
+  <data name="ObservedSourceRecord" xml:space="preserve"><value>Wpis ze źródła {0} · {1}</value></data>
+  <data name="IncidentCoverageUnknown" xml:space="preserve"><value>Nie potwierdzono pokrycia przedziału tego incydentu</value></data>
+  <data name="SeparateOccurrence" xml:space="preserve"><value>Ten wpis przedstawia jedno zarejestrowane zdarzenie. Podobne wpisy pozostają oddzielne; wzorzec powtarzania jest pokazywany tylko wtedy, gdy potwierdza go model diagnostyczny.</value></data>
+  <data name="InventoryDisplayVersion" xml:space="preserve"><value>Wydanie systemu Windows</value></data>
+  <data name="InventoryBuildNumber" xml:space="preserve"><value>Kompilacja</value></data>
+  <data name="InventoryNtVersion" xml:space="preserve"><value>Techniczna wersja NT</value></data>
+  <data name="SharedReportCount" xml:space="preserve"><value>Ten sam raport: {0} wpisów (nie {0} niezależnie potwierdzonych awarii)</value></data>
+  <data name="SharedReportHelp" xml:space="preserve"><value>Kilka wpisów odnosi się do tego samego raportu diagnostycznego. Pozostają oddzielne; dzienniki nie potwierdzają osobnej awarii dla każdego wpisu.</value></data>
+  <data name="Home" xml:space="preserve"><value>Start</value></data><data name="Analyze" xml:space="preserve"><value>Analizuj</value></data><data name="History" xml:space="preserve"><value>Historia</value></data><data name="HomePurpose" xml:space="preserve"><value>Zrozum awarie, zawieszenia i powtarzającą się niestabilność na podstawie danych diagnostycznych zapisanych na tym komputerze.</value></data><data name="AnalyzeLastDay" xml:space="preserve"><value>Analizuj ostatnie 24 godziny</value></data><data name="AnalyzeLastWeek" xml:space="preserve"><value>Analizuj ostatnie 7 dni</value></data><data name="AnalyzeLastMonth" xml:space="preserve"><value>Analizuj ostatnie 30 dni</value></data><data name="AnalyzeCrashFreeze" xml:space="preserve"><value>Analizuj awarię lub zawieszenie</value></data><data name="AnalyzeFiles" xml:space="preserve"><value>Analizuj pliki diagnostyczne</value></data><data name="OpenHistory" xml:space="preserve"><value>Otwórz historię</value></data><data name="AnalysisWorkflow" xml:space="preserve"><value>Typ analizy</value></data><data name="RunSelectedAnalysis" xml:space="preserve"><value>Uruchom analizę</value></data><data name="HistoryHelp" xml:space="preserve"><value>Poprzednie analizy lokalne przechowują zwięzłe podsumowania, nigdy surowy XML zdarzeń.</value></data><data name="HistoryPeriodUnavailable" xml:space="preserve"><value>Żądany okres nie został zachowany dla tej starszej analizy.</value></data><data name="HistoryPeriodValue" xml:space="preserve"><value>{0} — {1}</value></data><data name="HistoryIncidentCount" xml:space="preserve"><value>Zachowane incydenty: {0}; liczby priorytetów niedostępne</value></data><data name="HistoryCounts" xml:space="preserve"><value>Wymaga uwagi: {0} · warto wiedzieć: {1} · kontekst: {2}</value></data><data name="HistoryDuration" xml:space="preserve"><value>Czas trwania: {0:F2} s</value></data><data name="SavedSummary" xml:space="preserve"><value>Zapisane podsumowanie</value></data><data name="MoreHistoryIncidents" xml:space="preserve"><value>Więcej zachowanych incydentów: {0}</value></data><data name="CopySavedSummary" xml:space="preserve"><value>Kopiuj zapisane podsumowanie</value></data><data name="RefreshHistory" xml:space="preserve"><value>Odśwież historię</value></data><data name="SelectHistory" xml:space="preserve"><value>Wybierz analizę, aby wyświetlić zapisane podsumowanie.</value></data><data name="LoadingHistory" xml:space="preserve"><value>Wczytywanie historii lokalnej…</value></data><data name="OpenReadiness" xml:space="preserve"><value>Gotowość diagnostyczna</value></data>
+  <data name="LocalAnalysisOnly" xml:space="preserve"><value>Analiza odbywa się lokalnie na tym komputerze. Nic nie jest automatycznie wysyłane.</value></data>
+  <data name="SettingsPurpose" xml:space="preserve"><value>Zmień ustawienia wpływające na analizę lokalną.</value></data>
+  <data name="SystemInformation" xml:space="preserve"><value>Informacje o systemie</value></data>
+  <data name="NavigationCurrent" xml:space="preserve"><value>Bieżąca strona</value></data>
+  <data name="DevelopmentProcessContext" xml:space="preserve"><value>Nazwa tego pliku wykonywalnego odpowiada procesowi testowemu FaultWitness. Dowody awarii zostają zachowane.</value></data>
+</root>

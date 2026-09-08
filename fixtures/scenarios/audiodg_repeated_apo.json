@@ -1,0 +1,90 @@
+{
+  "Name": "audiodg_repeated_apo",
+  "Description": "Distinct audiodg APO crashes across days.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000059",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "Application",
+      "Provider": "Application Error",
+      "EventId": 1000,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "audiodg.exe",
+      "ProcessId": 100,
+      "Module": "ExampleApo.dll",
+      "Device": null,
+      "Fields": {
+        "AppVersion": "1",
+        "ModuleVersion": "1",
+        "ExceptionCode": "c0000005",
+        "ReportId": "audio-a",
+        "ModuleTrust": "VerifiedThirdParty",
+        "ModuleRole": "APO"
+      },
+      "SourceReference": "synthetic:record-59",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000060",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-11T12:00:00.000Z",
+      "Channel": "Application",
+      "Provider": "Application Error",
+      "EventId": 1000,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": "audiodg.exe",
+      "ProcessId": 100,
+      "Module": "ExampleApo.dll",
+      "Device": null,
+      "Fields": {
+        "AppVersion": "1",
+        "ModuleVersion": "1",
+        "ExceptionCode": "c0000005",
+        "ReportId": "audio-b",
+        "ModuleTrust": "VerifiedThirdParty",
+        "ModuleRole": "APO"
+      },
+      "SourceReference": "synthetic:record-60",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

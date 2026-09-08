@@ -1,0 +1,187 @@
+[
+  {
+    "RuleId": "power.unclean_shutdown",
+    "PositiveFixture": "kernel41_only",
+    "NegativeFixture": "normal_shutdown"
+  },
+  {
+    "RuleId": "power.bugcheck_reboot",
+    "PositiveFixture": "kernel41_with_bugcheck",
+    "NegativeFixture": "kernel41_only"
+  },
+  {
+    "RuleId": "power.planned_restart",
+    "PositiveFixture": "planned_restart",
+    "NegativeFixture": "normal_shutdown"
+  },
+  {
+    "RuleId": "power.update_restart",
+    "PositiveFixture": "update_planned_restart",
+    "NegativeFixture": "planned_restart"
+  },
+  {
+    "RuleId": "power.abrupt_restart_no_bugcheck",
+    "PositiveFixture": "kernel41_only",
+    "NegativeFixture": "kernel41_partial_coverage"
+  },
+  {
+    "RuleId": "graphics.engine_timeout",
+    "PositiveFixture": "nvidia_tdr_141",
+    "NegativeFixture": "tdr_117"
+  },
+  {
+    "RuleId": "graphics.adapter_timeout",
+    "PositiveFixture": "tdr_117",
+    "NegativeFixture": "nvidia_tdr_141"
+  },
+  {
+    "RuleId": "graphics.tdr_with_driver_event",
+    "PositiveFixture": "amd_tdr_141",
+    "NegativeFixture": "tdr_without_driver"
+  },
+  {
+    "RuleId": "graphics.tdr_with_app_crash",
+    "PositiveFixture": "tdr_with_app_crash",
+    "NegativeFixture": "app_crash_outside_tdr_window"
+  },
+  {
+    "RuleId": "graphics.repeated_timeout_pattern",
+    "PositiveFixture": "graphics_repeated_days",
+    "NegativeFixture": "nvidia_tdr_141"
+  },
+  {
+    "RuleId": "hardware.whea.corrected",
+    "PositiveFixture": "whea_corrected",
+    "NegativeFixture": "whea_processor_cache"
+  },
+  {
+    "RuleId": "hardware.whea.recurrent_corrected",
+    "PositiveFixture": "whea_recurrent_corrected",
+    "NegativeFixture": "whea_corrected"
+  },
+  {
+    "RuleId": "hardware.whea.uncorrected",
+    "PositiveFixture": "whea_processor_cache",
+    "NegativeFixture": "whea_corrected"
+  },
+  {
+    "RuleId": "hardware.whea.processor_mce",
+    "PositiveFixture": "whea_processor_cache",
+    "NegativeFixture": "whea_untyped_18"
+  },
+  {
+    "RuleId": "hardware.whea.pcie",
+    "PositiveFixture": "whea_pcie",
+    "NegativeFixture": "whea_processor_cache"
+  },
+  {
+    "RuleId": "hardware.whea.memory",
+    "PositiveFixture": "whea_memory",
+    "NegativeFixture": "whea_processor_cache"
+  },
+  {
+    "RuleId": "hardware.whea_bugcheck_124",
+    "PositiveFixture": "whea_bugcheck_124",
+    "NegativeFixture": "other_bugcheck"
+  },
+  {
+    "RuleId": "application.crash",
+    "PositiveFixture": "application_crash",
+    "NegativeFixture": "application_hang"
+  },
+  {
+    "RuleId": "application.crash_with_wer",
+    "PositiveFixture": "application_crash_with_wer_and_reliability",
+    "NegativeFixture": "application_crash"
+  },
+  {
+    "RuleId": "application.third_party_faulting_module",
+    "PositiveFixture": "third_party_fault_module",
+    "NegativeFixture": "windows_fault_module"
+  },
+  {
+    "RuleId": "application.repeated_signature",
+    "PositiveFixture": "same_signature_different_pid",
+    "NegativeFixture": "different_signature_same_application"
+  },
+  {
+    "RuleId": "application.hang",
+    "PositiveFixture": "application_hang",
+    "NegativeFixture": "application_crash"
+  },
+  {
+    "RuleId": "audio.audiodg_crash",
+    "PositiveFixture": "audiodg_windows_module",
+    "NegativeFixture": "application_crash"
+  },
+  {
+    "RuleId": "audio.audiodg_third_party_module",
+    "PositiveFixture": "audiodg_third_party_apo",
+    "NegativeFixture": "audiodg_windows_module"
+  },
+  {
+    "RuleId": "audio.repeated_apo_failure",
+    "PositiveFixture": "audiodg_repeated_apo",
+    "NegativeFixture": "audiodg_third_party_apo"
+  },
+  {
+    "RuleId": "storage.request_timeout",
+    "PositiveFixture": "storage_129",
+    "NegativeFixture": "storage_153_single"
+  },
+  {
+    "RuleId": "storage.io_retry",
+    "PositiveFixture": "storage_153_single",
+    "NegativeFixture": "driver_event_without_tdr"
+  },
+  {
+    "RuleId": "storage.io_warning",
+    "PositiveFixture": "storage_51_single",
+    "NegativeFixture": "storage_153_single"
+  },
+  {
+    "RuleId": "storage.repeated_timeout_pattern",
+    "PositiveFixture": "storage_153_repeated_same_device",
+    "NegativeFixture": "storage_153_different_device"
+  },
+  {
+    "RuleId": "resources.memory_exhaustion",
+    "PositiveFixture": "resource_exhaustion",
+    "NegativeFixture": "application_crash"
+  },
+  {
+    "RuleId": "resources.exhaustion_with_hang_or_crash",
+    "PositiveFixture": "resource_exhaustion_then_hang",
+    "NegativeFixture": "resource_exhaustion"
+  },
+  {
+    "RuleId": "pnp.umdf_transient_load_warning",
+    "PositiveFixture": "pnp_219_benign",
+    "NegativeFixture": "clean_system"
+  },
+  {
+    "RuleId": "pnp.recurrent_device_failure",
+    "PositiveFixture": "pnp_219_recurrent",
+    "NegativeFixture": "pnp_219_benign"
+  },
+  {
+    "RuleId": "service.unexpected_termination",
+    "PositiveFixture": "service_failure_after_reboot",
+    "NegativeFixture": "service_normal"
+  },
+  {
+    "RuleId": "service.repeated_failure",
+    "PositiveFixture": "service_repeated_before_incident",
+    "NegativeFixture": "service_failure_after_reboot"
+  },
+  {
+    "RuleId": "system.bugcheck",
+    "PositiveFixture": "other_bugcheck",
+    "NegativeFixture": "bugcheck_missing_code"
+  },
+  {
+    "RuleId": "system.bugcheck_with_dump",
+    "PositiveFixture": "bugcheck_with_dump",
+    "NegativeFixture": "whea_bugcheck_124"
+  }
+]

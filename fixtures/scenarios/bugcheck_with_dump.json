@@ -1,0 +1,81 @@
+{
+  "Name": "bugcheck_with_dump",
+  "Description": "Exact discovered kernel dump reference matches report.",
+  "Events": [
+    {
+      "Id": "00000000-0000-0000-0000-000000000038",
+      "SourceType": "EventLog",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:00.000Z",
+      "Channel": "System",
+      "Provider": "Microsoft-Windows-WER-SystemErrorReporting",
+      "EventId": 1001,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": null,
+      "Fields": {
+        "BugcheckCode": "0x124",
+        "DumpPath": "synthetic-kernel.dmp"
+      },
+      "SourceReference": "synthetic:record-38",
+      "RawData": null
+    },
+    {
+      "Id": "00000000-0000-0000-0000-000000000039",
+      "SourceType": "CrashArtifact",
+      "Platform": "Windows",
+      "TimestampUtc": "2026-01-10T12:00:30.000Z",
+      "Channel": "System",
+      "Provider": "CrashArtifact",
+      "EventId": 0,
+      "EventVersion": 0,
+      "Severity": "Medium",
+      "Process": null,
+      "ProcessId": null,
+      "Module": null,
+      "Device": null,
+      "Fields": {
+        "DumpKind": "Kernel"
+      },
+      "SourceReference": "synthetic-kernel.dmp",
+      "RawData": null
+    }
+  ],
+  "Coverage": [
+    {
+      "SourceType": "EventLog",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": "System"
+    },
+    {
+      "SourceType": "Wer",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "Reliability",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    },
+    {
+      "SourceType": "CrashArtifact",
+      "State": "Complete",
+      "ExaminedFromUtc": "2026-01-01T00:00:00Z",
+      "ExaminedToUtc": "2026-02-01T00:00:00Z",
+      "DetailKey": "synthetic.complete",
+      "Channel": null
+    }
+  ]
+}

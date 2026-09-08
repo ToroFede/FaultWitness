@@ -1,0 +1,457 @@
+{
+  "version": "1.0.1",
+  "breakpoints": {
+    "small": {
+      "max": 640
+    },
+    "medium": {
+      "min": 641,
+      "max": 1007
+    },
+    "large": {
+      "min": 1008
+    }
+  },
+  "screens": [
+    {
+      "id": "Home",
+      "userGoal": "understand purpose and next action",
+      "primaryQuestion": "What should I do now and what did the last analysis show?",
+      "primaryAction": "Analyze selected recent period",
+      "secondaryActions": [
+        "Analyze crash or freeze",
+        "Analyze diagnostic files",
+        "Open history"
+      ],
+      "informationPriority": [
+        "purpose",
+        "primary action",
+        "last result",
+        "recent significant incidents",
+        "coverage"
+      ],
+      "regions": [
+        "intro",
+        "commandArea",
+        "lastAnalysis",
+        "recentIncidents"
+      ],
+      "defaultFocus": "primaryAction",
+      "emptyState": "explain local analysis and privacy",
+      "loadingState": "inline progress with cancellation",
+      "errorState": "friendly status with technical disclosure",
+      "responsiveRules": {
+        "small": "single column; intrinsic compact navigation 160–208 epx; brand no wrap, ellipsis only if text scaling exceeds available width; stacked summary counts; 12 epx gutter",
+        "medium": "compact summary strip with natural wrapping; 24 epx gutter",
+        "large": "constrained 1120 epx content; compact summary strip"
+      },
+      "keyboardFlow": [
+        "navigation",
+        "primaryAction",
+        "secondaryActions",
+        "lastAnalysis",
+        "recentIncidents"
+      ],
+      "allowedComponents": [
+        "PrimaryAction",
+        "SubtleAction",
+        "SummaryMetric",
+        "IncidentRow",
+        "EmptyState",
+        "InlineStatus"
+      ],
+      "forbiddenPatterns": [
+        "health score",
+        "three equal KPI cards",
+        "multiple primary actions"
+      ]
+    },
+    {
+      "id": "Analyze",
+      "userGoal": "choose a diagnostic workflow",
+      "primaryQuestion": "What kind of analysis matches what happened?",
+      "primaryAction": "Run selected analysis",
+      "secondaryActions": [
+        "recent period",
+        "around a time",
+        "diagnostic files"
+      ],
+      "informationPriority": [
+        "workflow choice",
+        "required inputs",
+        "source disclosure",
+        "run command"
+      ],
+      "regions": [
+        "workflowSelector",
+        "inputs",
+        "advancedSources",
+        "commandArea"
+      ],
+      "defaultFocus": "workflowSelector",
+      "emptyState": "diagnostic-files drop target",
+      "loadingState": "progress and cancellation",
+      "errorState": "specific friendly failure",
+      "responsiveRules": {
+        "small": "stack fields and actions",
+        "medium": "wrap fields",
+        "large": "constrain form to 800 epx"
+      },
+      "keyboardFlow": [
+        "workflowSelector",
+        "fields",
+        "advancedSources",
+        "primaryAction"
+      ],
+      "allowedComponents": [
+        "PrimaryAction",
+        "SecondaryAction",
+        "Disclosure",
+        "Callout",
+        "InlineStatus"
+      ],
+      "forbiddenPatterns": [
+        "Import as top-level navigation",
+        "raw provider options by default"
+      ]
+    },
+    {
+      "id": "Incidents",
+      "userGoal": "scan and filter all retained current results",
+      "primaryQuestion": "Which incident should I inspect?",
+      "primaryAction": "Open selected incident",
+      "secondaryActions": [
+        "filter",
+        "search",
+        "reset filters"
+      ],
+      "informationPriority": [
+        "search/filter",
+        "result count",
+        "dense list"
+      ],
+      "regions": [
+        "commandArea",
+        "filterBar",
+        "virtualizedList"
+      ],
+      "defaultFocus": "search",
+      "emptyState": "state whether no analysis or no matches",
+      "loadingState": "retain current list",
+      "errorState": "inline status",
+      "responsiveRules": {
+        "small": "filters collapse vertically",
+        "medium": "filters wrap",
+        "large": "dense list width constrained for scanning"
+      },
+      "keyboardFlow": [
+        "search",
+        "priority",
+        "category",
+        "evidence",
+        "list"
+      ],
+      "allowedComponents": [
+        "IncidentRow",
+        "StatusBadge",
+        "Disclosure",
+        "EmptyState"
+      ],
+      "forbiddenPatterns": [
+        "oversized repeated cards",
+        "raw Event IDs in main row"
+      ]
+    },
+    {
+      "id": "IncidentDetail",
+      "userGoal": "understand evidence and next diagnostic step",
+      "primaryQuestion": "What happened, what supports it, and what can I safely do next?",
+      "primaryAction": "none; diagnostic result and best next step have visual priority",
+      "secondaryActions": [
+        "back",
+        "preview/copy support summary",
+        "export",
+        "view occurrences"
+      ],
+      "informationPriority": [
+        "identity",
+        "observed result",
+        "metadata",
+        "best next step",
+        "evidence",
+        "timeline",
+        "explanations",
+        "not established",
+        "coverage",
+        "raw detail"
+      ],
+      "regions": [
+        "identity",
+        "nextStep",
+        "evidence",
+        "timeline",
+        "interpretation",
+        "coverage",
+        "advanced"
+      ],
+      "defaultFocus": "back",
+      "emptyState": "incident unavailable",
+      "loadingState": "not applicable",
+      "errorState": "retain safe summary",
+      "responsiveRules": {
+        "small": "one column",
+        "medium": "one column",
+        "large": "65/35 main and supporting column"
+      },
+      "keyboardFlow": [
+        "back",
+        "copy",
+        "nextStep",
+        "evidence",
+        "disclosures"
+      ],
+      "allowedComponents": [
+        "SecondaryAction",
+        "Callout",
+        "StatusBadge",
+        "Disclosure"
+      ],
+      "forbiddenPatterns": [
+        "raw XML expanded by default",
+        "generic unknown source text",
+        "causal claim"
+      ]
+    },
+    {
+      "id": "History",
+      "userGoal": "review previous local analyses",
+      "primaryQuestion": "What was analyzed before and what summary was retained?",
+      "primaryAction": "Open selected summary",
+      "secondaryActions": [
+        "export available summary"
+      ],
+      "informationPriority": [
+        "latest scans",
+        "type and period",
+        "coverage summary",
+        "priority counts",
+        "saved incident summary"
+      ],
+      "regions": [
+        "historyList",
+        "summaryDetail"
+      ],
+      "defaultFocus": "latestScan",
+      "emptyState": "Run an analysis to start building local history",
+      "loadingState": "short local loading state",
+      "errorState": "history unavailable without losing current result",
+      "responsiveRules": {
+        "small": "list then detail",
+        "medium": "list then detail",
+        "large": "40/60 master-detail; independently scrollable detail; selected row uses subtle surface and accent indicator"
+      },
+      "keyboardFlow": [
+        "historyList",
+        "open",
+        "export"
+      ],
+      "allowedComponents": [
+        "IncidentRow",
+        "SummaryMetric",
+        "EmptyState",
+        "Callout"
+      ],
+      "forbiddenPatterns": [
+        "fabricated old metadata",
+        "raw XML persistence"
+      ]
+    },
+    {
+      "id": "System",
+      "userGoal": "understand system identity and diagnostic capability",
+      "primaryQuestion": "What system data and diagnostic sources are available?",
+      "primaryAction": "none; existing read-only information loads automatically on first visit",
+      "secondaryActions": [
+        "Refresh information"
+      ],
+      "informationPriority": [
+        "actual product identity",
+        "actual inventory",
+        "readiness link",
+        "technical details"
+      ],
+      "regions": [
+        "information/readiness sub-navigation",
+        "systemIdentity",
+        "inventory",
+        "advanced"
+      ],
+      "defaultFocus": "information/readiness sub-navigation",
+      "emptyState": "Not available",
+      "loadingState": "inline progress",
+      "errorState": "source-specific unavailable status",
+      "responsiveRules": {
+        "small": "one column",
+        "medium": "one column",
+        "large": "two balanced columns"
+      },
+      "keyboardFlow": [
+        "information/readiness sub-navigation",
+        "inventory disclosures",
+        "refresh"
+      ],
+      "allowedComponents": [
+        "PrimaryAction",
+        "SecondaryAction",
+        "StatusBadge",
+        "Disclosure",
+        "EmptyState"
+      ],
+      "forbiddenPatterns": [
+        "invented inventory",
+        "health assessment"
+      ]
+    },
+    {
+      "id": "DiagnosticReadiness",
+      "userGoal": "verify diagnostic source availability",
+      "primaryQuestion": "Can FaultWitness examine each source?",
+      "primaryAction": "Check diagnostic readiness",
+      "secondaryActions": [
+        "Back to system"
+      ],
+      "informationPriority": [
+        "capability explanation",
+        "source states",
+        "additional unavailable capabilities"
+      ],
+      "regions": [
+        "information/readiness sub-navigation",
+        "intro",
+        "sourceList",
+        "additional"
+      ],
+      "defaultFocus": "check",
+      "emptyState": "Not checked yet",
+      "loadingState": "checking sources",
+      "errorState": "source-specific status",
+      "responsiveRules": {
+        "small": "one column",
+        "medium": "one column",
+        "large": "constrained reading width"
+      },
+      "keyboardFlow": [
+        "back",
+        "check",
+        "source disclosures"
+      ],
+      "allowedComponents": [
+        "PrimaryAction",
+        "StatusBadge",
+        "Disclosure",
+        "Callout"
+      ],
+      "forbiddenPatterns": [
+        "health score",
+        "color-only status"
+      ]
+    },
+    {
+      "id": "Settings",
+      "userGoal": "change uncommon preferences",
+      "primaryQuestion": "How should FaultWitness behave locally?",
+      "primaryAction": "none; settings apply on selection",
+      "secondaryActions": [
+        "clear history"
+      ],
+      "informationPriority": [
+        "settings-specific purpose, never Home tagline",
+        "general",
+        "analysis",
+        "privacy",
+        "about"
+      ],
+      "regions": [
+        "general",
+        "analysis",
+        "privacy",
+        "about"
+      ],
+      "defaultFocus": "language",
+      "emptyState": "not applicable",
+      "loadingState": "inline save state",
+      "errorState": "safe settings error",
+      "responsiveRules": {
+        "small": "stack all fields",
+        "medium": "two fields where safe",
+        "large": "constrain reading width"
+      },
+      "keyboardFlow": [
+        "language",
+        "theme",
+        "period",
+        "retention",
+        "clear history"
+      ],
+      "allowedComponents": [
+        "DangerAction",
+        "SectionHeading",
+        "Callout",
+        "Dialog"
+      ],
+      "forbiddenPatterns": [
+        "primary workflows",
+        "dozens of toggles"
+      ]
+    },
+    {
+      "id": "ExportSupport",
+      "userGoal": "preview and export a privacy-safe result",
+      "primaryQuestion": "What will be included and redacted?",
+      "primaryAction": "Export selected format",
+      "secondaryActions": [
+        "preview",
+        "cancel"
+      ],
+      "informationPriority": [
+        "format",
+        "included content",
+        "redaction",
+        "preview",
+        "write action"
+      ],
+      "regions": [
+        "formatSelector",
+        "privacyScope",
+        "preview",
+        "commandArea"
+      ],
+      "defaultFocus": "format",
+      "emptyState": "No analysis available",
+      "loadingState": "exporting",
+      "errorState": "friendly export failure",
+      "responsiveRules": {
+        "small": "one column",
+        "medium": "one column",
+        "large": "preview beside options"
+      },
+      "keyboardFlow": [
+        "format",
+        "preview",
+        "export",
+        "cancel"
+      ],
+      "allowedComponents": [
+        "PrimaryAction",
+        "SecondaryAction",
+        "Callout",
+        "Disclosure",
+        "Dialog"
+      ],
+      "forbiddenPatterns": [
+        "dump files by default",
+        "unpreviewed private fields"
+      ]
+    }
+  ]
+}
