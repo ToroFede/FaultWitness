@@ -172,7 +172,7 @@
   <data name="RawXml" xml:space="preserve"><value>Rohes XML</value></data>
   <data name="Readiness" xml:space="preserve"><value>Diagnosebereitschaft</value></data>
   <data name="ReadinessComplete" xml:space="preserve"><value>Prüfung der Diagnosequellen abgeschlossen.</value></data>
-  <data name="ReadinessHelp" xml:space="preserve"><value>Sind die Diagnosequellen lesbar? Dies zeigt Verfügbarkeit, keinen Gesundheitswert.</value></data>
+  <data name="ReadinessHelp" xml:space="preserve"><value>Auf welche Diagnosedaten kann FaultWitness jetzt zugreifen und was könnte nach einem weiteren Absturz fehlen? Diese Prüfungen beschreiben die Diagnosefähigkeit, nicht den Zustand des Computers.</value></data>
   <data name="ReadinessNotChecked" xml:space="preserve"><value>Die Diagnosebereitschaft wurde noch nicht geprüft.</value></data>
   <data name="ReadingSources" xml:space="preserve"><value>Diagnosequellen werden gelesen…</value></data>
   <data name="ReadSystem" xml:space="preserve"><value>Systeminformationen lesen</value></data>
@@ -372,4 +372,79 @@
   <data name="SystemInformation" xml:space="preserve"><value>Systeminformationen</value></data>
   <data name="NavigationCurrent" xml:space="preserve"><value>Aktuelle Seite</value></data>
   <data name="DevelopmentProcessContext" xml:space="preserve"><value>Dieser Dateiname entspricht einem FaultWitness-Testprozess. Die Absturzbelege bleiben erhalten.</value></data>
+  <data name="InventoryAvailabilityAccessDenied" xml:space="preserve"><value>Zugriff verweigert</value></data>
+  <data name="InventoryAvailabilityNotSupported" xml:space="preserve"><value>Nicht unterstützt</value></data>
+  <data name="InventoryAvailabilityUnavailable" xml:space="preserve"><value>Nicht verfügbar</value></data>
+  <data name="InventoryBiosDate" xml:space="preserve"><value>BIOS/UEFI-Datum</value></data>
+  <data name="InventoryBiosVendor" xml:space="preserve"><value>BIOS/UEFI-Hersteller</value></data>
+  <data name="InventoryBiosVersion" xml:space="preserve"><value>BIOS/UEFI-Version</value></data>
+  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Motherboard-Hersteller</value></data>
+  <data name="InventoryBoardModel" xml:space="preserve"><value>Motherboard-Modell</value></data>
+  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Computerhersteller</value></data>
+  <data name="InventoryComputerModel" xml:space="preserve"><value>Computermodell</value></data>
+  <data name="InventoryDriverCategory" xml:space="preserve"><value>Geräteklasse</value></data>
+  <data name="InventoryDriverDate" xml:space="preserve"><value>Treiberdatum</value></data>
+  <data name="InventoryDriverName" xml:space="preserve"><value>Gerät</value></data>
+  <data name="InventoryDriverProvider" xml:space="preserve"><value>Treiberanbieter</value></data>
+  <data name="InventoryDriverVersion" xml:space="preserve"><value>Treiberversion</value></data>
+  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Treiberdatum</value></data>
+  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Treiberversion</value></data>
+  <data name="InventoryGraphicsName" xml:space="preserve"><value>Grafikadapter</value></data>
+  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Adapterhersteller</value></data>
+  <data name="InventoryGroupDrivers" xml:space="preserve"><value>Relevante Treiber</value></data>
+  <data name="InventoryGroupEmpty" xml:space="preserve"><value>Keine Geräte gemeldet.</value></data>
+  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Firmwareinformationen</value></data>
+  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Grafik</value></data>
+  <data name="InventoryGroupOperatingSystem" xml:space="preserve"><value>Betriebssystem</value></data>
+  <data name="InventoryGroupProcessorMemory" xml:space="preserve"><value>Prozessor und Speicher</value></data>
+  <data name="InventoryGroupStorage" xml:space="preserve"><value>Speichergeräte</value></data>
+  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Physischer Speicher</value></data>
+  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Physischer Speicher (GiB)</value></data>
+  <data name="InventoryMoreDevices" xml:space="preserve"><value>Weitere Geräte anzeigen</value></data>
+  <data name="InventoryOsVersion" xml:space="preserve"><value>NT-Version</value></data>
+  <data name="InventoryProcessor" xml:space="preserve"><value>Prozessormodell</value></data>
+  <data name="InventoryProcessorCores" xml:space="preserve"><value>Physische Kerne</value></data>
+  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Logische Prozessoren</value></data>
+  <data name="InventoryStorageBus" xml:space="preserve"><value>Gemeldete Schnittstelle</value></data>
+  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Kapazität</value></data>
+  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Kapazität (GiB)</value></data>
+  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Firmwareversion</value></data>
+  <data name="InventoryStorageMedia" xml:space="preserve"><value>Gemeldeter Medientyp</value></data>
+  <data name="InventoryStorageModel" xml:space="preserve"><value>Festplattenmodell</value></data>
+  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>Aktive Auslagerungsdateien</value></data>
+  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Zugewiesener Auslagerungsspeicher</value></data>
+  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Automatische Auslagerungsdateiverwaltung</value></data>
+  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>Die Konfiguration konnte nicht überprüft werden.</value></data>
+  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Benutzerdefiniertes Ziel (Pfad verborgen)</value></data>
+  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>Dedizierte Dump-Datei konfiguriert</value></data>
+  <data name="ReadinessDefaultScope" xml:space="preserve"><value>Standard (alle Anwendungen)</value></data>
+  <data name="ReadinessDumpCount" xml:space="preserve"><value>Maximal gespeicherte Dumps</value></data>
+  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Verfügbarer Speicher am Dump-Ziel</value></data>
+  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Dump-Ziel</value></data>
+  <data name="ReadinessDumpType" xml:space="preserve"><value>Dump-Typ</value></data>
+  <data name="ReadinessElevationHelp" xml:space="preserve"><value>Erweiterter Zugriff kann weitere Informationen liefern. Diese Prüfung ändert keine Konfiguration.</value></data>
+  <data name="ReadinessLocalDumpsAbsent" xml:space="preserve"><value>LocalDumps ist nicht konfiguriert. Dies ist optional und kein Fehler; Windows kann dennoch andere Absturzbelege bereitstellen.</value></data>
+  <data name="ReadinessLocalDumpsConfigured" xml:space="preserve"><value>LocalDumps-Konfiguration ist vorhanden. Kompatible Anwendungsabstürze können Dumps erzeugen; Erfassung und Ordnerberechtigungen wurden nicht überprüft. Die Prüfung ist schreibgeschützt.</value></data>
+  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Konfigurationsbereich</value></data>
+  <data name="ReadinessLocalDumpsLimited" xml:space="preserve"><value>LocalDumps-Konfiguration ist vorhanden, aber einige Einstellungen sind ungültig oder konnten nicht geprüft werden. Die Prüfung ist schreibgeschützt.</value></data>
+  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>Diese Einträge beschreiben die Verfügbarkeit diagnostischer Fähigkeiten. Sie bewerten nicht den Systemzustand und nehmen keine Änderungen vor.</value></data>
+  <data name="ReadinessNotObserved" xml:space="preserve"><value>Nein</value></data>
+  <data name="ReadinessObserved" xml:space="preserve"><value>Ja</value></data>
+  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>Die Eignung der Auslagerungsdatei konnte nicht überprüft werden. Die Anforderungen hängen von Dump-Typ, Speichernutzung und Konfiguration dedizierter Dump-Dateien ab.</value></data>
+  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Windows hat den Zugriff auf diese Diagnosequelle verweigert.</value></data>
+  <data name="ReadinessSourceLimited" xml:space="preserve"><value>Nur ein Teil der unterstützten Quelle konnte geprüft werden. Einige Speicherorte oder Datensätze sind möglicherweise nicht zugänglich, fehlen oder überschreiten die Prüfgrenze.</value></data>
+  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>Diese Diagnosefunktion wird auf dieser Plattform nicht unterstützt.</value></data>
+  <data name="ReadinessSourceReady" xml:space="preserve"><value>Die unterstützte Quelle kann jetzt abgefragt werden. Dies garantiert keine zukünftigen Belege oder eine vollständige Historie.</value></data>
+  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>Die unterstützte Quelle konnte nicht abgefragt werden oder es war kein unterstützter Speicherort verfügbar.</value></data>
+  <data name="ReadinessStatusAccessDenied" xml:space="preserve"><value>Zugriff verweigert</value></data>
+  <data name="ReadinessStatusDisabled" xml:space="preserve"><value>Deaktiviert / nicht konfiguriert</value></data>
+  <data name="ReadinessStatusLimited" xml:space="preserve"><value>Eingeschränkt</value></data>
+  <data name="ReadinessStatusNotSupported" xml:space="preserve"><value>Nicht unterstützt</value></data>
+  <data name="ReadinessStatusReady" xml:space="preserve"><value>Bereit</value></data>
+  <data name="ReadinessStatusUnavailable" xml:space="preserve"><value>Nicht verfügbar</value></data>
+  <data name="ReadinessStorageObserved" xml:space="preserve"><value>Für zugängliche lokale Ziele wurde verfügbarer Speicher beobachtet. Der erforderliche Dump-Speicher und eine erfolgreiche Erfassung konnten nicht überprüft werden.</value></data>
+  <data name="ReadinessSystemDrive" xml:space="preserve"><value>Verfügbarer Speicher auf dem Systemlaufwerk</value></data>
+  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Windows ist für die Erfassung von Systemabsturz-Dumps konfiguriert. Dies überprüft nicht die Auslagerungsdatei, den Zielzugriff oder eine erfolgreiche zukünftige Erfassung.</value></data>
+  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>Die Erfassung von Windows-Systemabsturz-Dumps ist deaktiviert.</value></data>
+  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>Das Ziel konnte nicht überprüft werden</value></data>
 </root>

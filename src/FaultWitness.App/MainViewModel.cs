@@ -14,6 +14,7 @@ public sealed class MainViewModel : IDisposable
     private AppPage operationPage;
     private AppPage statusPage;
     private bool inventoryAttempted;
+    private Task? inventoryRefreshTask;
     private IReadOnlyList<IncidentRow> rows = [];
     public MainViewModel(IAppServices services, LocalizationService? text = null)
     {
@@ -56,6 +57,7 @@ public sealed class MainViewModel : IDisposable
     public List<ImportRow> Imports { get; } = [];
     public IReadOnlyList<DiagnosticReadinessItem> Readiness { get; private set; } = [];
     public IReadOnlyDictionary<string, string> Inventory { get; private set; } = new Dictionary<string, string>();
+    public SystemInventorySnapshot SystemInventory { get; private set; } = new([]);
     public IReadOnlyList<HistoryRow> History { get; private set; } = [];
     public HistoryRow? SelectedHistory { get; private set; }
     public string StatusText => StatusKey == "AnalysisComplete" ? Text.Format(StatusKey, AttentionCount, KnowingCount) : Text.Get(StatusKey);
@@ -207,12 +209,21 @@ public sealed class MainViewModel : IDisposable
         catch (Exception exception) { Fail("SourceUnavailable", exception); }
         finally { EndOperation(); Changed?.Invoke(ViewChange.Page); }
     }
-    public async Task RefreshInventoryAsync()
+    public Task RefreshInventoryAsync()
     {
-        if (IsBusy) return;
+        if (IsBusy) return inventoryRefreshTask ?? Task.CompletedTask;
         inventoryAttempted = true;
+        return inventoryRefreshTask = RefreshInventoryCoreAsync();
+    }
+    private async Task RefreshInventoryCoreAsync()
+    {
         using var cancellation = BeginOperation("ReadingSources");
-        try { Inventory = await services.InventoryAsync(cancellation.Token).ConfigureAwait(true); Notify("Ready"); }
+        try
+        {
+            SystemInventory = await services.SystemInventoryAsync(cancellation.Token).ConfigureAwait(true);
+            Inventory = SystemInventory.ToSummary();
+            Notify("Ready");
+        }
         catch (OperationCanceledException) { Notify("AnalysisCancelled"); }
         catch (Exception exception) { Fail("SourceUnavailable", exception); }
         finally { EndOperation(); Changed?.Invoke(ViewChange.Page); }

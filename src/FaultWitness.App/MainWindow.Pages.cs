@@ -9,6 +9,9 @@ using Avalonia.Input.Platform;
 using FaultWitness.Core;
 using FaultWitness.Rules;
 
+using Avalonia.Automation;
+using FaultWitness.Platform.Windows;
+
 namespace FaultWitness.App;
 
 public sealed partial class MainWindow
@@ -82,18 +85,28 @@ public sealed partial class MainWindow
         if (ViewModel.Readiness.Count == 0) body.Children.Add(Empty("ReadinessNotChecked"));
         foreach (var item in ViewModel.Readiness)
         {
-            var status = item.State switch { CoverageState.Complete => "Ready", CoverageState.Partial => "Limited", _ => "Coverage" + item.State };
-            body.Children.Add(Surface(Stack(Label(T(item.NameKey) + " — " + T(status), TextRole.RowTitle), Label(T("CoverageHelp" + item.State)))));
+            var status = "ReadinessStatus" + item.Status;
+            var details = new List<Control> { Label(T(item.DetailKey)) };
+            if (item.Observations is { Count: > 0 })
+            {
+                var observations = item.Observations.Select(observation => (Control)Label(T(observation.NameKey) + ": " + (observation.ValueIsLocalizationKey ? T(observation.Value) : observation.Value))).ToArray();
+                var disclosure = Expand("TechnicalDetails", Stack(observations));
+                var observationNames = string.Join(", ", item.Observations.Select(observation => T(observation.NameKey)).Distinct(StringComparer.Ordinal));
+                AutomationProperties.SetName(disclosure, T(item.NameKey) + " — " + T("TechnicalDetails") + (observationNames.Length == 0 ? string.Empty : " — " + observationNames));
+                details.Add(disclosure);
+            }
+            if (!string.IsNullOrWhiteSpace(item.NextActionKey)) details.Add(Muted(T(item.NextActionKey)));
+            var card = Section(item.NameKey, Stack(Label(T(status), bold: true), Stack(details.ToArray())));
+            AutomationProperties.SetName(card, T(item.NameKey) + " — " + T(status));
+            body.Children.Add(card);
         }
-        body.Children.Add(Expand("AdditionalReadiness", Stack(Label(T("AdditionalReadinessUnavailable")),
-            Label(T("DumpConfiguration") + " — " + T("NotAvailable")), Label(T("FreeSpace") + " — " + T("NotAvailable")),
-            Label(T("PageFile") + " — " + T("NotAvailable")), Label(T("ApplicationDumps") + " — " + T("NotAvailable")))));
+        body.Children.Add(Muted(T("ReadinessNoHealthScore")));
         return Scroll(body);
     }
     private ScrollViewer BuildSystem()
     {
         var body = Stack(Heading("System", "SystemHelp"), SystemNavigation(), Label(T("SystemInformation"), TextRole.SectionTitle));
-        if (ViewModel.Inventory.Count == 0) body.Children.Add(Label(T(ViewModel.IsBusy ? "ReadingSources" : "NotAvailable")));
+        if (ViewModel.SystemInventory.Groups.Count == 0) body.Children.Add(Label(T(ViewModel.IsBusy ? "ReadingSources" : "NotAvailable")));
         var inventory = new Grid
         {
             Name = "SystemInventory",
@@ -101,19 +114,46 @@ public sealed partial class MainWindow
             ColumnSpacing = D("primitive.space.6"), RowSpacing = D("primitive.space.4")
         };
         var index = 0;
-        foreach (var item in ViewModel.Inventory.Where(item => item.Key != "NtVersion")
-            .OrderBy(item => item.Key switch { "OperatingSystem" => 0, "DisplayVersion" => 1, "BuildNumber" => 2, _ => 3 }))
+        var order = new[] { WindowsSystemInventory.InventoryGroupOperatingSystem, WindowsSystemInventory.InventoryGroupProcessorMemory,
+            WindowsSystemInventory.InventoryGroupGraphics, WindowsSystemInventory.InventoryGroupFirmware, WindowsSystemInventory.InventoryGroupStorage, WindowsSystemInventory.InventoryGroupDrivers };
+        foreach (var group in ViewModel.SystemInventory.Groups.OrderBy(g => Array.IndexOf(order, g.Key) < 0 ? int.MaxValue : Array.IndexOf(order, g.Key)))
         {
             var row = index / inventory.ColumnDefinitions.Count;
             if (row >= inventory.RowDefinitions.Count) inventory.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-            var section = Section("Inventory" + item.Key, Label(item.Value));
+            var section = InventoryGroupSection(group);
             Grid.SetRow(section, row); Grid.SetColumn(section, index % inventory.ColumnDefinitions.Count);
             inventory.Children.Add(section); index++;
         }
         body.Children.Add(inventory);
-        if (ViewModel.Inventory.TryGetValue("NtVersion", out var nt)) body.Children.Add(Expand("TechnicalDetails", Stack(Muted(T("InventoryNtVersion")), Label(nt))));
         body.Children.Add(AsyncButton("ReadSystem", ViewModel.RefreshInventoryAsync, "ReadSystem"));
         return Scroll(body);
+    }
+    private StackPanel InventoryGroupSection(InventoryGroup group)
+    {
+        var content = new List<Control>();
+        if (group.Devices.Count == 0) content.Add(Muted(T("InventoryGroupEmpty")));
+        var isCollapsed = group.Key is WindowsSystemInventory.InventoryGroupStorage or WindowsSystemInventory.InventoryGroupDrivers;
+        var devices = isCollapsed ? group.Devices.Take(1).ToArray() : group.Devices.ToArray();
+        foreach (var device in devices)
+        {
+            var fields = device.Fields.Select(field => (Control)InventoryFieldLabel(field)).ToArray();
+            content.Add(Stack(fields));
+        }
+        if (isCollapsed && group.Devices.Count > 1)
+        {
+            var more = Expand("InventoryMoreDevices", Stack(group.Devices.Skip(1).Select(d => (Control)Stack(d.Fields.Select(InventoryFieldLabel).ToArray())).ToArray()));
+            AutomationProperties.SetName(more, T("InventoryMoreDevices"));
+            content.Add(more);
+        }
+        var section = Section(group.Key, Stack(content.ToArray()));
+        AutomationProperties.SetName(section, T(group.Key));
+        return section;
+    }
+    private Control InventoryFieldLabel(InventoryField field)
+    {
+        var value = field.Availability == InventoryAvailability.Available && !string.IsNullOrWhiteSpace(field.Value)
+            ? field.Value : T("InventoryAvailability" + field.Availability);
+        return Label(T(field.Key) + ": " + value);
     }
     private WrapPanel SystemNavigation() => Actions(
         NavigationButton("SystemInformation", () => ViewModel.Navigate(AppPage.System), "SystemInformationTab", ViewModel.Page == AppPage.System),

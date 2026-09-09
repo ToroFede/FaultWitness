@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
 using FaultWitness.App;
+using FaultWitness.Core;
 
 namespace FaultWitness.UI.Tests;
 
@@ -16,11 +17,10 @@ public sealed class SystemLayoutTests
     {
         using var vm = new MainViewModel(new TestServices
         {
-            Inventory = new Dictionary<string, string>
-            {
-                ["ProcessorCount"] = "8", ["Architecture"] = "X64",
-                ["OperatingSystem"] = "Synthetic Windows", ["NtVersion"] = "Synthetic NT"
-            }
+            StructuredInventory = new SystemInventorySnapshot([
+                new InventoryGroup("InventoryGroupOperatingSystem", [new InventoryDevice("os", [new InventoryField("InventoryOperatingSystem", "Synthetic Windows"), new InventoryField("InventoryOsVersion", "Synthetic NT")])]),
+                new InventoryGroup("InventoryGroupProcessorMemory", [new InventoryDevice("cpu", [new InventoryField("InventoryProcessorLogical", "8"), new InventoryField("InventoryArchitecture", "X64")])]),
+                new InventoryGroup("InventoryGroupGraphics", [])])
         });
         var window = new MainWindow(vm) { Width = width };
         window.Show();
@@ -29,7 +29,7 @@ public sealed class SystemLayoutTests
             vm.Navigate(AppPage.System); window.UpdateLayout();
             var inventory = window.GetVisualDescendants().OfType<Grid>().Single(item => item.Name == "SystemInventory");
             Assert.Equal(3, inventory.Children.Count);
-            Assert.Contains(inventory.Children[0].GetVisualDescendants().OfType<TextBlock>(), item => item.Text == "Synthetic Windows");
+            Assert.Contains(inventory.Children[0].GetVisualDescendants().OfType<TextBlock>(), item => item.Text!.Contains("Synthetic Windows", StringComparison.Ordinal));
             var first = inventory.Children[0].Bounds;
             var second = inventory.Children[1].Bounds;
             if (twoColumns)

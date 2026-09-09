@@ -99,7 +99,6 @@ public sealed record RecurringPattern(string Signature, IncidentCategory Categor
 
 public sealed record ExportPrivacyOptions(bool RedactPersonalData = true, bool IncludeRawXml = false, bool IncludeDumps = false);
 public sealed record RecommendedAction(string LocalizationKey, bool Reversible, bool RequiresAdmin, int ExpectedInformationGain, int EstimatedEffort);
-public sealed record DiagnosticReadinessItem(string NameKey, CoverageState State, string DetailKey);
 public sealed record ImportResult(EventBatch Batch, IReadOnlyList<string> Errors);
 
 public sealed class EventBatch

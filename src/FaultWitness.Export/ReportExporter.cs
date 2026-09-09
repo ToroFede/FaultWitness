@@ -145,7 +145,7 @@ public sealed class ReportExporter
         };
     }
 
-    private static string Redact(string input, ExportPrivacyOptions privacy)
+    internal static string Redact(string input, ExportPrivacyOptions privacy)
     {
         if (!privacy.RedactPersonalData) return input;
         var output = Regex.Replace(input, "(?i)([A-Z]:\\\\Users\\\\)[^\\\\\"\\r\\n]+", "$1<redacted>");

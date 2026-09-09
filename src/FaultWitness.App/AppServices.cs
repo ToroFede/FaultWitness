@@ -16,6 +16,13 @@ public interface IAppServices
     Task<ScanResult> AnalyzeImportedAsync(EventBatch batch, CancellationToken token);
     Task<IReadOnlyList<DiagnosticReadinessItem>> ReadinessAsync(CancellationToken token);
     Task<IReadOnlyDictionary<string, string>> InventoryAsync(CancellationToken token);
+    async Task<SystemInventorySnapshot> SystemInventoryAsync(CancellationToken token)
+    {
+        var values = await InventoryAsync(token).ConfigureAwait(false);
+        var fields = values.Select(pair => new InventoryField(pair.Key, pair.Value)).ToArray();
+        return new SystemInventorySnapshot([new InventoryGroup(WindowsSystemInventory.InventoryGroupOperatingSystem,
+            [new InventoryDevice("legacy", fields)])]);
+    }
     Task SaveAsync(ScanResult result, int retentionDays, ScanHistoryMetadata metadata, CancellationToken token);
     Task<IReadOnlyList<StoredScan>> LoadHistoryAsync(CancellationToken token);
     Task ClearAsync(CancellationToken token);
@@ -43,16 +50,11 @@ public sealed class DesktopServices : IAppServices
         return new IncidentAnalyzer(RuleCatalog.CreateDefault()).Analyze(batch, from, to, token);
     }, token);
     public async Task<IReadOnlyList<DiagnosticReadinessItem>> ReadinessAsync(CancellationToken token)
-    {
-        var now = DateTimeOffset.UtcNow;
-        var batch = await provider.ReadAsync(now.AddMinutes(-1), now, token).ConfigureAwait(false);
-        return batch.Coverage.Select(item => new DiagnosticReadinessItem(PresentationPolicy.SourceKey(item), item.State, item.DetailKey)).ToArray();
-    }
+        => await new WindowsDiagnosticReadiness().GetAsync(token).ConfigureAwait(false);
+    public Task<SystemInventorySnapshot> SystemInventoryAsync(CancellationToken token) => new WindowsSystemInventory().GetAsync(token);
     public async Task<IReadOnlyDictionary<string, string>> InventoryAsync(CancellationToken token)
     {
-        var inventory = await provider.GetInventoryAsync(token).ConfigureAwait(false);
-        var windows = await WindowsProductInformation.ReadAsync(token).ConfigureAwait(false);
-        return windows.ApplyTo(inventory);
+        return (await SystemInventoryAsync(token).ConfigureAwait(false)).ToSummary();
     }
     public async Task SaveAsync(ScanResult result, int retentionDays, ScanHistoryMetadata metadata, CancellationToken token)
     {

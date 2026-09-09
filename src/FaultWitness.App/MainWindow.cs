@@ -52,7 +52,7 @@ public sealed partial class MainWindow : Window
         if (!Dispatcher.UIThread.CheckAccess()) { Dispatcher.UIThread.Post(() => OnChanged(change)); return; }
         if (change == ViewChange.Language) BuildShell();
         else if (change == ViewChange.Theme) { ApplyTheme(); RenderPage(); }
-        else if (change is ViewChange.Page or ViewChange.Results) RenderPage();
+        else if (change is ViewChange.Page or ViewChange.Results || change == ViewChange.State && (ViewModel.Page is AppPage.System or AppPage.Readiness)) RenderPage();
         else if (change == ViewChange.HistorySelection) RenderHistoryDetail();
         else if (change == ViewChange.Filter && incidentList is not null)
         { incidentList.ItemsSource = ViewModel.FilteredRows; if (filterCount is not null) filterCount.Text = ViewModel.Text.Format("ItemsShown", ViewModel.FilteredRows.Count, ViewModel.AllRows.Count); if (filterEmpty is not null) filterEmpty.IsVisible = ViewModel.FilteredRows.Count == 0; }

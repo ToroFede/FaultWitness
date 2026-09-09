@@ -23,26 +23,11 @@ public sealed class WindowsDiagnosticsProvider : IPlatformDiagnosticsProvider, I
         return new EventBatch(batches.SelectMany(static batch => batch.Events), batches.SelectMany(static batch => batch.Coverage));
     }
 
-    public Task<IReadOnlyDictionary<string, string>> GetInventoryAsync(CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        IReadOnlyDictionary<string, string> result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            ["OperatingSystem"] = RuntimeInformation.OSDescription,
-            ["Architecture"] = RuntimeInformation.OSArchitecture.ToString(),
-            ["ProcessArchitecture"] = RuntimeInformation.ProcessArchitecture.ToString(),
-            ["ProcessorCount"] = Environment.ProcessorCount.ToString(CultureInfo.InvariantCulture),
-            ["MachineName"] = Environment.MachineName
-        };
-        return Task.FromResult(result);
-    }
+    public async Task<IReadOnlyDictionary<string, string>> GetInventoryAsync(CancellationToken cancellationToken) =>
+        (await new WindowsSystemInventory().GetAsync(cancellationToken).ConfigureAwait(false)).ToSummary();
 
-    public async Task<IReadOnlyList<DiagnosticReadinessItem>> GetReadinessAsync(CancellationToken cancellationToken)
-    {
-        var now = DateTimeOffset.UtcNow;
-        var batch = await ReadAsync(now.AddMinutes(-1), now, cancellationToken).ConfigureAwait(false);
-        return batch.Coverage.Select(static coverage => new DiagnosticReadinessItem(coverage.SourceType.ToString(), coverage.State, coverage.DetailKey)).ToList();
-    }
+    public Task<IReadOnlyList<DiagnosticReadinessItem>> GetReadinessAsync(CancellationToken cancellationToken) =>
+        new WindowsDiagnosticReadiness().GetAsync(cancellationToken);
 
     private static Task<EventBatch> ReadEventLogAsync(string channel, DateTimeOffset fromUtc, DateTimeOffset toUtc, CancellationToken cancellationToken) => Task.Run(() =>
     {

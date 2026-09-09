@@ -172,11 +172,29 @@
   <data name="RawXml" xml:space="preserve"><value>Raw XML</value></data>
   <data name="Readiness" xml:space="preserve"><value>Diagnostic readiness</value></data>
   <data name="ReadinessComplete" xml:space="preserve"><value>Diagnostic source check complete.</value></data>
-  <data name="ReadinessHelp" xml:space="preserve"><value>Can diagnostic sources be read? This is availability, not a health score.</value></data>
+  <data name="ReadinessHelp" xml:space="preserve"><value>How much diagnostic evidence can FaultWitness access now, and what could be missing after another crash? These checks describe diagnostic capability, not computer health.</value></data>
   <data name="ReadinessNotChecked" xml:space="preserve"><value>Diagnostic readiness has not been checked.</value></data>
+  <data name="ReadinessStatusReady" xml:space="preserve"><value>Ready</value></data>
+  <data name="ReadinessStatusLimited" xml:space="preserve"><value>Limited</value></data>
+  <data name="ReadinessStatusUnavailable" xml:space="preserve"><value>Unavailable</value></data>
+  <data name="ReadinessStatusAccessDenied" xml:space="preserve"><value>Access denied</value></data>
+  <data name="ReadinessStatusDisabled" xml:space="preserve"><value>Disabled / not configured</value></data>
+  <data name="ReadinessStatusNotSupported" xml:space="preserve"><value>Not supported</value></data>
+  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>These entries describe diagnostic capability availability. They do not rate system health and make no changes.</value></data>
   <data name="ReadingSources" xml:space="preserve"><value>Reading diagnostic sources…</value></data>
   <data name="ReadSystem" xml:space="preserve"><value>Refresh information</value></data>
   <data name="Ready" xml:space="preserve"><value>Ready</value></data>
+  <data name="InventoryGroupOperatingSystem" xml:space="preserve"><value>Operating system</value></data>
+  <data name="InventoryGroupProcessorMemory" xml:space="preserve"><value>Processor &amp; memory</value></data>
+  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Graphics</value></data>
+  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Firmware</value></data>
+  <data name="InventoryGroupStorage" xml:space="preserve"><value>Storage</value></data>
+  <data name="InventoryGroupDrivers" xml:space="preserve"><value>Relevant drivers</value></data>
+  <data name="InventoryGroupEmpty" xml:space="preserve"><value>No devices were reported.</value></data>
+  <data name="InventoryMoreDevices" xml:space="preserve"><value>Show remaining devices</value></data>
+  <data name="InventoryAvailabilityUnavailable" xml:space="preserve"><value>Unavailable</value></data>
+  <data name="InventoryAvailabilityAccessDenied" xml:space="preserve"><value>Access denied</value></data>
+  <data name="InventoryAvailabilityNotSupported" xml:space="preserve"><value>Not supported</value></data>
   <data name="RecentSignificant" xml:space="preserve"><value>Recent significant incidents</value></data>
   <data name="RecurringCount" xml:space="preserve"><value>Recurring: {0} occurrences</value></data>
   <data name="RecurringPattern" xml:space="preserve"><value>Recurring pattern</value></data>
@@ -376,4 +394,61 @@
   <data name="AnalyzeLastDay" xml:space="preserve"><value>Analyze the last 24 hours</value></data><data name="AnalyzeLastWeek" xml:space="preserve"><value>Analyze the last 7 days</value></data><data name="AnalyzeLastMonth" xml:space="preserve"><value>Analyze the last 30 days</value></data>
   <data name="AnalyzeCrashFreeze" xml:space="preserve"><value>Analyze a crash or freeze</value></data><data name="AnalyzeFiles" xml:space="preserve"><value>Analyze diagnostic files</value></data><data name="OpenHistory" xml:space="preserve"><value>Open history</value></data><data name="AnalysisWorkflow" xml:space="preserve"><value>Analysis type</value></data><data name="RunSelectedAnalysis" xml:space="preserve"><value>Run analysis</value></data>
   <data name="HistoryHelp" xml:space="preserve"><value>Previous local analyses retain compact summaries, never raw event XML.</value></data><data name="HistoryPeriodUnavailable" xml:space="preserve"><value>The requested period was not retained for this earlier analysis.</value></data><data name="HistoryPeriodValue" xml:space="preserve"><value>Period: {0} — {1}</value></data><data name="HistoryIncidentCount" xml:space="preserve"><value>{0} retained incidents; priority counts unavailable</value></data><data name="HistoryCounts" xml:space="preserve"><value>{0} need attention · {1} worth knowing · {2} background</value></data><data name="HistoryDuration" xml:space="preserve"><value>Duration: {0:F2} s</value></data><data name="SavedSummary" xml:space="preserve"><value>Saved summary</value></data><data name="MoreHistoryIncidents" xml:space="preserve"><value>{0} more retained incidents</value></data><data name="CopySavedSummary" xml:space="preserve"><value>Copy saved summary</value></data><data name="RefreshHistory" xml:space="preserve"><value>Refresh history</value></data><data name="SelectHistory" xml:space="preserve"><value>Select an analysis to inspect its retained summary.</value></data><data name="LoadingHistory" xml:space="preserve"><value>Loading local history…</value></data><data name="OpenReadiness" xml:space="preserve"><value>Diagnostic readiness</value></data>
+  <data name="ReadinessSourceReady" xml:space="preserve"><value>The supported source can be queried now. This does not guarantee future evidence or complete history.</value></data>
+  <data name="ReadinessSourceLimited" xml:space="preserve"><value>Only part of the supported source could be examined. Some locations or records may be inaccessible, missing, or beyond the inspection limit.</value></data>
+  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>The supported source could not be queried or no supported location was available.</value></data>
+  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Windows denied access to this diagnostic source.</value></data>
+  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>This diagnostic capability is not supported on this platform.</value></data>
+  <data name="ReadinessElevationHelp" xml:space="preserve"><value>Elevated access may reveal more information. This check makes no configuration changes.</value></data>
+  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>The configuration could not be verified.</value></data>
+  <data name="ReadinessDumpType" xml:space="preserve"><value>Dump type</value></data>
+  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Dump destination</value></data>
+  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>Dedicated dump file configured</value></data>
+  <data name="ReadinessObserved" xml:space="preserve"><value>Yes</value></data>
+  <data name="ReadinessNotObserved" xml:space="preserve"><value>No</value></data>
+  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>Windows system crash dump capture is disabled.</value></data>
+  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Windows is configured to capture system crash dumps. This does not verify pagefile support, destination access, or successful future capture.</value></data>
+  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Automatic pagefile management</value></data>
+  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>Active pagefiles</value></data>
+  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Allocated pagefile storage</value></data>
+  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>Pagefile sufficiency could not be verified. Requirements depend on dump type, memory use, and dedicated dump file configuration.</value></data>
+  <data name="ReadinessLocalDumpsAbsent" xml:space="preserve"><value>LocalDumps is not configured. This is optional and is not an error; Windows may still expose other crash evidence.</value></data>
+  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Configuration scope</value></data>
+  <data name="ReadinessDefaultScope" xml:space="preserve"><value>Default (all applications)</value></data>
+  <data name="ReadinessDumpCount" xml:space="preserve"><value>Maximum dumps retained</value></data>
+  <data name="ReadinessLocalDumpsConfigured" xml:space="preserve"><value>LocalDumps configuration is present. Compatible application crashes may produce dumps; capture and folder permissions have not been verified. Inspection is read-only.</value></data>
+  <data name="ReadinessLocalDumpsLimited" xml:space="preserve"><value>LocalDumps configuration is present but some settings are invalid or could not be inspected. Inspection is read-only.</value></data>
+  <data name="ReadinessStorageObserved" xml:space="preserve"><value>Available storage was observed for accessible local destinations. Required dump space and successful capture could not be verified.</value></data>
+  <data name="ReadinessSystemDrive" xml:space="preserve"><value>System drive available space</value></data>
+  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Dump destination available space</value></data>
+  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>Destination could not be verified</value></data>
+  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Custom destination (path withheld)</value></data>
+  <data name="InventoryProcessor" xml:space="preserve"><value>Processor model</value></data>
+  <data name="InventoryProcessorCores" xml:space="preserve"><value>Physical cores</value></data>
+  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Logical processors</value></data>
+  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Physical memory</value></data>
+  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Computer manufacturer</value></data>
+  <data name="InventoryComputerModel" xml:space="preserve"><value>Computer model</value></data>
+  <data name="InventoryGraphicsName" xml:space="preserve"><value>Adapter</value></data>
+  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Adapter vendor</value></data>
+  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Driver version</value></data>
+  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Driver date</value></data>
+  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Motherboard manufacturer</value></data>
+  <data name="InventoryBoardModel" xml:space="preserve"><value>Motherboard model</value></data>
+  <data name="InventoryBiosVendor" xml:space="preserve"><value>BIOS/UEFI vendor</value></data>
+  <data name="InventoryBiosVersion" xml:space="preserve"><value>BIOS/UEFI version</value></data>
+  <data name="InventoryBiosDate" xml:space="preserve"><value>BIOS/UEFI date</value></data>
+  <data name="InventoryStorageModel" xml:space="preserve"><value>Disk model</value></data>
+  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Capacity</value></data>
+  <data name="InventoryStorageMedia" xml:space="preserve"><value>Reported media type</value></data>
+  <data name="InventoryStorageBus" xml:space="preserve"><value>Reported interface</value></data>
+  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Firmware revision</value></data>
+  <data name="InventoryDriverName" xml:space="preserve"><value>Device</value></data>
+  <data name="InventoryDriverProvider" xml:space="preserve"><value>Driver provider</value></data>
+  <data name="InventoryDriverVersion" xml:space="preserve"><value>Driver version</value></data>
+  <data name="InventoryDriverDate" xml:space="preserve"><value>Driver date</value></data>
+  <data name="InventoryDriverCategory" xml:space="preserve"><value>Device class</value></data>
+  <data name="InventoryOsVersion" xml:space="preserve"><value>NT version</value></data>
+  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Physical memory (GiB)</value></data>
+  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Capacity (GiB)</value></data>
 </root>

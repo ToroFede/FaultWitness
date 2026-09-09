@@ -172,7 +172,7 @@
   <data name="RawXml" xml:space="preserve"><value>XML brut</value></data>
   <data name="Readiness" xml:space="preserve"><value>Disponibilité du diagnostic</value></data>
   <data name="ReadinessComplete" xml:space="preserve"><value>Vérification des sources terminée.</value></data>
-  <data name="ReadinessHelp" xml:space="preserve"><value>Les sources sont-elles lisibles ? Il s’agit de disponibilité, pas d’un score de santé.</value></data>
+  <data name="ReadinessHelp" xml:space="preserve"><value>Quelle quantité de preuves de diagnostic FaultWitness peut-il consulter maintenant, et que pourrait-il manquer après un autre plantage ? Ces contrôles décrivent la capacité de diagnostic, pas l’état de l’ordinateur.</value></data>
   <data name="ReadinessNotChecked" xml:space="preserve"><value>La disponibilité du diagnostic n’a pas été vérifiée.</value></data>
   <data name="ReadingSources" xml:space="preserve"><value>Lecture des sources du diagnostic…</value></data>
   <data name="ReadSystem" xml:space="preserve"><value>Lire les informations système</value></data>
@@ -372,4 +372,79 @@
   <data name="SystemInformation" xml:space="preserve"><value>Informations système</value></data>
   <data name="NavigationCurrent" xml:space="preserve"><value>Page actuelle</value></data>
   <data name="DevelopmentProcessContext" xml:space="preserve"><value>Le nom de cet exécutable correspond à un processus de test de FaultWitness. Les preuves du plantage sont conservées.</value></data>
+  <data name="InventoryAvailabilityAccessDenied" xml:space="preserve"><value>Accès refusé</value></data>
+  <data name="InventoryAvailabilityNotSupported" xml:space="preserve"><value>Non pris en charge</value></data>
+  <data name="InventoryAvailabilityUnavailable" xml:space="preserve"><value>Indisponible</value></data>
+  <data name="InventoryBiosDate" xml:space="preserve"><value>Date du BIOS/UEFI</value></data>
+  <data name="InventoryBiosVendor" xml:space="preserve"><value>Fabricant du BIOS/UEFI</value></data>
+  <data name="InventoryBiosVersion" xml:space="preserve"><value>Version du BIOS/UEFI</value></data>
+  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Fabricant de la carte mère</value></data>
+  <data name="InventoryBoardModel" xml:space="preserve"><value>Modèle de carte mère</value></data>
+  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Fabricant de l’ordinateur</value></data>
+  <data name="InventoryComputerModel" xml:space="preserve"><value>Modèle de l’ordinateur</value></data>
+  <data name="InventoryDriverCategory" xml:space="preserve"><value>Classe de périphérique</value></data>
+  <data name="InventoryDriverDate" xml:space="preserve"><value>Date du pilote</value></data>
+  <data name="InventoryDriverName" xml:space="preserve"><value>Périphérique</value></data>
+  <data name="InventoryDriverProvider" xml:space="preserve"><value>Fournisseur du pilote</value></data>
+  <data name="InventoryDriverVersion" xml:space="preserve"><value>Version du pilote</value></data>
+  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Date du pilote</value></data>
+  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Version du pilote</value></data>
+  <data name="InventoryGraphicsName" xml:space="preserve"><value>Adaptateur graphique</value></data>
+  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Fabricant de l’adaptateur</value></data>
+  <data name="InventoryGroupDrivers" xml:space="preserve"><value>Pilotes pertinents</value></data>
+  <data name="InventoryGroupEmpty" xml:space="preserve"><value>Aucun périphérique signalé.</value></data>
+  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Micrologiciel</value></data>
+  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Graphiques</value></data>
+  <data name="InventoryGroupOperatingSystem" xml:space="preserve"><value>Système d’exploitation</value></data>
+  <data name="InventoryGroupProcessorMemory" xml:space="preserve"><value>Processeur et mémoire</value></data>
+  <data name="InventoryGroupStorage" xml:space="preserve"><value>Stockage</value></data>
+  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Mémoire physique</value></data>
+  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Mémoire physique (GiB)</value></data>
+  <data name="InventoryMoreDevices" xml:space="preserve"><value>Afficher les autres périphériques</value></data>
+  <data name="InventoryOsVersion" xml:space="preserve"><value>Version NT</value></data>
+  <data name="InventoryProcessor" xml:space="preserve"><value>Modèle du processeur</value></data>
+  <data name="InventoryProcessorCores" xml:space="preserve"><value>Cœurs physiques</value></data>
+  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Processeurs logiques</value></data>
+  <data name="InventoryStorageBus" xml:space="preserve"><value>Interface indiquée</value></data>
+  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Capacité</value></data>
+  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Capacité (Gio)</value></data>
+  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Révision du micrologiciel</value></data>
+  <data name="InventoryStorageMedia" xml:space="preserve"><value>Type de support indiqué</value></data>
+  <data name="InventoryStorageModel" xml:space="preserve"><value>Modèle du disque</value></data>
+  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>Fichiers d’échange actifs</value></data>
+  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Stockage alloué au fichier d’échange</value></data>
+  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Gestion automatique du fichier d’échange</value></data>
+  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>La configuration n’a pas pu être vérifiée.</value></data>
+  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Destination personnalisée (chemin masqué)</value></data>
+  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>Fichier de vidage dédié configuré</value></data>
+  <data name="ReadinessDefaultScope" xml:space="preserve"><value>Par défaut (toutes les applications)</value></data>
+  <data name="ReadinessDumpCount" xml:space="preserve"><value>Nombre maximal de vidages conservés</value></data>
+  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Espace disponible à la destination du vidage</value></data>
+  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Destination du vidage</value></data>
+  <data name="ReadinessDumpType" xml:space="preserve"><value>Type de vidage</value></data>
+  <data name="ReadinessElevationHelp" xml:space="preserve"><value>Un accès élevé peut révéler davantage d’informations. Cette vérification ne modifie aucune configuration.</value></data>
+  <data name="ReadinessLocalDumpsAbsent" xml:space="preserve"><value>LocalDumps n’est pas configuré. Cette fonction est facultative et son absence n’est pas une erreur ; Windows peut néanmoins fournir d’autres éléments de preuve de plantage.</value></data>
+  <data name="ReadinessLocalDumpsConfigured" xml:space="preserve"><value>La configuration LocalDumps est présente. Les plantages d’applications compatibles peuvent produire des vidages ; la capture et les droits du dossier n’ont pas été vérifiés. L’inspection est en lecture seule.</value></data>
+  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Portée de la configuration</value></data>
+  <data name="ReadinessLocalDumpsLimited" xml:space="preserve"><value>La configuration LocalDumps est présente, mais certains paramètres sont invalides ou n’ont pas pu être inspectés. Inspection en lecture seule.</value></data>
+  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>Ces entrées décrivent la disponibilité des capacités de diagnostic. Elles n’évaluent pas l’état du système et n’apportent aucune modification.</value></data>
+  <data name="ReadinessNotObserved" xml:space="preserve"><value>Non</value></data>
+  <data name="ReadinessObserved" xml:space="preserve"><value>Oui</value></data>
+  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>La suffisance du fichier d’échange n’a pas pu être vérifiée. Les exigences dépendent du type de vidage, de l’utilisation de la mémoire et de la configuration d’un fichier de vidage dédié.</value></data>
+  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Windows a refusé l’accès à cette source de diagnostic.</value></data>
+  <data name="ReadinessSourceLimited" xml:space="preserve"><value>Seule une partie de la source prise en charge a pu être examinée. Certains emplacements ou enregistrements peuvent être inaccessibles, absents ou dépasser la limite d’inspection.</value></data>
+  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>Cette capacité de diagnostic n’est pas prise en charge sur cette plateforme.</value></data>
+  <data name="ReadinessSourceReady" xml:space="preserve"><value>La source prise en charge peut être interrogée maintenant. Cela ne garantit ni les éléments futurs ni un historique complet.</value></data>
+  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>La source prise en charge n’a pas pu être interrogée ou aucun emplacement pris en charge n’était disponible.</value></data>
+  <data name="ReadinessStatusAccessDenied" xml:space="preserve"><value>Accès refusé</value></data>
+  <data name="ReadinessStatusDisabled" xml:space="preserve"><value>Désactivé / non configuré</value></data>
+  <data name="ReadinessStatusLimited" xml:space="preserve"><value>Limité</value></data>
+  <data name="ReadinessStatusNotSupported" xml:space="preserve"><value>Non pris en charge</value></data>
+  <data name="ReadinessStatusReady" xml:space="preserve"><value>Prêt</value></data>
+  <data name="ReadinessStatusUnavailable" xml:space="preserve"><value>Indisponible</value></data>
+  <data name="ReadinessStorageObserved" xml:space="preserve"><value>L’espace disponible a été observé pour les destinations locales accessibles. L’espace requis et la réussite d’une future capture n’ont pas pu être vérifiés.</value></data>
+  <data name="ReadinessSystemDrive" xml:space="preserve"><value>Espace disponible sur le lecteur système</value></data>
+  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Windows est configuré pour capturer les vidages système. Cela ne vérifie ni la prise en charge par le fichier d’échange, ni l’accès à la destination, ni la réussite d’une future capture.</value></data>
+  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>La capture des vidages système Windows est désactivée.</value></data>
+  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>La destination n’a pas pu être vérifiée</value></data>
 </root>

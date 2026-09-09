@@ -23,6 +23,7 @@ internal sealed class TestServices : IAppServices
     public bool FailHistory { get; set; }
     public bool SourceUnavailable { get; set; }
     public bool FailAnalysis { get; set; }
+    public IReadOnlyList<DiagnosticReadinessItem>? StructuredReadiness { get; set; }
     public int Saved { get; private set; }
     public int Cleared { get; private set; }
     public DateTimeOffset From { get; private set; }
@@ -38,10 +39,13 @@ internal sealed class TestServices : IAppServices
     public Task<ImportResult> ImportAsync(string path, CancellationToken token) => Task.FromResult(new ImportResult(
         new EventBatch(RejectImport ? [] : Result.Incidents.Select(item => item.AnchorEvent), [new(SourceType.Imported, CoverageState.Partial, null, null, "synthetic")]), RejectImport ? ["unsafe"] : []));
     public Task<ScanResult> AnalyzeImportedAsync(EventBatch batch, CancellationToken token) => Task.FromResult(Result with { Coverage = batch.Coverage });
-    public Task<IReadOnlyList<DiagnosticReadinessItem>> ReadinessAsync(CancellationToken token) => Task.FromResult<IReadOnlyList<DiagnosticReadinessItem>>(
+    public Task<IReadOnlyList<DiagnosticReadinessItem>> ReadinessAsync(CancellationToken token) => Task.FromResult<IReadOnlyList<DiagnosticReadinessItem>>(StructuredReadiness ??
         [new("SourceSystem", SourceUnavailable ? CoverageState.Unavailable : CoverageState.Complete, "synthetic"), new("SourceWer", CoverageState.Partial, "synthetic")]);
     public IReadOnlyDictionary<string, string> Inventory { get; set; } = new Dictionary<string, string> { ["OperatingSystem"] = "Synthetic Windows" };
     public Task<IReadOnlyDictionary<string, string>> InventoryAsync(CancellationToken token) => Task.FromResult(Inventory);
+    public SystemInventorySnapshot? StructuredInventory { get; set; }
+    public Task<SystemInventorySnapshot> SystemInventoryAsync(CancellationToken token) => Task.FromResult(StructuredInventory ?? new SystemInventorySnapshot([
+        new InventoryGroup("InventoryGroupOperatingSystem", [new InventoryDevice("legacy", Inventory.Select(pair => new InventoryField(pair.Key, pair.Value)).ToArray())]) ]));
     public IReadOnlyList<FaultWitness.Storage.StoredScan> History { get; set; } = [];
     public Task SaveAsync(ScanResult result, int retentionDays, FaultWitness.Storage.ScanHistoryMetadata metadata, CancellationToken token)
     { if (FailHistory) throw new IOException("synthetic"); Saved++; return Task.CompletedTask; }

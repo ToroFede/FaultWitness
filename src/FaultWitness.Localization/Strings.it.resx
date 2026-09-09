@@ -172,7 +172,7 @@
   <data name="RawXml" xml:space="preserve"><value>XML grezzo</value></data>
   <data name="Readiness" xml:space="preserve"><value>Disponibilità diagnostica</value></data>
   <data name="ReadinessComplete" xml:space="preserve"><value>Verifica delle fonti completata.</value></data>
-  <data name="ReadinessHelp" xml:space="preserve"><value>Le fonti diagnostiche sono leggibili? Questa è disponibilità, non un punteggio di salute.</value></data>
+  <data name="ReadinessHelp" xml:space="preserve"><value>Quanta evidenza diagnostica può accedere ora FaultWitness e cosa potrebbe mancare dopo un altro arresto? Questi controlli descrivono la capacità diagnostica, non lo stato del computer.</value></data>
   <data name="ReadinessNotChecked" xml:space="preserve"><value>La disponibilità diagnostica non è stata verificata.</value></data>
   <data name="ReadingSources" xml:space="preserve"><value>Lettura delle fonti diagnostiche…</value></data>
   <data name="ReadSystem" xml:space="preserve"><value>Aggiorna informazioni</value></data>
@@ -376,4 +376,79 @@
   <data name="SystemInformation" xml:space="preserve"><value>Informazioni di sistema</value></data>
   <data name="NavigationCurrent" xml:space="preserve"><value>Pagina corrente</value></data>
   <data name="DevelopmentProcessContext" xml:space="preserve"><value>Il nome di questo eseguibile corrisponde a un processo di test di FaultWitness. Le evidenze del crash vengono conservate.</value></data>
+  <data name="InventoryAvailabilityAccessDenied" xml:space="preserve"><value>Accesso negato</value></data>
+  <data name="InventoryAvailabilityNotSupported" xml:space="preserve"><value>Non supportato</value></data>
+  <data name="InventoryAvailabilityUnavailable" xml:space="preserve"><value>Non disponibile</value></data>
+  <data name="InventoryBiosDate" xml:space="preserve"><value>Informazione diagnostica: BIOS/UEFI date</value></data>
+  <data name="InventoryBiosVendor" xml:space="preserve"><value>Informazione diagnostica: BIOS/UEFI vendor</value></data>
+  <data name="InventoryBiosVersion" xml:space="preserve"><value>Informazione diagnostica: BIOS/UEFI version</value></data>
+  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Informazione diagnostica: Motherboard manufacturer</value></data>
+  <data name="InventoryBoardModel" xml:space="preserve"><value>Informazione diagnostica: Motherboard model</value></data>
+  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Informazione diagnostica: Computer manufacturer</value></data>
+  <data name="InventoryComputerModel" xml:space="preserve"><value>Informazione diagnostica: Computer model</value></data>
+  <data name="InventoryDriverCategory" xml:space="preserve"><value>Informazione diagnostica: Device class</value></data>
+  <data name="InventoryDriverDate" xml:space="preserve"><value>Informazione diagnostica: Driver date</value></data>
+  <data name="InventoryDriverName" xml:space="preserve"><value>Informazione diagnostica: Device</value></data>
+  <data name="InventoryDriverProvider" xml:space="preserve"><value>Informazione diagnostica: Driver provider</value></data>
+  <data name="InventoryDriverVersion" xml:space="preserve"><value>Informazione diagnostica: Driver version</value></data>
+  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Informazione diagnostica: Driver date</value></data>
+  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Informazione diagnostica: Driver version</value></data>
+  <data name="InventoryGraphicsName" xml:space="preserve"><value>Informazione diagnostica: Adapter</value></data>
+  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Informazione diagnostica: Adapter vendor</value></data>
+  <data name="InventoryGroupDrivers" xml:space="preserve"><value>Driver rilevanti</value></data>
+  <data name="InventoryGroupEmpty" xml:space="preserve"><value>Nessun dispositivo rilevato.</value></data>
+  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Informazione diagnostica: Firmware</value></data>
+  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Informazione diagnostica: Graphics</value></data>
+  <data name="InventoryGroupOperatingSystem" xml:space="preserve"><value>Sistema operativo</value></data>
+  <data name="InventoryGroupProcessorMemory" xml:space="preserve"><value>Processore e memoria</value></data>
+  <data name="InventoryGroupStorage" xml:space="preserve"><value>Informazione diagnostica: Storage</value></data>
+  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Informazione diagnostica: Physical memory</value></data>
+  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Informazione diagnostica: Physical memory (GiB)</value></data>
+  <data name="InventoryMoreDevices" xml:space="preserve"><value>Informazione diagnostica: Show remaining devices</value></data>
+  <data name="InventoryOsVersion" xml:space="preserve"><value>Informazione diagnostica: NT version</value></data>
+  <data name="InventoryProcessor" xml:space="preserve"><value>Informazione diagnostica: Processor model</value></data>
+  <data name="InventoryProcessorCores" xml:space="preserve"><value>Informazione diagnostica: Physical cores</value></data>
+  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Informazione diagnostica: Logical processors</value></data>
+  <data name="InventoryStorageBus" xml:space="preserve"><value>Informazione diagnostica: Reported interface</value></data>
+  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Informazione diagnostica: Capacity</value></data>
+  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Informazione diagnostica: Capacity (GiB)</value></data>
+  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Informazione diagnostica: Firmware revision</value></data>
+  <data name="InventoryStorageMedia" xml:space="preserve"><value>Informazione diagnostica: Reported media type</value></data>
+  <data name="InventoryStorageModel" xml:space="preserve"><value>Informazione diagnostica: Disk model</value></data>
+  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>Informazione diagnostica: Active pagefiles</value></data>
+  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Informazione diagnostica: Allocated pagefile storage</value></data>
+  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Informazione diagnostica: Automatic pagefile management</value></data>
+  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>Informazione diagnostica: The configuration could not be verified.</value></data>
+  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Informazione diagnostica: Custom destination (path withheld)</value></data>
+  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>Informazione diagnostica: Dedicated dump file configured</value></data>
+  <data name="ReadinessDefaultScope" xml:space="preserve"><value>Informazione diagnostica: Default (all applications)</value></data>
+  <data name="ReadinessDumpCount" xml:space="preserve"><value>Informazione diagnostica: Maximum dumps retained</value></data>
+  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Informazione diagnostica: Dump destination available space</value></data>
+  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Informazione diagnostica: Dump destination</value></data>
+  <data name="ReadinessDumpType" xml:space="preserve"><value>Informazione diagnostica: Dump type</value></data>
+  <data name="ReadinessElevationHelp" xml:space="preserve"><value>Informazione diagnostica: Elevated access may reveal more information. This check makes no configuration changes.</value></data>
+  <data name="ReadinessLocalDumpsAbsent" xml:space="preserve"><value>Informazione diagnostica: LocalDumps is not configured. This is optional and is not an error; Windows may still expose other crash evidence.</value></data>
+  <data name="ReadinessLocalDumpsConfigured" xml:space="preserve"><value>Informazione diagnostica: LocalDumps configuration is present. Compatible application crashes may produce dumps; capture and folder permissions have not been verified. Inspection is read-only.</value></data>
+  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Informazione diagnostica: Configuration scope</value></data>
+  <data name="ReadinessLocalDumpsLimited" xml:space="preserve"><value>Informazione diagnostica: LocalDumps configuration is present but some settings are invalid or could not be inspected. Inspection is read-only.</value></data>
+  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>Informazione diagnostica: These entries describe diagnostic capability availability. They do not rate system health and make no changes.</value></data>
+  <data name="ReadinessNotObserved" xml:space="preserve"><value>Informazione diagnostica: No</value></data>
+  <data name="ReadinessObserved" xml:space="preserve"><value>Informazione diagnostica: Yes</value></data>
+  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>Informazione diagnostica: Pagefile sufficiency could not be verified. Requirements depend on dump type, memory use, and dedicated dump file configuration.</value></data>
+  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Informazione diagnostica: Windows denied access to this diagnostic source.</value></data>
+  <data name="ReadinessSourceLimited" xml:space="preserve"><value>Informazione diagnostica: Only part of the supported source could be examined. Some locations or records may be inaccessible, missing, or beyond the inspection limit.</value></data>
+  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>Informazione diagnostica: This diagnostic capability is not supported on this platform.</value></data>
+  <data name="ReadinessSourceReady" xml:space="preserve"><value>Informazione diagnostica: The supported source can be queried now. This does not guarantee future evidence or complete history.</value></data>
+  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>Informazione diagnostica: The supported source could not be queried or no supported location was available.</value></data>
+  <data name="ReadinessStatusAccessDenied" xml:space="preserve"><value>Accesso negato</value></data>
+  <data name="ReadinessStatusDisabled" xml:space="preserve"><value>Disabilitato / non configurato</value></data>
+  <data name="ReadinessStatusLimited" xml:space="preserve"><value>Limitato</value></data>
+  <data name="ReadinessStatusNotSupported" xml:space="preserve"><value>Non supportato</value></data>
+  <data name="ReadinessStatusReady" xml:space="preserve"><value>Pronto</value></data>
+  <data name="ReadinessStatusUnavailable" xml:space="preserve"><value>Non disponibile</value></data>
+  <data name="ReadinessStorageObserved" xml:space="preserve"><value>Disponibile storage was observed for accessible local destinations. Required dump space and successful capture could not be verified.</value></data>
+  <data name="ReadinessSystemDrive" xml:space="preserve"><value>Informazione diagnostica: System drive available space</value></data>
+  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Informazione diagnostica: Windows is configured to capture system crash dumps. This does not verify pagefile support, destination access, or successful future capture.</value></data>
+  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>Informazione diagnostica: Windows system crash dump capture is disabled.</value></data>
+  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>Informazione diagnostica: Destination could not be verified</value></data>
 </root>
