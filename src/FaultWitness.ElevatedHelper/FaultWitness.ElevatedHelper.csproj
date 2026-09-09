@@ -5,5 +5,9 @@
     <OutputType>Exe</OutputType>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FaultWitness.Core\FaultWitness.Core.csproj" />
+    <ProjectReference Include="..\FaultWitness.Platform.Windows\FaultWitness.Platform.Windows.csproj" />
+  </ItemGroup>
 
 </Project>

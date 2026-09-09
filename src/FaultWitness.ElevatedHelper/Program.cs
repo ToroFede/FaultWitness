@@ -1,22 +1,25 @@
-using Microsoft.Win32;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using FaultWitness.Core;
+using FaultWitness.Platform.Windows;
 
 namespace FaultWitness.ElevatedHelper;
 
 internal static class Program
 {
-    private const string LocalDumpsRoot = "SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\LocalDumps";
     private static int Main(string[] args)
     {
-        if (args.Length < 2 || (args[0] is not "enable-local-dumps" and not "restore-local-dumps") || !IsSafeExecutableName(args[1])) return 2;
-        var keyPath = $"{LocalDumpsRoot}\\{args[1]}";
-        if (args[0] == "restore-local-dumps") { Registry.LocalMachine.DeleteSubKeyTree(keyPath, false); return 0; }
-        var dumpType = args.Contains("--full", StringComparer.OrdinalIgnoreCase) ? 2 : 1;
-        var count = ParseCount(args);
-        using var key = Registry.LocalMachine.CreateSubKey(keyPath, true);
-        if (key is null) return 1;
-        key.SetValue("DumpType", dumpType, RegistryValueKind.DWord); key.SetValue("DumpCount", count, RegistryValueKind.DWord);
-        return 0;
+        try
+        {
+            if (args.Length != 1 || args[0].Length is 0 or > CaptureRequestProtocol.MaxArgumentLength) return (int)CaptureResultCode.InvalidRequest;
+            using var mutex = new Mutex(false, @"Global\FaultWitness.LocalDumps");
+            try { if (!mutex.WaitOne(TimeSpan.FromSeconds(2))) return (int)CaptureResultCode.ApplyFailed; }
+            catch (AbandonedMutexException) { }
+            catch { return (int)CaptureResultCode.AccessDenied; }
+            try { return CaptureExitProtocol.Encode(new LocalDumpCaptureEngine(new WindowsLocalDumpRegistry()).Execute(CaptureRequestProtocol.Parse(args[0]))); }
+            finally { try { mutex.ReleaseMutex(); } catch { } }
+        }
+        catch (JsonException) { return (int)CaptureResultCode.InvalidRequest; }
+        catch { return (int)CaptureResultCode.RegistryUnavailable; }
     }
-    private static bool IsSafeExecutableName(string value) => value.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) && Path.GetFileName(value) == value && value.All(character => char.IsLetterOrDigit(character) || character is '.' or '_' or '-');
-    private static int ParseCount(string[] args) => int.TryParse(args.SkipWhile(argument => argument != "--count").Skip(1).FirstOrDefault(), out var count) && count is >= 1 and <= 10 ? count : 3;
 }

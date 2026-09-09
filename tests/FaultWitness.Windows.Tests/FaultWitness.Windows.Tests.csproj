@@ -11,7 +11,10 @@
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
-  <ItemGroup><ProjectReference Include="..\..\src\FaultWitness.Platform.Windows\FaultWitness.Platform.Windows.csproj" /></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FaultWitness.Platform.Windows\FaultWitness.Platform.Windows.csproj" />
+    <ProjectReference Include="..\..\src\FaultWitness.ElevatedHelper\FaultWitness.ElevatedHelper.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\FaultWitness.Export\FaultWitness.Export.csproj" />
     <ProjectReference Include="..\..\src\FaultWitness.Rules\FaultWitness.Rules.csproj" />

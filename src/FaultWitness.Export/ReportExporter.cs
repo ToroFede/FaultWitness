@@ -129,7 +129,8 @@ public sealed class ReportExporter
     private static NormalizedEvent SanitizeEvent(NormalizedEvent source, ExportPrivacyOptions privacy)
     {
         string Clean(string value) => Redact(value, privacy);
-        var fields = source.Fields.ToDictionary(static pair => pair.Key, pair =>
+        var exportFields = source.SourceType == SourceType.CrashArtifact ? source.Fields.Where(pair => pair.Key is "FileName" or "DumpKind" or "ClassificationBasis") : source.Fields;
+        var fields = exportFields.ToDictionary(static pair => pair.Key, pair =>
             privacy.RedactPersonalData && (pair.Key.Contains("Serial", StringComparison.OrdinalIgnoreCase) ||
             pair.Key.Contains("Account", StringComparison.OrdinalIgnoreCase) || pair.Key.Contains("User", StringComparison.OrdinalIgnoreCase))
                 ? "<redacted>" : pair.Key is "AppVersion" or "ModuleVersion" or "ExceptionCode" or "BugcheckCode" ||
@@ -143,7 +144,7 @@ public sealed class ReportExporter
             Device = source.Device is null ? null : Clean(source.Device),
             Fields = fields,
             SourceReference = Clean(source.SourceReference),
-            RawData = privacy.IncludeRawXml && source.RawData is not null ? Clean(source.RawData) : null
+            RawData = source.SourceType != SourceType.CrashArtifact && privacy.IncludeRawXml && source.RawData is not null ? Clean(source.RawData) : null
         };
     }
 

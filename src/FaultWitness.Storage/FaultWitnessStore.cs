@@ -36,8 +36,7 @@ public sealed class FaultWitnessStore(string databasePath)
         await EnsureScanColumnAsync(connection, "knowing_count", "INTEGER NULL", cancellationToken).ConfigureAwait(false);
         await EnsureScanColumnAsync(connection, "background_count", "INTEGER NULL", cancellationToken).ConfigureAwait(false);
         await EnsureScanColumnAsync(connection, "coverage_summary", "TEXT NULL", cancellationToken).ConfigureAwait(false);
-        await using var version = connection.CreateCommand(); version.CommandText = "PRAGMA user_version = 2;";
-        await version.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+        await EnsureCaptureJournalSchemaAsync(connection, cancellationToken).ConfigureAwait(false);
     }
 
     public Task SaveScanAsync(ScanResult result, string ruleVersion, CancellationToken cancellationToken) => SaveScanAsync(result, ruleVersion, null, cancellationToken);
@@ -135,7 +134,27 @@ public sealed class FaultWitnessStore(string databasePath)
     {
         await using var connection = new SqliteConnection(connectionString);
         await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-        await ExecuteAsync(connection, null, "DELETE FROM incidents; DELETE FROM scans; DELETE FROM action_journal;", [], cancellationToken).ConfigureAwait(false);
+        await ExecuteAsync(connection, null, "DELETE FROM incidents; DELETE FROM scans;", [], cancellationToken).ConfigureAwait(false);
+    }
+
+    private static async Task EnsureCaptureJournalSchemaAsync(SqliteConnection connection, CancellationToken token)
+    {
+        await using var readVersion = connection.CreateCommand();
+        readVersion.CommandText = "PRAGMA user_version;";
+        var raw = await readVersion.ExecuteScalarAsync(token).ConfigureAwait(false);
+        var version = Convert.ToInt32(raw, CultureInfo.InvariantCulture);
+        if (version >= 3)
+        {
+            await CaptureJournalStore.EnsureSchemaAsync(connection, token).ConfigureAwait(false);
+            return;
+        }
+
+        // v2 and earlier retain scans, incidents, settings and the legacy action_journal.
+        // The new table is additive so old history and legacy rows remain available.
+        await CaptureJournalStore.EnsureSchemaAsync(connection, token).ConfigureAwait(false);
+        await using var setVersion = connection.CreateCommand();
+        setVersion.CommandText = "PRAGMA user_version = 3;";
+        await setVersion.ExecuteNonQueryAsync(token).ConfigureAwait(false);
     }
 
     public async Task PruneAsync(DateTimeOffset beforeUtc, CancellationToken cancellationToken)

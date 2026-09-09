@@ -23,9 +23,13 @@ public sealed class MainViewModel : IDisposable
         Settings = services.LoadSettings();
         Text.SetCulture(Settings.Language);
         Period = Settings.Period;
+        Capture = services.CreateCaptureWorkflow();
+        if (Capture is not null) Capture.Changed += OnCaptureChanged;
     }
+    private void OnCaptureChanged() => Changed?.Invoke(ViewChange.State);
     public event Action<ViewChange>? Changed;
     public LocalizationService Text { get; }
+    public CaptureWorkflow? Capture { get; }
     public UserSettings Settings { get; private set; }
     public AppPage Page { get; private set; } = AppPage.Home;
     public AnalysisMode AnalysisMode { get; private set; } = AnalysisMode.Recent;
@@ -69,7 +73,11 @@ public sealed class MainViewModel : IDisposable
         if (Page != page && !IsBusy) { StatusKey = "Ready"; TechnicalError = string.Empty; }
         Page = page;
         Changed?.Invoke(ViewChange.Page);
-        if (page == AppPage.System && !inventoryAttempted && !IsBusy) _ = RefreshInventoryAsync();
+        if (page == AppPage.System && !IsBusy)
+        {
+            if (!inventoryAttempted) _ = RefreshInventoryAsync();
+            if (Capture is not null) _ = Capture.RefreshAsync();
+        }
     }
     public void OpenAnalyze(AnalysisMode mode) { AnalysisMode = mode; Navigate(AppPage.Analyze); }
     public void SelectHistory(HistoryRow row)
@@ -284,5 +292,5 @@ public sealed class MainViewModel : IDisposable
     private ScanHistoryMetadata HistoryMetadata(string type, DateTimeOffset from, DateTimeOffset to, TimeSpan duration) => new(type, from, to,
         (long)duration.TotalMilliseconds, AttentionCount, KnowingCount, BackgroundCount,
         string.Join("; ", Result.Coverage.Select(item => $"{PresentationPolicy.SourceKey(item)}={item.State}")));
-    public void Dispose() { operation?.Cancel(); operation?.Dispose(); }
+    public void Dispose() { if (Capture is not null) Capture.Changed -= OnCaptureChanged; operation?.Cancel(); operation?.Dispose(); }
 }

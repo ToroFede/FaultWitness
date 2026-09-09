@@ -144,6 +144,7 @@ public sealed partial class MainWindow
         }
         body.Children.Add(inventory);
         body.Children.Add(AsyncButton("ReadSystem", ViewModel.RefreshInventoryAsync, "ReadSystem"));
+        body.Children.Add(BuildCaptureSection());
         return Scroll(body);
     }
     private StackPanel InventoryGroupSection(InventoryGroup group)

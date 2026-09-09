@@ -215,7 +215,7 @@ public sealed class WindowsDiagnosticsProvider : IPlatformDiagnosticsProvider, I
     private static Task<EventBatch> DiscoverCrashArtifactsAsync(DateTimeOffset fromUtc, DateTimeOffset toUtc, CancellationToken cancellationToken) => Task.Run(() =>
     {
         var windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-        var locations = new[] { Path.Combine(windows, "Minidump"), Path.Combine(windows, "LiveKernelReports"), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CrashDumps") };
+        var locations = new[] { Path.Combine(windows, "Minidump"), Path.Combine(windows, "LiveKernelReports"), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CrashDumps"), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FaultWitness", "Captures") };
         var events = new List<NormalizedEvent>();
         foreach (var location in locations.Where(Directory.Exists))
         {

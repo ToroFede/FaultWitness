@@ -16,6 +16,7 @@ public static class TestApplication
 
 internal sealed class TestServices : IAppServices
 {
+    public CaptureWorkflow? Capture { get; set; }
     public UserSettings Settings { get; set; } = new(Language: "en");
     public ScanResult Result { get; set; } = SyntheticResults.Create(3);
     public bool WaitForCancellation { get; set; }
@@ -53,6 +54,7 @@ internal sealed class TestServices : IAppServices
     public Task ClearAsync(CancellationToken token) { Cleared++; return Task.CompletedTask; }
     public UserSettings LoadSettings() => Settings;
     public void SaveSettings(UserSettings settings) => Settings = settings;
+    public CaptureWorkflow? CreateCaptureWorkflow() => Capture;
 }
 
 internal static class SyntheticResults

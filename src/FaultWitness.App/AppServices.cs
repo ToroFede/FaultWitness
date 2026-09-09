@@ -12,6 +12,7 @@ public sealed record UserSettings(string Language = "system", AppTheme Theme = A
 
 public interface IAppServices
 {
+    CaptureWorkflow? CreateCaptureWorkflow() => null;
     Task<ScanResult> AnalyzeAsync(DateTimeOffset from, DateTimeOffset endUtc, IProgress<string> progress, CancellationToken token);
     Task<ImportResult> ImportAsync(string path, CancellationToken token);
     Task<ScanResult> AnalyzeImportedAsync(EventBatch batch, CancellationToken token);
@@ -33,6 +34,7 @@ public interface IAppServices
 
 public sealed class DesktopServices : IAppServices
 {
+    public CaptureWorkflow CreateCaptureWorkflow() => new(new ElevatedCaptureClient(), new CaptureJournalStore(Path.Combine(root, "faultwitness.db")));
     private readonly WindowsDiagnosticsProvider provider = new();
     private readonly string root;
     public DesktopServices(string? dataDirectory = null) => root = dataDirectory ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FaultWitness");
