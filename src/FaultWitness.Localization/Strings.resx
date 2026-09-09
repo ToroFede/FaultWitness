@@ -53,7 +53,7 @@
   <data name="CategoryResources" xml:space="preserve"><value>Resource exhaustion</value></data>
   <data name="CategoryService" xml:space="preserve"><value>Service termination</value></data>
   <data name="CategoryStorage" xml:space="preserve"><value>Storage incident</value></data>
-  <data name="ChangesNearFirst" xml:space="preserve"><value>Changes near the first occurrence</value></data>
+  <data name="ChangesNearFirst" xml:space="preserve"><value>Changes detected near the first observed occurrence</value></data>
   <data name="ChangesUnavailable" xml:space="preserve"><value>Change history is not available for this analysis.</value></data>
   <data name="CheckCoverage" xml:space="preserve"><value>Check source coverage below. A quiet result does not prove that unavailable sources contained no events.</value></data>
   <data name="CheckingSources" xml:space="preserve"><value>Checking diagnostic source access…</value></data>
@@ -451,4 +451,35 @@
   <data name="InventoryOsVersion" xml:space="preserve"><value>NT version</value></data>
   <data name="InventoryMemoryGiB" xml:space="preserve"><value>Physical memory (GiB)</value></data>
   <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Capacity (GiB)</value></data>
+  <data name="ChangesNotExamined" xml:space="preserve"><value>Change history was not examined for this analysis.</value></data>
+  <data name="FirstObservedValue" xml:space="preserve"><value>First observed in available FaultWitness data: {0} ({1})</value></data>
+  <data name="FirstObservedBasisCurrentScan" xml:space="preserve"><value>current scan</value></data>
+  <data name="FirstObservedBasisRetainedHistory" xml:space="preserve"><value>retained history</value></data>
+  <data name="ChangesRecurring" xml:space="preserve"><value>This occurrence is part of a recurring pattern.</value></data>
+  <data name="ChangesNotRecurring" xml:space="preserve"><value>No recurrence was established.</value></data>
+  <data name="NoRelevantChanges" xml:space="preserve"><value>No relevant changes were observed in the available change-history sources.</value></data>
+  <data name="ChangesCoverageHelp" xml:space="preserve"><value>Coverage reflects the available change-history sources and may be incomplete.</value></data>
+  <data name="ChangesDisclaimer" xml:space="preserve"><value>Temporal proximity does not establish causation.</value></data>
+  <data name="ChangeTimingBefore" xml:space="preserve"><value>Before the first observation</value></data>
+  <data name="ChangeTimingSameTime" xml:space="preserve"><value>At the first observation</value></data>
+  <data name="ChangeTimingAfter" xml:space="preserve"><value>After the first observation</value></data>
+  <data name="ChangeRelevanceHigh" xml:space="preserve"><value>High contextual relevance</value></data>
+  <data name="ChangeRelevanceModerate" xml:space="preserve"><value>Moderate contextual relevance</value></data>
+  <data name="ChangeRelevanceLow" xml:space="preserve"><value>Low contextual relevance</value></data>
+  <data name="ChangeCategoryDriverInstalled" xml:space="preserve"><value>Driver installed</value></data>
+  <data name="ChangeCategoryWindowsUpdate" xml:space="preserve"><value>Windows update</value></data>
+  <data name="FirstObservedSaved" xml:space="preserve"><value>First observed</value></data>
+  <data name="RelatedChangesSaved" xml:space="preserve"><value>Related changes</value></data>
+  <data name="ReadingChangeHistory" xml:space="preserve"><value>Reading available change history</value></data>
+  <data name="ChangeReasonOtherSubsystem" xml:space="preserve"><value>Different or unverified subsystem</value></data>
+  <data name="ChangeReasonSameDevice" xml:space="preserve"><value>Same explicitly identified device</value></data>
+  <data name="ChangeReasonSameSubsystem" xml:space="preserve"><value>Same subsystem</value></data>
+  <data name="ChangeReasonSystemUpdate" xml:space="preserve"><value>System update near the observation</value></data>
+  <data name="ChangeReasonAfter" xml:space="preserve"><value>Recorded after the first observation; not a precursor</value></data>
+  <data name="ChangeSourceLocalHistory" xml:space="preserve"><value>Local change history</value></data>
+  <data name="ChangeSourceFaultWitnessHistory" xml:space="preserve"><value>Retained FaultWitness observations</value></data>
+  <data name="ChangeRetainedHistoryUnavailable" xml:space="preserve"><value>Earlier retained FaultWitness observations could not be checked.</value></data>
+  <data name="ChangesCoverageIncomplete" xml:space="preserve"><value>Change-history coverage is incomplete.</value></data><data name="ChangesSummaryLimited" xml:space="preserve"><value>Saved summary includes {0} of {1} observed changes.</value></data><data name="ChangeVersion" xml:space="preserve"><value>Recorded version: {0}</value></data><data name="ChangePreviousVersion" xml:space="preserve"><value>Previous recorded version: {0}</value></data><data name="ChangeOffset" xml:space="preserve"><value>Offset from first observation: {0}</value></data><data name="ChangeSource" xml:space="preserve"><value>Source</value></data><data name="ChangeSubsystemUnknown" xml:space="preserve"><value>Unknown</value></data><data name="ChangeSubsystemDisplay" xml:space="preserve"><value>Display</value></data><data name="ChangeSubsystemAudio" xml:space="preserve"><value>Audio</value></data><data name="ChangeSubsystemStorage" xml:space="preserve"><value>Storage</value></data><data name="ChangeSubsystemNetwork" xml:space="preserve"><value>Network</value></data><data name="ChangeSubsystemSystem" xml:space="preserve"><value>System</value></data><data name="ChangeSubsystemPrinter" xml:space="preserve"><value>Printer</value></data>
+  <data name="ChangeQualityRecorded" xml:space="preserve"><value>Timestamp recorded by the source.</value></data><data name="ChangeQualityLocalTimeConverted" xml:space="preserve"><value>Local timestamp converted using current time-zone rules; past time-zone changes cannot be verified.</value></data>
+  <data name="ChangeSourceSetupApi" xml:space="preserve"><value>Windows SetupAPI history</value></data><data name="ChangeSourceWindowsUpdate" xml:space="preserve"><value>Windows Update history</value></data><data name="ChangeCoverageComplete" xml:space="preserve"><value>Complete</value></data><data name="ChangeCoveragePartial" xml:space="preserve"><value>Partial</value></data><data name="ChangeCoverageUnavailable" xml:space="preserve"><value>Unavailable</value></data><data name="ChangeCoverageAccessDenied" xml:space="preserve"><value>Access denied</value></data><data name="ChangeCoverageNotSupported" xml:space="preserve"><value>Not supported</value></data>
 </root>

@@ -41,6 +41,7 @@ public sealed class ReportExporter
             }
             var actions = incident.Findings.SelectMany(static item => item.RecommendedActionKeys).Distinct().ToArray();
             if (actions.Length > 0) text.AppendLine("- " + language.Get("BestNextStep") + ": " + language.Get(actions[0]));
+            text.AppendLine(ChangePresentation.ToMarkdown(incident, language, privacy));
         }
         text.AppendLine("\n## " + language.Get("SourceCoverage"));
         foreach (var source in result.Coverage)
@@ -82,6 +83,7 @@ public sealed class ReportExporter
                 Signature = privacy.RedactPersonalData ? Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(incident.Signature))) : incident.Signature,
                 Findings = incident.Findings.Select(finding => new { finding.RuleId, Strength = finding.Strength.ToString(), finding.Disposition, finding.ObservedKey, finding.InterpretationKey, finding.NotEstablishedKey, finding.HypothesisKeys, finding.FalsePositiveContract }),
                 Evidence = incident.Evidence.Select(evidence => new { evidence.Kind, evidence.Family, evidence.LocalizationKey, evidence.ObservationId }),
+                Changes = ChangePresentation.ToJsonModel(incident, privacy),
                 incident.Relations,
                 Events = incident.SourceEvents.Select(source => SanitizeEvent(source, privacy)).Select(source => new
                 {

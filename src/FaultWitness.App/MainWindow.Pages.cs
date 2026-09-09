@@ -11,6 +11,9 @@ using FaultWitness.Rules;
 
 using Avalonia.Automation;
 using FaultWitness.Platform.Windows;
+using FaultWitness.Storage;
+using System.Text.Json;
+using FaultWitness.Export;
 
 namespace FaultWitness.App;
 
@@ -58,7 +61,7 @@ public sealed partial class MainWindow
         if (scan.Metadata?.DurationMilliseconds is long duration) body.Children.Add(Muted(ViewModel.Text.Format("HistoryDuration", duration / 1000d)));
         if (!string.IsNullOrWhiteSpace(scan.Metadata?.CoverageSummary)) body.Children.Add(Expand("SourceCoverage", Label(scan.Metadata.CoverageSummary!)));
         body.Children.Add(Label(T("SavedSummary"), TextRole.RowTitle));
-        foreach (var incident in scan.Incidents.Take(20)) body.Children.Add(Stack(Label(T("Category" + incident.Category), TextRole.RowTitle), Muted(incident.OccurredUtc.ToLocalTime().ToString("G", ViewModel.Text.Culture) + " · " + incident.Severity)));
+        foreach (var incident in scan.Incidents.Take(20)) body.Children.Add(Stack(Label(T("Category" + incident.Category), TextRole.RowTitle), Muted(incident.OccurredUtc.ToLocalTime().ToString("G", ViewModel.Text.Culture) + " · " + incident.Severity), Label(SavedChangeSummary(incident))));
         if (scan.Incidents.Count > 20) body.Children.Add(Muted(ViewModel.Text.Format("MoreHistoryIncidents", scan.Incidents.Count - 20)));
         body.Children.Add(Actions(AsyncButton("CopySavedSummary", CopyHistoryAsync, "CopyHistory"), AsyncButton("SaveExport", SaveHistoryAsync, "SaveHistory"))); return Surface(body);
     }
@@ -73,10 +76,25 @@ public sealed partial class MainWindow
         var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions { Title = T("SaveExport"), SuggestedFileName = "FaultWitness-history.md", DefaultExtension = "md", FileTypeChoices = [new FilePickerFileType(T("ExportSummary")) { Patterns = ["*.md"] }] }).ConfigureAwait(true);
         if (file is null) return; await using var stream = await file.OpenWriteAsync().ConfigureAwait(true); stream.SetLength(0); await using var writer = new StreamWriter(stream, new System.Text.UTF8Encoding(false)); await writer.WriteAsync(HistorySummaryText(row)).ConfigureAwait(true); ViewModel.Notify("ExportSaved");
     }
-    private static string HistorySummaryText(HistoryRow row)
+    private string HistorySummaryText(HistoryRow row)
     {
         var scan = row.Scan;
-        return $"FaultWitness\n{row.Title}\n{row.Timestamp}\n{row.Period}\n{row.Counts}\nRules {scan.RulesVersion}\n" + string.Join("\n", scan.Incidents.Select(item => $"{item.OccurredUtc:O} | {item.Category} | {item.Severity}"));
+        return $"FaultWitness\n{row.Title}\n{row.Timestamp}\n{row.Period}\n{row.Counts}\nRules {scan.RulesVersion}\n" + string.Join("\n", scan.Incidents.Select(item => $"{item.OccurredUtc:O} | {item.Category} | {item.Severity} | {SavedChangeSummary(item)}"));
+    }
+    private string SavedChangeSummary(StoredIncident incident)
+    {
+        try
+        {
+            using var document = JsonDocument.Parse(incident.SummaryJson);
+            var root = document.RootElement;
+            if (root.ValueKind != JsonValueKind.Object || !root.TryGetProperty("ChangeContext", out var context) || context.ValueKind == JsonValueKind.Null)
+                return string.Empty;
+            var savedContext = context.Deserialize<ChangeHistoryContext>();
+            var changes = root.TryGetProperty("RelatedChanges", out var related) && related.ValueKind == JsonValueKind.Array
+                ? related.Deserialize<RelatedSystemChange[]>() ?? [] : [];
+            return ChangePresentation.ToMarkdown(savedContext, changes, ViewModel.Text, new ExportPrivacyOptions());
+        }
+        catch (JsonException) { return string.Empty; }
     }
     private static Control Place(Control control, int row) { Grid.SetRow(control, row); return control; }
     private ScrollViewer BuildReadiness()

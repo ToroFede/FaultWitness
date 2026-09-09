@@ -1,5 +1,6 @@
 using FaultWitness.Core;
 using FaultWitness.Export;
+using FaultWitness.Platform;
 using FaultWitness.Platform.Windows;
 using FaultWitness.Rules;
 
@@ -41,6 +42,8 @@ internal static class Program
                 default: return Usage();
             }
             var result = new IncidentAnalyzer(RuleCatalog.CreateDefault()).Analyze(batch, started, examinedTo, cancellation.Token);
+            if (!string.Equals(args[0], "import", StringComparison.OrdinalIgnoreCase))
+                result = await ChangeHistoryEnricher.EnrichAsync(result, [], new WindowsChangeHistoryProvider(), cancellation.Token).ConfigureAwait(false);
             var json = string.Equals(OptionValue(args, "--format"), "json", StringComparison.OrdinalIgnoreCase);
             Console.WriteLine(json ? ReportExporter.ToJson(result, new ExportPrivacyOptions()) : ReportExporter.ToMarkdown(result, new ExportPrivacyOptions()));
             return 0;

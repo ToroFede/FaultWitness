@@ -9,13 +9,22 @@ namespace FaultWitness.UI.Tests;
 [Trait("Suite", "Localization")]
 public sealed class LocalizationTests
 {
+    [Fact]
+    public void WhatChangedTitleExplicitlySaysObservedAndNear()
+    {
+        Assert.Equal("Changes detected near the first observed occurrence", Read("en")["ChangesNearFirst"]);
+        Assert.Contains("available FaultWitness data", Read("en")["FirstObservedValue"], StringComparison.Ordinal);
+        Assert.Contains("вблизи", Read("ru")["ChangesNearFirst"], StringComparison.Ordinal);
+    }
     private static Dictionary<string, string> Read(string language)
     {
         var suffix = language == "en" ? "" : "." + language;
         var xml = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "resources", "Strings" + suffix + ".resx"));
         return xml.Root!.Elements("data").ToDictionary(item => item.Attribute("name")!.Value, item => item.Element("value")!.Value);
     }
-    private static readonly string[] IdenticalAllowed = ["AppTitle", "StrengthModerate", "General", "Incidents", "Date", "Format", "System", "Import", "SourceTypeInventory"];
+    // These short nouns also have identical spellings in some target languages (e.g. French "Source").
+    private static readonly string[] IdenticalAllowed = ["AppTitle", "StrengthModerate", "General", "Incidents", "Date", "Format", "System", "Import", "SourceTypeInventory",
+        "ChangeSubsystemAudio", "ChangeSubsystemSystem", "ChangeSource"];
     [Theory]
     [InlineData("en")][InlineData("it")][InlineData("es")][InlineData("fr")]
     [InlineData("de")][InlineData("pt")][InlineData("ru")][InlineData("pl")]

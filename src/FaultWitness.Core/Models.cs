@@ -74,12 +74,13 @@ public sealed record Incident(
     IReadOnlyList<Evidence> Evidence,
     IReadOnlyList<Finding> Findings,
     IReadOnlyList<NormalizedEvent> SourceEvents,
-    IReadOnlyList<string> RelatedChanges,
+    IReadOnlyList<RelatedSystemChange> RelatedChanges,
     string Signature)
 {
     public EvidenceStrength EvidenceStrength => Findings.Count == 0 ? EvidenceStrength.Insufficient : Findings.Min(static finding => finding.Strength);
     public bool IsHeadline => Findings.Any(static finding => finding.Disposition == FindingDisposition.Significant);
     public IReadOnlyList<EventRelation> Relations { get; init; } = [];
+    public ChangeHistoryContext? ChangeContext { get; init; }
 }
 
 public sealed record ScanResult(

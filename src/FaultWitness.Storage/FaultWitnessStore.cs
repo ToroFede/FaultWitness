@@ -57,7 +57,16 @@ public sealed class FaultWitnessStore(string databasePath)
                 ("$background", metadata?.Background?.ToString(CultureInfo.InvariantCulture)), ("$coverage", metadata?.CoverageSummary)], cancellationToken).ConfigureAwait(false);
         foreach (var incident in result.Incidents)
         {
-            var compact = new { incident.Id, incident.StartTimeUtc, incident.EndTimeUtc, incident.Category, incident.Severity, incident.Signature, Findings = incident.Findings.Select(finding => new { finding.RuleId, finding.Strength }) };
+            var compact = new
+            {
+                incident.Id, incident.StartTimeUtc, incident.EndTimeUtc, incident.Category, incident.Severity, incident.Signature,
+                Findings = incident.Findings.Select(finding => new { finding.RuleId, finding.Strength }),
+                ChangeContext = incident.ChangeContext is { } context
+                    ? context with { TotalChangeCount = Math.Max(context.TotalChangeCount, incident.RelatedChanges.Count) } : null,
+                RelatedChanges = incident.RelatedChanges.OrderBy(related => related.Relevance)
+                    .ThenBy(related => related.OffsetFromFirstObservation.Duration()).Take(12)
+                    .Select(related => related with { Change = SystemChangePrivacy.Sanitize(related.Change) }).ToArray()
+            };
             await ExecuteAsync(connection, transaction, "INSERT INTO incidents VALUES ($id,$scan,$time,$category,$severity,$signature,$json)", [("$id", incident.Id.ToString("N")), ("$scan", scanId), ("$time", incident.StartTimeUtc.ToString("O")), ("$category", incident.Category.ToString()), ("$severity", incident.Severity.ToString()), ("$signature", incident.Signature), ("$json", JsonSerializer.Serialize(compact))], cancellationToken).ConfigureAwait(false);
         }
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
@@ -82,6 +91,44 @@ public sealed class FaultWitnessStore(string databasePath)
                 Metadata(reader), await LoadIncidentsAsync(connectionString, id, cancellationToken).ConfigureAwait(false)));
         }
         return scans;
+    }
+
+    /// <summary>Returns exact retained occurrences eligible for first-observation enrichment.</summary>
+    public async Task<IReadOnlyList<RetainedOccurrence>> LoadRetainedOccurrencesAsync(DateTimeOffset cutoffUtc, string rulesVersion, CancellationToken cancellationToken)
+    {
+        await using var connection = new SqliteConnection(connectionString);
+        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            SELECT i.signature,i.category,i.occurred_utc,i.summary_json
+            FROM incidents i JOIN scans s ON s.id=i.scan_id
+            WHERE s.finished_utc >= $cutoff AND s.rules_version=$rules
+              AND s.analysis_type IN ('recent','around')
+            ORDER BY i.occurred_utc ASC
+            """;
+        command.Parameters.AddWithValue("$cutoff", cutoffUtc.ToString("O"));
+        command.Parameters.AddWithValue("$rules", rulesVersion);
+        var result = new List<RetainedOccurrence>();
+        var seen = new HashSet<(string Signature, IncidentCategory Category, DateTimeOffset Timestamp)>();
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+        while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+        {
+            var signature = reader.GetString(0);
+            if (!Enum.TryParse<IncidentCategory>(reader.GetString(1), out var category)) continue;
+            if (!DateTimeOffset.TryParse(reader.GetString(2), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var occurred)) continue;
+            var timestamp = occurred;
+            try
+            {
+                using var summary = JsonDocument.Parse(reader.GetString(3));
+                if (summary.RootElement.ValueKind == JsonValueKind.Object && summary.RootElement.TryGetProperty("ChangeContext", out var context) && context.ValueKind == JsonValueKind.Object &&
+                    context.TryGetProperty("FirstObservedUtc", out var observed) && observed.ValueKind == JsonValueKind.String &&
+                    observed.TryGetDateTimeOffset(out var first) && first <= occurred) timestamp = first;
+            }
+            catch (JsonException) { }
+            if (seen.Add((signature, category, occurred))) result.Add(new(signature, category, occurred));
+            if (seen.Add((signature, category, timestamp))) result.Add(new(signature, category, timestamp));
+        }
+        return result;
     }
 
     public async Task ClearAsync(CancellationToken cancellationToken)
@@ -139,4 +186,5 @@ public sealed class FaultWitnessStore(string databasePath)
         foreach (var (name, value) in parameters) command.Parameters.AddWithValue(name, value is null ? DBNull.Value : value);
         await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
     }
+
 }

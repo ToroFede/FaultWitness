@@ -1,4 +1,5 @@
 using FaultWitness.App;
+using FaultWitness.Core;
 using FaultWitness.Storage;
 using Microsoft.Data.Sqlite;
 
@@ -83,6 +84,21 @@ public sealed class PersistenceTests
             var store = new FaultWitnessStore(path); await store.InitializeAsync(CancellationToken.None);
             var loaded = Assert.Single(await store.LoadScansAsync(10, CancellationToken.None));
             Assert.Null(loaded.Metadata); Assert.Single(loaded.Incidents); Assert.Equal("old-rules", loaded.RulesVersion);
+        }
+        finally { SqliteConnection.ClearAllPools(); directory.Delete(true); }
+    }
+    [Fact]
+    public async Task ChangeContext_RoundTripsAndLegacyEmptySummaryLoads()
+    {
+        var directory = Directory.CreateTempSubdirectory("FaultWitness-changes-");
+        try
+        {
+            var path = Path.Combine(directory.FullName, "history.db"); var store = new FaultWitnessStore(path); await store.InitializeAsync(CancellationToken.None);
+            var result = SyntheticResults.Create(1); var source = result.Incidents[0].AnchorEvent; var recorded = new SystemChange("change", "Windows", source.TimestampUtc, ChangeCategory.DriverInstalled, "Updates", "Display", ChangeSubsystem.Display, "1.0", "2.0", "Vendor", "reference") { ComponentIdentity = "PCI\\SECRET" };
+            var incident = result.Incidents[0] with
+            { RelatedChanges = [new RelatedSystemChange(recorded, ContextualRelevance.High, ChangeTiming.Before, TimeSpan.FromMinutes(-5), "reason")], ChangeContext = new ChangeHistoryContext(result.Incidents[0].StartTimeUtc, FirstObservationBasis.RetainedHistory, true, [new SourceCoverage(SourceType.ChangeHistory, CoverageState.Partial, result.StartedUtc, result.FinishedUtc, "detail", "Updates")]) };
+            await store.SaveScanAsync(result with { Incidents = [incident] }, "test", new ScanHistoryMetadata("recent", result.StartedUtc, result.FinishedUtc, null, null, null, null, null), CancellationToken.None);
+            var loaded = Assert.Single(await store.LoadScansAsync(5, CancellationToken.None)); Assert.Contains("ChangeContext", loaded.Incidents[0].SummaryJson, StringComparison.Ordinal); Assert.Contains("Coverage", loaded.Incidents[0].SummaryJson, StringComparison.Ordinal); Assert.Contains("1.0", loaded.Incidents[0].SummaryJson, StringComparison.Ordinal); Assert.Contains("2.0", loaded.Incidents[0].SummaryJson, StringComparison.Ordinal); Assert.Contains("Vendor", loaded.Incidents[0].SummaryJson, StringComparison.Ordinal); Assert.DoesNotContain("SECRET", loaded.Incidents[0].SummaryJson, StringComparison.Ordinal);
         }
         finally { SqliteConnection.ClearAllPools(); directory.Delete(true); }
     }

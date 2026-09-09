@@ -4,6 +4,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 using FaultWitness.Core;
 using FaultWitness.Rules;
+using FaultWitness.Export;
 
 namespace FaultWitness.App;
 
@@ -52,7 +53,7 @@ public sealed partial class MainWindow
                 Muted(ViewModel.Text.Format("FirstLatest", occurrences.Min(item => item.StartTimeUtc).ToLocalTime().ToString("g", ViewModel.Text.Culture), occurrences.Max(item => item.StartTimeUtc).ToLocalTime().ToString("g", ViewModel.Text.Culture))),
                 Button("ViewOccurrences", ViewModel.ViewOccurrences, "ViewOccurrences"))));
         }
-        body.Children.Add(Expand("ChangesNearFirst", Label(T("ChangesUnavailable"))));
+        body.Children.Add(ChangesSection(incident));
         body.Children.Add(Expand("SourceCoverage", Coverage(ViewModel.Result.Coverage), true));
         body.Children.Add(Expand("RawData", RawEvents(incident.SourceEvents)));
         return Scroll(body);
@@ -88,5 +89,37 @@ public sealed partial class MainWindow
         var box = new TextBox { Text = technical, IsReadOnly = true, AcceptsReturn = true, TextWrapping = Avalonia.Media.TextWrapping.NoWrap, MaxHeight = 220 };
         var xml = new TextBox { Text = item.RawData ?? T("RawUnavailable"), IsReadOnly = true, AcceptsReturn = true, MaxHeight = 240 };
         return Stack(box, Expand("RawXml", xml));
+    }
+
+    private StackPanel ChangesSection(Incident incident)
+    {
+        if (incident.ChangeContext is not { } context)
+            return Section("ChangesNearFirst", Muted(T("ChangesNotExamined")));
+        var content = new List<Control>
+        {
+            Label(ViewModel.Text.Format("FirstObservedValue", context.FirstObservedUtc.ToLocalTime().ToString("g", ViewModel.Text.Culture), T("FirstObservedBasis" + context.Basis))),
+            Muted(T(context.IsRecurring ? "ChangesRecurring" : "ChangesNotRecurring"))
+        };
+        var changes = incident.RelatedChanges.OrderBy(item => item.Relevance).ThenBy(item => item.OffsetFromFirstObservation.Duration()).ToArray();
+        var visible = changes.Where(item => item.Relevance != ContextualRelevance.Low).ToArray();
+        if (visible.Length == 0) content.Add(Muted(T("NoRelevantChanges")));
+        foreach (var related in visible) content.Add(ChangeRow(related));
+        var low = changes.Where(item => item.Relevance == ContextualRelevance.Low).ToArray();
+        if (low.Length > 0) content.Add(Expand("TechnicalDetails", Stack(low.Select(ChangeRow).ToArray())));
+        if (context.Coverage.Count == 0 || context.Coverage.Any(item => item.State != CoverageState.Complete))
+            content.Add(Muted(T("ChangesCoverageIncomplete")));
+        foreach (var source in context.Coverage)
+            content.Add(Muted(T(source.Channel ?? "ChangeSourceLocalHistory") + ": " + T("Coverage" + source.State)));
+        if (context.Coverage.Count > 0) content.Add(Expand("SourceCoverage", Stack(context.Coverage.Select(c => (Control)Label(ChangePresentation.CoverageText(c, ViewModel.Text))).ToArray())));
+        if (context.TotalChangeCount > changes.Length) content.Add(Muted(ViewModel.Text.Format("ChangesSummaryLimited", changes.Length, context.TotalChangeCount)));
+        content.Add(Muted(T("ChangesCoverageHelp")));
+        content.Add(Muted(T("ChangesDisclaimer")));
+        return Section("ChangesNearFirst", Stack(content.ToArray()));
+    }
+
+    private Control ChangeRow(RelatedSystemChange related)
+    {
+        return Stack(Label(ChangePresentation.RowText(related, ViewModel.Text)),
+            Expand("TechnicalDetails", Muted(ChangePresentation.Details(related, ViewModel.Text))));
     }
 }

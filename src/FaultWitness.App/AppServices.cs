@@ -1,5 +1,6 @@
 using System.Text.Json;
 using FaultWitness.Core;
+using FaultWitness.Platform;
 using FaultWitness.Platform.Windows;
 using FaultWitness.Rules;
 using FaultWitness.Storage;
@@ -40,7 +41,23 @@ public sealed class DesktopServices : IAppServices
         progress.Report("ReadingSources");
         var batch = await provider.ReadAsync(from, endUtc, token).ConfigureAwait(false);
         progress.Report("EvaluatingEvidence");
-        return await Task.Run(() => new IncidentAnalyzer(RuleCatalog.CreateDefault()).Analyze(batch, from, endUtc, token), token).ConfigureAwait(false);
+        var scan = await Task.Run(() => new IncidentAnalyzer(RuleCatalog.CreateDefault()).Analyze(batch, from, endUtc, token), token).ConfigureAwait(false);
+        progress.Report("ReadingChangeHistory");
+        IReadOnlyList<RetainedOccurrence> retained = [];
+        var historyAvailable = true;
+        var settings = LoadSettings();
+        if (settings.RetentionDays > 0 && File.Exists(Path.Combine(root, "faultwitness.db")))
+        {
+            try
+            {
+                var store = new FaultWitnessStore(Path.Combine(root, "faultwitness.db"));
+                await store.InitializeAsync(token).ConfigureAwait(false);
+                retained = await store.LoadRetainedOccurrencesAsync(DateTimeOffset.UtcNow.AddDays(-settings.RetentionDays),
+                    RuleCatalog.DatabaseVersion, token).ConfigureAwait(false);
+            }
+            catch (Exception exception) when (exception is not OperationCanceledException) { historyAvailable = false; }
+        }
+        return await ChangeHistoryEnricher.EnrichAsync(scan, retained, new WindowsChangeHistoryProvider(), token, historyAvailable).ConfigureAwait(false);
     }
     public Task<ImportResult> ImportAsync(string path, CancellationToken token) => WindowsImportService.ImportAsync([path], token);
     public Task<ScanResult> AnalyzeImportedAsync(EventBatch batch, CancellationToken token) => Task.Run(() =>

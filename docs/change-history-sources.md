@@ -1,0 +1,42 @@
+# Changes near first observed occurrence
+
+This is contextual evidence, not a diagnostic rule. Temporal proximity does not establish causation. `ChangeCorrelator` never changes findings, evidence strength, rule confidence, event relations, recurrence signatures or diagnostic interpretations. No CAUSES relationship exists.
+
+## Source decisions
+
+| Source | Reliable fact / time | Limits and decision |
+|---|---|---|
+| SetupAPI.dev.log | A successful device-driver installation operation with an explicit `dvi: Selected Driver:` / `InfFile` block and `{Core Device Install}` marker. Timestamp is the successful section end, converted from local time. | Selected INF basename; provider/class/version only if explicitly associated with the selected driver. Never infer an old version, an upgrade, or first physical device attachment. Invalid/ambiguous DST timestamps and incomplete/oversized sections are skipped. Current timezone rules cannot verify past timezone changes; quality is `LocalTimeConverted`. ANSI text, documented English structural markers, configurable verbosity, rolling/truncated history. Always Partial. Read without elevation; access failures are separate states. |
+| Windows Update Client, System event 19 | Successful installation recorded by exact provider `Microsoft-Windows-WindowsUpdateClient`; title/update GUID/revision from named XML fields, UTC `SystemTime`. | Local provider manifest versions 0/1 verified. No rendered-message parsing. No old/new driver version inference; revision is update identity metadata. Only successful operations, not failures/removals or every installer. Event retention is not guaranteed; always Partial for overall change history. Standard read access where permitted; AccessDenied is explicit. |
+| Kernel-PnP Configuration 400/410 | Configuration/start state, not independently a new driver installation. | Excluded: repeated starts/reconfiguration can create misleading noise; no stable public contract sufficient for this release. |
+| WUA COM history | Update operations, identity and result are available through supported APIs. | Excluded this pass: public Date documentation does not establish timezone semantics, and history paging lacks an interval query. The selected Event Log source supplies explicit UTC. |
+| Driver store/current device inventory | Current driver/package facts. | Excluded as history: driver build date/current version cannot prove an installation timestamp or a previous version. |
+| Reliability records / ETL troubleshooting logs | Diagnostic/operational records. | Excluded: no need for duplicate, variable-schema representations; no independent causal corroboration. |
+| Generic device removal/reconnect/configuration | Some Windows events record these activities. | Unsupported this release: meaningful change versus transient enumeration is not reliably established by the selected sources. |
+| Application installs | No appropriate reliable generic source selected. | Unsupported. No Program Files, Start Menu, filesystem dates, or uninstall-registry timestamp heuristics. |
+
+Primary references: [SetupAPI device installation log](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/setupapi-device-installation-log-entries), [SetupAPI text logs](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/setupapi-text-logs), [section format](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/format-of-a-text-log-section), [Windows Update logs](https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs), [IUpdateHistoryEntry Date](https://learn.microsoft.com/en-us/windows/win32/api/wuapi/nf-wuapi-iupdatehistoryentry-get_date).
+
+## Model and identity
+
+The existing `Incident.RelatedChanges` placeholder is now a typed list of `RelatedSystemChange`; no parallel diagnostic relationship is introduced. `SystemChange` records stable ID, platform, UTC timestamp, supported category (`DriverInstalled` or `WindowsUpdate`), source, subject, subsystem, optional recorded values/vendor/class/update identity, source reference and quality. A version transition is never guessed: the Windows collectors leave PreviousValue null. Device identity exists only in memory with JsonIgnore and is removed from all compact projections, even with optional export redaction disabled.
+
+Display, media/audio, storage/controller, network, system and printer class GUIDs are mapped explicitly. Unknown remains Unknown. Identity matching uses explicit DeviceInstanceId equality, never prose/vendor substrings. Duplicate IDs/references are removed; different sources only merge within two minutes when explicit device + class + new version (or update identity) match. Duplicates do not become independent evidence. Distinct versions/operations remain distinct.
+
+## First observation and relevance
+
+Use exact recurring-engine category/signature identity and distinct observation timestamps. Retained local recent/around analyses extend the first observed date; imported/unknown-origin analyses and different rule database versions do not. Retention zero disables lookup; normal retention cutoff applies. Earlier observed dates recorded inside surviving compact summaries remain known observations, not a claim of complete lifetime history. A history-read failure is explicitly disclosed. CLI analyses use current-scan observations and do not open desktop history.
+
+Queries merge overlapping intervals around first observations, preserving disjoint intervals. Driver installations: seven days before through one day after. Windows Update: three days before through one day after. Exact endpoints are inclusive. High contextual relevance requires same subsystem/explicit device, no known identity conflict, and at most two days proximity. More distant same-subsystem changes are Moderate. Broad system updates are Moderate; unrelated, unknown, definition updates and all later changes are Low. Explicit mismatching devices are Low. High/Moderate/Low are qualitative context, never probabilities or diagnostic confidence. Later records explicitly say After and are never presented as precursors. KB2267602 is treated as definition-update context using an exact token; other unclassified update titles remain broad Moderate system context.
+
+## Coverage, bounds and persistence
+
+Each source reports its own Complete/Partial/Unavailable/AccessDenied/NotSupported state and examined interval. These two collectors conservatively use Partial on successful access because neither establishes exhaustive change history. Successful empty reads never mean no changes occurred. Incomplete coverage is visible by default; per-source detail can expand.
+
+Reads run off the UI thread with cancellation at I/O/event/section boundaries. SetupAPI reads at most an 8 MiB tail and skips sections exceeding 256 KiB; Event Log uses an interval/provider/event-ID XPath. Each source returns at most 256 records per requested interval. Caps/retention/unsupported formats remain Partial. In-flight OS calls are not forcibly interrupted. No source enables logs, updates drivers, installs software or modifies configuration.
+
+Current UI and exports retain all bounded related records, including low relevance records in advanced disclosure. SQLite keeps only the best 12 related records per incident plus first-observation basis, coverage, and total observed count; truncation is disclosed. The existing summary_json schema gains additive optional properties; no SQL schema/version change is required. Old summaries without these properties load without fabricated context, and v1 SQL migration remains covered. Saved history UI/copy/export includes actual retained change rows and the disclaimer. Existing pruning/clear operations remove the compact context with its parent scan.
+
+## Validation
+
+Deterministic Core, Windows parser, UI/enrichment, storage, export/bundle privacy and localization tests cover the feature. `WhatChangedLiveValidationTests` is explicitly opt-in with `FAULTWITNESS_LIVE_CHANGES=1` and an external `FAULTWITNESS_CHANGE_VALIDATION_OUTPUT` path. It reads a seven-day diagnostic interval, queries changes around actual observed incident onsets, and verifies their UI presentation in both themes. If no incident is observed, it does not manufacture an onset. Only aggregate timing/counts/coverage are written; real records are never stored as fixtures or screenshots. Focused synthetic section renders separately cover populated, no-change, Partial and Unavailable states in both themes.

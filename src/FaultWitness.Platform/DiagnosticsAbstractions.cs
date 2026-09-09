@@ -25,7 +25,7 @@ public interface ISystemInformationProvider
 
 public interface IChangeHistoryProvider
 {
-    Task<IReadOnlyList<NormalizedEvent>> GetChangesAsync(DateTimeOffset fromUtc, DateTimeOffset toUtc, CancellationToken cancellationToken);
+    Task<ChangeHistoryBatch> GetChangesAsync(DateTimeOffset fromUtc, DateTimeOffset toUtc, CancellationToken cancellationToken);
 }
 
 public interface IDiagnosticCapabilityProvider
