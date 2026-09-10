@@ -102,6 +102,23 @@ public sealed class CaptureWorkflowTests
         await restarted.RestoreAsync(pending.ActionId); Assert.Equal(before, service.State);
         Assert.Equal("Complete", restarted.Entries.Single(e => e.ActionId == pending.ActionId).RollbackStatus);
     }
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task ReopenedPendingWithDriftOrNewerActionNeverDispatches(bool newerAction)
+    {
+        var before = new LocalDumpState(false); var desired = CrashCapturePolicy.Desired(before);
+        var pending = new CaptureJournalEntry(Guid.NewGuid(), CaptureOperation.ConfigureApplicationCrashDump, "demo.exe", DateTimeOffset.UtcNow.AddMinutes(-2), true, before, desired);
+        var journal = new MemoryJournal(); journal.Items.Add(pending);
+        if (newerAction) journal.Items.Add(pending with { ActionId = Guid.NewGuid(), TimestampUtc = DateTimeOffset.UtcNow });
+        var service = new FakeService { State = newerAction ? desired : desired with { DumpCount = 7 } };
+        var reopened = new CaptureWorkflow(service, journal); await reopened.RefreshAsync();
+        await reopened.RestoreAsync(pending.ActionId);
+        Assert.Equal(CaptureResultCode.UnexpectedCurrentState, reopened.LastResult!.Code);
+        Assert.Equal(0, service.Executions);
+        Assert.Equal(CaptureResultCode.Pending, reopened.Entries.Single(x => x.ActionId == pending.ActionId).Result);
+    }
+
     [Fact]
     public async Task LaterUnrevertedActionBlocksOldJournalRestore()
     {

@@ -11,7 +11,7 @@ internal static class Program
     private static async Task<int> Main(string[] args)
     {
         if (args.Length == 0 || args[0] is "--help" or "-h") return Usage();
-        if (args[0] is "--version") { Console.WriteLine("FaultWitness 0.9.0-private"); return 0; }
+        if (args[0] is "--version") { Console.WriteLine(ReleaseIdentity.Display); return 0; }
         using var cancellation = new CancellationTokenSource();
         Console.CancelKeyPress += (_, eventArgs) => { eventArgs.Cancel = true; cancellation.Cancel(); };
         try

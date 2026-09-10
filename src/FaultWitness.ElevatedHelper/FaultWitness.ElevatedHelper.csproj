@@ -9,5 +9,17 @@
     <ProjectReference Include="..\FaultWitness.Core\FaultWitness.Core.csproj" />
     <ProjectReference Include="..\FaultWitness.Platform.Windows\FaultWitness.Platform.Windows.csproj" />
   </ItemGroup>
-
+  <Target Name="GetCaptureHelperPayload" DependsOnTargets="Build;ComputeFilesToPublish" Returns="@(CaptureHelperPublishFile)">
+    <PropertyGroup>
+      <CaptureHelperRid Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</CaptureHelperRid>
+      <CaptureHelperRid Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</CaptureHelperRid>
+      <CaptureHelperContract>$(IntermediateOutputPath)FaultWitness.ElevatedHelper.payload.json</CaptureHelperContract>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(CaptureHelperContract)" Lines="{ &quot;SchemaVersion&quot;: 1, &quot;Build&quot;: &quot;$(InformationalVersion)&quot;, &quot;Rid&quot;: &quot;$(CaptureHelperRid)&quot; }" Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <ResolvedFileToPublish Include="$(CaptureHelperContract)" RelativePath="FaultWitness.ElevatedHelper.payload.json" CopyToPublishDirectory="Always" />
+      <CaptureHelperPublishFile Include="@(ResolvedFileToPublish->'%(FullPath)')" />
+    </ItemGroup>
+    <Error Condition="!Exists('$(TargetDir)$(AssemblyName).exe') or !Exists('$(TargetPath)') or !Exists('$(ProjectDepsFilePath)') or !Exists('$(ProjectRuntimeConfigFilePath)')" Text="Capture helper SDK output is incomplete." />
+  </Target>
 </Project>

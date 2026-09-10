@@ -1,3 +1,6 @@
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media.Imaging;
@@ -29,10 +32,20 @@ public sealed class CaptureVisualValidationTests
         await capture.RefreshAsync(); await RenderAndSave(window, output, "configuration-changed");
         await capture.RestoreAsync(capture.Entries.Single(entry => entry.RollbackAvailable).ActionId);
         await RenderAndSave(window, output, "restore-blocked");
+        var pending = new CaptureJournalEntry(Guid.NewGuid(), CaptureOperation.ConfigureApplicationCrashDump, "recovery.exe", DateTimeOffset.UtcNow.AddDays(-2), true, new(false), CrashCapturePolicy.Desired(new(false)));
+        for (var i = 0; i < 25; i++) await journal.SaveAsync(pending with { ActionId = Guid.NewGuid(), TargetExecutable = $"recent{i}.exe", Result = CaptureResultCode.Success, RollbackAvailable = true }, CancellationToken.None);
+        await journal.SaveAsync(pending, CancellationToken.None);
+        await capture.RefreshAsync();
+        await RenderAndSave(window, output, "journal-first-page", "CaptureShowMoreButton");
+        window.UpdateLayout();
+        window.GetVisualDescendants().OfType<Button>().Single(x => x.Name == "CaptureShowMoreButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        await RenderAndSave(window, output, "older-pending-recovery", "CaptureRestoreButton" + pending.ActionId.ToString("N"));
+        viewModel.Navigate(AppPage.Settings);
+        await RenderAndSave(window, output, "about-version");
         window.Close();
     }
 
-    private static async Task RenderAndSave(MainWindow window, string? output, string state)
+    private static async Task RenderAndSave(MainWindow window, string? output, string state, string? focusName = null)
     {
         window.UpdateLayout();
         if (string.IsNullOrWhiteSpace(output)) return;
@@ -40,6 +53,11 @@ public sealed class CaptureVisualValidationTests
         {
             window.ViewModel.ChangeSettings(window.ViewModel.Settings with { Theme = theme });
             window.UpdateLayout();
+            if (focusName is not null)
+            {
+                var recovery = window.GetVisualDescendants().OfType<Button>().Single(x => x.Name == focusName);
+                recovery.BringIntoView(); window.UpdateLayout();
+            }
             using var frame = window.CaptureRenderedFrame() ?? throw new InvalidOperationException("The real Avalonia view did not render.");
             frame.Save(Path.Combine(output, $"capture-{state}-{theme.ToString().ToLowerInvariant()}.png"), new PngBitmapEncoderOptions());
         }

@@ -20,7 +20,7 @@ public sealed partial class MainWindow
     private ScanResult ExportResult => exportSelectedOnly && ViewModel.Selected is { } selected
         ? new ScanResult([selected.Incident], ViewModel.Result.Coverage, ViewModel.Result.StartedUtc, ViewModel.Result.FinishedUtc)
         : ViewModel.Result;
-    private string SupportText() => ReportExporter.ToSupportMarkdown(ExportResult, ViewModel.Text, ViewModel.IsImported, ProductVersion.App, RuleCatalog.DatabaseVersion);
+    private string SupportText() => ReportExporter.ToSupportMarkdown(ExportResult, ViewModel.Text, ViewModel.IsImported, ReleaseIdentity.Display, RuleCatalog.DatabaseVersion);
     private Control BuildExport()
     {
         if (!ViewModel.HasAnalysis) return Empty("NoAnalysis");

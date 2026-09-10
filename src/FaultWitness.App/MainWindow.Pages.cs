@@ -222,7 +222,7 @@ public sealed partial class MainWindow
         retention.SelectionChanged += (_, _) => { if (retention.SelectedIndex >= 0) ViewModel.ChangeSettings(ViewModel.Settings with { RetentionDays = retentionValues[retention.SelectedIndex] }); };
         var body = Stack(Heading("Settings", "SettingsPurpose"), Section("General", Actions(Field("Language", language), Field("Theme", theme))),
             Section("Analysis", Field("DefaultAnalysisPeriod", period)), Section("Privacy", Stack(Field("HistoryRetention", retention), Muted(T("RetentionHelp")), DangerButton("ClearData", () => _ = ConfirmClearAsync(), "ClearData"))),
-            Section("About", Stack(Label("FaultWitness " + ProductVersion.App), Label(T("RuleDatabase") + " " + RuleCatalog.DatabaseVersion), Label(T("License") + ": MIT"), Label(T("PrivacyStatement")))));
+            Section("About", Stack(Label(ReleaseIdentity.Display), Label(T("RuleDatabase") + " " + RuleCatalog.DatabaseVersion), Label(T("License") + ": MIT"), Label(T("PrivacyStatement")))));
         return Scroll(body);
     }
     private async Task ConfirmClearAsync()
@@ -232,9 +232,4 @@ public sealed partial class MainWindow
         dialog.Content = new Border { Padding = new Thickness(D("primitive.space.6")), Child = Stack(Label(T("ClearDataWarning")), Actions(clear, Button("Cancel", () => dialog.Close(false)))) };
         if (await dialog.ShowDialog<bool>(this).ConfigureAwait(true)) await ViewModel.ClearDataAsync().ConfigureAwait(true);
     }
-}
-
-public static class ProductVersion
-{
-    public const string App = "0.9.0-private";
 }

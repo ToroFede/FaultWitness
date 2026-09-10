@@ -17,8 +17,10 @@ public sealed class ElevatedCaptureClient : ICrashCaptureService
         if (!OperatingSystem.IsWindows()) return new(CaptureResultCode.UnsupportedPlatform);
         if (!CrashCapturePolicy.IsValidExecutable(request.TargetExecutable) || !CrashCapturePolicy.IsSupportedState(request.ExpectedState) || !CrashCapturePolicy.IsSupportedState(request.DesiredState))
             return new(CaptureResultCode.InvalidRequest);
-        var executable = Path.Combine(AppContext.BaseDirectory, "FaultWitness.ElevatedHelper.exe");
-        if (!File.Exists(executable)) return new(CaptureResultCode.ApplyFailed);
+        var helperDirectory = Path.Combine(AppContext.BaseDirectory, "helper");
+        var compatibility = CaptureHelperCompatibility.Validate(helperDirectory, CaptureHelperCompatibility.CurrentBuild, CaptureHelperCompatibility.CurrentRid);
+        if (compatibility != CaptureResultCode.Success) return new(compatibility);
+        var executable = Path.Combine(helperDirectory, "FaultWitness.ElevatedHelper.exe");
         var encoded = Convert.ToBase64String(JsonSerializer.SerializeToUtf8Bytes(request));
         if (encoded.Length > 12000) return new(CaptureResultCode.InvalidRequest);
         try
@@ -29,7 +31,7 @@ public sealed class ElevatedCaptureClient : ICrashCaptureService
             using var process = Process.Start(new ProcessStartInfo
             {
                 FileName = executable, Arguments = encoded, UseShellExecute = true, Verb = "runas",
-                WorkingDirectory = AppContext.BaseDirectory, WindowStyle = ProcessWindowStyle.Hidden
+                WorkingDirectory = helperDirectory, WindowStyle = ProcessWindowStyle.Hidden
             });
             if (process is null) return new(CaptureResultCode.ApplyFailed);
             await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);

@@ -1,6 +1,7 @@
 using System.IO.Compression;
 using System.Globalization;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -17,6 +18,10 @@ public sealed class ReportExporter
     {
         var language = translation ?? new LocalizationService();
         var text = new StringBuilder("# FaultWitness — " + language.Get("SupportTitle") + "\n\n");
+        text.AppendLine(ReleaseIdentity.Display);
+        text.AppendLine(language.Get("LocalSystem") + ": " + RuntimeInformation.OSDescription + "; " +
+            language.Get("InventoryArchitecture") + ": " + RuntimeInformation.OSArchitecture + "; " +
+            language.Get("InventoryProcessArchitecture") + ": " + RuntimeInformation.ProcessArchitecture);
         text.AppendLine(language.Get("DateRange") + ": " + result.StartedUtc.ToString("O") + " — " + result.FinishedUtc.ToString("O"));
         foreach (var incident in result.Incidents)
         {
@@ -63,12 +68,14 @@ public sealed class ReportExporter
 
     public static string ToSupportMarkdown(ScanResult result, LocalizationService language, bool imported, string appVersion, string ruleVersion) =>
         ToMarkdown(result, new ExportPrivacyOptions(), language) + "\n" + language.Get("System") + ": " +
-        language.Get(imported ? "ImportedData" : "LocalSystem") + " (Windows)\nFaultWitness " + appVersion + "\n" + language.Get("RuleDatabase") + ": " + ruleVersion + "\n";
+        language.Get(imported ? "ImportedData" : "LocalSystem") + " (Windows)\n" + appVersion + "\n" + language.Get("RuleDatabase") + ": " + ruleVersion + "\n";
 
     public static string ToJson(ScanResult result, ExportPrivacyOptions privacy)
     {
         var export = new
         {
+            ProductVersion = ReleaseIdentity.Product,
+            BuildVersion = ReleaseIdentity.Build,
             result.StartedUtc,
             result.FinishedUtc,
             result.Coverage,

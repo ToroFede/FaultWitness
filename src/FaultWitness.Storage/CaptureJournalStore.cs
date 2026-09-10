@@ -109,7 +109,7 @@ public sealed class CaptureJournalStore(string databasePath) : ICaptureJournal
         await connection.OpenAsync(token).ConfigureAwait(false);
         await EnsureSchemaAsync(connection, token).ConfigureAwait(false);
         await using var command = connection.CreateCommand();
-        command.CommandText = "SELECT * FROM crash_capture_actions ORDER BY CASE WHEN result=$pending OR rollback_available<>0 THEN 0 ELSE 1 END, updated_utc DESC LIMIT 1000";
+        command.CommandText = "SELECT * FROM crash_capture_actions ORDER BY CASE WHEN result=$pending OR rollback_available<>0 THEN 0 ELSE 1 END, updated_utc DESC";
         command.Parameters.AddWithValue("$pending", (int)CaptureResultCode.Pending);
         await using var reader = await command.ExecuteReaderAsync(token).ConfigureAwait(false);
         var result = new List<CaptureJournalEntry>();

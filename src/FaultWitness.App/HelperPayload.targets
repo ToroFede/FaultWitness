@@ -1,0 +1,26 @@
+<Project>
+  <!-- Ask the referenced project for its SDK-computed payload, including its runtime
+       and native dependencies. Never infer a bin path or reuse a non-RID build. -->
+  <Target Name="ResolveCaptureHelperPayload" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Error Condition="'$(PublishTrimmed)' == 'true' or '$(PublishSingleFile)' == 'true'" Text="FaultWitness requires an untrimmed, multi-file helper payload." />
+    <MSBuild Projects="$(MSBuildThisFileDirectory)..\FaultWitness.ElevatedHelper\FaultWitness.ElevatedHelper.csproj"
+             Targets="GetCaptureHelperPayload" BuildInParallel="false"
+             Properties="Configuration=$(Configuration);RuntimeIdentifier=$(RuntimeIdentifier);SelfContained=$(SelfContained);PublishTrimmed=false;PublishSingleFile=false"
+             RemoveProperties="PublishDir;PublishUrl;NoBuild">
+      <Output TaskParameter="TargetOutputs" ItemName="CaptureHelperPayload" />
+    </MSBuild>
+    <Error Condition="'@(CaptureHelperPayload)' == ''" Text="Capture helper payload is missing." />
+    <Error Condition="!Exists('%(CaptureHelperPayload.Identity)')" Text="Capture helper payload file is missing: %(CaptureHelperPayload.Identity)" />
+  </Target>
+  <Target Name="CopyCaptureHelperBuildPayload" AfterTargets="Build" DependsOnTargets="ResolveCaptureHelperPayload" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Copy SourceFiles="@(CaptureHelperPayload)" DestinationFiles="@(CaptureHelperPayload->'$(TargetDir)helper\%(RelativePath)')" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="IncludeCaptureHelperPublishPayload" BeforeTargets="ComputeFilesToPublish" DependsOnTargets="ResolveCaptureHelperPayload">
+    <ItemGroup>
+      <ResolvedFileToPublish Include="@(CaptureHelperPayload)">
+        <RelativePath>helper\%(CaptureHelperPayload.RelativePath)</RelativePath>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

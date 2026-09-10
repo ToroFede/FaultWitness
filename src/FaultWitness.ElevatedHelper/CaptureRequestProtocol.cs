@@ -18,7 +18,7 @@ public static class CaptureRequestProtocol
         using var doc = JsonDocument.Parse(json, new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Disallow, AllowTrailingCommas = false });
         ValidateObject(doc.RootElement, Fields);
         var request = JsonSerializer.Deserialize<CaptureRequest>(json, Options) ?? throw new JsonException();
-        if (request.SchemaVersion != 1 || request.ActionId == Guid.Empty || !Enum.IsDefined(request.Operation) || !CrashCapturePolicy.IsValidExecutable(request.TargetExecutable) ||
+        if (request.SchemaVersion != FaultWitness.Platform.Windows.CaptureHelperCompatibility.SchemaVersion || request.ActionId == Guid.Empty || !Enum.IsDefined(request.Operation) || !CrashCapturePolicy.IsValidExecutable(request.TargetExecutable) ||
             request.CreatedUtc < DateTimeOffset.UtcNow.AddMinutes(-5) || request.CreatedUtc > DateTimeOffset.UtcNow.AddMinutes(1) ||
             !CrashCapturePolicy.IsSupportedState(request.ExpectedState) || !CrashCapturePolicy.IsSupportedState(request.DesiredState)) throw new JsonException();
         var validOperation = request.Operation switch

@@ -85,6 +85,20 @@ public sealed class CaptureJournalTests
     }
 
     [Fact]
+    public async Task MoreThanOneThousandRetainedRecoveryEntriesRemainLoadable()
+    {
+        using var temp = new TemporaryDatabase(); var store = new CaptureJournalStore(temp.Path);
+        var oldestPending = Entry(); await store.SaveAsync(oldestPending, CancellationToken.None);
+        var oldestRestore = Entry() with { Result = CaptureResultCode.Success, RollbackAvailable = true };
+        await store.SaveAsync(oldestRestore, CancellationToken.None);
+        for (var i = 0; i < 1001; i++) await store.SaveAsync(Entry(), CancellationToken.None);
+        var reopened = await new CaptureJournalStore(temp.Path).LoadAsync(CancellationToken.None);
+        Assert.Equal(1003, reopened.Count);
+        Assert.Contains(reopened, x => x.ActionId == oldestPending.ActionId && x.Result == CaptureResultCode.Pending);
+        Assert.Contains(reopened, x => x.ActionId == oldestRestore.ActionId && x.RollbackAvailable);
+    }
+
+    [Fact]
     public async Task PartiallyCorruptRowDoesNotBreakLoading()
     {
         using var temp = new TemporaryDatabase(); var store = new CaptureJournalStore(temp.Path); await store.SaveAsync(Entry(), CancellationToken.None);

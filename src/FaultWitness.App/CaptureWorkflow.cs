@@ -17,6 +17,12 @@ public sealed class CaptureWorkflow(ICrashCaptureService service, ICaptureJourna
     public IReadOnlyList<CaptureJournalEntry> Entries { get; private set; } = [];
     public CaptureResult? LastResult { get; private set; }
     public bool IsBusy => busy != 0;
+    public bool CanConfigure => !IsBusy && string.Equals(previewTarget, TargetExecutable, StringComparison.OrdinalIgnoreCase) &&
+        CrashCapturePolicy.IsValidExecutable(TargetExecutable) &&
+        Preview is { Code: CaptureResultCode.Success, State: { } state } && CrashCapturePolicy.IsSupportedState(state);
+    public static bool CanRestore(CaptureJournalEntry entry) =>
+        entry.Operation == CaptureOperation.ConfigureApplicationCrashDump && entry.RollbackStatus != "Complete" &&
+        (entry.RollbackAvailable || entry.Result == CaptureResultCode.Pending);
     public CaptureActiveState ActiveState => Preview is null ? CaptureActiveState.CouldNotVerify : CrashCapturePolicy.Active(Preview);
     public event Action? Changed;
 

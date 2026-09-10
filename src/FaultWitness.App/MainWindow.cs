@@ -125,9 +125,11 @@ public sealed partial class MainWindow : Window
         if (technicalDetails.Content is TextBlock detail) detail.Text = ViewModel.TechnicalError;
         foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Classes.Contains("operation")))
             button.IsEnabled = !ViewModel.IsBusy;
+        updateCaptureControls?.Invoke();
     }
     private void RenderPage()
     {
+        updateCaptureControls = null;
         historyDetailHost = null;
         historyList = null;
         incidentList = null; filterCount = null; filterEmpty = null;

@@ -2,4 +2,15 @@
 
   <PropertyGroup />
 
+  <Target Name="GenerateReleaseIdentity" BeforeTargets="CoreCompile">
+    <WriteLinesToFile
+      File="$(IntermediateOutputPath)ReleaseIdentity.g.cs"
+      Overwrite="true"
+      Lines="// &lt;auto-generated /&gt;&#xA;namespace FaultWitness.Core%3B&#xA;&#xA;public static class ReleaseIdentity&#xA;{&#xA;    public const string Product = &quot;$(Version)&quot;%3B&#xA;    public const string Name = &quot;$(Product)&quot;%3B&#xA;    public const string Assembly = &quot;$(AssemblyVersion)&quot;%3B&#xA;&#xA;    public static string Build =&gt; System.Reflection.CustomAttributeExtensions.GetCustomAttribute&lt;System.Reflection.AssemblyInformationalVersionAttribute&gt;(typeof(ReleaseIdentity).Assembly)?.InformationalVersion ?? Product%3B&#xA;&#xA;    public static string Display =&gt; Name + &quot; &quot; + Build%3B&#xA;}"
+      WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <Compile Include="$(IntermediateOutputPath)ReleaseIdentity.g.cs" />
+    </ItemGroup>
+  </Target>
+
 </Project>

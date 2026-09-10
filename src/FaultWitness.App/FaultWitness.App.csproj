@@ -21,6 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FaultWitness.ElevatedHelper\FaultWitness.ElevatedHelper.csproj" ReferenceOutputAssembly="false" />
-    <Content Include="..\FaultWitness.ElevatedHelper\bin\$(Configuration)\net10.0-windows\FaultWitness.ElevatedHelper.exe;..\FaultWitness.ElevatedHelper\bin\$(Configuration)\net10.0-windows\FaultWitness.ElevatedHelper.dll;..\FaultWitness.ElevatedHelper\bin\$(Configuration)\net10.0-windows\FaultWitness.ElevatedHelper.deps.json;..\FaultWitness.ElevatedHelper\bin\$(Configuration)\net10.0-windows\FaultWitness.ElevatedHelper.runtimeconfig.json" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
+  <Import Project="HelperPayload.targets" />
 </Project>

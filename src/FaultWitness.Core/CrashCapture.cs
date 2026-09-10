@@ -1,14 +1,14 @@
 namespace FaultWitness.Core;
 
 public enum CaptureOperation { ConfigureApplicationCrashDump = 1, RestoreApplicationCrashDumpConfiguration = 2 }
-public enum CaptureResultCode { Success, CancelledByUser, AccessDenied, InvalidRequest, UnexpectedCurrentState, UnsupportedConfiguration, ApplyFailed, VerificationFailed, RollbackFailed, RegistryUnavailable, UnsupportedPlatform, Pending, AlreadyRestored }
+public enum CaptureResultCode { Success, CancelledByUser, AccessDenied, InvalidRequest, UnexpectedCurrentState, UnsupportedConfiguration, ApplyFailed, VerificationFailed, RollbackFailed, RegistryUnavailable, UnsupportedPlatform, Pending, AlreadyRestored, HelperUnavailable, HelperIncompatible }
 public enum CaptureActiveState { Active, ConfigurationChanged, NotActive, UnsupportedConfiguration, CouldNotVerify }
 public sealed record CaptureTarget(string ExecutableName, string? DisplayName = null);
 public sealed record LocalDumpState(bool KeyExists, int? DumpType = null, int? DumpCount = null, string? DumpFolder = null, string OtherValuesFingerprint = "", bool Supported = true);
 public sealed record CaptureReadResult(CaptureResultCode Code, LocalDumpState? State, int? NativeError = null);
 public sealed record CaptureRequest(int SchemaVersion, Guid ActionId, CaptureOperation Operation, string TargetExecutable, DateTimeOffset CreatedUtc, LocalDumpState ExpectedState, LocalDumpState DesiredState);
 public sealed record CaptureResult(CaptureResultCode Code, LocalDumpState? ObservedState = null, int? NativeError = null, bool RollbackAttempted = false, bool RollbackSucceeded = false);
-public sealed record CaptureJournalEntry(Guid ActionId, CaptureOperation Operation, string TargetExecutable, DateTimeOffset TimestampUtc, bool ElevationRequired, LocalDumpState PreviousState, LocalDumpState RequestedState, CaptureResultCode Result = CaptureResultCode.Pending, LocalDumpState? ObservedState = null, bool RollbackAvailable = false, string RollbackStatus = "NotRequested", int? NativeError = null, int SchemaVersion = 1, string AppVersion = "0.9");
+public sealed record CaptureJournalEntry(Guid ActionId, CaptureOperation Operation, string TargetExecutable, DateTimeOffset TimestampUtc, bool ElevationRequired, LocalDumpState PreviousState, LocalDumpState RequestedState, CaptureResultCode Result = CaptureResultCode.Pending, LocalDumpState? ObservedState = null, bool RollbackAvailable = false, string RollbackStatus = "NotRequested", int? NativeError = null, int SchemaVersion = 1, string AppVersion = ReleaseIdentity.Assembly);
 public interface ICaptureJournal
 {
     Task SaveAsync(CaptureJournalEntry entry, CancellationToken token);
