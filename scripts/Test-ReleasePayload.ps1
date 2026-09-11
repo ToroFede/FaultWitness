@@ -106,6 +106,10 @@ function Test-Version([string] $ExePath, [string] $Label, [string] $Rid, [System
     $info = [Diagnostics.FileVersionInfo]::GetVersionInfo($ExePath)
     $expectedInformational = '0.9.0-beta.1+' + $script:SourceRevision
     if ($info.ProductName -ne 'FaultWitness') { [void]$Errors.Add("Product mismatch ($Label): $($info.ProductName)") }
+    if (($Label -eq 'app' -and $info.FileDescription -ne 'FaultWitness') -or ($Label -eq 'helper' -and $info.FileDescription -ne 'FaultWitness.ElevatedHelper')) {
+        [void]$Errors.Add("File description mismatch ($Label): $($info.FileDescription)")
+    }
+    if (-not [string]::IsNullOrWhiteSpace($info.CompanyName)) { [void]$Errors.Add("Company identity must be blank ($Label): $($info.CompanyName)") }
     if ([string]::IsNullOrWhiteSpace($info.FileVersion)) { [void]$Errors.Add("Missing file version ($Label).") }
     if ([string]::IsNullOrWhiteSpace($info.ProductVersion) -or $info.ProductVersion -notlike '*beta*' -or $info.ProductVersion -notlike "*$($script:SourceRevision)*") {
         [void]$Errors.Add("Informational/product version mismatch ($Label): $($info.ProductVersion); expected $expectedInformational")
@@ -120,7 +124,7 @@ function Test-Version([string] $ExePath, [string] $Label, [string] $Rid, [System
 }
 
 function Test-Inventory([string] $PublishRoot, [System.Collections.Generic.List[string]] $Errors) {
-    $allowedJson = @('FaultWitness.App.deps.json', 'FaultWitness.App.runtimeconfig.json', 'FaultWitness.ElevatedHelper.deps.json', 'FaultWitness.ElevatedHelper.runtimeconfig.json', 'FaultWitness.ElevatedHelper.payload.json')
+    $allowedJson = @('FaultWitness.deps.json', 'FaultWitness.runtimeconfig.json', 'FaultWitness.ElevatedHelper.deps.json', 'FaultWitness.ElevatedHelper.runtimeconfig.json', 'FaultWitness.ElevatedHelper.payload.json')
     $badPatterns = '\.(pdb|db|log|dmp|dump|evtx|wer|png|jpg|jpeg|gif|sln|csproj|cs|fs|vb)$|(^|[\\/])(tests?|fixtures?|source|private|developer|tools?)([\\/]|$)|(^|[\\/])(dotnet|csc|msbuild|vstest|testhost)(\.exe)?$'
     foreach ($file in Get-ChildItem -LiteralPath $PublishRoot -File -Recurse) {
         $relative = $file.FullName.Substring($PublishRoot.Length).TrimStart('\','/')
@@ -131,15 +135,14 @@ function Test-Inventory([string] $PublishRoot, [System.Collections.Generic.List[
 
 function Test-Publish([string] $PublishRoot, [string] $Rid) {
     $errors = [System.Collections.Generic.List[string]]::new()
-    $app = Join-Path $PublishRoot 'FaultWitness.App'
     $helper = Join-Path $PublishRoot 'helper'
-    $appExe = Join-Path $PublishRoot 'FaultWitness.App.exe'
+    $appExe = Join-Path $PublishRoot 'FaultWitness.exe'
     $helperExe = Join-Path $helper 'FaultWitness.ElevatedHelper.exe'
-    foreach ($file in @('FaultWitness.App.exe','FaultWitness.App.dll','FaultWitness.App.deps.json','FaultWitness.App.runtimeconfig.json')) { Assert-RequiredFile (Join-Path $PublishRoot $file) $errors }
+    foreach ($file in @('FaultWitness.exe','FaultWitness.dll','FaultWitness.deps.json','FaultWitness.runtimeconfig.json')) { Assert-RequiredFile (Join-Path $PublishRoot $file) $errors }
     foreach ($file in @('FaultWitness.ElevatedHelper.exe','FaultWitness.ElevatedHelper.dll','FaultWitness.ElevatedHelper.deps.json','FaultWitness.ElevatedHelper.runtimeconfig.json','FaultWitness.ElevatedHelper.payload.json')) { Assert-RequiredFile (Join-Path $helper $file) $errors }
-    Test-Dependencies (Join-Path $PublishRoot 'FaultWitness.App.deps.json') $Rid 'app' $errors
+    Test-Dependencies (Join-Path $PublishRoot 'FaultWitness.deps.json') $Rid 'app' $errors
     Test-Dependencies (Join-Path $helper 'FaultWitness.ElevatedHelper.deps.json') $Rid 'helper' $errors
-    Test-RuntimeConfig (Join-Path $PublishRoot 'FaultWitness.App.runtimeconfig.json') 'app' $errors
+    Test-RuntimeConfig (Join-Path $PublishRoot 'FaultWitness.runtimeconfig.json') 'app' $errors
     Test-RuntimeConfig (Join-Path $helper 'FaultWitness.ElevatedHelper.runtimeconfig.json') 'helper' $errors
     $versions = @((Test-Version $appExe 'app' $Rid $errors), (Test-Version $helperExe 'helper' $Rid $errors)) | Where-Object { $null -ne $_ }
     foreach ($locale in @('de','es','fr','it','pl','pt','ru')) { Assert-RequiredFile (Join-Path (Join-Path $PublishRoot $locale) 'FaultWitness.Localization.resources.dll') $errors }

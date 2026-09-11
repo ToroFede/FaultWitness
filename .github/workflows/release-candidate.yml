@@ -12,10 +12,10 @@ jobs:
   package:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: Verify release tag
@@ -52,7 +52,7 @@ jobs:
         shell: pwsh
         run: ./scripts/Test-ReleaseArtifact.ps1 -ArtifactRoot artifacts/release-candidate/out
       - name: Upload candidate artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: FaultWitness-0.9.0-beta.1-win-x64
           path: |

@@ -11,7 +11,7 @@ public sealed class UxCorrectionViewModelTests
     [Theory]
     [InlineData("FaultWitness.UI.Tests.exe", true)]
     [InlineData(@"C:\synthetic\faultwitness.ui.tests.EXE", true)]
-    [InlineData("FaultWitness.App.exe", false)]
+    [InlineData("FaultWitness.exe", false)]
     [InlineData("FaultWitness.UI.Tests.exe.other", false)]
     [InlineData("Unrelated.Tests.exe", false)]
     [InlineData(null, false)]
@@ -33,7 +33,7 @@ public sealed class UxCorrectionViewModelTests
         Assert.Same(incident.Evidence, shown.Incident.Evidence);
         Assert.Equal(vm.Text.Get("DevelopmentProcessContext"), shown.DevelopmentContext);
         Assert.Contains("crash evidence is retained", shown.DevelopmentContext, StringComparison.Ordinal);
-        var application = new IncidentRow(incident with { AnchorEvent = incident.AnchorEvent with { Process = "FaultWitness.App.exe" } }, vm.Text, 1);
+        var application = new IncidentRow(incident with { AnchorEvent = incident.AnchorEvent with { Process = "FaultWitness.exe" } }, vm.Text, 1);
         Assert.Empty(application.DevelopmentContext);
         Assert.Equal(original.Priority, application.Priority);
         Assert.Single(vm.RecentSignificant);

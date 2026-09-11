@@ -7,8 +7,12 @@ using FaultWitness.Storage;
 
 namespace FaultWitness.App;
 
+public enum AppWindowState { Normal, Maximized }
+
 public sealed record UserSettings(string Language = "system", AppTheme Theme = AppTheme.System,
-    AnalysisPeriod Period = AnalysisPeriod.Week, int RetentionDays = 30);
+    AnalysisPeriod Period = AnalysisPeriod.Week, int RetentionDays = 30,
+    double WindowWidth = WindowLifecyclePolicy.FirstLaunchWidth, double WindowHeight = WindowLifecyclePolicy.FirstLaunchHeight,
+    AppWindowState WindowState = AppWindowState.Normal);
 
 public interface IAppServices
 {
@@ -104,7 +108,10 @@ public sealed class DesktopServices : IAppServices
             var settings = JsonSerializer.Deserialize<UserSettings>(File.ReadAllText(path)) ?? new();
             return settings with { RetentionDays = Math.Clamp(settings.RetentionDays, 0, 365),
                 Theme = Enum.IsDefined(settings.Theme) ? settings.Theme : AppTheme.System,
-                Period = Enum.IsDefined(settings.Period) ? settings.Period : AnalysisPeriod.Week };
+                Period = Enum.IsDefined(settings.Period) ? settings.Period : AnalysisPeriod.Week,
+                WindowWidth = double.IsFinite(settings.WindowWidth) ? Math.Max(WindowLifecyclePolicy.MinimumWidth, settings.WindowWidth) : WindowLifecyclePolicy.FirstLaunchWidth,
+                WindowHeight = double.IsFinite(settings.WindowHeight) ? Math.Max(WindowLifecyclePolicy.MinimumHeight, settings.WindowHeight) : WindowLifecyclePolicy.FirstLaunchHeight,
+                WindowState = Enum.IsDefined(settings.WindowState) && WindowLifecyclePolicy.IsRestorableState(settings.WindowState) ? settings.WindowState : AppWindowState.Normal };
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or JsonException) { return new(); }
     }

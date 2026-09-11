@@ -29,6 +29,8 @@ public sealed partial class MainWindow : Window
     private readonly DispatcherTimer activityTimer = new() { Interval = TimeSpan.FromMilliseconds(100) };
     private string layoutClass = "large";
     private bool rebuildingShell;
+    private double normalWidth;
+    private double normalHeight;
     public MainViewModel ViewModel { get; }
     public long ResponsiveTicks { get; private set; }
     public MainWindow() : this(new MainViewModel(new DesktopServices())) { }
@@ -37,14 +39,17 @@ public sealed partial class MainWindow : Window
         ViewModel = viewModel;
         DataContext = viewModel;
         Title = "FaultWitness";
-        Width = 1280; Height = 800; MinWidth = 560; MinHeight = 600;
+        var settings = ViewModel.Settings;
+        Width = settings.WindowWidth; Height = settings.WindowHeight; MinWidth = WindowLifecyclePolicy.MinimumWidth; MinHeight = WindowLifecyclePolicy.MinimumHeight;
+        normalWidth = Width; normalHeight = Height;
+        if (settings.WindowState == AppWindowState.Maximized) WindowState = WindowState.Maximized;
         FontSize = D("primitive.fontSize.body");
         BuildShell();
         ViewModel.Changed += OnChanged;
         activityTimer.Tick += (_, _) => { if (ViewModel.IsBusy) ResponsiveTicks++; };
-        Opened += (_, _) => activityTimer.Start();
-        SizeChanged += (_, args) => { if (rebuildingShell || args.NewSize.Width < MinWidth) return; var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(); } };
-        Closed += (_, _) => { activityTimer.Stop(); ViewModel.Changed -= OnChanged; ViewModel.Dispose(); };
+        Opened += (_, _) => { activityTimer.Start(); RecoverWindowGeometry(); };
+        SizeChanged += (_, args) => { if (WindowState == WindowState.Normal) { normalWidth = args.NewSize.Width; normalHeight = args.NewSize.Height; } if (rebuildingShell || args.NewSize.Width < MinWidth) return; var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(); } };
+        Closed += (_, _) => { activityTimer.Stop(); ViewModel.Changed -= OnChanged; SaveWindowSettings(); ViewModel.Dispose(); };
     }
     private string T(string key) => ViewModel.Text.Get(key);
     private void OnChanged(ViewChange change)
@@ -155,6 +160,22 @@ public sealed partial class MainWindow : Window
         }
     }
     private static string LayoutFor(double width) => width <= 640 ? "small" : width <= 1007 ? "medium" : "large";
+    private void RecoverWindowGeometry()
+    {
+        var area = Screens.Primary?.WorkingArea;
+        if (area is null) return;
+        var (width, height) = WindowLifecyclePolicy.ClampSize(normalWidth, normalHeight, area.Value.Width, area.Value.Height);
+        normalWidth = width; normalHeight = height;
+        Width = width; Height = height;
+        var placement = WindowLifecyclePolicy.SafePlacement(Position.X, Position.Y, width, height, area.Value.X, area.Value.Y, area.Value.Width, area.Value.Height);
+        Position = new PixelPoint((int)Math.Round(placement.X), (int)Math.Round(placement.Y));
+    }
+    private void SaveWindowSettings()
+    {
+        var state = WindowState == WindowState.Maximized ? AppWindowState.Maximized : AppWindowState.Normal;
+        var size = WindowLifecyclePolicy.ClampSize(normalWidth, normalHeight, double.MaxValue, double.MaxValue);
+        try { ViewModel.ChangeSettings(ViewModel.Settings with { WindowWidth = size.Width, WindowHeight = size.Height, WindowState = state }); } catch { /* shutdown persistence must not prevent closing */ }
+    }
     private static double D(string key) => Convert.ToDouble(Avalonia.Application.Current?.Resources[key] ?? 0, System.Globalization.CultureInfo.InvariantCulture);
     private enum TextRole { Caption, Body, RowTitle, SectionTitle, PageTitle }
     private static TextBlock Label(string text, TextRole role = TextRole.Body, bool bold = false) => new()

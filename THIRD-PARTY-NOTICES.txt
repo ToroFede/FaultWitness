@@ -2,7 +2,7 @@ FaultWitness Windows x64 self-contained distribution
 Third-party redistribution inventory
 
 This inventory describes third-party components observed in an untrimmed,
-multi-file win-x64 publish of FaultWitness.App. Versions are the resolved
+multi-file win-x64 publish of FaultWitness. Versions are the resolved
 package/runtime versions for that publish. This is an inventory, not a legal
 opinion. The upstream package notice/license files linked below are the
 authoritative notices and should be retained with any redistributed build.

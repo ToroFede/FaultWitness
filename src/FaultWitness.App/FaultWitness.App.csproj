@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
+    <AssemblyName>FaultWitness</AssemblyName>
+    <RootNamespace>FaultWitness.App</RootNamespace>
+    <AssemblyTitle>FaultWitness</AssemblyTitle>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
   <ItemGroup>

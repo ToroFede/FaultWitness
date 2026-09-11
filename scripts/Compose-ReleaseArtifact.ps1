@@ -20,11 +20,11 @@ function Assert-Candidate([string] $Root) {
     foreach ($file in Get-ChildItem -LiteralPath $Root -File -Recurse) {
         $relative = Get-Relative $Root $file.FullName
         if ($relative -match $forbidden) { [void]$errors.Add("Forbidden release content: $relative") }
-        if ($file.Extension -ieq '.json' -and $file.Name -notin @('FaultWitness.App.deps.json','FaultWitness.App.runtimeconfig.json','FaultWitness.ElevatedHelper.deps.json','FaultWitness.ElevatedHelper.runtimeconfig.json','FaultWitness.ElevatedHelper.payload.json')) {
+        if ($file.Extension -ieq '.json' -and $file.Name -notin @('FaultWitness.deps.json','FaultWitness.runtimeconfig.json','FaultWitness.ElevatedHelper.deps.json','FaultWitness.ElevatedHelper.runtimeconfig.json','FaultWitness.ElevatedHelper.payload.json')) {
             [void]$errors.Add("Unapproved JSON in release content: $relative")
         }
     }
-    foreach ($required in @('FaultWitness.App.exe','FaultWitness.App.dll','FaultWitness.App.deps.json','FaultWitness.App.runtimeconfig.json','helper/FaultWitness.ElevatedHelper.exe','helper/FaultWitness.ElevatedHelper.dll','helper/FaultWitness.ElevatedHelper.payload.json')) {
+    foreach ($required in @('FaultWitness.exe','FaultWitness.dll','FaultWitness.deps.json','FaultWitness.runtimeconfig.json','helper/FaultWitness.ElevatedHelper.exe','helper/FaultWitness.ElevatedHelper.dll','helper/FaultWitness.ElevatedHelper.payload.json')) {
         if (-not (Test-Path -LiteralPath (Join-Path $Root $required) -PathType Leaf)) { [void]$errors.Add("Missing release file: $required") }
     }
     if ($errors.Count -gt 0) { throw ($errors -join [Environment]::NewLine) }
@@ -78,7 +78,7 @@ foreach ($document in @('LICENSE', 'THIRD-PARTY-NOTICES.txt', 'README.md')) {
 ## Quick start
 
 1. Extract this folder on a Windows x64 computer.
-2. Run `FaultWitness.App.exe`.
+2. Run `FaultWitness.exe`.
 3. Use the Readiness screen before collecting diagnostics. FaultWitness reports what it could inspect; it does not guarantee that a crash dump or other artifact exists.
 
 The `helper` folder is required for administrator-approved crash-capture configuration. Keep it beside the application executable. See `README.md` for scope and privacy details.

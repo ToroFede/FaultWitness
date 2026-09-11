@@ -21,7 +21,7 @@ The optional **Capture Next Crash** workflow configures a future Windows Error R
 
 1. Download the `0.9.0-beta.1` Windows x64 ZIP from the release page.
 2. Extract it to a protected folder such as `C:\Program Files\FaultWitness\0.9.0-beta.1` (create the folder with administrator permission). Keep the desktop executable, its supporting files, and the adjacent elevated helper together; do not run the helper directly.
-3. Start FaultWitness normally. Do not run the main application elevated. Choose **Analyze recent stability** for the default seven-day window, or use **Analyze around a crash** when you know an approximate local time.
+3. Run `FaultWitness.exe` normally. Do not run the main application elevated. Choose **Analyze recent stability** for the default seven-day window, or use **Analyze around a crash** when you know an approximate local time.
 4. Review evidence and source coverage. Use **Export / support** to create a privacy-redacted Markdown, HTML, JSON, or ZIP bundle for review. Inspect the redaction preview before sharing.
 
 The first scan is read-only. If you use Capture Next Crash, preview the current state, confirm the target and fixed mini-dump policy, approve the UAC prompt, and verify the result. Restore the configuration when capture is no longer needed. A dump can contain private process memory even when the export is redacted; keep raw dumps local.

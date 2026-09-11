@@ -9,7 +9,7 @@ public sealed class ImportTests
     [Theory]
     [InlineData("Example.exe")]
     [InlineData("FaultWitness.UI.Tests.exe")]
-    [InlineData("FaultWitness.App.exe")]
+    [InlineData("FaultWitness.exe")]
     public async Task WerImportProducesNormalizedProvenance(string process)
     {
         var path = Path.Combine(Path.GetTempPath(), $"faultwitness-{Guid.NewGuid():N}.wer");

@@ -80,4 +80,29 @@ public sealed class LocalizationTests
         try { CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("it-IT"); var service = new LocalizationService(); service.SetCulture("system"); Assert.Equal("it", service.Culture.Name); }
         finally { CultureInfo.CurrentUICulture = before; }
     }
+
+    [Theory]
+    [InlineData("it")][InlineData("es")][InlineData("fr")][InlineData("de")]
+    [InlineData("pt")][InlineData("ru")][InlineData("pl")]
+    public void HighRiskMicrocopy_IsLocalizedAndKeepsCausationBoundary(string culture)
+    {
+        var english = Read("en"); var localized = Read(culture);
+        foreach (var key in new[] { "CheckingSources", "ReadinessEmptyHelp", "ChangesDisclaimer", "CaptureConfigureWarning", "About" })
+            Assert.NotEqual(english[key], localized[key]);
+        Assert.NotEqual(english["ChangesDisclaimer"], localized["ChangesDisclaimer"]);
+    }
+
+    [Theory]
+    [InlineData("en")][InlineData("it")][InlineData("es")][InlineData("fr")]
+    [InlineData("de")][InlineData("pt")][InlineData("ru")][InlineData("pl")]
+    public void VisibleLabels_HaveBoundedLengthAndNoEmbeddedEnglishFallback(string culture)
+    {
+        var english = Read("en"); var localized = Read(culture);
+        foreach (var (key, value) in localized)
+        {
+            Assert.InRange(value.Length, 1, 520);
+            if (culture != "en" && value.Length > 12)
+                Assert.False(value.Contains("Check diagnostic sources", StringComparison.Ordinal) || value.Contains("Analysis in progress", StringComparison.Ordinal), key);
+        }
+    }
 }
