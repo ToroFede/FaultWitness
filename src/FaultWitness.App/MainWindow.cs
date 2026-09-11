@@ -48,7 +48,15 @@ public sealed partial class MainWindow : Window
         ViewModel.Changed += OnChanged;
         activityTimer.Tick += (_, _) => { if (ViewModel.IsBusy) ResponsiveTicks++; };
         Opened += (_, _) => { activityTimer.Start(); RecoverWindowGeometry(); };
-        SizeChanged += (_, args) => { if (WindowState == WindowState.Normal) { normalWidth = args.NewSize.Width; normalHeight = args.NewSize.Height; } if (rebuildingShell || args.NewSize.Width < MinWidth) return; var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(); } };
+        SizeChanged += (_, args) =>
+        {
+            var settledSize = args.NewSize;
+            // Avalonia can raise the maximized size before WindowState changes. Defer
+            // normal-bounds tracking until the transition has settled.
+            Dispatcher.UIThread.Post(() => { if (WindowState == WindowState.Normal) { normalWidth = settledSize.Width; normalHeight = settledSize.Height; } });
+            if (rebuildingShell || args.NewSize.Width < MinWidth) return;
+            var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(); }
+        };
         Closed += (_, _) => { activityTimer.Stop(); ViewModel.Changed -= OnChanged; SaveWindowSettings(); ViewModel.Dispose(); };
     }
     private string T(string key) => ViewModel.Text.Get(key);
