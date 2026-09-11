@@ -1,11 +1,28 @@
 using FaultWitness.App;
 using System.Text.Json;
+using Avalonia.Controls;
+using Avalonia.Headless.XUnit;
+using Avalonia.Threading;
 
 namespace FaultWitness.UI.Tests;
 
 [Trait("Suite", "Headless")]
 public sealed class WindowLifecyclePolicyTests
 {
+    [AvaloniaFact]
+    public void MaximizedState_IsAppliedAfterOpening()
+    {
+        var services = new TestServices { Settings = new UserSettings(WindowState: AppWindowState.Maximized) };
+        using var viewModel = new MainViewModel(services);
+        var window = new MainWindow(viewModel);
+        try
+        {
+            window.Show(); Dispatcher.UIThread.RunJobs();
+            Assert.Equal(WindowState.Maximized, window.WindowState);
+        }
+        finally { window.Close(); }
+    }
+
     [Theory]
     [InlineData(400, 500, 1920, 1080, 560, 600)]
     [InlineData(1600, 1200, 1000, 700, 1000, 700)]

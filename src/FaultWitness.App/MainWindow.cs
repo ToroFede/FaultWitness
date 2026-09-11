@@ -43,12 +43,16 @@ public sealed partial class MainWindow : Window
         var settings = ViewModel.Settings;
         Width = settings.WindowWidth; Height = settings.WindowHeight; MinWidth = WindowLifecyclePolicy.MinimumWidth; MinHeight = WindowLifecyclePolicy.MinimumHeight;
         normalWidth = Width; normalHeight = Height;
-        if (settings.WindowState == AppWindowState.Maximized) WindowState = WindowState.Maximized;
+        var restoreMaximized = settings.WindowState == AppWindowState.Maximized;
         FontSize = D("primitive.fontSize.body");
         BuildShell();
         ViewModel.Changed += OnChanged;
         activityTimer.Tick += (_, _) => { if (ViewModel.IsBusy) ResponsiveTicks++; };
-        Opened += (_, _) => { activityTimer.Start(); RecoverWindowGeometry(); };
+        Opened += (_, _) =>
+        {
+            activityTimer.Start(); RecoverWindowGeometry();
+            if (restoreMaximized) Dispatcher.UIThread.Post(() => WindowState = WindowState.Maximized);
+        };
         SizeChanged += (_, args) =>
         {
             var settledSize = args.NewSize;
