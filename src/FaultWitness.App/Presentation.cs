@@ -23,6 +23,7 @@ public sealed class HistoryRow
     public string Timestamp => scan.FinishedUtc.ToLocalTime().ToString("G", text.Culture);
     public string Period => scan.Metadata?.RequestedFromUtc is null ? text.Get("HistoryPeriodUnavailable") : text.Format("HistoryPeriodValue", scan.Metadata.RequestedFromUtc.Value.ToLocalTime().ToString("g", text.Culture), scan.Metadata.RequestedToUtc?.ToLocalTime().ToString("g", text.Culture) ?? text.Get("NotAvailable"));
     public string Counts => scan.Metadata?.NeedsAttention is null ? text.Format("HistoryIncidentCount", scan.Incidents.Count) : text.Format("HistoryCounts", scan.Metadata.NeedsAttention ?? 0, scan.Metadata.WorthKnowing ?? 0, scan.Metadata.Background ?? 0);
+    public override string ToString() => $"{Title} · {Timestamp} · {Counts}";
 }
 
 /// <summary>Presentation only. Never changes diagnostic findings, evidence or occurrence identity.</summary>

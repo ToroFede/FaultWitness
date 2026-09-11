@@ -1,12 +1,23 @@
 using FaultWitness.App;
 using FaultWitness.Core;
 using FaultWitness.Localization;
+using FaultWitness.Storage;
 
 namespace FaultWitness.UI.Tests;
 
 [Trait("Suite", "ViewModel")]
 public sealed class PresentationRegressionTests
 {
+    [Fact]
+    public void HistoryRow_AccessibleFallbackIsUserFacing()
+    {
+        var scan = new StoredScan("history", DateTimeOffset.UtcNow.AddDays(-7), DateTimeOffset.UtcNow, "0.9.0", null, []);
+        var row = new HistoryRow(scan, new LocalizationService());
+        Assert.Contains(row.Title, row.ToString(), StringComparison.Ordinal);
+        Assert.DoesNotContain(nameof(HistoryRow), row.ToString(), StringComparison.Ordinal);
+        Assert.DoesNotContain("FaultWitness.App", row.ToString(), StringComparison.Ordinal);
+    }
+
     [Fact]
     public void IncidentAccessibleName_ContainsHumanSummaryInsteadOfRuntimeTypeName()
     {
