@@ -375,78 +375,78 @@
   <data name="InventoryAvailabilityAccessDenied" xml:space="preserve"><value>Доступ запрещён</value></data>
   <data name="InventoryAvailabilityNotSupported" xml:space="preserve"><value>Не поддерживается</value></data>
   <data name="InventoryAvailabilityUnavailable" xml:space="preserve"><value>Недоступно</value></data>
-  <data name="InventoryBiosDate" xml:space="preserve"><value>Диагностические сведения: BIOS/UEFI date</value></data>
-  <data name="InventoryBiosVendor" xml:space="preserve"><value>Диагностические сведения: BIOS/UEFI vendor</value></data>
-  <data name="InventoryBiosVersion" xml:space="preserve"><value>Диагностические сведения: BIOS/UEFI version</value></data>
-  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Диагностические сведения: Motherboard manufacturer</value></data>
-  <data name="InventoryBoardModel" xml:space="preserve"><value>Диагностические сведения: Motherboard model</value></data>
-  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Диагностические сведения: Computer manufacturer</value></data>
-  <data name="InventoryComputerModel" xml:space="preserve"><value>Диагностические сведения: Computer model</value></data>
-  <data name="InventoryDriverCategory" xml:space="preserve"><value>Диагностические сведения: Device class</value></data>
-  <data name="InventoryDriverDate" xml:space="preserve"><value>Диагностические сведения: Driver date</value></data>
-  <data name="InventoryDriverName" xml:space="preserve"><value>Диагностические сведения: Device</value></data>
-  <data name="InventoryDriverProvider" xml:space="preserve"><value>Диагностические сведения: Driver provider</value></data>
-  <data name="InventoryDriverVersion" xml:space="preserve"><value>Диагностические сведения: Driver version</value></data>
-  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Диагностические сведения: Driver date</value></data>
-  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Диагностические сведения: Driver version</value></data>
-  <data name="InventoryGraphicsName" xml:space="preserve"><value>Диагностические сведения: Adapter</value></data>
-  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Диагностические сведения: Adapter vendor</value></data>
+  <data name="InventoryBiosDate" xml:space="preserve"><value>Дата BIOS/UEFI</value></data>
+  <data name="InventoryBiosVendor" xml:space="preserve"><value>Производитель BIOS/UEFI</value></data>
+  <data name="InventoryBiosVersion" xml:space="preserve"><value>Версия BIOS/UEFI</value></data>
+  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Производитель системной платы</value></data>
+  <data name="InventoryBoardModel" xml:space="preserve"><value>Модель системной платы</value></data>
+  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Производитель компьютера</value></data>
+  <data name="InventoryComputerModel" xml:space="preserve"><value>Модель компьютера</value></data>
+  <data name="InventoryDriverCategory" xml:space="preserve"><value>Класс устройства</value></data>
+  <data name="InventoryDriverDate" xml:space="preserve"><value>Дата драйвера</value></data>
+  <data name="InventoryDriverName" xml:space="preserve"><value>Устройство</value></data>
+  <data name="InventoryDriverProvider" xml:space="preserve"><value>Поставщик драйвера</value></data>
+  <data name="InventoryDriverVersion" xml:space="preserve"><value>Версия драйвера</value></data>
+  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Дата драйвера</value></data>
+  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Версия драйвера</value></data>
+  <data name="InventoryGraphicsName" xml:space="preserve"><value>Графический адаптер</value></data>
+  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Производитель графического адаптера</value></data>
   <data name="InventoryGroupDrivers" xml:space="preserve"><value>Основные драйверы</value></data>
   <data name="InventoryGroupEmpty" xml:space="preserve"><value>Устройства не обнаружены.</value></data>
-  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Диагностические сведения: Firmware</value></data>
-  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Диагностические сведения: Graphics</value></data>
+  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Микропрограмма</value></data>
+  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Графика</value></data>
   <data name="InventoryGroupOperatingSystem" xml:space="preserve"><value>Операционная система</value></data>
   <data name="InventoryGroupProcessorMemory" xml:space="preserve"><value>Процессор и память</value></data>
-  <data name="InventoryGroupStorage" xml:space="preserve"><value>Диагностические сведения: Storage</value></data>
-  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Диагностические сведения: Physical memory</value></data>
-  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Диагностические сведения: Physical memory (GiB)</value></data>
-  <data name="InventoryMoreDevices" xml:space="preserve"><value>Диагностические сведения: Show remaining devices</value></data>
-  <data name="InventoryOsVersion" xml:space="preserve"><value>Диагностические сведения: NT version</value></data>
-  <data name="InventoryProcessor" xml:space="preserve"><value>Диагностические сведения: Processor model</value></data>
-  <data name="InventoryProcessorCores" xml:space="preserve"><value>Диагностические сведения: Physical cores</value></data>
-  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Диагностические сведения: Logical processors</value></data>
-  <data name="InventoryStorageBus" xml:space="preserve"><value>Диагностические сведения: Reported interface</value></data>
-  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Диагностические сведения: Capacity</value></data>
-  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Диагностические сведения: Capacity (GiB)</value></data>
-  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Диагностические сведения: Firmware revision</value></data>
-  <data name="InventoryStorageMedia" xml:space="preserve"><value>Диагностические сведения: Reported media type</value></data>
-  <data name="InventoryStorageModel" xml:space="preserve"><value>Диагностические сведения: Disk model</value></data>
-  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>Диагностические сведения: Active pagefiles</value></data>
-  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Диагностические сведения: Allocated pagefile storage</value></data>
-  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Диагностические сведения: Automatic pagefile management</value></data>
-  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>Диагностические сведения: The configuration could not be verified.</value></data>
-  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Диагностические сведения: Custom destination (path withheld)</value></data>
-  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>Диагностические сведения: Dedicated dump file configured</value></data>
-  <data name="ReadinessDefaultScope" xml:space="preserve"><value>Диагностические сведения: Default (all applications)</value></data>
-  <data name="ReadinessDumpCount" xml:space="preserve"><value>Диагностические сведения: Maximum dumps retained</value></data>
-  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Диагностические сведения: Dump destination available space</value></data>
-  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Диагностические сведения: Dump destination</value></data>
-  <data name="ReadinessDumpType" xml:space="preserve"><value>Диагностические сведения: Dump type</value></data>
-  <data name="ReadinessElevationHelp" xml:space="preserve"><value>Диагностические сведения: Elevated access may reveal more information. This check makes no configuration changes.</value></data>
+  <data name="InventoryGroupStorage" xml:space="preserve"><value>Накопители</value></data>
+  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Физическая память</value></data>
+  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Физическая память (ГиБ)</value></data>
+  <data name="InventoryMoreDevices" xml:space="preserve"><value>Показать остальные устройства</value></data>
+  <data name="InventoryOsVersion" xml:space="preserve"><value>Версия NT</value></data>
+  <data name="InventoryProcessor" xml:space="preserve"><value>Модель процессора</value></data>
+  <data name="InventoryProcessorCores" xml:space="preserve"><value>Физические ядра</value></data>
+  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Логические процессоры</value></data>
+  <data name="InventoryStorageBus" xml:space="preserve"><value>Определённый интерфейс</value></data>
+  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Ёмкость</value></data>
+  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Ёмкость (ГиБ)</value></data>
+  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Версия микропрограммы</value></data>
+  <data name="InventoryStorageMedia" xml:space="preserve"><value>Определённый тип носителя</value></data>
+  <data name="InventoryStorageModel" xml:space="preserve"><value>Модель диска</value></data>
+  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>Активные файлы подкачки</value></data>
+  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Выделенное место для файла подкачки</value></data>
+  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Автоматическое управление файлом подкачки</value></data>
+  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>Не удалось проверить конфигурацию.</value></data>
+  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Пользовательское назначение (путь скрыт)</value></data>
+  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>Настроен отдельный файл дампа</value></data>
+  <data name="ReadinessDefaultScope" xml:space="preserve"><value>По умолчанию (все приложения)</value></data>
+  <data name="ReadinessDumpCount" xml:space="preserve"><value>Максимальное число сохраняемых дампов</value></data>
+  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Свободное место в папке дампов</value></data>
+  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Папка дампов</value></data>
+  <data name="ReadinessDumpType" xml:space="preserve"><value>Тип дампа</value></data>
+  <data name="ReadinessElevationHelp" xml:space="preserve"><value>Доступ с повышенными правами может показать больше сведений. Эта проверка не изменяет конфигурацию.</value></data>
   <data name="ReadinessLocalDumpsAbsent" xml:space="preserve"><value>Захват сбоев приложений не настроен. Это необязательно; Windows может по-прежнему предоставлять другие свидетельства сбоев.</value></data>
   <data name="ReadinessLocalDumpsConfigured" xml:space="preserve"><value>Параметры захвата сбоев приложений присутствуют. Совместимые сбои могут создавать файлы дампов; успешный захват и права доступа к папке не проверялись. Эта проверка ничего не изменяет.</value></data>
-  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Диагностические сведения: Configuration scope</value></data>
+  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Область конфигурации</value></data>
   <data name="ReadinessLocalDumpsLimited" xml:space="preserve"><value>Параметры захвата сбоев приложений присутствуют, но некоторые значения недействительны или не удалось проверить. Эта проверка ничего не изменяет.</value></data>
-  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>Диагностические сведения: These entries describe diagnostic capability availability. They do not rate system health and make no changes.</value></data>
-  <data name="ReadinessNotObserved" xml:space="preserve"><value>Диагностические сведения: No</value></data>
-  <data name="ReadinessObserved" xml:space="preserve"><value>Диагностические сведения: Yes</value></data>
-  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>Диагностические сведения: Pagefile sufficiency could not be verified. Requirements depend on dump type, memory use, and dedicated dump file configuration.</value></data>
-  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Диагностические сведения: Windows denied access to this diagnostic source.</value></data>
-  <data name="ReadinessSourceLimited" xml:space="preserve"><value>Диагностические сведения: Only part of the supported source could be examined. Some locations or records may be inaccessible, missing, or beyond the inspection limit.</value></data>
-  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>Диагностические сведения: This diagnostic capability is not supported on this platform.</value></data>
-  <data name="ReadinessSourceReady" xml:space="preserve"><value>Диагностические сведения: The supported source can be queried now. This does not guarantee future evidence or complete history.</value></data>
-  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>Диагностические сведения: The supported source could not be queried or no supported location was available.</value></data>
+  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>Эти записи описывают доступность диагностических возможностей. Они не оценивают состояние системы и ничего не изменяют.</value></data>
+  <data name="ReadinessNotObserved" xml:space="preserve"><value>Нет</value></data>
+  <data name="ReadinessObserved" xml:space="preserve"><value>Да</value></data>
+  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>Не удалось проверить достаточность файла подкачки. Требования зависят от типа дампа, использования памяти и настройки отдельного файла дампа.</value></data>
+  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Windows отказала в доступе к этому диагностическому источнику.</value></data>
+  <data name="ReadinessSourceLimited" xml:space="preserve"><value>Удалось проверить только часть поддерживаемого источника. Некоторые расположения или записи могут быть недоступны, отсутствовать или находиться за пределами проверки.</value></data>
+  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>Эта диагностическая возможность не поддерживается на данной платформе.</value></data>
+  <data name="ReadinessSourceReady" xml:space="preserve"><value>Поддерживаемый источник сейчас доступен для запроса. Это не гарантирует наличие будущих свидетельств или полной истории.</value></data>
+  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>Не удалось запросить поддерживаемый источник либо не найдено доступное поддерживаемое расположение.</value></data>
   <data name="ReadinessStatusAccessDenied" xml:space="preserve"><value>Доступ запрещён</value></data>
   <data name="ReadinessStatusDisabled" xml:space="preserve"><value>Отключено / не настроено</value></data>
   <data name="ReadinessStatusLimited" xml:space="preserve"><value>Ограничено</value></data>
   <data name="ReadinessStatusNotSupported" xml:space="preserve"><value>Не поддерживается</value></data>
   <data name="ReadinessStatusReady" xml:space="preserve"><value>Готово</value></data>
   <data name="ReadinessStatusUnavailable" xml:space="preserve"><value>Недоступно</value></data>
-  <data name="ReadinessStorageObserved" xml:space="preserve"><value>Доступно storage was observed for accessible local destinations. Required dump space and successful capture could not be verified.</value></data>
-  <data name="ReadinessSystemDrive" xml:space="preserve"><value>Диагностические сведения: System drive available space</value></data>
-  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Диагностические сведения: Windows is configured to capture system crash dumps. This does not verify pagefile support, destination access, or successful future capture.</value></data>
-  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>Диагностические сведения: Windows system crash dump capture is disabled.</value></data>
-  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>Диагностические сведения: Destination could not be verified</value></data>
+  <data name="ReadinessStorageObserved" xml:space="preserve"><value>Для доступных локальных назначений определено свободное место. Не удалось проверить требуемое место для дампа или успешность будущей записи.</value></data>
+  <data name="ReadinessSystemDrive" xml:space="preserve"><value>Свободное место на системном диске</value></data>
+  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Windows настроена на запись дампов сбоев системы. Это не подтверждает поддержку файлом подкачки, доступ к назначению или успешность будущей записи.</value></data>
+  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>Запись дампов сбоев системы отключена.</value></data>
+  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>Не удалось проверить назначение</value></data>
   <data name="ChangesNotExamined" xml:space="preserve"><value>История изменений не проверялась для этого анализа.</value></data><data name="FirstObservedValue" xml:space="preserve"><value>Впервые наблюдалось в доступных данных FaultWitness: {0} ({1})</value></data><data name="FirstObservedBasisCurrentScan" xml:space="preserve"><value>текущее сканирование</value></data><data name="FirstObservedBasisRetainedHistory" xml:space="preserve"><value>сохранённая история</value></data><data name="ChangesRecurring" xml:space="preserve"><value>Этот случай является частью повторяющегося шаблона.</value></data><data name="ChangesNotRecurring" xml:space="preserve"><value>Повторяемость не установлена.</value></data><data name="NoRelevantChanges" xml:space="preserve"><value>В доступных источниках истории изменений релевантные изменения не обнаружены.</value></data><data name="ChangesCoverageHelp" xml:space="preserve"><value>Охват отражает доступные источники и может быть неполным.</value></data><data name="ChangesDisclaimer" xml:space="preserve"><value>Изменения, произошедшие близко по времени, дают контекст. Они не доказывают, что вызвало инцидент.</value></data><data name="ChangeTimingBefore" xml:space="preserve"><value>До первого наблюдения</value></data><data name="ChangeTimingSameTime" xml:space="preserve"><value>Во время первого наблюдения</value></data><data name="ChangeTimingAfter" xml:space="preserve"><value>После первого наблюдения</value></data><data name="ChangeRelevanceHigh" xml:space="preserve"><value>Высокая контекстная релевантность</value></data><data name="ChangeRelevanceModerate" xml:space="preserve"><value>Умеренная контекстная релевантность</value></data><data name="ChangeRelevanceLow" xml:space="preserve"><value>Низкая контекстная релевантность</value></data><data name="ChangeCategoryDriverInstalled" xml:space="preserve"><value>Установлен драйвер</value></data><data name="ChangeCategoryWindowsUpdate" xml:space="preserve"><value>Обновление Windows</value></data><data name="FirstObservedSaved" xml:space="preserve"><value>Впервые наблюдалось</value></data><data name="RelatedChangesSaved" xml:space="preserve"><value>Связанные изменения</value></data><data name="ReadingChangeHistory" xml:space="preserve"><value>Чтение доступной истории изменений</value></data><data name="ChangeReasonOtherSubsystem" xml:space="preserve"><value>Другая или непроверенная подсистема</value></data><data name="ChangeReasonSameDevice" xml:space="preserve"><value>То же явно идентифицированное устройство</value></data><data name="ChangeReasonSameSubsystem" xml:space="preserve"><value>Та же подсистема</value></data><data name="ChangeReasonSystemUpdate" xml:space="preserve"><value>Обновление системы рядом с наблюдением</value></data><data name="ChangeReasonAfter" xml:space="preserve"><value>Записано после первого наблюдения; не является предшественником</value></data><data name="ChangeSourceLocalHistory" xml:space="preserve"><value>Локальная история изменений</value></data><data name="ChangeSourceFaultWitnessHistory" xml:space="preserve"><value>Сохранённые наблюдения FaultWitness</value></data><data name="ChangeRetainedHistoryUnavailable" xml:space="preserve"><value>Не удалось проверить ранее сохранённые наблюдения FaultWitness.</value></data><data name="ChangesCoverageIncomplete" xml:space="preserve"><value>Охват истории изменений неполный.</value></data><data name="ChangesSummaryLimited" xml:space="preserve"><value>Сохранённое резюме включает {0} из {1} наблюдаемых изменений.</value></data><data name="ChangeVersion" xml:space="preserve"><value>Записанная версия: {0}</value></data><data name="ChangePreviousVersion" xml:space="preserve"><value>Предыдущая записанная версия: {0}</value></data><data name="ChangeOffset" xml:space="preserve"><value>Смещение от первого наблюдения: {0}</value></data><data name="ChangeSource" xml:space="preserve"><value>Источник</value></data><data name="ChangeSubsystemUnknown" xml:space="preserve"><value>Неизвестно</value></data><data name="ChangeSubsystemDisplay" xml:space="preserve"><value>Экран</value></data><data name="ChangeSubsystemAudio" xml:space="preserve"><value>Аудио</value></data><data name="ChangeSubsystemStorage" xml:space="preserve"><value>Хранилище</value></data><data name="ChangeSubsystemNetwork" xml:space="preserve"><value>Сеть</value></data><data name="ChangeSubsystemSystem" xml:space="preserve"><value>Система</value></data><data name="ChangeSubsystemPrinter" xml:space="preserve"><value>Принтер</value></data>
   <data name="ChangeQualityRecorded" xml:space="preserve"><value>Метка времени, записанная источником.</value></data><data name="ChangeQualityLocalTimeConverted" xml:space="preserve"><value>Местная метка времени преобразована по текущим правилам часового пояса; прошлые изменения часового пояса проверить нельзя.</value></data>
 <data name="ChangeSourceSetupApi" xml:space="preserve"><value>История Windows SetupAPI</value></data><data name="ChangeSourceWindowsUpdate" xml:space="preserve"><value>История Windows Update</value></data><data name="ChangeCoverageComplete" xml:space="preserve"><value>Полный</value></data><data name="ChangeCoveragePartial" xml:space="preserve"><value>Частичный</value></data><data name="ChangeCoverageUnavailable" xml:space="preserve"><value>Недоступно</value></data><data name="ChangeCoverageAccessDenied" xml:space="preserve"><value>Доступ запрещён</value></data><data name="ChangeCoverageNotSupported" xml:space="preserve"><value>Не поддерживается</value></data>

@@ -105,4 +105,32 @@ public sealed class LocalizationTests
                 Assert.False(value.Contains("Check diagnostic sources", StringComparison.Ordinal) || value.Contains("Analysis in progress", StringComparison.Ordinal), key);
         }
     }
+
+    [Theory]
+    [InlineData("it")][InlineData("es")][InlineData("fr")][InlineData("de")]
+    [InlineData("pt")][InlineData("ru")][InlineData("pl")]
+    public void InventoryAndReadinessMicrocopy_HasNoKnownEnglishLeakage(string culture)
+    {
+        var localized = Read(culture);
+        var forbiddenFragments = new[]
+        {
+            "Processor model", "Physical cores", "Logical processors", "Motherboard manufacturer",
+            "Computer manufacturer", "Driver provider", "Adapter vendor", "Physical memory",
+            "BIOS/UEFI date", "BIOS/UEFI vendor", "BIOS/UEFI version", "Allocated pagefile",
+            "Automatic pagefile", "The configuration could", "Custom destination", "Dump destination",
+            "Elevated access", "These entries describe", "Pagefile sufficiency", "Only part of the supported",
+            "This diagnostic capability", "The supported source", "storage was observed",
+            "System drive available", "Windows is configured to capture",
+            "Device class", "Show remaining devices", "Reported interface", "Capacity (GiB)",
+            "Reported media type", "Active pagefiles", "Dedicated dump file configured",
+            "Default (all applications)", "Maximum dumps retained", "Dump type",
+            "Configuration scope", "Windows system crash dump capture"
+        };
+
+        foreach (var (key, value) in localized.Where(pair =>
+                     pair.Key.StartsWith("Inventory", StringComparison.Ordinal) ||
+                     pair.Key.StartsWith("Readiness", StringComparison.Ordinal)))
+            Assert.False(forbiddenFragments.Any(
+                fragment => value.Contains(fragment, StringComparison.OrdinalIgnoreCase)), key);
+    }
 }

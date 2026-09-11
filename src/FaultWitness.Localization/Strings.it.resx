@@ -379,78 +379,78 @@
   <data name="InventoryAvailabilityAccessDenied" xml:space="preserve"><value>Accesso negato</value></data>
   <data name="InventoryAvailabilityNotSupported" xml:space="preserve"><value>Non supportato</value></data>
   <data name="InventoryAvailabilityUnavailable" xml:space="preserve"><value>Non disponibile</value></data>
-  <data name="InventoryBiosDate" xml:space="preserve"><value>Informazione diagnostica: BIOS/UEFI date</value></data>
-  <data name="InventoryBiosVendor" xml:space="preserve"><value>Informazione diagnostica: BIOS/UEFI vendor</value></data>
-  <data name="InventoryBiosVersion" xml:space="preserve"><value>Informazione diagnostica: BIOS/UEFI version</value></data>
-  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Informazione diagnostica: Motherboard manufacturer</value></data>
-  <data name="InventoryBoardModel" xml:space="preserve"><value>Informazione diagnostica: Motherboard model</value></data>
-  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Informazione diagnostica: Computer manufacturer</value></data>
-  <data name="InventoryComputerModel" xml:space="preserve"><value>Informazione diagnostica: Computer model</value></data>
-  <data name="InventoryDriverCategory" xml:space="preserve"><value>Informazione diagnostica: Device class</value></data>
-  <data name="InventoryDriverDate" xml:space="preserve"><value>Informazione diagnostica: Driver date</value></data>
-  <data name="InventoryDriverName" xml:space="preserve"><value>Informazione diagnostica: Device</value></data>
-  <data name="InventoryDriverProvider" xml:space="preserve"><value>Informazione diagnostica: Driver provider</value></data>
-  <data name="InventoryDriverVersion" xml:space="preserve"><value>Informazione diagnostica: Driver version</value></data>
-  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Informazione diagnostica: Driver date</value></data>
-  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Informazione diagnostica: Driver version</value></data>
-  <data name="InventoryGraphicsName" xml:space="preserve"><value>Informazione diagnostica: Adapter</value></data>
-  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Informazione diagnostica: Adapter vendor</value></data>
+  <data name="InventoryBiosDate" xml:space="preserve"><value>Data BIOS/UEFI</value></data>
+  <data name="InventoryBiosVendor" xml:space="preserve"><value>Produttore BIOS/UEFI</value></data>
+  <data name="InventoryBiosVersion" xml:space="preserve"><value>Versione BIOS/UEFI</value></data>
+  <data name="InventoryBoardManufacturer" xml:space="preserve"><value>Produttore scheda madre</value></data>
+  <data name="InventoryBoardModel" xml:space="preserve"><value>Modello scheda madre</value></data>
+  <data name="InventoryComputerManufacturer" xml:space="preserve"><value>Produttore computer</value></data>
+  <data name="InventoryComputerModel" xml:space="preserve"><value>Modello computer</value></data>
+  <data name="InventoryDriverCategory" xml:space="preserve"><value>Classe dispositivo</value></data>
+  <data name="InventoryDriverDate" xml:space="preserve"><value>Data driver</value></data>
+  <data name="InventoryDriverName" xml:space="preserve"><value>Dispositivo</value></data>
+  <data name="InventoryDriverProvider" xml:space="preserve"><value>Fornitore driver</value></data>
+  <data name="InventoryDriverVersion" xml:space="preserve"><value>Versione driver</value></data>
+  <data name="InventoryGraphicsDriverDate" xml:space="preserve"><value>Data driver</value></data>
+  <data name="InventoryGraphicsDriverVersion" xml:space="preserve"><value>Versione driver</value></data>
+  <data name="InventoryGraphicsName" xml:space="preserve"><value>Scheda grafica</value></data>
+  <data name="InventoryGraphicsVendor" xml:space="preserve"><value>Produttore scheda grafica</value></data>
   <data name="InventoryGroupDrivers" xml:space="preserve"><value>Driver rilevanti</value></data>
   <data name="InventoryGroupEmpty" xml:space="preserve"><value>Nessun dispositivo rilevato.</value></data>
-  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Informazione diagnostica: Firmware</value></data>
-  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Informazione diagnostica: Graphics</value></data>
+  <data name="InventoryGroupFirmware" xml:space="preserve"><value>Firmware di sistema</value></data>
+  <data name="InventoryGroupGraphics" xml:space="preserve"><value>Grafica</value></data>
   <data name="InventoryGroupOperatingSystem" xml:space="preserve"><value>Sistema operativo</value></data>
   <data name="InventoryGroupProcessorMemory" xml:space="preserve"><value>Processore e memoria</value></data>
-  <data name="InventoryGroupStorage" xml:space="preserve"><value>Informazione diagnostica: Storage</value></data>
-  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Informazione diagnostica: Physical memory</value></data>
-  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Informazione diagnostica: Physical memory (GiB)</value></data>
-  <data name="InventoryMoreDevices" xml:space="preserve"><value>Informazione diagnostica: Show remaining devices</value></data>
-  <data name="InventoryOsVersion" xml:space="preserve"><value>Informazione diagnostica: NT version</value></data>
-  <data name="InventoryProcessor" xml:space="preserve"><value>Informazione diagnostica: Processor model</value></data>
-  <data name="InventoryProcessorCores" xml:space="preserve"><value>Informazione diagnostica: Physical cores</value></data>
-  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Informazione diagnostica: Logical processors</value></data>
-  <data name="InventoryStorageBus" xml:space="preserve"><value>Informazione diagnostica: Reported interface</value></data>
-  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Informazione diagnostica: Capacity</value></data>
-  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Informazione diagnostica: Capacity (GiB)</value></data>
-  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Informazione diagnostica: Firmware revision</value></data>
-  <data name="InventoryStorageMedia" xml:space="preserve"><value>Informazione diagnostica: Reported media type</value></data>
-  <data name="InventoryStorageModel" xml:space="preserve"><value>Informazione diagnostica: Disk model</value></data>
-  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>Informazione diagnostica: Active pagefiles</value></data>
-  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Informazione diagnostica: Allocated pagefile storage</value></data>
-  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Informazione diagnostica: Automatic pagefile management</value></data>
-  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>Informazione diagnostica: The configuration could not be verified.</value></data>
-  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Informazione diagnostica: Custom destination (path withheld)</value></data>
-  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>Informazione diagnostica: Dedicated dump file configured</value></data>
-  <data name="ReadinessDefaultScope" xml:space="preserve"><value>Informazione diagnostica: Default (all applications)</value></data>
-  <data name="ReadinessDumpCount" xml:space="preserve"><value>Informazione diagnostica: Maximum dumps retained</value></data>
-  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Informazione diagnostica: Dump destination available space</value></data>
-  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Informazione diagnostica: Dump destination</value></data>
-  <data name="ReadinessDumpType" xml:space="preserve"><value>Informazione diagnostica: Dump type</value></data>
-  <data name="ReadinessElevationHelp" xml:space="preserve"><value>Informazione diagnostica: Elevated access may reveal more information. This check makes no configuration changes.</value></data>
+  <data name="InventoryGroupStorage" xml:space="preserve"><value>Archiviazione</value></data>
+  <data name="InventoryMemoryBytes" xml:space="preserve"><value>Memoria fisica</value></data>
+  <data name="InventoryMemoryGiB" xml:space="preserve"><value>Memoria fisica (GiB)</value></data>
+  <data name="InventoryMoreDevices" xml:space="preserve"><value>Mostra i dispositivi rimanenti</value></data>
+  <data name="InventoryOsVersion" xml:space="preserve"><value>Versione NT</value></data>
+  <data name="InventoryProcessor" xml:space="preserve"><value>Modello processore</value></data>
+  <data name="InventoryProcessorCores" xml:space="preserve"><value>Core fisici</value></data>
+  <data name="InventoryProcessorLogical" xml:space="preserve"><value>Processori logici</value></data>
+  <data name="InventoryStorageBus" xml:space="preserve"><value>Interfaccia rilevata</value></data>
+  <data name="InventoryStorageCapacity" xml:space="preserve"><value>Capacità</value></data>
+  <data name="InventoryStorageCapacityGiB" xml:space="preserve"><value>Capacità (GiB)</value></data>
+  <data name="InventoryStorageFirmware" xml:space="preserve"><value>Revisione firmware</value></data>
+  <data name="InventoryStorageMedia" xml:space="preserve"><value>Tipo di supporto rilevato</value></data>
+  <data name="InventoryStorageModel" xml:space="preserve"><value>Modello disco</value></data>
+  <data name="ReadinessActivePageFiles" xml:space="preserve"><value>File di paging attivi</value></data>
+  <data name="ReadinessAllocatedPageFile" xml:space="preserve"><value>Spazio allocato al file di paging</value></data>
+  <data name="ReadinessAutomaticPageFile" xml:space="preserve"><value>Gestione automatica del file di paging</value></data>
+  <data name="ReadinessConfigurationUnknown" xml:space="preserve"><value>Non è stato possibile verificare la configurazione.</value></data>
+  <data name="ReadinessCustomTarget" xml:space="preserve"><value>Destinazione personalizzata (percorso nascosto)</value></data>
+  <data name="ReadinessDedicatedDump" xml:space="preserve"><value>File dump dedicato configurato</value></data>
+  <data name="ReadinessDefaultScope" xml:space="preserve"><value>Predefinito (tutte le applicazioni)</value></data>
+  <data name="ReadinessDumpCount" xml:space="preserve"><value>Numero massimo di dump conservati</value></data>
+  <data name="ReadinessDumpDestination" xml:space="preserve"><value>Spazio disponibile nella destinazione dei dump</value></data>
+  <data name="ReadinessDumpTarget" xml:space="preserve"><value>Destinazione dei dump</value></data>
+  <data name="ReadinessDumpType" xml:space="preserve"><value>Tipo di dump</value></data>
+  <data name="ReadinessElevationHelp" xml:space="preserve"><value>L’accesso con privilegi elevati può mostrare più informazioni. Questo controllo non modifica la configurazione.</value></data>
   <data name="ReadinessLocalDumpsAbsent" xml:space="preserve"><value>La cattura degli arresti anomali dell’applicazione non è configurata. È facoltativa; Windows potrebbe comunque fornire altre prove dell’arresto anomalo.</value></data>
   <data name="ReadinessLocalDumpsConfigured" xml:space="preserve"><value>Le impostazioni di cattura degli arresti anomali dell’applicazione sono presenti. Gli arresti anomali compatibili possono produrre file dump; la cattura riuscita e le autorizzazioni della cartella non sono state verificate. Questo controllo non apporta modifiche.</value></data>
-  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Informazione diagnostica: Configuration scope</value></data>
+  <data name="ReadinessLocalDumpScope" xml:space="preserve"><value>Ambito della configurazione</value></data>
   <data name="ReadinessLocalDumpsLimited" xml:space="preserve"><value>Le impostazioni di cattura degli arresti anomali dell’applicazione sono presenti, ma alcuni valori non sono validi o non è stato possibile esaminarli. Questo controllo non apporta modifiche.</value></data>
-  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>Informazione diagnostica: These entries describe diagnostic capability availability. They do not rate system health and make no changes.</value></data>
-  <data name="ReadinessNotObserved" xml:space="preserve"><value>Informazione diagnostica: No</value></data>
-  <data name="ReadinessObserved" xml:space="preserve"><value>Informazione diagnostica: Yes</value></data>
-  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>Informazione diagnostica: Pagefile sufficiency could not be verified. Requirements depend on dump type, memory use, and dedicated dump file configuration.</value></data>
-  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Informazione diagnostica: Windows denied access to this diagnostic source.</value></data>
-  <data name="ReadinessSourceLimited" xml:space="preserve"><value>Informazione diagnostica: Only part of the supported source could be examined. Some locations or records may be inaccessible, missing, or beyond the inspection limit.</value></data>
-  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>Informazione diagnostica: This diagnostic capability is not supported on this platform.</value></data>
-  <data name="ReadinessSourceReady" xml:space="preserve"><value>Informazione diagnostica: The supported source can be queried now. This does not guarantee future evidence or complete history.</value></data>
-  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>Informazione diagnostica: The supported source could not be queried or no supported location was available.</value></data>
+  <data name="ReadinessNoHealthScore" xml:space="preserve"><value>Queste voci descrivono la disponibilità delle funzioni diagnostiche. Non valutano lo stato del sistema e non apportano modifiche.</value></data>
+  <data name="ReadinessNotObserved" xml:space="preserve"><value>Non rilevato</value></data>
+  <data name="ReadinessObserved" xml:space="preserve"><value>Sì</value></data>
+  <data name="ReadinessPageFileUnknown" xml:space="preserve"><value>Non è stato possibile verificare l’adeguatezza del file di paging. I requisiti dipendono dal tipo di dump, dall’uso della memoria e dalla configurazione di un file di dump dedicato.</value></data>
+  <data name="ReadinessSourceAccessDenied" xml:space="preserve"><value>Windows ha negato l’accesso a questa fonte diagnostica.</value></data>
+  <data name="ReadinessSourceLimited" xml:space="preserve"><value>È stato possibile esaminare solo una parte della fonte supportata. Alcune posizioni o registrazioni potrebbero essere inaccessibili, mancanti o oltre il limite di ispezione.</value></data>
+  <data name="ReadinessSourceNotSupported" xml:space="preserve"><value>Questa funzione diagnostica non è supportata su questa piattaforma.</value></data>
+  <data name="ReadinessSourceReady" xml:space="preserve"><value>La fonte supportata può essere interrogata ora. Ciò non garantisce evidenze future né una cronologia completa.</value></data>
+  <data name="ReadinessSourceUnavailable" xml:space="preserve"><value>Non è stato possibile interrogare la fonte supportata oppure non era disponibile alcuna posizione supportata.</value></data>
   <data name="ReadinessStatusAccessDenied" xml:space="preserve"><value>Accesso negato</value></data>
   <data name="ReadinessStatusDisabled" xml:space="preserve"><value>Disabilitato / non configurato</value></data>
   <data name="ReadinessStatusLimited" xml:space="preserve"><value>Limitato</value></data>
   <data name="ReadinessStatusNotSupported" xml:space="preserve"><value>Non supportato</value></data>
   <data name="ReadinessStatusReady" xml:space="preserve"><value>Pronto</value></data>
   <data name="ReadinessStatusUnavailable" xml:space="preserve"><value>Non disponibile</value></data>
-  <data name="ReadinessStorageObserved" xml:space="preserve"><value>Disponibile storage was observed for accessible local destinations. Required dump space and successful capture could not be verified.</value></data>
-  <data name="ReadinessSystemDrive" xml:space="preserve"><value>Informazione diagnostica: System drive available space</value></data>
-  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Informazione diagnostica: Windows is configured to capture system crash dumps. This does not verify pagefile support, destination access, or successful future capture.</value></data>
-  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>Informazione diagnostica: Windows system crash dump capture is disabled.</value></data>
-  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>Informazione diagnostica: Destination could not be verified</value></data>
+  <data name="ReadinessStorageObserved" xml:space="preserve"><value>È stato rilevato lo spazio disponibile nelle destinazioni locali accessibili. Non è stato possibile verificare lo spazio necessario per i dump né il successo di una futura cattura.</value></data>
+  <data name="ReadinessSystemDrive" xml:space="preserve"><value>Spazio disponibile nell’unità di sistema</value></data>
+  <data name="ReadinessSystemDumpsConfigured" xml:space="preserve"><value>Windows è configurato per acquisire i dump degli arresti anomali del sistema. Ciò non verifica il supporto del file di paging, l’accesso alla destinazione o il successo di una futura cattura.</value></data>
+  <data name="ReadinessSystemDumpsDisabled" xml:space="preserve"><value>L’acquisizione dei dump degli arresti anomali del sistema è disattivata.</value></data>
+  <data name="ReadinessTargetUnknown" xml:space="preserve"><value>Non è stato possibile verificare la destinazione</value></data>
   <data name="ChangesNotExamined" xml:space="preserve"><value>La cronologia delle modifiche non è stata esaminata per questa analisi.</value></data><data name="FirstObservedValue" xml:space="preserve"><value>Prima osservazione nei dati FaultWitness disponibili: {0} ({1})</value></data><data name="FirstObservedBasisCurrentScan" xml:space="preserve"><value>scansione corrente</value></data><data name="FirstObservedBasisRetainedHistory" xml:space="preserve"><value>cronologia conservata</value></data><data name="ChangesRecurring" xml:space="preserve"><value>Questa occorrenza fa parte di uno schema ricorrente.</value></data><data name="ChangesNotRecurring" xml:space="preserve"><value>Non è stata stabilita alcuna ricorrenza.</value></data><data name="NoRelevantChanges" xml:space="preserve"><value>Nessuna modifica rilevante osservata nelle fonti disponibili della cronologia.</value></data><data name="ChangesCoverageHelp" xml:space="preserve"><value>La copertura riflette le fonti disponibili e potrebbe essere incompleta.</value></data><data name="ChangesDisclaimer" xml:space="preserve"><value>Le modifiche ravvicinate nel tempo forniscono contesto. Non dimostrano la causa dell’incidente.</value></data><data name="ChangeTimingBefore" xml:space="preserve"><value>Prima della prima osservazione</value></data><data name="ChangeTimingSameTime" xml:space="preserve"><value>Alla prima osservazione</value></data><data name="ChangeTimingAfter" xml:space="preserve"><value>Dopo la prima osservazione</value></data><data name="ChangeRelevanceHigh" xml:space="preserve"><value>Rilevanza contestuale alta</value></data><data name="ChangeRelevanceModerate" xml:space="preserve"><value>Rilevanza contestuale moderata</value></data><data name="ChangeRelevanceLow" xml:space="preserve"><value>Rilevanza contestuale bassa</value></data><data name="ChangeCategoryDriverInstalled" xml:space="preserve"><value>Driver installato</value></data><data name="ChangeCategoryWindowsUpdate" xml:space="preserve"><value>Aggiornamento di Windows</value></data><data name="FirstObservedSaved" xml:space="preserve"><value>Prima osservazione</value></data><data name="RelatedChangesSaved" xml:space="preserve"><value>Modifiche correlate</value></data><data name="ReadingChangeHistory" xml:space="preserve"><value>Lettura della cronologia delle modifiche disponibile</value></data><data name="ChangeReasonOtherSubsystem" xml:space="preserve"><value>Sottosistema diverso o non verificato</value></data><data name="ChangeReasonSameDevice" xml:space="preserve"><value>Stesso dispositivo identificato esplicitamente</value></data><data name="ChangeReasonSameSubsystem" xml:space="preserve"><value>Stesso sottosistema</value></data><data name="ChangeReasonSystemUpdate" xml:space="preserve"><value>Aggiornamento di sistema vicino all'osservazione</value></data><data name="ChangeReasonAfter" xml:space="preserve"><value>Registrata dopo la prima osservazione; non è un precursore</value></data><data name="ChangeSourceLocalHistory" xml:space="preserve"><value>Cronologia locale delle modifiche</value></data><data name="ChangeSourceFaultWitnessHistory" xml:space="preserve"><value>Osservazioni FaultWitness conservate</value></data><data name="ChangeRetainedHistoryUnavailable" xml:space="preserve"><value>Non è stato possibile verificare le osservazioni FaultWitness conservate precedenti.</value></data>
   <data name="ChangesCoverageIncomplete" xml:space="preserve"><value>La copertura della cronologia delle modifiche è incompleta.</value></data><data name="ChangesSummaryLimited" xml:space="preserve"><value>Il riepilogo salvato include {0} di {1} modifiche osservate.</value></data><data name="ChangeVersion" xml:space="preserve"><value>Versione registrata: {0}</value></data><data name="ChangePreviousVersion" xml:space="preserve"><value>Versione registrata precedente: {0}</value></data><data name="ChangeOffset" xml:space="preserve"><value>Distanza dalla prima osservazione: {0}</value></data><data name="ChangeSource" xml:space="preserve"><value>Fonte</value></data><data name="ChangeSubsystemUnknown" xml:space="preserve"><value>Sconosciuto</value></data><data name="ChangeSubsystemDisplay" xml:space="preserve"><value>Schermo</value></data><data name="ChangeSubsystemAudio" xml:space="preserve"><value>Audio</value></data><data name="ChangeSubsystemStorage" xml:space="preserve"><value>Archiviazione</value></data><data name="ChangeSubsystemNetwork" xml:space="preserve"><value>Rete</value></data><data name="ChangeSubsystemSystem" xml:space="preserve"><value>Sistema</value></data><data name="ChangeSubsystemPrinter" xml:space="preserve"><value>Stampante</value></data>
   <data name="ChangeQualityRecorded" xml:space="preserve"><value>Timestamp registrato dalla fonte.</value></data><data name="ChangeQualityLocalTimeConverted" xml:space="preserve"><value>Timestamp locale convertito usando le regole attuali del fuso orario; non è possibile verificare i cambiamenti passati del fuso orario.</value></data>
