@@ -22,7 +22,7 @@ public sealed partial class MainWindow
     private Control BuildHistory()
     {
         var heading = Heading("History", "HistoryHelp");
-        if (ViewModel.History.Count == 0) return Scroll(Stack(heading, Empty("NoHistory"), AsyncButton("RefreshHistory", ViewModel.RefreshHistoryAsync, "RefreshHistory")));
+        if (ViewModel.History.Count == 0) return Scroll(Stack(heading, Empty("HistoryEmptyTitle", "NoHistory"), AsyncButton("RefreshHistory", ViewModel.RefreshHistoryAsync, "RefreshHistory")));
         var list = new ListBox { Name = "HistoryList", ItemsSource = ViewModel.History, MinHeight = 260 };
         historyList = list;
         list.Classes.Add("history-list");
@@ -100,7 +100,7 @@ public sealed partial class MainWindow
     private ScrollViewer BuildReadiness()
     {
         var body = Stack(Heading("System", "SystemHelp"), SystemNavigation(), Label(T("Readiness"), TextRole.SectionTitle), Label(T("ReadinessHelp")), PrimaryAsyncButton("CheckReadiness", ViewModel.RefreshReadinessAsync, "RefreshReadiness"));
-        if (ViewModel.Readiness.Count == 0) body.Children.Add(Empty("ReadinessNotChecked"));
+        if (ViewModel.Readiness.Count == 0) body.Children.Add(Empty("ReadinessNotChecked", "ReadinessEmptyHelp"));
         foreach (var item in ViewModel.Readiness)
         {
             var status = "ReadinessStatus" + item.Status;

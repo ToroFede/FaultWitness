@@ -65,6 +65,7 @@ public sealed partial class MainWindow
         var modes = new ComboBox { Name = "AnalysisMode", ItemsSource = new[] { T("AnalyzeRecent"), T("AnalyzeCrashFreeze"), T("AnalyzeFiles") }, SelectedIndex = (int)mode, Width = 320 };
         modes.SelectionChanged += (_, _) => { if (modes.SelectedIndex >= 0 && (AnalysisMode)modes.SelectedIndex != ViewModel.AnalysisMode) ViewModel.OpenAnalyze((AnalysisMode)modes.SelectedIndex); };
         body.Children.Add(Field("AnalysisWorkflow", modes));
+        body.Children.Add(Label(T(mode == AnalysisMode.Files ? "ImportHelp" : around ? "AroundAnalysisGuide" : "RecentAnalysisGuide")));
         if (mode == AnalysisMode.Files) { body.Children.Add(BuildImportContent()); return Scroll(body); }
         var period = new ComboBox { Name = "PeriodSelector", ItemsSource = new[] { T("PeriodDay"), T("PeriodWeek"), T("PeriodMonth"), T("PeriodCustom") }, SelectedIndex = (int)ViewModel.Period, Width = 280 };
         var fromDate = new DatePicker { Name = "FromDate", SelectedDate = ViewModel.CustomFrom };

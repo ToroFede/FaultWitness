@@ -21,7 +21,9 @@ public sealed class VisualValidationTests
         var window = new MainWindow(viewModel); window.Show(); window.ViewModel.SetResult(result); window.UpdateLayout();
         try
         {
-            var destination = Path.Combine(FindRoot(), "artifacts", "ux-correction", "rendered"); Directory.CreateDirectory(destination);
+            var destination = Environment.GetEnvironmentVariable("FAULTWITNESS_VISUAL_OUTPUT");
+            if (string.IsNullOrWhiteSpace(destination)) destination = Path.Combine(FindRoot(), "artifacts", "ux-correction", "rendered");
+            Directory.CreateDirectory(destination);
             foreach (var theme in new[] { AppTheme.Light, AppTheme.Dark })
             {
                 window.ViewModel.ChangeSettings(window.ViewModel.Settings with { Theme = theme });

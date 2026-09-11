@@ -28,6 +28,7 @@
       "id": "SecondaryAction",
       "role": "supporting action",
       "allowedUse": "alternative workflow",
+      "stateChangingVariant": "reversible configuration/restore: explicit verb, semibold label, attention border, consequence explanation and existing confirmation; never imply capture succeeded",
       "forbiddenUse": "compete with primary",
       "visualPriority": 2,
       "typographyToken": "text.body",

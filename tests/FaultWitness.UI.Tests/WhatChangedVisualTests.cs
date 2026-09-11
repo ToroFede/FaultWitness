@@ -50,7 +50,7 @@ public sealed class WhatChangedVisualTests
                     foreach (var expander in window.GetVisualDescendants().OfType<Expander>()) expander.IsExpanded = true;
                     window.UpdateLayout(); visible = VisibleText(window);
                     Assert.Contains(viewModel.Text.Get("ChangeTimingAfter"), visible, StringComparison.Ordinal);
-                    Assert.Contains("Temporal proximity does not establish causation.", visible, StringComparison.Ordinal);
+                    Assert.Contains("Changes close in time provide context. They do not prove what caused the incident.", visible, StringComparison.Ordinal);
                     Assert.Contains(viewModel.Text.Get("ChangeSourceSetupApi"), visible, StringComparison.Ordinal);
                 }
                 var output = Environment.GetEnvironmentVariable("FAULTWITNESS_CHANGE_VISUAL_OUTPUT");

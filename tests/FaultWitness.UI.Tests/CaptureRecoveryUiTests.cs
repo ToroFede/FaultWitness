@@ -2,6 +2,7 @@ using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using Avalonia.Threading;
 using FaultWitness.App;
@@ -33,7 +34,8 @@ public sealed class CaptureRecoveryUiTests
             Find<TextBox>(window, "CaptureExecutable").Text = "other.exe";
             Assert.False(Find<Button>(window, "CaptureConfigureButton").IsEnabled);
             Assert.Null(capture.Preview);
-            Assert.Contains(window.ViewModel.Text.Get("CaptureNotRead"), Find<TextBlock>(window, "CapturePreviewState").Text);
+            var preview = window.GetLogicalDescendants().OfType<TextBlock>().Single(x => x.Name == "CapturePreviewState");
+            Assert.Contains(window.ViewModel.Text.Get("CaptureNotRead"), preview.Text);
             window.ViewModel.Notify("Ready");
             Assert.False(Find<Button>(window, "CaptureConfigureButton").IsEnabled);
         }

@@ -160,9 +160,9 @@ public sealed partial class MainWindow : Window
     private static TextBlock Label(string text, TextRole role = TextRole.Body, bool bold = false) => new()
     { Text = text, FontSize = D(role switch { TextRole.Caption => "primitive.fontSize.caption", TextRole.RowTitle => "primitive.fontSize.row", TextRole.SectionTitle => "primitive.fontSize.section", TextRole.PageTitle => "primitive.fontSize.page", _ => "primitive.fontSize.body" }),
         FontWeight = bold || role is TextRole.RowTitle or TextRole.SectionTitle or TextRole.PageTitle ? FontWeight.SemiBold : FontWeight.Normal, TextWrapping = TextWrapping.Wrap };
-    private static TextBlock Muted(string text)
+    private static TextBlock Muted(string text, TextRole role = TextRole.Caption)
     {
-        var label = Label(text, TextRole.Caption);
+        var label = Label(text, role);
         label.Bind(TextBlock.ForegroundProperty, new DynamicResourceExtension("AppMuted"));
         return label;
     }
@@ -187,7 +187,7 @@ public sealed partial class MainWindow : Window
     }
     private Button Button(string key, Action action, string? name = null)
     {
-        var button = new Button { Content = T(key), Name = name, Padding = new Thickness(D("primitive.space.3"), D("primitive.space.2")), MinHeight = D("component.action.standard.minHeight") };
+        var button = new Button { Content = new TextBlock { Text = T(key), TextWrapping = TextWrapping.Wrap }, Name = name, Padding = new Thickness(D("primitive.space.3"), D("primitive.space.2")), MinHeight = D("component.action.standard.minHeight") };
         button.Classes.Add("secondary-action");
         AutomationProperties.SetName(button, T(key)); button.Click += (_, _) => action();
         return button;
@@ -236,7 +236,7 @@ public sealed partial class MainWindow : Window
     }
     private Button PrimaryAsyncButton(string key, Func<Task> action, string? name = null) { var button = AsyncButton(key, action, name); button.Classes.Remove("secondary-action"); button.Classes.Add("primary-action"); button.MinHeight = D("component.action.primary.minHeight"); return button; }
     private static ScrollViewer Scroll(Control content) => new() { Content = content, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
-    private StackPanel Heading(string key, string? subtitle = null) => Stack(Label(T(key), TextRole.PageTitle), Muted(T(subtitle ?? "Tagline")));
+    private StackPanel Heading(string key, string? subtitle = null) => Stack(Label(T(key), TextRole.PageTitle), Muted(T(subtitle ?? "Tagline"), TextRole.Body));
     private Expander Expand(string key, Control content, bool open = false) => new()
     { Header = T(key), Content = content, IsExpanded = open, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch };
     private StackPanel Field(string key, Control control)
@@ -244,7 +244,7 @@ public sealed partial class MainWindow : Window
         AutomationProperties.SetName(control, T(key));
         return Stack(Muted(T(key)), control);
     }
-    private Border Empty(string key = "NoSignificant") => Surface(Stack(Label(T(key), TextRole.SectionTitle), Muted(T(ViewModel.HasAnalysis ? "CheckCoverage" : "NoHistory"))));
+    private Border Empty(string key = "NoSignificant", string? helpKey = null) => Surface(Stack(Label(T(key), TextRole.RowTitle), Muted(T(helpKey ?? (ViewModel.HasAnalysis ? "CheckCoverage" : "NoHistory")), TextRole.Body)));
     private StackPanel Coverage(IEnumerable<SourceCoverage> coverage)
     {
         var panel = new StackPanel { Spacing = D("primitive.space.2"), Name = "CoveragePanel" };
@@ -272,8 +272,10 @@ public sealed partial class MainWindow : Window
         list.ItemTemplate = new FuncDataTemplate<IncidentRow>((row, _) =>
         {
             if (row is null) return null;
-            var top = new Grid { ColumnDefinitions = new ColumnDefinitions("*,Auto") };
-            top.Children.Add(Label(row.Title, TextRole.RowTitle)); var time = Muted(row.Timestamp); Grid.SetColumn(time, 1); top.Children.Add(time);
+            var top = new Grid { ColumnDefinitions = new ColumnDefinitions(layoutClass == "small" ? "*" : "*,Auto"), RowDefinitions = new RowDefinitions(layoutClass == "small" ? "Auto,Auto" : "Auto"), ColumnSpacing = D("primitive.space.3") };
+            top.Children.Add(Label(row.Title, TextRole.RowTitle)); var time = Muted(row.Timestamp);
+            if (layoutClass == "small") Grid.SetRow(time, 1); else Grid.SetColumn(time, 1);
+            top.Children.Add(time);
             var body = Stack(top, Label(row.Assessment), Muted(row.Strength + "   ·   " + row.PriorityText + "   ·   " + row.Context));
             if (row.RecurrenceCount > 1) body.Children.Add(Muted(row.Recurrence));
             if (row.SharedReportCount > 1) body.Children.Add(Muted(row.SharedReport));

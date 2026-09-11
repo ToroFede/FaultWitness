@@ -8,7 +8,7 @@ namespace FaultWitness.Export;
 public static class ChangePresentation
 {
     public const int MaxChanges = 12;
-    public const string Disclaimer = "Temporal proximity does not establish causation.";
+    public const string Disclaimer = "Changes close in time provide context. They do not prove what caused the incident.";
 
     public static string ToMarkdown(Incident incident, LocalizationService text, ExportPrivacyOptions privacy) =>
         ToMarkdown(incident.ChangeContext, incident.RelatedChanges, text, privacy);

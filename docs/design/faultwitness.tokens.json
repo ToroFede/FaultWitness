@@ -50,6 +50,18 @@
       },
       "green300": {
         "$value": "#72D69C"
+      },
+      "blue600": {
+        "$value": "#115EA3"
+      },
+      "blue700": {
+        "$value": "#0F548C"
+      },
+      "blue300": {
+        "$value": "#62ABF5"
+      },
+      "blue200": {
+        "$value": "#96C6FA"
       }
     },
     "space": {
@@ -155,6 +167,12 @@
         },
         "selection": {
           "$value": "{semantic.light.color.surfaceMuted}"
+        },
+        "accentHover": {
+          "$value": "{primitive.color.blue600}"
+        },
+        "accentPressed": {
+          "$value": "{primitive.color.blue700}"
         }
       }
     },
@@ -199,6 +217,12 @@
         },
         "selection": {
           "$value": "{semantic.dark.color.surfaceMuted}"
+        },
+        "accentHover": {
+          "$value": "{primitive.color.blue300}"
+        },
+        "accentPressed": {
+          "$value": "{primitive.color.blue200}"
         }
       }
     }

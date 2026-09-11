@@ -278,12 +278,16 @@
         "actual product identity",
         "actual inventory",
         "readiness link",
+        "capture status and preview with privacy/storage/administrator implications before Configure",
+        "capture change history and Restore guidance",
         "technical details"
       ],
       "regions": [
         "information/readiness sub-navigation",
         "systemIdentity",
         "inventory",
+        "capture preview/configuration",
+        "capture change history",
         "advanced"
       ],
       "defaultFocus": "information/readiness sub-navigation",

@@ -26,6 +26,12 @@ public sealed class DesignContractTests
     [InlineData("dark", "textMuted", "canvas", 4.5)]
     [InlineData("light", "attention", "canvas", 3.0)]
     [InlineData("dark", "attention", "canvas", 3.0)]
+    [InlineData("light", "surface", "accent", 4.5)]
+    [InlineData("light", "surface", "accentHover", 4.5)]
+    [InlineData("light", "surface", "accentPressed", 4.5)]
+    [InlineData("dark", "surface", "accent", 4.5)]
+    [InlineData("dark", "surface", "accentHover", 4.5)]
+    [InlineData("dark", "surface", "accentPressed", 4.5)]
     public void SemanticColors_MeetDeclaredContrast(string theme, string foreground, string background, double minimum)
     {
         var tokens = DesignTokenCatalog.LoadDefault();

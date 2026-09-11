@@ -2,6 +2,14 @@
   "version": "1.0.1",
   "automatic": [
     {
+      "id": "beta-workflow-guidance",
+      "check": "Recent, around-time and import modes have distinct guidance; empty readiness gives a relevant next step; capture technical values are collapsed and Configure keeps its existing guards"
+    },
+    {
+      "id": "beta-action-states",
+      "check": "Shared actions retain keyboard focus and disabled invocation guards in Light/Dark; primary default, hover and pressed text contrast is at least 4.5:1"
+    },
+    {
       "id": "tokens-schema",
       "check": "Token document contains typed values and valid references"
     },

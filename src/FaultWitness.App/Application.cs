@@ -24,16 +24,46 @@ public sealed class Application : Avalonia.Application
         windowStyle.Setters.Add(new Setter(Window.BackgroundProperty, new DynamicResourceExtension("AppBackground")));
         windowStyle.Setters.Add(new Setter(Window.ForegroundProperty, new DynamicResourceExtension("AppText")));
         Styles.Add(windowStyle);
+        foreach (var action in new[] { "primary-action", "secondary-action", "subtle-action", "danger-action" })
+        {
+            var shape = new Style(selector => selector.OfType<Button>().Class(action));
+            shape.Setters.Add(new Setter(Button.CornerRadiusProperty, new CornerRadius(tokens.Number("component.action.primary.radius"))));
+            Styles.Add(shape);
+        }
+        var secondary = new Style(selector => selector.OfType<Button>().Class("secondary-action"));
+        secondary.Setters.Add(new Setter(Button.BackgroundProperty, new DynamicResourceExtension("AppSurface")));
+        secondary.Setters.Add(new Setter(Button.ForegroundProperty, new DynamicResourceExtension("AppText")));
+        secondary.Setters.Add(new Setter(Button.BorderBrushProperty, new DynamicResourceExtension("AppBorder"))); Styles.Add(secondary);
         var primary = new Style(selector => selector.OfType<Button>().Class("primary-action"));
         primary.Setters.Add(new Setter(Button.BackgroundProperty, new DynamicResourceExtension("AppAccent")));
+        primary.Setters.Add(new Setter(Button.BorderBrushProperty, new DynamicResourceExtension("AppAccent")));
         primary.Setters.Add(new Setter(Button.ForegroundProperty, new DynamicResourceExtension("AppSurface")));
         primary.Setters.Add(new Setter(Button.FontWeightProperty, FontWeight.SemiBold)); Styles.Add(primary);
         var subtle = new Style(selector => selector.OfType<Button>().Class("subtle-action"));
         subtle.Setters.Add(new Setter(Button.BackgroundProperty, Brushes.Transparent));
+        subtle.Setters.Add(new Setter(Button.BorderBrushProperty, Brushes.Transparent));
         subtle.Setters.Add(new Setter(Button.ForegroundProperty, new DynamicResourceExtension("AppAccent"))); Styles.Add(subtle);
         var danger = new Style(selector => selector.OfType<Button>().Class("danger-action"));
+        danger.Setters.Add(new Setter(Button.BackgroundProperty, new DynamicResourceExtension("AppSurface")));
+        danger.Setters.Add(new Setter(Button.FontWeightProperty, FontWeight.SemiBold));
         danger.Setters.Add(new Setter(Button.ForegroundProperty, new DynamicResourceExtension("AppError")));
         danger.Setters.Add(new Setter(Button.BorderBrushProperty, new DynamicResourceExtension("AppError"))); Styles.Add(danger);
+        var stateChange = new Style(selector => selector.OfType<Button>().Class("state-change-action"));
+        stateChange.Setters.Add(new Setter(Button.BorderBrushProperty, new DynamicResourceExtension("AppAttention")));
+        stateChange.Setters.Add(new Setter(Button.FontWeightProperty, FontWeight.SemiBold)); Styles.Add(stateChange);
+        foreach (var action in new[] { "primary-action", "secondary-action", "subtle-action", "danger-action", "state-change-action" })
+        {
+            foreach (var state in new[] { ":pointerover", ":pressed", ":disabled" })
+            {
+                var interaction = new Style(selector => selector.OfType<Button>().Class(action).Class(state).Template().OfType<ContentPresenter>().Name("PART_ContentPresenter"));
+                var primaryAction = action == "primary-action";
+                var disabled = state == ":disabled";
+                interaction.Setters.Add(new Setter(ContentPresenter.BackgroundProperty, new DynamicResourceExtension(disabled || !primaryAction ? "AppSurfaceMuted" : state == ":pressed" ? "AppAccentPressed" : "AppAccentHover")));
+                interaction.Setters.Add(new Setter(ContentPresenter.ForegroundProperty, new DynamicResourceExtension(disabled ? "AppMuted" : primaryAction ? "AppSurface" : action == "danger-action" ? "AppError" : "AppText")));
+                interaction.Setters.Add(new Setter(ContentPresenter.BorderBrushProperty, new DynamicResourceExtension(disabled ? "AppBorder" : action == "danger-action" ? "AppError" : action == "state-change-action" ? "AppAttention" : "AppAccent")));
+                Styles.Add(interaction);
+            }
+        }
         var navigation = new Style(selector => selector.OfType<Button>().Class("navigation-item"));
         navigation.Setters.Add(new Setter(Button.BackgroundProperty, Brushes.Transparent));
         navigation.Setters.Add(new Setter(Button.BorderThicknessProperty, new Thickness(0)));
@@ -64,7 +94,7 @@ public sealed class Application : Avalonia.Application
         {
             ["AppBackground"] = Brush("canvas"), ["AppSurface"] = Brush("surface"), ["AppSurfaceMuted"] = Brush("surfaceMuted"),
             ["AppText"] = Brush("text"), ["AppMuted"] = Brush("textMuted"), ["AppBorder"] = Brush("border"),
-            ["AppAccent"] = Brush("accent"), ["AppAttention"] = Brush("attention"), ["AppError"] = Brush("error"),
+            ["AppAccent"] = Brush("accent"), ["AppAccentHover"] = Brush("accentHover"), ["AppAccentPressed"] = Brush("accentPressed"), ["AppAttention"] = Brush("attention"), ["AppError"] = Brush("error"),
             ["AppReady"] = Brush("ready"), ["AppContext"] = Brush("context"), ["AppUnknown"] = Brush("unknown"), ["AppSelection"] = Brush("selection")
         };
     }

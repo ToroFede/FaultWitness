@@ -19,13 +19,14 @@ public sealed partial class MainWindow
         var executable = new TextBox { Name = "CaptureExecutable", Text = capture.TargetExecutable, MaxLength = 128, MinWidth = 260 };
         AutomationProperties.SetName(executable, T("CaptureExecutable"));
         var current = Label(CaptureCurrentText()); current.Name = "CaptureCurrentState"; AutomationProperties.SetName(current, current.Text);
-        var details = Stack(Label(T("CapturePrivacy")), Label(T("CaptureRequiresAdministrator")), Label(T("CaptureLimitations")), Label(T("CaptureScope")), Label(T("CaptureFolder")));
+        var details = Stack(Label(T("CapturePrivacy")), Label(T("CaptureRequiresAdministrator")), Label(T("CaptureFolder")));
         var preview = Label(CapturePreviewText()); preview.Name = "CapturePreviewState"; AutomationProperties.SetName(preview, preview.Text);
         var result = Label(CaptureResultText()); result.Name = "CaptureLastResult"; AutomationProperties.SetName(result, result.Text);
-        var architecture = new CheckBox { Name = "CaptureArchitectureConfirmation", Content = T("CaptureArchitectureConfirmation"), IsChecked = captureArchitectureConfirmed };
+        var architecture = new CheckBox { Name = "CaptureArchitectureConfirmation", Content = Label(T("CaptureArchitectureConfirmation")), HorizontalContentAlignment = HorizontalAlignment.Stretch, IsChecked = captureArchitectureConfirmed };
         AutomationProperties.SetName(architecture, T("CaptureArchitectureConfirmation"));
         var read = PrimaryAsyncButton("CaptureRead", () => capture.PreviewAsync(), "CaptureReadButton");
         var configure = AsyncButton("CaptureConfigure", ConfigureCaptureAsync, "CaptureConfigureButton");
+        configure.Classes.Add("state-change-action");
         // Capture has additional guards beyond the shared operation busy state.
         configure.Classes.Remove("operation");
         updateCaptureControls = () =>
@@ -41,8 +42,12 @@ public sealed partial class MainWindow
         updateCaptureControls();
         var refresh = AsyncButton("CaptureRefresh", async () => { await capture.RefreshAsync().ConfigureAwait(true); RenderPage(); }, "CaptureRefreshButton");
         var body = Stack(Label(T("CaptureTitle"), TextRole.SectionTitle), Label(T("CaptureHelp")), Field("CaptureExecutable", executable),
-            Actions(read, configure, refresh), Surface(Stack(Label(T("CaptureCurrent"), TextRole.RowTitle), current, Label(T("CaptureProposed"), TextRole.RowTitle), preview, Label(T("CaptureLastResult"), TextRole.RowTitle), result, architecture, details), D("primitive.space.3")),
-            Label(T("CaptureJournal"), TextRole.RowTitle));
+            Label(T("CaptureScope")), Actions(read, refresh),
+            Surface(Stack(Label(T("CaptureCurrent"), TextRole.RowTitle), current,
+                Label(T("CaptureProposed"), TextRole.RowTitle), Label(T("CapturePreviewGuide")), details,
+                Label(T("CaptureLimitations")), Expand("TechnicalDetails", preview), architecture, Actions(configure),
+                Label(T("CaptureLastResult"), TextRole.RowTitle), result), D("primitive.space.3")),
+            Label(T("CaptureJournal"), TextRole.SectionTitle), Label(T("CaptureRestoreHelp")));
         var journal = new StackPanel { Spacing = D("primitive.space.3") };
         var entries = capture.Entries.OrderByDescending(CaptureWorkflow.CanRestore).ToArray();
         void RenderJournal()
@@ -81,8 +86,13 @@ public sealed partial class MainWindow
         var summary = ViewModel.Text.Format("CaptureJournalRow", $"{action}: {entry.TargetExecutable}", entry.TimestampUtc.ToLocalTime().ToString("g", ViewModel.Text.Culture), status, restoration);
         var requested = ViewModel.Text.Format("CaptureRequestedValue", entry.RequestedState.DumpType ?? 1, entry.RequestedState.DumpCount ?? 3, entry.RequestedState.DumpFolder ?? T("CaptureDefaultFolder"));
         var observed = entry.ObservedState is { } state ? ViewModel.Text.Format("CaptureObservedValue", state.DumpType?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? T("NotAvailable"), state.DumpCount?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? T("NotAvailable"), state.DumpFolder ?? T("CaptureDefaultFolder")) : T("CaptureObservedUnavailable");
-        var content = Stack(Label(summary, TextRole.RowTitle), Expand("CaptureJournalDetails", Stack(Label(T("CapturePrevious")), Muted(StateText(entry.PreviousState)), Label(T("CaptureRequested")), Muted(requested), Label(T("CaptureObserved")), Muted(observed)), false));
-        if (CaptureWorkflow.CanRestore(entry)) content.Children.Add(AsyncButton("CaptureRestore", () => ConfirmRestoreAsync(entry), "CaptureRestoreButton" + entry.ActionId.ToString("N")));
+        var content = Stack(Label(action + ": " + entry.TargetExecutable, TextRole.RowTitle), Muted(entry.TimestampUtc.ToLocalTime().ToString("g", ViewModel.Text.Culture)),
+            Label(status), Muted(restoration), Expand("CaptureJournalDetails", Stack(Label(T("CapturePrevious")), Muted(StateText(entry.PreviousState)), Label(T("CaptureRequested")), Muted(requested), Label(T("CaptureObserved")), Muted(observed)), false));
+        if (CaptureWorkflow.CanRestore(entry))
+        {
+            var restore = AsyncButton("CaptureRestore", () => ConfirmRestoreAsync(entry), "CaptureRestoreButton" + entry.ActionId.ToString("N"));
+            restore.Classes.Add("state-change-action"); content.Children.Add(restore);
+        }
         var border = Surface(content, D("primitive.space.3")); AutomationProperties.SetName(border, summary); return border;
     }
 
@@ -99,7 +109,8 @@ public sealed partial class MainWindow
     private async Task ConfirmRestoreAsync(CaptureJournalEntry entry)
     {
         var dialog = new Window { Title = T("CaptureRestore"), Width = 500, Height = 260, CanResize = false, WindowStartupLocation = WindowStartupLocation.CenterOwner };
-        var confirm = DangerButton("CaptureConfirmRestore", () => dialog.Close(true));
+        var confirm = Button("CaptureConfirmRestore", () => dialog.Close(true));
+        confirm.Classes.Add("state-change-action");
         dialog.Content = new Border { Padding = new Thickness(D("primitive.space.6")), Child = Stack(Label(T("CaptureRestoreWarning")), Actions(confirm, Button("Cancel", () => dialog.Close(false)))) };
         if (await dialog.ShowDialog<bool>(this).ConfigureAwait(true) && ViewModel.Capture is { } capture) { await capture.RestoreAsync(entry.ActionId).ConfigureAwait(true); RenderPage(); }
     }

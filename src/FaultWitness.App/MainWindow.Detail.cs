@@ -58,7 +58,12 @@ public sealed partial class MainWindow
         body.Children.Add(Expand("RawData", RawEvents(incident.SourceEvents)));
         return Scroll(body);
     }
-    private StackPanel Section(string title, Control content) => Stack(Label(T(title), TextRole.RowTitle), content);
+    private StackPanel Section(string title, Control content)
+    {
+        var section = Stack(Label(T(title), TextRole.SectionTitle), content);
+        section.Margin = new Thickness(0, D("primitive.space.2"), 0, 0);
+        return section;
+    }
     private string EvidenceText(Evidence item) => EvidencePresentation.Describe(item, ViewModel.Result.Coverage, ViewModel.Text);
     private string FriendlyEvent(NormalizedEvent item) => EvidencePresentation.FriendlyEvent(item, ViewModel.Text);
     private ListBox Timeline(Incident incident)
@@ -97,6 +102,7 @@ public sealed partial class MainWindow
             return Section("ChangesNearFirst", Muted(T("ChangesNotExamined")));
         var content = new List<Control>
         {
+            Label(T("ChangesDisclaimer")),
             Label(ViewModel.Text.Format("FirstObservedValue", context.FirstObservedUtc.ToLocalTime().ToString("g", ViewModel.Text.Culture), T("FirstObservedBasis" + context.Basis))),
             Muted(T(context.IsRecurring ? "ChangesRecurring" : "ChangesNotRecurring"))
         };
@@ -113,7 +119,6 @@ public sealed partial class MainWindow
         if (context.Coverage.Count > 0) content.Add(Expand("SourceCoverage", Stack(context.Coverage.Select(c => (Control)Label(ChangePresentation.CoverageText(c, ViewModel.Text))).ToArray())));
         if (context.TotalChangeCount > changes.Length) content.Add(Muted(ViewModel.Text.Format("ChangesSummaryLimited", changes.Length, context.TotalChangeCount)));
         content.Add(Muted(T("ChangesCoverageHelp")));
-        content.Add(Muted(T("ChangesDisclaimer")));
         return Section("ChangesNearFirst", Stack(content.ToArray()));
     }
 

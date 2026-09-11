@@ -37,7 +37,7 @@ public sealed class ChangePrivacyTests
         foreach (var text in new[] { ReportExporter.ToJson(result, options), ReportExporter.ToMarkdown(result, options), ReportExporter.ToHtml(result, options), ReportExporter.ToSupportMarkdown(result, new FaultWitness.Localization.LocalizationService(), false, "v", "r") })
         {
             Assert.DoesNotContain("DEV_SECRET", text, StringComparison.Ordinal);
-            Assert.Contains("Temporal proximity does not establish causation.", text, StringComparison.Ordinal);
+            Assert.Contains("Changes close in time provide context. They do not prove what caused the incident.", text, StringComparison.Ordinal);
             Assert.Contains("old", text, StringComparison.Ordinal); Assert.Contains("new", text, StringComparison.Ordinal);
         }
         var directory = Directory.CreateTempSubdirectory("FaultWitness-change-export-");
