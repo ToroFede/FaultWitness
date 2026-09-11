@@ -31,6 +31,7 @@ public sealed partial class MainWindow : Window
     private bool rebuildingShell;
     private double normalWidth;
     private double normalHeight;
+    private int normalSizeRevision;
     public MainViewModel ViewModel { get; }
     public long ResponsiveTicks { get; private set; }
     public MainWindow() : this(new MainViewModel(new DesktopServices())) { }
@@ -51,9 +52,14 @@ public sealed partial class MainWindow : Window
         SizeChanged += (_, args) =>
         {
             var settledSize = args.NewSize;
+            var revision = ++normalSizeRevision;
             // Avalonia can raise the maximized size before WindowState changes. Defer
-            // normal-bounds tracking until the transition has settled.
-            Dispatcher.UIThread.Post(() => { if (WindowState == WindowState.Normal) { normalWidth = settledSize.Width; normalHeight = settledSize.Height; } });
+            // normal-bounds tracking until the native transition has settled.
+            DispatcherTimer.RunOnce(() =>
+            {
+                if (revision == normalSizeRevision && WindowState == WindowState.Normal)
+                { normalWidth = settledSize.Width; normalHeight = settledSize.Height; }
+            }, TimeSpan.FromMilliseconds(300));
             if (rebuildingShell || args.NewSize.Width < MinWidth) return;
             var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(); }
         };
