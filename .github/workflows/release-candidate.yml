@@ -1,0 +1,62 @@
+name: release-candidate
+
+on:
+  push:
+    tags:
+      - 'v0.9.0-beta.1'
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Verify release tag
+        shell: pwsh
+        run: |
+          if ('${{ github.ref_name }}' -ne 'v0.9.0-beta.1') { throw 'Unexpected release tag.' }
+      - name: Restore
+        run: dotnet restore FaultWitness.slnx
+      - name: Clean publish directory
+        shell: pwsh
+        run: Remove-Item -LiteralPath artifacts/release-candidate -Recurse -Force -ErrorAction SilentlyContinue
+      - name: Publish clean win-x64 candidate
+        shell: pwsh
+        run: >-
+          dotnet publish src/FaultWitness.App/FaultWitness.App.csproj
+          --configuration Release --runtime win-x64 --self-contained true
+          -p:PublishTrimmed=false -p:PublishSingleFile=false -p:DebugType=None
+          -p:SourceRevisionId=${{ github.sha }}
+          -p:PublishDir=${{ github.workspace }}\artifacts\release-candidate\publish\
+      - name: Audit publish payload
+        shell: pwsh
+        run: >-
+          ./scripts/Test-ReleasePayload.ps1
+          -PublishRoot artifacts/release-candidate/publish
+          -Rid win-x64
+      - name: Compose deterministic artifact
+        shell: pwsh
+        run: >-
+          ./scripts/Compose-ReleaseArtifact.ps1
+          -PublishRoot artifacts/release-candidate/publish
+          -OutputRoot artifacts/release-candidate/out
+          -Version 0.9.0-beta.1 -Rid win-x64 -SourceRevision ${{ github.sha }}
+      - name: Audit composed artifact
+        shell: pwsh
+        run: ./scripts/Test-ReleaseArtifact.ps1 -ArtifactRoot artifacts/release-candidate/out
+      - name: Upload candidate artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FaultWitness-0.9.0-beta.1-win-x64
+          path: |
+            artifacts/release-candidate/out/FaultWitness-0.9.0-beta.1-win-x64.zip
+            artifacts/release-candidate/out/FaultWitness-0.9.0-beta.1-win-x64.zip.sha256
+            artifacts/release-candidate/out/release-summary.json
+          if-no-files-found: error

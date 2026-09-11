@@ -32,11 +32,11 @@ Support copy goes through a preview. Markdown, HTML, JSON and ZIP can be saved l
 
 ## Settings and available information
 
-System/Light/Dark themes and System default/English/Italian/Spanish/French/German/Portuguese/Russian/Polish languages switch at runtime. Views are recreated without restarting the process. Settings persist locally. SQLite schema v2 retains compact summaries, analysis type/period, coverage summary, duration when available, and presentation counts—but never raw log XML. Existing databases migrate without losing their older summaries; unavailable legacy metadata is labelled rather than fabricated. History supports reopening and copying the retained summary. Clear history uses a destructive-action treatment and confirmation, preserves language/theme, and never clears Windows logs or source files.
+System/Light/Dark themes and System default/English/Italian/Spanish/French/German/Portuguese/Russian/Polish languages switch at runtime. Views are recreated without restarting the process. Settings persist locally. SQLite schema v3 retains compact scan summaries and a structured crash-capture Action Journal, analysis type/period, coverage summary, duration when available, and presentation counts—but never raw log XML or dump bytes. Existing databases migrate without losing their older summaries; unavailable legacy metadata is labelled rather than fabricated. History supports reopening and copying the retained summary. Clear history uses a destructive-action treatment and confirmation, preserves language/theme, and never clears Windows logs or source files.
 
 The System page uses existing inventory plus authoritative Windows product presentation: WMI `Win32_OperatingSystem.Caption`/`BuildNumber` and the system's `DisplayVersion` registry value when present. Raw NT version is advanced information; missing product data is not guessed from a build-number table. [Microsoft's WMI property documentation](https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-operatingsystem).
 
-Readiness checks existing sources, not computer health. Change history, dump configuration, free-space/page-file readiness and application dump configuration are explicitly unavailable in this pass. No additional collectors or configuration writers were added.
+Readiness checks existing source availability and supported application dump-configuration state; it is not a computer-health assessment and does not guarantee that Windows will create a dump. Change history remains partial, and free-space/page-file readiness is not assessed. Capture configuration is an explicit, UAC-gated workflow with Restore and Action Journal recovery; ordinary readiness and scans do not write configuration.
 
 ## Scale and accessibility
 

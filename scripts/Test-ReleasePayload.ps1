@@ -1,9 +1,13 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $false)]
     [string] $OutputRoot,
 
-    [string] $SourceRoot = ''
+    [string] $SourceRoot = '',
+
+    [string] $PublishRoot = '',
+
+    [string] $Rid = 'win-x64'
 )
 
 Set-StrictMode -Version Latest
@@ -178,6 +182,14 @@ function Invoke-NegativeTests([string] $RunRoot) {
     return @($results)
 }
 
+if (-not [string]::IsNullOrWhiteSpace($PublishRoot)) {
+    $script:SourceRevision = (git -C (Split-Path -Parent $PSScriptRoot) rev-parse HEAD).Trim()
+    if ([string]::IsNullOrWhiteSpace($script:SourceRevision)) { throw 'Could not determine SourceRevisionId.' }
+    $audit = Test-Publish (Resolve-Path -LiteralPath $PublishRoot).Path $Rid
+    if (-not $audit.Passed) { throw "Payload audit failed: $($audit.Errors -join '; ')" }
+    $audit | ConvertTo-Json -Depth 8
+    exit 0
+}
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) { $SourceRoot = Split-Path -Parent $PSScriptRoot }
 $source = Resolve-FullPath $SourceRoot
 $sourceRootPath = [IO.Path]::GetFullPath($OutputRoot)
