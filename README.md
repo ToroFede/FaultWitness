@@ -64,4 +64,4 @@ These screenshots are selected from the validated synthetic GUI run (`artifacts/
 
 ## License and security
 
-FaultWitness is released under the [MIT License](LICENSE). Redistributed components are listed in [third-party notices](THIRD-PARTY-NOTICES.txt). To report a vulnerability, follow the private-reporting guidance in [SECURITY.md](SECURITY.md); do not post exploit details, raw dumps, or unredacted exports publicly.
+FaultWitness is released under the [MIT License](LICENSE). Redistributed components are listed in [third-party notices](THIRD-PARTY-NOTICES.txt). The public [Code signing policy](docs/code-signing-policy.md) defines the approved signing scope, release provenance, roles, and verification requirements. To report a vulnerability, follow the private-reporting guidance in [SECURITY.md](SECURITY.md); do not post exploit details, raw dumps, or unredacted exports publicly.
