@@ -19,6 +19,8 @@ The optional **Capture Next Crash** workflow configures a future Windows Error R
 
 ## Quick start
 
+The first beta is not yet publicly downloadable: its GitHub release remains Draft pending trusted signing and final validation. See the [Code signing policy](docs/code-signing-policy.md) for the pending SignPath Foundation onboarding. The following instructions apply once the signed release is published.
+
 1. Download the `0.9.0-beta.1` Windows x64 ZIP from the release page.
 2. Extract it to a protected folder such as `C:\Program Files\FaultWitness\0.9.0-beta.1` (create the folder with administrator permission). Keep the desktop executable, its supporting files, and the adjacent elevated helper together; do not run the helper directly.
 3. Run `FaultWitness.exe` normally. Do not run the main application elevated. Choose **Analyze recent stability** for the default seven-day window, or use **Analyze around a crash** when you know an approximate local time.

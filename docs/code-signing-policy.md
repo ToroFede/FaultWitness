@@ -1,5 +1,7 @@
 # Code signing policy
 
+Status: SignPath Foundation onboarding is pending; no subscription or certificate approval is claimed. The first Windows 11 x64 beta remains a private GitHub Draft release until trusted signing and final validation are complete. The Foundation must confirm eligibility for a first release that is not yet publicly downloadable.
+
 ## Scope
 
 FaultWitness will request Authenticode signing only for first-party Windows release executables produced by the official GitHub Actions release workflow:
@@ -23,9 +25,11 @@ All project members with repository or SignPath access must use multi-factor aut
 
 Only a clean, reproducible Windows x64 build from the public [`ToroFede/FaultWitness`](https://github.com/ToroFede/FaultWitness) repository may be submitted. The release workflow must run on GitHub-hosted runners, record the source commit, audit the unsigned payload, and submit the workflow artifact to SignPath for origin verification. A maintainer manually approves each signing request after confirming the intended source revision, release scope, and artifact configuration.
 
-Signed production artifacts are limited to supported public releases and public beta/pre-release builds from an explicitly approved release tag. Pull-request, development, local, re-run, and unreviewed builds must not receive production signatures.
+Signed production artifacts are limited to supported public releases and public beta/pre-release candidates from an explicitly approved source commit. The immutable release tag is created only after signing and final validation, and must identify that same commit. Pull-request, development, local, and unreviewed builds must not receive production signatures; a workflow re-run requires a fresh manual review and approval.
 
-Free code signing provided by SignPath.io, certificate by SignPath Foundation.
+Upon acceptance, the signing attribution will be: Free code signing provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org).
+
+Before signing is enabled, the SignPath artifact configuration must enforce the product name `FaultWitness` for all signed binaries and an identical product version across each build. Configuration and build provenance remain subject to SignPath's approval; this policy does not claim that integration is already active.
 
 ## Key protection, timestamping, and verification
 
