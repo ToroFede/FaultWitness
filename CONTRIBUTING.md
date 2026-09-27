@@ -1,3 +1,9 @@
 # Contributing
 
-Keep platform APIs inside their platform project. Rules must be provider-aware and must include a false-positive contract. Do not add user-facing diagnostic prose to rule logic. Run build and tests before submitting a change.
+- Keep platform-specific APIs inside their platform project.
+- Rules must be provider-aware and include a false-positive contract.
+- Do not add user-facing diagnostic prose to rule logic.
+- Follow the design tokens and UI contracts under docs/design/ for interface changes.
+- Make focused, reviewable changes and preserve unrelated work.
+- Start with the narrowest relevant checks; run broader validation when behavior changes or a release gate requires it.
+- Keep public diagnostic language evidence-led and distinguish correlation from causation.

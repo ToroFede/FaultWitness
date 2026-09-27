@@ -4,40 +4,65 @@ FaultWitness is a local-first Windows diagnostic evidence organizer. It reads se
 
 FaultWitness does not diagnose a failing power supply from Kernel-Power 41, a defective CPU from a WHEA event, or a root cause from a faulting module name. This beta has no account, telemetry, analytics, automatic upload, cloud processing, or background service.
 
+## Download and platform support
+
+**Supported:** Windows 11 on Intel or AMD 64-bit x64 PCs.
+
+**Main download:** [FaultWitness-0.9.0-beta.1-win-x64.zip](https://github.com/ToroFede/FaultWitness/releases/download/v0.9.0-beta.1/FaultWitness-0.9.0-beta.1-win-x64.zip)
+
+The matching SHA-256 checksum is published beside it on the [release page](https://github.com/ToroFede/FaultWitness/releases/tag/v0.9.0-beta.1).
+
+**Not supported in this beta:** Windows ARM64 / Snapdragon, Linux, and macOS. No packages for those platforms are provided.
+
+## Unsigned beta
+
+FaultWitness 0.9.0-beta.1 is distributed without a trusted Windows code-signing certificate. Windows may show “Unknown publisher” and/or a Microsoft Defender SmartScreen warning. This does not mean Windows has cryptographically verified the publisher.
+
+The release page provides a SHA-256 checksum so you can verify that the ZIP bytes match the published package. A matching checksum verifies the file contents against that published checksum; it does not verify the publisher's identity. Keep normal Windows security protections enabled.
+
+Trusted code signing is planned for a future release.
+
 ## Beta scope
 
-This beta is for **Windows 11 x64 only**. It collects the System and Application Event Logs, Windows Error Reporting archives where accessible, dump artifact metadata, selected system inventory, and supported driver/Windows Update change-history records. The application presents Overview/Incidents, around-time and recent analysis, evidence and coverage detail, Diagnostic Readiness, History, System, local import/export, and runtime language/theme settings.
+This beta collects the System and Application Event Logs, Windows Error Reporting archives where accessible, dump artifact metadata, selected system inventory, and supported driver/Windows Update change-history records. The application presents Overview/Incidents, around-time and recent analysis, evidence and coverage detail, Diagnostic Readiness, History, System Inventory, local import/export, and runtime language/theme settings.
 
-The optional **Capture Next Crash** workflow configures a future Windows Error Reporting mini-dump for one supported desktop executable basename. It does not capture a running process, analyze dump contents, or prove that a dump will be produced. Configuration requires an administrator-approved UAC operation; Restore and the Action Journal provide explicit recovery and an auditable local record. See [capture security and limitations](docs/capture-next-crash-security.md).
+The optional **Capture Next Crash** workflow configures a future Windows Error Reporting mini-dump for one supported desktop executable basename. It does not capture a running process, analyze dump contents, or prove that a dump will be produced. Configuration requires an administrator-approved UAC operation; Restore and the Action Journal provide explicit recovery and a local record. See [capture security and limitations](docs/capture-next-crash-security.md).
 
-## What changed in this beta
+## Highlights
 
-- Added evidence-focused Overview, incident detail, around-time analysis, Diagnostic Readiness, System Inventory, History, and privacy-redacted support exports.
-- Added partial driver and Windows Update change correlation without treating timing as causation.
-- Added the preview-first Capture Next Crash workflow, exact-state Restore, recovery for interrupted actions, and a persistent local Action Journal.
-- Added runtime theme and eight-language support, together with keyboard, layout, localization, and synthetic visual regression coverage.
+- Evidence-first incident analysis with recent and around-time views, incident detail, and clear evidence coverage.
+- Diagnostic Readiness and System Inventory.
+- **What Changed** contextual driver and Windows Update evidence; timing does not establish causation.
+- History, local import/export, and privacy-redacted support exports.
+- Preview-first Capture Next Crash, exact-state Restore, recovery for interrupted actions, and a persistent local Action Journal.
+- Local-first operation and eight UI languages.
 
 ## Quick start
 
-The first beta is not yet publicly downloadable: its GitHub release remains Draft pending trusted signing and final validation. See the [Code signing policy](docs/code-signing-policy.md) for the pending SignPath Foundation onboarding. The following instructions apply once the signed release is published.
+1. Download the Windows x64 ZIP from the [release page](https://github.com/ToroFede/FaultWitness/releases/tag/v0.9.0-beta.1).
+2. Optionally download the adjacent .sha256 file and verify the ZIP with PowerShell:
 
-1. Download the `0.9.0-beta.1` Windows x64 ZIP from the release page.
-2. Extract it to a protected folder such as `C:\Program Files\FaultWitness\0.9.0-beta.1` (create the folder with administrator permission). Keep the desktop executable, its supporting files, and the adjacent elevated helper together; do not run the helper directly.
-3. Run `FaultWitness.exe` normally. Do not run the main application elevated. Choose **Analyze recent stability** for the default seven-day window, or use **Analyze around a crash** when you know an approximate local time.
-4. Review evidence and source coverage. Use **Export / support** to create a privacy-redacted Markdown, HTML, JSON, or ZIP bundle for review. Inspect the redaction preview before sharing.
+        (Get-FileHash .\FaultWitness-0.9.0-beta.1-win-x64.zip -Algorithm SHA256).Hash
 
-The first scan is read-only. If you use Capture Next Crash, preview the current state, confirm the target and fixed mini-dump policy, approve the UAC prompt, and verify the result. Restore the configuration when capture is no longer needed. A dump can contain private process memory even when the export is redacted; keep raw dumps local.
+   Compare the result with the checksum published on the release page.
+3. Extract the entire ZIP to a folder you can access, such as a folder under your user profile. Keep all extracted files together, including the helper folder; do not run the helper directly.
+4. Open the extracted version folder.
+5. Double-click FaultWitness.exe.
 
-Stage each extracted version in a new complete directory; do not overlay files from different versions. Launch the main application unelevated. Administrator rights are needed only to place files in a protected directory or approve a deliberate helper action. Restore any crash-capture configuration before removal if desired. Deleting the program directory does not delete local history, settings, the Action Journal, or captured dumps.
+Normal use does not require administrator privileges or a separate .NET installation. Do not run the whole application as administrator. Elevation is requested only for explicit protected operations, such as configuring crash capture. The first scan is read-only.
+
+Review evidence and source coverage. Use **Export / support** to create a privacy-redacted Markdown, HTML, JSON, or ZIP bundle for review. Inspect the redaction preview before sharing.
+
+If you use Capture Next Crash, preview the current state, confirm the target and fixed mini-dump policy, approve the UAC prompt, and verify the result. Restore the configuration when capture is no longer needed. A dump can contain private process memory even when an export is redacted; keep raw dumps local.
+
+Stage each extracted version in a new complete directory; do not overlay files from different versions. Deleting the program directory does not delete local history, settings, the Action Journal, or captured dumps.
 
 For developers, install the .NET 10 SDK and run:
 
-```powershell
-dotnet restore FaultWitness.slnx
-dotnet build FaultWitness.slnx --no-restore
-dotnet test FaultWitness.slnx --no-build
-dotnet run --project src/FaultWitness.App
-```
+    dotnet restore FaultWitness.slnx
+    dotnet build FaultWitness.slnx --no-restore
+    dotnet test FaultWitness.slnx --no-build
+    dotnet run --project src/FaultWitness.App
 
 ## Privacy and exports
 
@@ -45,7 +70,7 @@ Scan summaries and the Action Journal are stored in SQLite under the local appli
 
 ## Screenshots
 
-These screenshots are selected from the validated synthetic GUI run (`artifacts/ux-validation/synthetic-gui.zip`) and contain no real dump or diagnostic payload. They are illustrative; labels and layout may change during the beta.
+These screenshots are selected from the validated synthetic GUI run (artifacts/ux-validation/synthetic-gui.zip) and contain no real dump or diagnostic payload. They are illustrative; labels and layout may change during the beta.
 
 ![Overview with local analysis results](docs/images/overview-light.jpg)
 
@@ -57,13 +82,13 @@ These screenshots are selected from the validated synthetic GUI run (`artifacts/
 
 ## Known limitations
 
-- Windows 11 x64 is the only supported beta platform. Linux, macOS, ARM64, and 32-bit application capture are outside this release.
+- Windows 11 x64 is the only supported beta platform. Windows ARM64, Linux, and macOS are not supported.
 - FaultWitness does not analyze dump contents, debug processes, or guarantee that Windows will create a dump. Mini dumps may be insufficient and can still contain private memory.
-- Capture Next Crash supports only an ASCII `.exe` basename in the native Windows registry view. Services, hangs, custom crash reporters, automatic-debugger configurations, and WOW64 applications are outside the capture guarantee.
+- Capture Next Crash supports only an ASCII .exe basename in the native Windows registry view. Services, hangs, custom crash reporters, automatic-debugger configurations, and WOW64 applications are outside the capture guarantee.
 - Diagnostic sources can be unavailable, access-denied, truncated, or absent. Change history is partial and cannot prove an upgrade, removal, or causal relationship; a first observation is not necessarily an installation date.
 - Local history retains compact summaries, not raw log XML. Imported data is labelled as imported and does not establish facts about the current machine.
 - This is a beta release. Validate findings against the original Windows records and your own incident timeline before making hardware, driver, or recovery decisions.
 
 ## License and security
 
-FaultWitness is released under the [MIT License](LICENSE). Redistributed components are listed in [third-party notices](THIRD-PARTY-NOTICES.txt). The public [Code signing policy](docs/code-signing-policy.md) defines the approved signing scope, release provenance, roles, and verification requirements. To report a vulnerability, follow the private-reporting guidance in [SECURITY.md](SECURITY.md); do not post exploit details, raw dumps, or unredacted exports publicly.
+FaultWitness is released under the [MIT License](LICENSE). Redistributed components are listed in [third-party notices](THIRD-PARTY-NOTICES.txt). The [Code signing policy](docs/code-signing-policy.md) describes the initial unsigned beta exception and the planned controls for future signed releases. To report a vulnerability, follow the private-reporting guidance in [SECURITY.md](SECURITY.md); do not post exploit details, raw dumps, or unredacted exports publicly.
