@@ -281,14 +281,14 @@ public sealed class HeadlessTests
         finally { window.Close(); }
     }
     [AvaloniaTheory]
-    [InlineData(560, 600)][InlineData(600, 768)][InlineData(640, 800)][InlineData(800, 800)][InlineData(1000, 800)][InlineData(1120, 760)][InlineData(1280, 720)][InlineData(1280, 800)][InlineData(1366, 768)][InlineData(1920, 1080)][InlineData(2560, 1440)]
+    [InlineData(560, 600)][InlineData(600, 768)][InlineData(640, 800)][InlineData(641, 800)][InlineData(800, 800)][InlineData(1000, 800)][InlineData(1008, 760)][InlineData(1120, 760)][InlineData(1280, 720)][InlineData(1280, 800)][InlineData(1366, 768)][InlineData(1920, 1080)][InlineData(2560, 1440)]
     public void MainLayouts_StayWithinWindowAtRequestedSizes(int width, int height)
     {
         var window = Open();
         try
         {
             window.Width = width; window.Height = height; window.ViewModel.SetResult(SyntheticResults.Create(100));
-            foreach (var page in new[] { AppPage.Home, AppPage.Incidents, AppPage.Analyze, AppPage.Settings, AppPage.Readiness, AppPage.History })
+            foreach (var page in new[] { AppPage.Home, AppPage.Incidents, AppPage.Analyze, AppPage.Settings, AppPage.Readiness, AppPage.History, AppPage.System, AppPage.Export })
             {
                 window.ViewModel.Navigate(page); window.UpdateLayout();
                 // Single-line TextBox templates scroll their text horizontally by design; that is not page overflow.

@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.ExportSupportView" x:DataType="p:ExportSupportPresentation">
+  <ScrollViewer Name="ExportSupportScroll" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="ExportSupportContent" Spacing="{DynamicResource primitive.space.4}">
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Classes="page-title" Text="{Binding Text[Export]}"/>
+        <TextBlock Text="{Binding Text[ExportHelp]}"/>
+      </StackPanel>
+      <Border Name="ExportUnavailable" Classes="action-surface" IsVisible="{Binding !HasAnalysis}">
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Classes="row-title" Text="{Binding Text[NoAnalysis]}"/>
+          <TextBlock Text="{Binding Text[NoHistory]}"/>
+        </StackPanel>
+      </Border>
+      <StackPanel Name="ExportContent" IsVisible="{Binding HasAnalysis}" Spacing="{DynamicResource primitive.space.3}">
+        <WrapPanel>
+          <StackPanel Width="280" Margin="{DynamicResource UiCommandMargin}" Spacing="{DynamicResource primitive.space.1}">
+            <TextBlock Classes="metadata" Text="{Binding Text[Format]}"/>
+            <ComboBox Name="ExportFormat" MaxWidth="280" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[Format]}" SelectionChanged="FormatChanged"/>
+          </StackPanel>
+          <StackPanel Width="280" Margin="{DynamicResource UiCommandMargin}" Spacing="{DynamicResource primitive.space.1}">
+            <TextBlock Classes="metadata" Text="{Binding Text[Scope]}"/>
+            <ComboBox Name="ExportScope" MaxWidth="280" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[Scope]}" SelectionChanged="ScopeChanged"/>
+          </StackPanel>
+        </WrapPanel>
+        <Border Classes="action-surface">
+          <StackPanel Spacing="{DynamicResource primitive.space.2}">
+            <TextBlock Classes="row-title" Text="{Binding Text[RedactionNotice]}"/>
+            <TextBlock Classes="metadata" Text="{Binding Text[BundleContents]}"/>
+          </StackPanel>
+        </Border>
+        <TextBlock Classes="level-one" Text="{Binding Text[Preview]}"/>
+        <TextBlock Classes="metadata" IsVisible="{Binding HasPreviewNote}" Text="{Binding PreviewNote}"/>
+        <TextBox Name="ExportPreview" Text="{Binding Preview, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" Height="320" AutomationProperties.Name="{Binding Text[Preview]}"/>
+        <WrapPanel>
+          <Button Name="CopySupport" Classes="secondary-action operation" Click="Copy" AutomationProperties.Name="{Binding Text[CopyForSupport]}" IsEnabled="{Binding CanExport}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[CopyForSupport]}"/>
+          </Button>
+          <Button Name="SaveExport" Classes="secondary-action operation" Click="Save" AutomationProperties.Name="{Binding Text[SaveExport]}" IsEnabled="{Binding CanExport}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[SaveExport]}"/>
+          </Button>
+        </WrapPanel>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

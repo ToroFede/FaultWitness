@@ -1,9 +1,21 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.4",
   "automatic": [
     {
       "id": "core-pages-axaml-ownership",
-      "check": "Home, Analyze, Incidents and History each have one production AXAML page; their old C# visual builders are absent, and System, Diagnostic Readiness, Capture, Settings and Export/Support remain programmatic C#"
+      "check": "Shell, Incident Detail, Home, Analyze, Incidents, History, System/Inventory, Diagnostic Readiness, Settings and Export/Support each have one production AXAML implementation; Capture is the only remaining programmatically constructed page UI"
+    },
+    {
+      "id": "capture-only-csharp-ui",
+      "check": "MainWindow.Capture.cs remains the only programmatic page UI and is hosted inside System AXAML; capture workflow, privilege, journal and restore behavior are unchanged"
+    },
+    {
+      "id": "readiness-source-distinction",
+      "check": "Diagnostic Readiness preserves each localized capability state and explanation as text, keeps technical observations disclosed, does not score system health and never requests elevation automatically; analysis coverage retains its separate Complete/Partial/Unavailable/AccessDenied/NotSupported states"
+    },
+    {
+      "id": "settings-export-runtime-state",
+      "check": "Settings and Export/Support retain control instances and selection through all eight runtime locales and System/Light/Dark theme changes; export preview uses the existing redacted formatter and bound"
     },
     {
       "id": "beta-workflow-guidance",
@@ -91,7 +103,7 @@
     },
     {
       "id": "core-pages-runtime-state",
-      "check": "All four migrated pages retain their view and accessible control names during runtime EN/IT/ES/FR/DE/PT/RU/PL and System/Light/Dark changes; Analyze inputs, incident filters and History selection remain stateful"
+      "check": "All migrated AXAML pages retain their views and accessible control names during runtime EN/IT/ES/FR/DE/PT/RU/PL and System/Light/Dark changes; Analyze inputs, incident filters, History selection, System subpage, Settings selections and Export options remain stateful"
     },
     {
       "id": "detail-four-answers",
@@ -129,7 +141,8 @@
     }
   ],
   "manualVisual": [
-    "Home, Analyze, Incidents and History retain readable hierarchy and actions at compact and desktop sizes in Light and Dark",
+    "All AXAML pages retain readable hierarchy and actions at compact and desktop sizes in Light and Dark; Capture remains the existing embedded C# surface",
+    "System inventory values wrap safely; Readiness keeps Complete/Partial/Unavailable/AccessDenied/NotSupported distinctions readable without color; Settings and Export controls remain usable in long locales",
     "Scope copy remains subordinate; quiet complete and limited-coverage results remain distinct; filter-empty state offers Reset filters only when records are hidden",
     "obvious first focal point",
     "intentional hierarchy",

@@ -1,0 +1,62 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.SystemView" x:DataType="p:SystemPresentation">
+  <ScrollViewer Name="SystemScroll" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="SystemContent" Spacing="{DynamicResource primitive.space.4}">
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Classes="page-title" Text="{Binding Text[System]}"/>
+        <TextBlock Text="{Binding Text[SystemHelp]}"/>
+      </StackPanel>
+      <c:SystemSubnavigation Name="SystemNavigation"/>
+      <TextBlock Classes="level-one" Text="{Binding Text[SystemInformation]}"/>
+      <TextBlock Name="SystemInventoryStatus" IsVisible="{Binding HasInventoryStatus}" Text="{Binding InventoryStatus}"/>
+      <ItemsControl Name="SystemInventory" ItemsSource="{Binding Inventory.Groups}" AutomationProperties.Name="{Binding Text[SystemInformation]}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Name="SystemInventoryLayout" Columns="{Binding Inventory.Columns}"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="p:InventoryGroupPresentation">
+            <Border Classes="action-surface" Margin="{DynamicResource UiCommandMargin}" AutomationProperties.Name="{Binding AccessibleName}">
+              <StackPanel Spacing="{DynamicResource primitive.space.2}">
+                <TextBlock Classes="row-title" Text="{Binding Name}"/>
+                <TextBlock Classes="metadata" IsVisible="{Binding !HasDevices}" Text="{Binding EmptyText}"/>
+                <ItemsControl ItemsSource="{Binding Devices}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="p:InventoryDevicePresentation">
+                      <ItemsControl ItemsSource="{Binding Fields}">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate x:DataType="p:InventoryFieldPresentation">
+                            <TextBlock Text="{Binding Display}"/>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Expander IsVisible="{Binding HasAdditionalDevices}" Header="{Binding MoreLabel}" AutomationProperties.Name="{Binding MoreLabel}">
+                  <ItemsControl ItemsSource="{Binding AdditionalDevices}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="p:InventoryDevicePresentation">
+                        <ItemsControl ItemsSource="{Binding Fields}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="p:InventoryFieldPresentation">
+                              <TextBlock Text="{Binding Display}"/>
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Expander>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <Button Name="ReadSystem" Classes="secondary-action operation" Click="RefreshInventory" AutomationProperties.Name="{Binding RefreshLabel}" HorizontalAlignment="Left">
+        <TextBlock Text="{Binding RefreshLabel}"/>
+      </Button>
+      <ContentControl Name="CaptureHost" HorizontalAlignment="Stretch"/>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

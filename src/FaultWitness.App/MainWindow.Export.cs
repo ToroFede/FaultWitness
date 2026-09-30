@@ -8,6 +8,8 @@ using Avalonia.Platform.Storage;
 using FaultWitness.Core;
 using FaultWitness.Export;
 using FaultWitness.Rules;
+using FaultWitness.App.Presentation;
+using FaultWitness.App.Views.Pages;
 
 namespace FaultWitness.App;
 
@@ -15,32 +17,41 @@ public sealed partial class MainWindow
 {
     private bool exportSelectedOnly;
     private ExportFormat exportFormat;
+    private ExportSupportView? exportSupportView;
+    private ExportSupportPresentation? exportSupportPresentation;
     public string ExportPreview { get; private set; } = string.Empty;
     public const int PreviewCharacterLimit = 24_000;
     private ScanResult ExportResult => exportSelectedOnly && ViewModel.Selected is { } selected
         ? new ScanResult([selected.Incident], ViewModel.Result.Coverage, ViewModel.Result.StartedUtc, ViewModel.Result.FinishedUtc)
         : ViewModel.Result;
     private string SupportText() => ReportExporter.ToSupportMarkdown(ExportResult, ViewModel.Text, ViewModel.IsImported, ReleaseIdentity.Display, RuleCatalog.DatabaseVersion);
-    private Control BuildExport()
+    private ExportSupportView ExportSupportPage(bool refresh = true)
     {
-        if (!ViewModel.HasAnalysis) return Empty("NoAnalysis");
-        var formats = new ComboBox { Name = "ExportFormat", ItemsSource = new[] { T("ExportSummary"), "HTML", "JSON", T("ExportBundle") }, SelectedIndex = (int)exportFormat, Width = 280 };
-        var scope = new ComboBox { Name = "ExportScope", ItemsSource = ViewModel.Selected is null ? new[] { T("EntireAnalysis") } : new[] { T("EntireAnalysis"), T("SelectedIncident") }, SelectedIndex = exportSelectedOnly && ViewModel.Selected is not null ? 1 : 0, Width = 280 };
-        var preview = new TextBox { Name = "ExportPreview", IsReadOnly = true, AcceptsReturn = true, TextWrapping = Avalonia.Media.TextWrapping.Wrap, Height = 320 };
-        var previewNote = Muted(string.Empty);
-        void RefreshPreview()
+        if (exportSupportView is null)
         {
-            exportFormat = (ExportFormat)Math.Max(0, formats.SelectedIndex);
-            exportSelectedOnly = scope.SelectedIndex == 1;
-            ExportPreview = exportFormat == ExportFormat.Json ? ReportExporter.ToJson(ExportResult, new ExportPrivacyOptions()) : SupportText();
-            preview.Text = ExportPreview.Length <= PreviewCharacterLimit ? ExportPreview : ExportPreview[..PreviewCharacterLimit];
-            previewNote.Text = ExportPreview.Length > PreviewCharacterLimit ? T("PreviewExcerpt") : string.Empty;
+            exportSupportPresentation = new ExportSupportPresentation();
+            exportSupportView = new ExportSupportView();
+            exportSupportView.OptionsChanged += ExportOptionsChanged;
+            exportSupportView.CopyRequested += async () => await RunGuardedAsync(CopySupportAsync).ConfigureAwait(true);
+            exportSupportView.SaveRequested += async () => await RunGuardedAsync(SaveExportAsync).ConfigureAwait(true);
         }
-        formats.SelectionChanged += (_, _) => RefreshPreview(); scope.SelectionChanged += (_, _) => RefreshPreview();
-        RefreshPreview();
-        return Scroll(Stack(Heading("Export", "ExportHelp"), Actions(Field("Format", formats), Field("Scope", scope)),
-            Surface(Stack(Label(T("RedactionNotice")), Muted(T("BundleContents")))), Label(T("Preview"), TextRole.SectionTitle), previewNote, preview,
-            Actions(AsyncButton("CopyForSupport", CopySupportAsync, "CopySupport"), AsyncButton("SaveExport", SaveExportAsync, "SaveExport"))));
+        if (refresh) RefreshExportPresentation();
+        return exportSupportView;
+    }
+
+    private void ExportOptionsChanged(int formatIndex, int scopeIndex)
+    {
+        exportFormat = (ExportFormat)Math.Clamp(formatIndex, 0, Enum.GetValues<ExportFormat>().Length - 1);
+        exportSelectedOnly = scopeIndex == 1;
+        RefreshExportPresentation();
+    }
+
+    private void RefreshExportPresentation()
+    {
+        if (ViewModel.HasAnalysis)
+            ExportPreview = exportFormat == ExportFormat.Json ? ReportExporter.ToJson(ExportResult, new ExportPrivacyOptions()) : SupportText();
+        exportSupportPresentation?.Refresh(ViewModel, exportFormat, exportSelectedOnly, ExportPreview);
+        exportSupportView?.Refresh(exportSupportPresentation!);
     }
     public async Task CopySupportAsync()
     {

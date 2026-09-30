@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="FaultWitness.App.Views.Components.SystemSubnavigation">
+  <WrapPanel Name="SystemSubnavigationItems">
+    <Button Name="SystemInformationTab" Classes="navigation-item" Click="ShowInformation" Margin="{DynamicResource UiCommandMargin}">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+        <Border Name="SystemInformationIndicator" Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+        <TextBlock Name="SystemInformationLabel" Grid.Column="1"/>
+      </Grid>
+    </Button>
+    <Button Name="SystemReadinessTab" Classes="navigation-item" Click="ShowReadiness" Margin="{DynamicResource UiCommandMargin}">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+        <Border Name="SystemReadinessIndicator" Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+        <TextBlock Name="SystemReadinessLabel" Grid.Column="1"/>
+      </Grid>
+    </Button>
+  </WrapPanel>
+</UserControl>

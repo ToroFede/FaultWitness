@@ -33,6 +33,12 @@ public sealed partial class MainWindow : Window
     private IncidentListPresentation? incidentsPresentation;
     private HistoryView? historyView;
     private HistoryPresentation? historyPresentation;
+    private SystemView? systemView;
+    private SystemPresentation? systemPresentation;
+    private DiagnosticReadinessView? readinessView;
+    private ReadinessPresentation? readinessPresentation;
+    private SettingsView? settingsView;
+    private SettingsPresentation? settingsPresentation;
     private string layoutClass = "large";
     private bool rebuildingShell;
     private IncidentDetailView? detailView;
@@ -152,8 +158,8 @@ public sealed partial class MainWindow : Window
             AppPage.Analyze => AnalyzePage(ViewModel.AnalysisMode, refreshPageData),
             AppPage.Incidents => IncidentsPage(refreshPageData),
             AppPage.History => HistoryPage(refreshPageData),
-            AppPage.Detail => DetailPage(), AppPage.Readiness => BuildReadiness(), AppPage.System => BuildSystem(),
-            AppPage.Settings => BuildSettings(), AppPage.Export => BuildExport(), _ => HomePage(refreshPageData)
+            AppPage.Detail => DetailPage(), AppPage.Readiness => ReadinessPage(), AppPage.System => SystemPage(),
+            AppPage.Settings => SettingsPage(), AppPage.Export => ExportSupportPage(), _ => HomePage(refreshPageData)
         };
         foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Name?.StartsWith("Nav", StringComparison.Ordinal) == true))
         {
@@ -161,6 +167,64 @@ public sealed partial class MainWindow : Window
             SetNavigationSelected(button, button.Name == "Nav" + destination);
         }
         UpdateStatus();
+    }
+
+    private SystemView SystemPage()
+    {
+        if (systemView is null)
+        {
+            systemPresentation = new SystemPresentation();
+            systemView = new SystemView();
+            systemView.RefreshRequested += async () => await RunGuardedAsync(ViewModel.RefreshInventoryAsync).ConfigureAwait(true);
+            systemView.InformationRequested += () => ViewModel.Navigate(AppPage.System);
+            systemView.ReadinessRequested += () => ViewModel.Navigate(AppPage.Readiness);
+        }
+        systemView.Refresh(systemPresentation!, ViewModel, layoutClass, BuildCaptureSection());
+        return systemView;
+    }
+
+    private DiagnosticReadinessView ReadinessPage()
+    {
+        if (readinessView is null)
+        {
+            readinessPresentation = new ReadinessPresentation();
+            readinessView = new DiagnosticReadinessView();
+            readinessView.RefreshRequested += async () => await RunGuardedAsync(ViewModel.RefreshReadinessAsync).ConfigureAwait(true);
+            readinessView.InformationRequested += () => ViewModel.Navigate(AppPage.System);
+            readinessView.ReadinessRequested += () => ViewModel.Navigate(AppPage.Readiness);
+        }
+        readinessView.Refresh(readinessPresentation!, ViewModel);
+        return readinessView;
+    }
+
+    private SettingsView SettingsPage()
+    {
+        if (settingsView is null)
+        {
+            settingsPresentation = new SettingsPresentation();
+            settingsView = new SettingsView();
+            settingsView.SettingChanged += ApplySetting;
+            settingsView.ClearDataRequested += async () => await RunGuardedAsync(ConfirmClearAsync).ConfigureAwait(true);
+        }
+        settingsPresentation!.Refresh(ViewModel);
+        settingsView.Refresh(settingsPresentation);
+        return settingsView;
+    }
+
+    private void ApplySetting(string setting, int index)
+    {
+        var presentation = settingsPresentation;
+        if (presentation is null) return;
+        var current = ViewModel.Settings;
+        var updated = setting switch
+        {
+            "Language" when index >= 0 && index < presentation.Languages.Count => current with { Language = SettingsPresentation.LanguageCodeAt(index) },
+            "Theme" when index >= 0 && index < presentation.Themes.Count => current with { Theme = SettingsPresentation.ThemeAt(index) },
+            "Period" when index >= 0 && index < presentation.Periods.Count => current with { Period = SettingsPresentation.PeriodAt(index) },
+            "Retention" when index >= 0 && index < presentation.RetentionOptions.Count => current with { RetentionDays = SettingsPresentation.RetentionDaysAt(index) },
+            _ => current
+        };
+        if (updated != current) ViewModel.ChangeSettings(updated);
     }
 
     private HomeView HomePage(bool refresh)
@@ -347,24 +411,6 @@ public sealed partial class MainWindow : Window
         var button = new Button { Content = new TextBlock { Text = T(key), TextWrapping = TextWrapping.Wrap }, Name = name, Padding = new Thickness(D("primitive.space.3"), D("primitive.space.2")), MinHeight = D("component.action.standard.minHeight") };
         button.Classes.Add("secondary-action");
         AutomationProperties.SetName(button, T(key)); button.Click += (_, _) => action();
-        return button;
-    }
-    // Retained for the System page tabs until their Pass 2B migration. The shell is AXAML.
-    private Button NavigationButton(string key, Action action, string name, bool selected = false)
-    {
-        var button = Button(key, action, name);
-        button.Classes.Clear(); button.Classes.Add("navigation-item");
-        button.HorizontalAlignment = HorizontalAlignment.Stretch;
-        button.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-        button.MinHeight = D("component.navigation.itemHeight");
-        button.Padding = new Thickness(D("primitive.space.2"));
-        var content = new Grid { ColumnDefinitions = new ColumnDefinitions("Auto,*"), ColumnSpacing = D("primitive.space.2") };
-        var indicator = new Border { Width = D("component.selection.indicatorWidth"), CornerRadius = new CornerRadius(D("primitive.radius.small")), Margin = new Thickness(0, D("primitive.space.1")) };
-        indicator.Bind(Border.BackgroundProperty, new DynamicResourceExtension("AppAccent"));
-        content.Children.Add(indicator);
-        var label = Label(T(key)); Grid.SetColumn(label, 1); content.Children.Add(label);
-        button.Content = content;
-        SetNavigationSelected(button, selected);
         return button;
     }
     private void SetNavigationSelected(Button button, bool selected)

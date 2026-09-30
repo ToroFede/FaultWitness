@@ -1,5 +1,5 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.4",
   "breakpoints": {
     "small": {
       "max": 640
@@ -13,8 +13,8 @@
     }
   },
   "pageImplementation": {
-    "axaml": ["Shell", "Home", "Analyze", "Incidents", "History", "IncidentDetail"],
-    "programmaticCSharp": ["System", "DiagnosticReadiness", "Capture", "Settings", "ExportSupport"]
+    "axaml": ["Shell", "Home", "Analyze", "Incidents", "History", "IncidentDetail", "System", "SystemInventory", "DiagnosticReadiness", "Settings", "ExportSupport"],
+    "programmaticCSharp": ["Capture"]
   },
   "screens": [
     {
@@ -469,7 +469,7 @@
       "responsiveRules": {
         "small": "one column",
         "medium": "one column",
-        "large": "preview beside options"
+        "large": "single reading column; options precede the full-width preview"
       },
       "keyboardFlow": [
         "format",

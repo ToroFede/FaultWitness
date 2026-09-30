@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.DiagnosticReadinessView" x:DataType="p:ReadinessPresentation">
+  <ScrollViewer Name="ReadinessScroll" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="ReadinessContent" Spacing="{DynamicResource primitive.space.4}">
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Classes="page-title" Text="{Binding Text[System]}"/>
+        <TextBlock Text="{Binding Text[SystemHelp]}"/>
+      </StackPanel>
+      <c:SystemSubnavigation Name="SystemNavigation"/>
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Classes="level-one" Text="{Binding Text[Readiness]}"/>
+        <TextBlock Text="{Binding Purpose}"/>
+      </StackPanel>
+      <Button Name="RefreshReadiness" Classes="primary-action operation" Click="RefreshSources" AutomationProperties.Name="{Binding RefreshLabel}" HorizontalAlignment="Left">
+        <TextBlock Text="{Binding RefreshLabel}"/>
+      </Button>
+      <Border Name="ReadinessEmpty" Classes="action-surface" IsVisible="{Binding !HasSources}">
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Classes="row-title" Text="{Binding EmptyTitle}"/>
+          <TextBlock Text="{Binding EmptyHelp}"/>
+        </StackPanel>
+      </Border>
+      <ItemsControl Name="ReadinessSources" ItemsSource="{Binding Sources}" AutomationProperties.Name="{Binding Text[Readiness]}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate><StackPanel Spacing="{DynamicResource primitive.space.3}"/></ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="p:ReadinessSourcePresentation">
+            <Border Classes="action-surface" AutomationProperties.Name="{Binding AccessibleName}">
+              <StackPanel Spacing="{DynamicResource primitive.space.2}">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{DynamicResource primitive.space.3}">
+                  <TextBlock Classes="row-title" Text="{Binding Name}"/>
+                  <TextBlock Grid.Column="1" Classes="row-title" Text="{Binding Status}" HorizontalAlignment="Right"/>
+                </Grid>
+                <TextBlock Text="{Binding Detail}"/>
+                <Expander IsVisible="{Binding HasObservations}" Header="{Binding TechnicalDetailsLabel}" AutomationProperties.Name="{Binding TechnicalAccessibleName}">
+                  <ItemsControl ItemsSource="{Binding Observations}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="p:ReadinessObservationPresentation">
+                        <TextBlock Text="{Binding Display}"/>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Expander>
+                <TextBlock Classes="metadata" IsVisible="{Binding HasNextAction}" Text="{Binding NextAction}"/>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <TextBlock Classes="metadata" Text="{Binding Summary}"/>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
