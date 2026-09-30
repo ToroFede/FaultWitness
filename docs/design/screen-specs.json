@@ -26,6 +26,7 @@
       "informationPriority": [
         "purpose",
         "primary action",
+        "supported diagnostic scope",
         "last result",
         "recent significant incidents",
         "coverage"
@@ -33,11 +34,12 @@
       "regions": [
         "intro",
         "commandArea",
+        "scope",
         "lastAnalysis",
         "recentIncidents"
       ],
       "defaultFocus": "primaryAction",
-      "emptyState": "explain local analysis and privacy",
+      "emptyState": "distinguish zero supported incidents from background-only results; retain any source coverage limits",
       "loadingState": "inline progress with cancellation",
       "errorState": "friendly status with technical disclosure",
       "responsiveRules": {
@@ -78,12 +80,14 @@
       ],
       "informationPriority": [
         "workflow choice",
+        "supported diagnostic scope",
         "required inputs",
         "source disclosure",
         "run command"
       ],
       "regions": [
         "workflowSelector",
+        "scope",
         "inputs",
         "advancedSources",
         "commandArea"

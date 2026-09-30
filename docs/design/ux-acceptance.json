@@ -6,6 +6,10 @@
       "check": "Recent, around-time and import modes have distinct guidance; empty readiness gives a relevant next step; capture technical values are collapsed and Configure keeps its existing guards"
     },
     {
+      "id": "evidence-scope-and-quiet-results",
+      "check": "Home and period-based Analyze explain supported-record scope; quiet results distinguish zero incidents, Background-only context and filter-hidden results, while preserving Complete, Partial, Unavailable, AccessDenied and NotSupported coverage states"
+    },
+    {
       "id": "beta-action-states",
       "check": "Shared actions retain keyboard focus and disabled invocation guards in Light/Dark; primary default, hover and pressed text contrast is at least 4.5:1"
     },

@@ -300,7 +300,7 @@ public sealed class HeadlessTests
         var window = Open();
         try
         {
-            var start = Find<Button>(window, "PrimaryAnalyze"); Assert.Equal("Analyze the last 7 days", AutomationProperties.GetName(start));
+            var start = Find<Button>(window, "PrimaryAnalyze"); Assert.Equal(window.ViewModel.Text.Get("AnalyzeLastWeek"), AutomationProperties.GetName(start));
             Assert.True(start.Focus()); window.KeyPress(Key.Tab, RawInputModifiers.None, PhysicalKey.Tab, "\t"); window.KeyRelease(Key.Tab, RawInputModifiers.None, PhysicalKey.Tab, "\t");
             Assert.NotNull(window.FocusManager?.GetFocusedElement());
         }

@@ -8,11 +8,66 @@ namespace FaultWitness.App;
 public sealed partial class MainWindow
 {
     private static readonly int[] WindowOptions = [2, 5, 10, 30, 60];
+    private string AnalysisRange()
+    {
+        var now = DateTimeOffset.Now;
+        var (from, to) = ViewModel.LastRequestedFromUtc is { } requestedFrom && ViewModel.LastRequestedToUtc is { } requestedTo
+            ? (requestedFrom, requestedTo)
+            : ViewModel.IsAround
+                ? (ViewModel.AroundTime.AddMinutes(-ViewModel.WindowMinutes), ViewModel.AroundTime.AddMinutes(ViewModel.WindowMinutes))
+                : ViewModel.Period switch
+                {
+                    AnalysisPeriod.Day => (now.AddDays(-1), now),
+                    AnalysisPeriod.Month => (now.AddDays(-30), now),
+                    AnalysisPeriod.Custom => (ViewModel.CustomFrom, ViewModel.CustomTo),
+                    _ => (now.AddDays(-7), now)
+                };
+        var culture = ViewModel.Text.Culture;
+        return from.ToLocalTime().ToString("g", culture) + " — " + to.ToLocalTime().ToString("g", culture);
+    }
+
+    private StackPanel QuietResultContent(string key, bool backgroundOnly = false)
+    {
+        var title = ViewModel.IsImported ? T(key + "Imported") : ViewModel.Text.Format(key, AnalysisRange());
+        var content = Stack(Label(title, TextRole.RowTitle));
+        if (backgroundOnly)
+            content.Children.Add(Muted(ViewModel.Text.Format("BackgroundEntriesCount", T("PriorityBackground"), ViewModel.BackgroundCount.ToString(ViewModel.Text.Culture))));
+        content.Children.Add(Muted(T("QuietResultCaution"), TextRole.Body));
+
+        var limitedCoverage = ViewModel.Result.Coverage.Where(source => source.State != CoverageState.Complete)
+            .Select(source => T(PresentationPolicy.SourceKey(source)) + ": " + T("Coverage" + source.State)).ToArray();
+        if (limitedCoverage.Length > 0)
+            content.Children.Add(Muted(T("CoverageLimitSummary") + " " + string.Join(" · ", limitedCoverage), TextRole.Body));
+        return content;
+    }
+
+    private Border QuietResult(string key, bool backgroundOnly = false)
+    {
+        var panel = Surface(QuietResultContent(key, backgroundOnly));
+        panel.Name = "QuietResult";
+        return panel;
+    }
+
+    private StackPanel IncidentEmptyContent()
+    {
+        if (!ViewModel.HasAnalysis) return Stack(Label(T("NoAnalysis"), TextRole.RowTitle), Muted(T("NoHistory"), TextRole.Body));
+        if (ViewModel.AllRows.Count == 0) return QuietResultContent("NoSupportedIncidents");
+        if (ViewModel.FilteredRows.Count > 0) return new StackPanel();
+
+        var reset = Button("ResetFilters", () => { ViewModel.SetFilter(new()); RenderPage(); }, "ResetFilters");
+        return Stack(Label(T("NoFilterMatches"), TextRole.SectionTitle), Muted(T("ResetFilterHelp")), reset);
+    }
+
     private ScrollViewer BuildOverview()
     {
-        var primaryKey = ViewModel.Settings.Period switch { AnalysisPeriod.Day => "AnalyzeLastDay", AnalysisPeriod.Month => "AnalyzeLastMonth", _ => "AnalyzeLastWeek" };
-        var body = Stack(Heading("Home", "HomePurpose"), Label(T("LocalAnalysisOnly")),
+        var primaryKey = ViewModel.Period switch
+        {
+            AnalysisPeriod.Day => "AnalyzeLastDay", AnalysisPeriod.Month => "AnalyzeLastMonth",
+            AnalysisPeriod.Custom => "AnalyzeSelectedPeriod", _ => "AnalyzeLastWeek"
+        };
+        var body = Stack(Heading("Home", "HomePurpose"),
             PrimaryButton(primaryKey, () => ViewModel.OpenAnalyze(AnalysisMode.Recent), "PrimaryAnalyze"),
+            Muted(T("ProductScope"), TextRole.Body), Muted(T("LocalAnalysisOnly")),
             Actions(SubtleButton("AnalyzeCrashFreeze", () => ViewModel.OpenAnalyze(AnalysisMode.Around), "StartAroundFlow"),
                 SubtleButton("AnalyzeFiles", () => ViewModel.OpenAnalyze(AnalysisMode.Files), "StartFilesFlow")));
         if (!ViewModel.HasAnalysis)
@@ -43,7 +98,11 @@ public sealed partial class MainWindow
         }
         body.Children.Add(counts);
         body.Children.Add(Label(T("RecentSignificant"), TextRole.SectionTitle));
-        if (ViewModel.RecentSignificant.Count == 0) body.Children.Add(Empty(ViewModel.IsAround ? "NoIncidents" : "NoSignificant"));
+        if (ViewModel.RecentSignificant.Count == 0)
+        {
+            var backgroundOnly = ViewModel.AllRows.Count > 0 && ViewModel.BackgroundCount > 0;
+            body.Children.Add(QuietResult(backgroundOnly ? "NoPriorityIncidents" : "NoSupportedIncidents", backgroundOnly));
+        }
         else
         {
             var list = IncidentList(ViewModel.RecentSignificant, true); list.Height = 290; body.Children.Add(list);
@@ -62,6 +121,7 @@ public sealed partial class MainWindow
     {
         var around = mode == AnalysisMode.Around;
         var body = Stack(Heading("Analyze", "AnalysisHelp"));
+        body.Children.Add(Muted(T(mode == AnalysisMode.Files ? "ImportScope" : "ProductScope"), TextRole.Body));
         var modes = new ComboBox { Name = "AnalysisMode", ItemsSource = new[] { T("AnalyzeRecent"), T("AnalyzeCrashFreeze"), T("AnalyzeFiles") }, SelectedIndex = (int)mode, Width = 320 };
         modes.SelectionChanged += (_, _) => { if (modes.SelectedIndex >= 0 && (AnalysisMode)modes.SelectedIndex != ViewModel.AnalysisMode) ViewModel.OpenAnalyze((AnalysisMode)modes.SelectedIndex); };
         body.Children.Add(Field("AnalysisWorkflow", modes));
@@ -114,12 +174,12 @@ public sealed partial class MainWindow
         priorities.SelectionChanged += (_, _) => Filter(); categories.SelectionChanged += (_, _) => Filter(); strength.SelectionChanged += (_, _) => Filter(); search.TextChanged += (_, _) => Filter();
         from.SelectedDateChanged += (_, _) => Filter(); to.SelectedDateChanged += (_, _) => Filter();
         var filters = Stack(Actions(Field("Priority", priorities), Field("Category", categories), Field("Evidence", strength)), search,
-            Expand("DateRange", Actions(Field("FromDate", from), Field("ToDate", to), Button("ResetFilters", () => { ViewModel.SetFilter(new()); RenderPage(); }))));
+            Expand("DateRange", Actions(Field("FromDate", from), Field("ToDate", to))));
         Grid.SetRow(filters, 1); grid.Children.Add(filters);
         filterCount = Muted(ViewModel.Text.Format("ItemsShown", ViewModel.FilteredRows.Count, ViewModel.AllRows.Count)); filterCount.Margin = new Thickness(0, D("primitive.space.2"), 0, D("primitive.space.2"));
         Grid.SetRow(filterCount, 2); grid.Children.Add(filterCount);
         incidentList = IncidentList(ViewModel.FilteredRows); Grid.SetRow(incidentList, 3); grid.Children.Add(incidentList);
-        filterEmpty = Surface(Stack(Label(T(ViewModel.HasAnalysis ? "NoFilterMatches" : "NoAnalysis"), TextRole.SectionTitle), Muted(T(ViewModel.HasAnalysis ? "ResetFilterHelp" : "NoHistory"))));
+        filterEmpty = Surface(IncidentEmptyContent());
         filterEmpty.Name = "FilterEmpty"; filterEmpty.IsVisible = ViewModel.FilteredRows.Count == 0;
         filterEmpty.VerticalAlignment = VerticalAlignment.Top;
         Grid.SetRow(filterEmpty, 3); grid.Children.Add(filterEmpty);

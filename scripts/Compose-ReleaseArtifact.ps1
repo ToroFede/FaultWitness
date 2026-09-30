@@ -73,15 +73,17 @@ foreach ($document in @('LICENSE', 'THIRD-PARTY-NOTICES.txt', 'README.md')) {
     Copy-Item -LiteralPath $documentPath -Destination (Join-Path $staging $document)
 }
 @'
-# FaultWitness 0.9.0-beta.1
+# FaultWitness Quick Start
 
 ## Quick start
 
-1. Extract this folder on a Windows x64 computer.
-2. Run `FaultWitness.exe`.
-3. Use the Readiness screen before collecting diagnostics. FaultWitness reports what it could inspect; it does not guarantee that a crash dump or other artifact exists.
+1. Extract the full ZIP package to a folder and keep its subfolders in place.
+2. Open `FaultWitness.exe` from the extracted folder.
+3. Choose a recent period (24 hours, 7 days, 30 days or a custom range up to 90 days), or investigate around a known incident time.
+4. Results depend on the records Windows retained and the sources FaultWitness could examine. A quiet result does not prove that the PC is fault-free.
+5. **System → Diagnostic Readiness** is optional source investigation. It helps explain source status and access; it is not a prerequisite health scan.
 
-The `helper` folder is required for administrator-approved crash-capture configuration. Keep it beside the application executable. See `README.md` for scope and privacy details.
+The `helper` folder is required for administrator-approved crash-capture configuration. Keep it beside the application executable. See `README.md` for diagnostic scope and privacy details.
 '@ | Set-Content -LiteralPath (Join-Path $staging 'QUICKSTART.md') -Encoding UTF8
 $noticeRoot = Join-Path $staging 'third-party'
 $deps = @(Get-ChildItem -LiteralPath $publish -Filter '*.deps.json' -File -Recurse | ForEach-Object { (Get-Content $_.FullName -Raw | ConvertFrom-Json).libraries.PSObject.Properties.Name })

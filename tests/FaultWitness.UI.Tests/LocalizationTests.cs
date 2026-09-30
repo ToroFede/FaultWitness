@@ -22,9 +22,9 @@ public sealed class LocalizationTests
         var xml = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "resources", "Strings" + suffix + ".resx"));
         return xml.Root!.Elements("data").ToDictionary(item => item.Attribute("name")!.Value, item => item.Element("value")!.Value);
     }
-    // These short nouns also have identical spellings in some target languages (e.g. French "Source").
+    // These short nouns and formatting-only templates can legitimately match their English resource value.
     private static readonly string[] IdenticalAllowed = ["AppTitle", "StrengthModerate", "General", "Incidents", "Date", "Format", "System", "Import", "SourceTypeInventory",
-        "ChangeSubsystemAudio", "ChangeSubsystemSystem", "ChangeSource"];
+        "ChangeSubsystemAudio", "ChangeSubsystemSystem", "ChangeSource", "BackgroundEntriesCount"];
     [Theory]
     [InlineData("en")][InlineData("it")][InlineData("es")][InlineData("fr")]
     [InlineData("de")][InlineData("pt")][InlineData("ru")][InlineData("pl")]

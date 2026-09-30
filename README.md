@@ -1,5 +1,7 @@
 # FaultWitness 0.9.0-beta.1
 
+FaultWitness helps you review Windows evidence after crashes, unexpected restarts, freezes or recurring instability. It is not a general PC health or maintenance checker.
+
 FaultWitness is a local-first Windows diagnostic evidence organizer. It reads selected local sources, normalizes records, correlates related records into incidents, and reports what the evidence supports. It distinguishes observed facts, correlations, interpretations, hypotheses, and conclusions that cannot be established.
 
 FaultWitness does not diagnose a failing power supply from Kernel-Power 41, a defective CPU from a WHEA event, or a root cause from a faulting module name. This beta has no account, telemetry, analytics, automatic upload, cloud processing, or background service.

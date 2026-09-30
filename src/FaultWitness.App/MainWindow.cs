@@ -78,7 +78,11 @@ public sealed partial class MainWindow : Window
         else if (change is ViewChange.Page or ViewChange.Results || change == ViewChange.State && (ViewModel.Page is AppPage.System or AppPage.Readiness)) RenderPage();
         else if (change == ViewChange.HistorySelection) RenderHistoryDetail();
         else if (change == ViewChange.Filter && incidentList is not null)
-        { incidentList.ItemsSource = ViewModel.FilteredRows; if (filterCount is not null) filterCount.Text = ViewModel.Text.Format("ItemsShown", ViewModel.FilteredRows.Count, ViewModel.AllRows.Count); if (filterEmpty is not null) filterEmpty.IsVisible = ViewModel.FilteredRows.Count == 0; }
+        {
+            incidentList.ItemsSource = ViewModel.FilteredRows;
+            if (filterCount is not null) filterCount.Text = ViewModel.Text.Format("ItemsShown", ViewModel.FilteredRows.Count, ViewModel.AllRows.Count);
+            if (filterEmpty is not null) { filterEmpty.Child = IncidentEmptyContent(); filterEmpty.IsVisible = ViewModel.FilteredRows.Count == 0; }
+        }
         UpdateStatus();
     }
     private void ApplyTheme() => RequestedThemeVariant = ViewModel.Settings.Theme switch
