@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:a="using:FaultWitness.App" x:Class="FaultWitness.App.Views.Components.IncidentListRow" x:DataType="a:IncidentRow" AutomationProperties.Name="{Binding AccessibleName}">
+  <Border Classes="incident-row" Padding="{DynamicResource UiSurfacePadding}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppBorder}">
+    <StackPanel Spacing="{DynamicResource primitive.space.1}">
+      <TextBlock Classes="row-title" Text="{Binding Title}"/>
+      <TextBlock Classes="metadata" Text="{Binding Timestamp}"/>
+      <TextBlock Text="{Binding Assessment}"/>
+      <TextBlock Classes="metadata" Text="{Binding SummaryMetadata}"/>
+      <TextBlock Classes="metadata" IsVisible="{Binding HasRecurrence}" Text="{Binding Recurrence}"/>
+      <TextBlock Classes="metadata" IsVisible="{Binding HasSharedReport}" Text="{Binding SharedReport}"/>
+      <TextBlock Classes="metadata" IsVisible="{Binding HasDevelopmentContext}" Text="{Binding DevelopmentContext}"/>
+    </StackPanel>
+  </Border>
+</UserControl>

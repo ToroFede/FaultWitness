@@ -108,6 +108,11 @@ public sealed class IncidentRow
     public int RecurrenceCount { get; }
     public int SharedReportCount { get; }
     public string SharedReport { get; }
+    public bool HasRecurrence => RecurrenceCount > 1;
+    public bool HasSharedReport => SharedReportCount > 1;
+    public bool HasDevelopmentContext => DevelopmentContext.Length > 0;
+    public string SummaryMetadata => Strength + "   ·   " + PriorityText + "   ·   " + Context;
+    public string AccessibleName => Title + " · " + Timestamp + " · " + Assessment + " · " + SummaryMetadata;
     public string SearchText { get; }
     public override string ToString() => Title + " · " + Timestamp + " · " + Strength;
 }

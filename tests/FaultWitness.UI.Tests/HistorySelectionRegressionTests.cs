@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
 using FaultWitness.App;
+using FaultWitness.App.Presentation;
 using FaultWitness.Storage;
 
 namespace FaultWitness.UI.Tests;
@@ -51,10 +52,11 @@ public sealed class HistorySelectionRegressionTests
 
                 var expected = iteration % 2 == 0 ? second : first;
                 var list = Find<ListBox>(window, "HistoryList");
-                list.SelectedItem = window.ViewModel.History.Single(row => row.Scan.Id == expected.Id);
+                list.SelectedItem = list.Items.OfType<HistoryItemPresentation>().Single(row => row.SourceRow.Scan.Id == expected.Id);
                 window.UpdateLayout();
 
                 Assert.Equal(expected.Id, window.ViewModel.SelectedHistory?.Scan.Id);
+                Assert.Equal(expected.Id, Assert.IsType<HistoryItemPresentation>(list.SelectedItem).SourceRow.Scan.Id);
                 Assert.Same(list, Find<ListBox>(window, "HistoryList"));
                 var coverage = window.GetVisualDescendants().OfType<Expander>()
                     .Single(item => Equals(item.Header, window.ViewModel.Text.Get("SourceCoverage")));

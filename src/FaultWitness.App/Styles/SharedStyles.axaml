@@ -179,6 +179,14 @@
     <Setter Property="Padding" Value="0"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
   </Style>
+  <Style Selector="ListBox.incident-list ListBoxItem">
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+  <Style Selector="ListBox.incident-list ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
   <Style Selector="ListBox.history-list ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
     <Setter Property="Foreground" Value="{DynamicResource AppText}"/>

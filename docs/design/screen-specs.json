@@ -1,5 +1,5 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "breakpoints": {
     "small": {
       "max": 640
@@ -11,6 +11,10 @@
     "large": {
       "min": 1008
     }
+  },
+  "pageImplementation": {
+    "axaml": ["Shell", "Home", "Analyze", "Incidents", "History", "IncidentDetail"],
+    "programmaticCSharp": ["System", "DiagnosticReadiness", "Capture", "Settings", "ExportSupport"]
   },
   "screens": [
     {
@@ -43,7 +47,7 @@
       "loadingState": "inline progress with cancellation",
       "errorState": "friendly status with technical disclosure",
       "responsiveRules": {
-        "small": "single column; intrinsic compact navigation 160–208 epx; brand no wrap, ellipsis only if text scaling exceeds available width; stacked summary counts; 12 epx gutter",
+        "small": "single content column; intrinsic compact navigation 160–208 epx; brand no wrap, ellipsis only if text scaling exceeds available width; stacked summary counts; 12 epx gutter",
         "medium": "compact summary strip with natural wrapping; 24 epx gutter",
         "large": "constrained 1120 epx content; compact summary strip"
       },
@@ -144,8 +148,8 @@
       "loadingState": "retain current list",
       "errorState": "inline status",
       "responsiveRules": {
-        "small": "filters collapse vertically",
-        "medium": "filters wrap",
+        "small": "filter groups wrap within available width; labels remain with their controls and Search moves to a new row when needed",
+        "medium": "filter groups wrap within available width",
         "large": "dense list width constrained for scanning"
       },
       "keyboardFlow": [
@@ -256,7 +260,7 @@
       "primaryQuestion": "What was analyzed before and what summary was retained?",
       "primaryAction": "Open selected summary",
       "secondaryActions": [
-        "export available summary"
+        "copy or export available summary"
       ],
       "informationPriority": [
         "latest scans",
@@ -274,8 +278,8 @@
       "loadingState": "short local loading state",
       "errorState": "history unavailable without losing current result",
       "responsiveRules": {
-        "small": "list then detail",
-        "medium": "list then detail",
+        "small": "one column; list then detail; hide the empty list/detail panels when no saved analysis exists",
+        "medium": "one column; list then detail; hide the empty list/detail panels when no saved analysis exists",
         "large": "40/60 master-detail; independently scrollable detail; selected row uses subtle surface and accent indicator"
       },
       "keyboardFlow": [

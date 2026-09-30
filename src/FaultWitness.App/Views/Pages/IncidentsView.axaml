@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:a="using:FaultWitness.App" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.IncidentsView" x:DataType="p:IncidentListPresentation" Name="IncidentsPage">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="IncidentPageContent" Spacing="{DynamicResource primitive.space.3}">
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Classes="page-title" Text="{Binding Text[Incidents]}"/>
+        <TextBlock Text="{Binding HeadingHelp}"/>
+      </StackPanel>
+      <WrapPanel Name="IncidentFilters">
+        <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+          <TextBlock Text="{Binding Text[Priority]}"/>
+          <ComboBox Name="PriorityFilter" ItemsSource="{Binding Priorities}" SelectionChanged="PriorityChanged" AutomationProperties.Name="{Binding Text[Priority]}" Width="190"/>
+        </StackPanel>
+        <StackPanel MinWidth="190" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+          <TextBlock Text="{Binding Text[Category]}"/>
+          <ComboBox Name="CategoryFilter" ItemsSource="{Binding Categories}" SelectionChanged="CategoryChanged" AutomationProperties.Name="{Binding Text[Category]}" Width="195"/>
+        </StackPanel>
+        <StackPanel MinWidth="160" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+          <TextBlock Text="{Binding Text[Evidence]}"/>
+          <ComboBox Name="StrengthFilter" ItemsSource="{Binding Strengths}" SelectionChanged="StrengthChanged" AutomationProperties.Name="{Binding Text[Evidence]}" Width="160"/>
+        </StackPanel>
+        <StackPanel MinWidth="250" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+          <TextBlock Text="{Binding Text[Search]}"/>
+          <TextBox Name="IncidentSearch" TextChanged="SearchChanged" PlaceholderText="{Binding Text[SearchHint]}" AutomationProperties.Name="{Binding Text[Search]}" MinWidth="250"/>
+        </StackPanel>
+      </WrapPanel>
+      <Expander Name="DateRange" Header="{Binding Text[DateRange]}" AutomationProperties.Name="{Binding Text[DateRange]}">
+        <WrapPanel>
+          <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[FromDate]}"/>
+            <DatePicker Name="FilterFrom" SelectedDateChanged="FilterDateChanged" AutomationProperties.Name="{Binding Text[FromDate]}"/>
+          </StackPanel>
+          <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[ToDate]}"/>
+            <DatePicker Name="FilterTo" SelectedDateChanged="FilterDateChanged" AutomationProperties.Name="{Binding Text[ToDate]}"/>
+          </StackPanel>
+        </WrapPanel>
+      </Expander>
+      <TextBlock Name="FilterCount" Classes="metadata" Text="{Binding CountText}"/>
+      <Grid Name="IncidentResultRegion">
+        <ListBox Name="IncidentList" Classes="incident-list" ItemsSource="{Binding Rows}" IsVisible="{Binding HasRows}" SelectionChanged="IncidentSelected" AutomationProperties.Name="{Binding Text[Incidents]}" MinHeight="260">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="a:IncidentRow">
+              <c:IncidentListRow/>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <Border Name="FilterEmpty" Classes="action-surface" IsVisible="{Binding IsEmpty}" VerticalAlignment="Top">
+          <StackPanel Spacing="{DynamicResource primitive.space.2}">
+            <TextBlock Classes="row-title" Text="{Binding EmptyHeading}"/>
+            <TextBlock Text="{Binding EmptyHelp}"/>
+            <TextBlock IsVisible="{Binding ShowQuietEmpty}" Text="{Binding EmptyCaution}"/>
+            <TextBlock Classes="metadata" IsVisible="{Binding ShowQuietEmpty}" Text="{Binding EmptyCoverage}"/>
+            <Button Name="ResetFilters" Classes="secondary-action" Click="Reset" IsVisible="{Binding ShowResetFilters}" AutomationProperties.Name="{Binding Text[ResetFilters]}" HorizontalAlignment="Left">
+              <TextBlock Text="{Binding Text[ResetFilters]}"/>
+            </Button>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

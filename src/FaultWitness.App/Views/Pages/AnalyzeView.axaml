@@ -1,0 +1,104 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.AnalyzeView" x:DataType="p:AnalyzePresentation">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="AnalyzeContent" Spacing="{DynamicResource primitive.space.4}">
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Classes="page-title" Text="{Binding Text[Analyze]}"/>
+        <TextBlock Text="{Binding ModeGuidance}"/>
+      </StackPanel>
+      <TextBlock Name="ProductScope" Text="{Binding Scope}"/>
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Text="{Binding Text[AnalysisWorkflow]}"/>
+        <ComboBox Name="AnalysisMode" ItemsSource="{Binding Modes}" SelectedIndex="{Binding ModeIndex}" SelectionChanged="ModeChanged" AutomationProperties.Name="{Binding Text[AnalysisWorkflow]}" Width="320" MaxWidth="320"/>
+      </StackPanel>
+      <TextBlock Text="{Binding Help}"/>
+      <StackPanel Name="RecentAnalysisInputs" IsVisible="{Binding IsRecent}" Spacing="{DynamicResource primitive.space.3}">
+        <StackPanel Spacing="{DynamicResource primitive.space.1}">
+          <TextBlock Text="{Binding Text[AnalysisPeriod]}"/>
+          <ComboBox Name="PeriodSelector" ItemsSource="{Binding Periods}" SelectedIndex="{Binding PeriodIndex}" SelectionChanged="PeriodChanged" AutomationProperties.Name="{Binding Text[AnalysisPeriod]}" Width="280" MaxWidth="320"/>
+        </StackPanel>
+        <WrapPanel Name="CustomPeriodFields" IsVisible="{Binding IsCustomPeriod}">
+          <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[FromDate]}"/>
+            <DatePicker Name="FromDate" SelectedDate="{Binding CustomFromDate, Mode=TwoWay}" AutomationProperties.Name="{Binding Text[FromDate]}"/>
+          </StackPanel>
+          <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[ToDate]}"/>
+            <DatePicker Name="ToDate" SelectedDate="{Binding CustomToDate, Mode=TwoWay}" AutomationProperties.Name="{Binding Text[ToDate]}"/>
+          </StackPanel>
+        </WrapPanel>
+        <Expander Name="AdvancedSources" Header="{Binding Text[AdvancedSources]}" AutomationProperties.Name="{Binding Text[AdvancedSources]}">
+          <StackPanel Spacing="{DynamicResource primitive.space.1}">
+            <TextBlock Text="{Binding Text[SourcesHelp]}"/>
+            <TextBlock Text="{Binding Text[SourceSystem]}"/>
+            <TextBlock Text="{Binding Text[SourceApplication]}"/>
+            <TextBlock Text="{Binding Text[SourceWer]}"/>
+            <TextBlock Text="{Binding Text[SourceReliability]}"/>
+            <TextBlock Text="{Binding Text[SourceArtifacts]}"/>
+          </StackPanel>
+        </Expander>
+        <Button Name="RunAnalysis" Classes="primary-action operation" Click="RunRecent" AutomationProperties.Name="{Binding Text[RunSelectedAnalysis]}" HorizontalAlignment="Left">
+          <TextBlock Text="{Binding Text[RunSelectedAnalysis]}"/>
+        </Button>
+        <TextBlock Classes="metadata" Text="{Binding Privacy}"/>
+      </StackPanel>
+      <StackPanel Name="AroundAnalysisInputs" IsVisible="{Binding IsAround}" Spacing="{DynamicResource primitive.space.3}">
+        <WrapPanel>
+          <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[Date]}"/>
+            <DatePicker Name="AroundDate" SelectedDate="{Binding AroundDate, Mode=TwoWay}" AutomationProperties.Name="{Binding Text[Date]}"/>
+          </StackPanel>
+          <StackPanel MinWidth="150" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[Time]}"/>
+            <TimePicker Name="AroundTime" SelectedTime="{Binding AroundClock, Mode=TwoWay}" ClockIdentifier="24HourClock" AutomationProperties.Name="{Binding Text[Time]}"/>
+          </StackPanel>
+          <StackPanel MinWidth="160" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[Window]}"/>
+            <ComboBox Name="AroundWindow" ItemsSource="{Binding Windows}" SelectedIndex="{Binding WindowIndex, Mode=TwoWay}" AutomationProperties.Name="{Binding Text[Window]}" Width="160" MaxWidth="220"/>
+          </StackPanel>
+        </WrapPanel>
+        <Expander Name="AroundAdvancedSources" Header="{Binding Text[AdvancedSources]}" AutomationProperties.Name="{Binding Text[AdvancedSources]}">
+          <StackPanel Spacing="{DynamicResource primitive.space.1}">
+            <TextBlock Text="{Binding Text[SourcesHelp]}"/>
+            <TextBlock Text="{Binding Text[SourceSystem]}"/>
+            <TextBlock Text="{Binding Text[SourceApplication]}"/>
+            <TextBlock Text="{Binding Text[SourceWer]}"/>
+            <TextBlock Text="{Binding Text[SourceReliability]}"/>
+            <TextBlock Text="{Binding Text[SourceArtifacts]}"/>
+          </StackPanel>
+        </Expander>
+        <Button Name="RunAroundAnalysis" Classes="primary-action operation" Click="RunAround" AutomationProperties.Name="{Binding Text[AnalyzeCrashFreeze]}" HorizontalAlignment="Left">
+          <TextBlock Text="{Binding Text[AnalyzeCrashFreeze]}"/>
+        </Button>
+        <TextBlock Classes="metadata" Text="{Binding Privacy}"/>
+      </StackPanel>
+      <StackPanel Name="ImportAnalysisInputs" IsVisible="{Binding IsFiles}" Spacing="{DynamicResource primitive.space.3}">
+        <Border Name="ImportDropSurface" Classes="action-surface">
+          <StackPanel Spacing="{DynamicResource primitive.space.2}">
+            <TextBlock Classes="level-one" Text="{Binding Text[DropFiles]}"/>
+            <TextBlock Text="{Binding Text[SupportedFormats]}"/>
+            <Button Name="BrowseImports" Classes="secondary-action operation" Click="Browse" AutomationProperties.Name="{Binding Text[Browse]}" HorizontalAlignment="Left">
+              <TextBlock Text="{Binding Text[Browse]}"/>
+            </Button>
+          </StackPanel>
+        </Border>
+        <TextBlock Name="NoImport" IsVisible="{Binding IsNoImports}" Text="{Binding Text[NoImport]}"/>
+        <ItemsControl Name="ImportedFiles" ItemsSource="{Binding Imports}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="p:ImportItemPresentation">
+              <Border Classes="action-surface" Margin="{DynamicResource UiGroupMargin}">
+                <StackPanel Spacing="{DynamicResource primitive.space.1}">
+                  <TextBlock Classes="row-title" Text="{Binding Name}"/>
+                  <TextBlock Classes="metadata" Text="{Binding Status}"/>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Name="AnalyzeImports" Classes="primary-action operation" Click="ImportAnalyze" IsVisible="{Binding HasImports}" AutomationProperties.Name="{Binding Text[AnalyzeImported]}" HorizontalAlignment="Left">
+          <TextBlock Text="{Binding Text[AnalyzeImported]}"/>
+        </Button>
+        <TextBlock Classes="metadata" Text="{Binding Text[ImportCoverageHelp]}"/>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

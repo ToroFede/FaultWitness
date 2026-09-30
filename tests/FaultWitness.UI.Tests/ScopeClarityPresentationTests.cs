@@ -8,6 +8,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using FaultWitness.App;
+using FaultWitness.App.Views.Pages;
 using FaultWitness.Core;
 using FaultWitness.Localization;
 
@@ -45,7 +46,7 @@ public sealed class ScopeClarityPresentationTests
             Assert.Contains(viewModel.Text.Get("QuietResultCaution"), text, StringComparison.Ordinal);
             Assert.DoesNotContain("No problems found", text, StringComparison.OrdinalIgnoreCase);
             Assert.DoesNotContain("PC is healthy", text, StringComparison.OrdinalIgnoreCase);
-            Assert.Null(FindButton(window, "ResetFilters"));
+            Assert.False(FindButton(window, "ResetFilters")?.IsVisible ?? false);
         }
         finally { window.Close(); }
     }
@@ -112,14 +113,16 @@ public sealed class ScopeClarityPresentationTests
         {
             viewModel.SetResult(empty);
             viewModel.Navigate(AppPage.Incidents);
-            Assert.True(Find<Border>(window, "FilterEmpty").IsVisible);
-            Assert.Null(FindButton(window, "ResetFilters"));
+            var incidentsPage = Assert.IsType<IncidentsView>(window.FindControl<ContentControl>("PageHost")!.Content);
+            var filterEmpty = Assert.IsType<Border>(incidentsPage.FindControl<Border>("FilterEmpty"));
+            Assert.True(filterEmpty.IsVisible);
+            Assert.False(FindButton(window, "ResetFilters")?.IsVisible ?? false);
 
             var result = SyntheticResults.Create(1);
             viewModel.SetResult(result);
             viewModel.SetFilter(new(Search: "no matching synthetic incident"));
             window.UpdateLayout();
-            Assert.True(Find<Border>(window, "FilterEmpty").IsVisible);
+            Assert.True(filterEmpty.IsVisible);
             Assert.Contains(viewModel.Text.Get("NoFilterMatches"), VisibleText(window), StringComparison.Ordinal);
             var reset = FindButton(window, "ResetFilters");
             Assert.NotNull(reset);
@@ -127,7 +130,7 @@ public sealed class ScopeClarityPresentationTests
 
             reset.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             window.UpdateLayout();
-            Assert.Null(FindButton(window, "ResetFilters"));
+            Assert.False(FindButton(window, "ResetFilters")?.IsVisible ?? false);
             Assert.NotEmpty(viewModel.FilteredRows);
         }
         finally { window.Close(); }

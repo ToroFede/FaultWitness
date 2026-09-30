@@ -19,52 +19,6 @@ namespace FaultWitness.App;
 
 public sealed partial class MainWindow
 {
-    private Control BuildHistory()
-    {
-        var heading = Heading("History", "HistoryHelp");
-        if (ViewModel.History.Count == 0) return Scroll(Stack(heading, Empty("HistoryEmptyTitle", "NoHistory"), AsyncButton("RefreshHistory", ViewModel.RefreshHistoryAsync, "RefreshHistory")));
-        var list = new ListBox { Name = "HistoryList", ItemsSource = ViewModel.History, MinHeight = 260 };
-        historyList = list;
-        list.Classes.Add("history-list");
-        list.ItemTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<HistoryRow>((row, _) => row is null ? null :
-            HistoryListRow(row), true);
-        list.SelectedItem = ViewModel.SelectedHistory ?? ViewModel.History[0];
-        // Initial selection must not re-enter page construction through SelectionChanged.
-        list.SelectionChanged += (_, _) => { if (list.SelectedItem is HistoryRow row) ViewModel.SelectHistory(row); };
-        historyDetailHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch, Content = HistoryDetail() };
-        if (layoutClass == "large")
-        {
-            var columns = new Grid { ColumnDefinitions = new ColumnDefinitions("2*,3*"), ColumnSpacing = D("primitive.space.6") };
-            var detailScroll = Scroll(historyDetailHost);
-            columns.Children.Add(list); Grid.SetColumn(detailScroll, 1); columns.Children.Add(detailScroll);
-            return new Grid { RowDefinitions = new RowDefinitions("Auto,*"), Children = { heading, Place(columns, 1) } };
-        }
-        return Scroll(Stack(heading, list, historyDetailHost));
-    }
-    private static Grid HistoryListRow(HistoryRow row)
-    {
-        var content = new Grid { ColumnDefinitions = new ColumnDefinitions("Auto,*"), ColumnSpacing = D("primitive.space.2"), MinHeight = D("component.row.minHeight") };
-        var indicatorHost = new Border { Width = D("component.selection.indicatorWidth") };
-        var indicator = new Border { Name = "HistorySelectionIndicator", CornerRadius = new CornerRadius(D("primitive.radius.small")), Margin = new Thickness(0, D("primitive.space.2")) };
-        indicator.Bind(Border.BackgroundProperty, new DynamicResourceExtension("AppAccent"));
-        indicator.Bind(IsVisibleProperty, new Binding("IsSelected") { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor) { AncestorType = typeof(ListBoxItem) } });
-        indicatorHost.Child = indicator; content.Children.Add(indicatorHost);
-        var text = Stack(Label(row.Title, TextRole.RowTitle), Muted(row.Timestamp), Label(row.Counts));
-        text.Spacing = D("primitive.space.1"); text.Margin = new Thickness(0, D("primitive.space.2"), D("primitive.space.2"), D("primitive.space.2"));
-        Grid.SetColumn(text, 1); content.Children.Add(text);
-        return content;
-    }
-    private Border HistoryDetail()
-    {
-        if (ViewModel.SelectedHistory is not { } row) return Empty("SelectHistory");
-        var scan = row.Scan; var body = Stack(Label(row.Title, TextRole.SectionTitle), Muted(row.Timestamp), Label(row.Period), Label(row.Counts));
-        if (scan.Metadata?.DurationMilliseconds is long duration) body.Children.Add(Muted(ViewModel.Text.Format("HistoryDuration", duration / 1000d)));
-        if (!string.IsNullOrWhiteSpace(scan.Metadata?.CoverageSummary)) body.Children.Add(Expand("SourceCoverage", Label(scan.Metadata.CoverageSummary!)));
-        body.Children.Add(Label(T("SavedSummary"), TextRole.RowTitle));
-        foreach (var incident in scan.Incidents.Take(20)) body.Children.Add(Stack(Label(T("Category" + incident.Category), TextRole.RowTitle), Muted(incident.OccurredUtc.ToLocalTime().ToString("G", ViewModel.Text.Culture) + " · " + incident.Severity), Label(SavedChangeSummary(incident))));
-        if (scan.Incidents.Count > 20) body.Children.Add(Muted(ViewModel.Text.Format("MoreHistoryIncidents", scan.Incidents.Count - 20)));
-        body.Children.Add(Actions(AsyncButton("CopySavedSummary", CopyHistoryAsync, "CopyHistory"), AsyncButton("SaveExport", SaveHistoryAsync, "SaveHistory"))); return Surface(body);
-    }
     private async Task CopyHistoryAsync()
     {
         if (Clipboard is null || ViewModel.SelectedHistory is not { } row) { ViewModel.Notify("ClipboardUnavailable"); return; }
@@ -177,28 +131,6 @@ public sealed partial class MainWindow
     private WrapPanel SystemNavigation() => Actions(
         NavigationButton("SystemInformation", () => ViewModel.Navigate(AppPage.System), "SystemInformationTab", ViewModel.Page == AppPage.System),
         NavigationButton("Readiness", () => ViewModel.Navigate(AppPage.Readiness), "SystemReadinessTab", ViewModel.Page == AppPage.Readiness));
-    private ScrollViewer BuildImport()
-    {
-        return Scroll(Stack(Heading("AnalyzeFiles", "ImportHelp"), BuildImportContent()));
-    }
-    private StackPanel BuildImportContent()
-    {
-        var body = Stack(Surface(Stack(Label(T("DropFiles"), TextRole.SectionTitle),
-            Muted(T("SupportedFormats")), AsyncButton("Browse", BrowseImportsAsync, "BrowseImports"))));
-        DragDrop.SetAllowDrop(body, true);
-        body.AddHandler(DragDrop.DragOverEvent, (_, args) => { args.DragEffects = ViewModel.IsBusy ? DragDropEffects.None : DragDropEffects.Copy; args.Handled = true; });
-        body.AddHandler(DragDrop.DropEvent, (_, args) =>
-        {
-            var paths = args.DataTransfer.TryGetFiles()?.Select(file => file.TryGetLocalPath()).OfType<string>() ?? [];
-            ViewModel.AddImports(paths); args.Handled = true;
-        });
-        if (ViewModel.Imports.Count == 0) body.Children.Add(Muted(T("NoImport")));
-        foreach (var row in ViewModel.Imports)
-            body.Children.Add(Surface(Stack(Label(Path.GetFileName(row.Path), TextRole.RowTitle), Label(T(row.StatusKey)))));
-        if (ViewModel.Imports.Count > 0) body.Children.Add(PrimaryAsyncButton("AnalyzeImported", ViewModel.AnalyzeImportsAsync, "AnalyzeImports"));
-        body.Children.Add(Muted(T("ImportCoverageHelp")));
-        return body;
-    }
     private async Task BrowseImportsAsync()
     {
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions

@@ -1,0 +1,96 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:a="using:FaultWitness.App" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.HomeView" x:DataType="p:HomePresentation">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="HomeContent" Spacing="{DynamicResource primitive.space.4}">
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Classes="page-title" Text="{Binding Text[Home]}"/>
+        <TextBlock Text="{Binding Text[HomePurpose]}"/>
+      </StackPanel>
+      <Button Name="PrimaryAnalyze" Classes="primary-action" Click="AnalyzeRecent" AutomationProperties.Name="{Binding PrimaryAction}" HorizontalAlignment="Left">
+        <TextBlock Text="{Binding PrimaryAction}"/>
+      </Button>
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Text="{Binding Text[ProductScope]}"/>
+        <TextBlock Classes="metadata" Text="{Binding Text[LocalAnalysisOnly]}"/>
+      </StackPanel>
+      <WrapPanel Name="HomeSecondaryActions">
+        <Button Name="StartAroundFlow" Classes="subtle-action" Click="AnalyzeAround" AutomationProperties.Name="{Binding Text[AnalyzeCrashFreeze]}" Margin="{DynamicResource UiCommandMargin}">
+          <TextBlock Text="{Binding Text[AnalyzeCrashFreeze]}"/>
+        </Button>
+        <Button Name="StartFilesFlow" Classes="subtle-action" Click="AnalyzeFiles" AutomationProperties.Name="{Binding Text[AnalyzeFiles]}" Margin="{DynamicResource UiCommandMargin}">
+          <TextBlock Text="{Binding Text[AnalyzeFiles]}"/>
+        </Button>
+      </WrapPanel>
+      <Border Name="HomeNoAnalysis" Classes="action-surface" IsVisible="{Binding IsNoAnalysis}">
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Classes="row-title" Text="{Binding Text[NoAnalysis]}"/>
+          <TextBlock Text="{Binding Text[PrivacyStatement]}"/>
+        </StackPanel>
+      </Border>
+      <StackPanel Name="HomeResults" IsVisible="{Binding HasAnalysis}" Spacing="{DynamicResource primitive.space.3}">
+        <StackPanel Spacing="{DynamicResource primitive.space.1}">
+          <TextBlock Classes="level-one" Text="{Binding AnalysisTitle}"/>
+          <TextBlock Classes="metadata" Text="{Binding RangeAndOrigin}"/>
+          <TextBlock Classes="metadata" IsVisible="{Binding HasDuration}" Text="{Binding Duration}"/>
+        </StackPanel>
+        <WrapPanel Name="HomeSummary">
+          <Button Name="CountAttention" Classes="summary-metric" Click="ShowAttention" AutomationProperties.Name="{Binding SummaryMetrics[0].AccessibleName}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[0].CountLabel}"/>
+          </Button>
+          <Button Name="CountKnowing" Classes="summary-metric" Click="ShowKnowing" AutomationProperties.Name="{Binding SummaryMetrics[1].AccessibleName}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[1].CountLabel}"/>
+          </Button>
+          <Button Name="CountBackground" Classes="summary-metric" Click="ShowBackground" AutomationProperties.Name="{Binding SummaryMetrics[2].AccessibleName}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[2].CountLabel}"/>
+          </Button>
+        </WrapPanel>
+        <TextBlock Classes="level-one" Text="{Binding Text[RecentSignificant]}"/>
+        <Border Name="QuietResult" Classes="action-surface" IsVisible="{Binding ShowQuietResult}">
+          <StackPanel Spacing="{DynamicResource primitive.space.2}">
+            <TextBlock Classes="row-title" Text="{Binding QuietTitle}"/>
+            <TextBlock IsVisible="{Binding IsBackgroundOnly}" Text="{Binding QuietBackgroundCount}"/>
+            <TextBlock Text="{Binding QuietCaution}"/>
+            <TextBlock Classes="metadata" IsVisible="{Binding HasLimitedCoverage}" Text="{Binding QuietCoverage}"/>
+          </StackPanel>
+        </Border>
+        <ListBox Name="RecentSignificantList" Classes="incident-list" ItemsSource="{Binding RecentIncidents}" IsVisible="{Binding HasSignificantIncidents}" SelectionChanged="IncidentSelected" AutomationProperties.Name="{Binding Text[RecentSignificant]}">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="a:IncidentRow">
+              <c:IncidentListRow/>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <WrapPanel Name="HomeResultActions">
+          <Button Name="ViewAllIncidents" Classes="subtle-action" Click="ViewAll" AutomationProperties.Name="{Binding Text[ViewAll]}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[ViewAll]}"/>
+          </Button>
+          <Button Name="OpenHistory" Classes="subtle-action" Click="OpenHistoryClick" AutomationProperties.Name="{Binding Text[OpenHistory]}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[OpenHistory]}"/>
+          </Button>
+          <Button Name="OverviewExport" Classes="subtle-action" Click="OpenExport" AutomationProperties.Name="{Binding Text[Export]}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[Export]}"/>
+          </Button>
+        </WrapPanel>
+        <Expander Name="HomeCoverage" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
+          <ItemsControl ItemsSource="{Binding CoverageRows}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="p:CoverageDetailPresentation">
+                <Expander AutomationProperties.Name="{Binding Name}">
+                  <Expander.Header>
+                    <Grid ColumnDefinitions="*,Auto">
+                      <TextBlock Classes="row-title" Text="{Binding Name}"/>
+                      <TextBlock Grid.Column="1" FontWeight="SemiBold" Text="{Binding State}"/>
+                    </Grid>
+                  </Expander.Header>
+                  <StackPanel Spacing="{DynamicResource primitive.space.1}">
+                    <TextBlock Text="{Binding Help}"/>
+                    <TextBlock Classes="metadata" Text="{Binding Interval}"/>
+                  </StackPanel>
+                </Expander>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Expander>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

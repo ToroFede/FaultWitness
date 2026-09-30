@@ -1,6 +1,10 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "automatic": [
+    {
+      "id": "core-pages-axaml-ownership",
+      "check": "Home, Analyze, Incidents and History each have one production AXAML page; their old C# visual builders are absent, and System, Diagnostic Readiness, Capture, Settings and Export/Support remain programmatic C#"
+    },
     {
       "id": "beta-workflow-guidance",
       "check": "Recent, around-time and import modes have distinct guidance; empty readiness gives a relevant next step; capture technical values are collapsed and Configure keeps its existing guards"
@@ -83,7 +87,11 @@
     },
     {
       "id": "history-selection",
-      "check": "Selected row uses semantic selection surface and visible indicator without render re-entry"
+      "check": "Selected row uses semantic selection surface and visible indicator; scan identity, keyboard focus and selection survive runtime language/theme updates without render re-entry"
+    },
+    {
+      "id": "core-pages-runtime-state",
+      "check": "All four migrated pages retain their view and accessible control names during runtime EN/IT/ES/FR/DE/PT/RU/PL and System/Light/Dark changes; Analyze inputs, incident filters and History selection remain stateful"
     },
     {
       "id": "detail-four-answers",
@@ -101,7 +109,7 @@
   "semiAutomatic": [
     {
       "id": "responsive",
-      "check": "Headless layouts at 640, 800, 1000, 1280, and 1920 logical pixels show no normal horizontal overflow"
+      "check": "Headless layouts at 560, 600, 640, 641, 1008, 1280, and 1920 effective pixels show no page-level horizontal overflow or navigation overlap"
     },
     {
       "id": "large-data",
@@ -121,6 +129,8 @@
     }
   ],
   "manualVisual": [
+    "Home, Analyze, Incidents and History retain readable hierarchy and actions at compact and desktop sizes in Light and Dark",
+    "Scope copy remains subordinate; quiet complete and limited-coverage results remain distinct; filter-empty state offers Reset filters only when records are hidden",
     "obvious first focal point",
     "intentional hierarchy",
     "dense views remain scannable",

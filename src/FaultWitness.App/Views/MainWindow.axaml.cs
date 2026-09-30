@@ -24,13 +24,15 @@ public sealed partial class MainWindow : Window
     private Grid statusArea = new();
     private ProgressBar progress = new();
     private Button cancelButton = new();
-    private ListBox? incidentList;
-    private TextBlock? filterCount;
-    private Border? filterEmpty;
     private Expander technicalDetails = new();
-    private ContentControl? historyDetailHost;
-    private ListBox? historyList;
     private readonly DispatcherTimer activityTimer = new() { Interval = TimeSpan.FromMilliseconds(100) };
+    private HomeView? homeView;
+    private HomePresentation? homePresentation;
+    private readonly Dictionary<AnalysisMode, (AnalyzeView View, AnalyzePresentation Presentation)> analyzePages = [];
+    private IncidentsView? incidentsView;
+    private IncidentListPresentation? incidentsPresentation;
+    private HistoryView? historyView;
+    private HistoryPresentation? historyPresentation;
     private string layoutClass = "large";
     private bool rebuildingShell;
     private IncidentDetailView? detailView;
@@ -81,7 +83,7 @@ public sealed partial class MainWindow : Window
                 { normalWidth = settledSize.Width; normalHeight = settledSize.Height; }
             }, TimeSpan.FromMilliseconds(300));
             if (rebuildingShell || args.NewSize.Width < MinWidth) return;
-            var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(); }
+            var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(refreshPageData: false); }
         };
         Closed += (_, _) => { activityTimer.Stop(); ViewModel.Changed -= OnChanged; SaveWindowSettings(); ViewModel.Dispose(); };
     }
@@ -89,21 +91,18 @@ public sealed partial class MainWindow : Window
     private void OnChanged(ViewChange change)
     {
         if (!Dispatcher.UIThread.CheckAccess()) { Dispatcher.UIThread.Post(() => OnChanged(change)); return; }
-        if (change == ViewChange.Language) BuildShell();
-        else if (change == ViewChange.Theme) { ApplyTheme(); RenderPage(); }
+        if (change == ViewChange.Language) { PreserveActiveAnalyzePeriod(); BuildShell(); }
+        else if (change == ViewChange.Theme) { PreserveActiveAnalyzePeriod(); ApplyTheme(); RenderPage(); }
         else if (change is ViewChange.Page or ViewChange.Results || change == ViewChange.State && (ViewModel.Page is AppPage.System or AppPage.Readiness)) RenderPage();
-        else if (change == ViewChange.HistorySelection) RenderHistoryDetail();
-        else if (change == ViewChange.Filter && incidentList is not null)
-        {
-            incidentList.ItemsSource = ViewModel.FilteredRows;
-            if (filterCount is not null) filterCount.Text = ViewModel.Text.Format("ItemsShown", ViewModel.FilteredRows.Count, ViewModel.AllRows.Count);
-            if (filterEmpty is not null) { filterEmpty.Child = IncidentEmptyContent(); filterEmpty.IsVisible = ViewModel.FilteredRows.Count == 0; }
-        }
+        else if (change == ViewChange.HistorySelection && historyView is not null && historyPresentation is not null)
+            historyView.RefreshSelection(historyPresentation, ViewModel);
+        else if (change == ViewChange.Filter && incidentsView is not null && incidentsPresentation is not null)
+            incidentsView.Refresh(incidentsPresentation);
         UpdateStatus();
     }
     private void ApplyTheme() => RequestedThemeVariant = ViewModel.Settings.Theme switch
     { AppTheme.Light => ThemeVariant.Light, AppTheme.Dark => ThemeVariant.Dark, _ => ThemeVariant.Default };
-    private void BuildShell()
+    private void BuildShell(bool refreshPageData = true)
     {
         rebuildingShell = true;
         try
@@ -127,7 +126,7 @@ public sealed partial class MainWindow : Window
         AutomationProperties.SetName(cancelButton, T("Cancel"));
         AutomationProperties.SetName(progress, T("AnalysisInProgress"));
         technicalDetails.Header = T("TechnicalDetails");
-        RenderPage(); UpdateStatus();
+        RenderPage(refreshPageData); UpdateStatus();
         }
         finally { rebuildingShell = false; }
     }
@@ -145,17 +144,16 @@ public sealed partial class MainWindow : Window
             button.IsEnabled = !ViewModel.IsBusy;
         updateCaptureControls?.Invoke();
     }
-    private void RenderPage()
+    private void RenderPage(bool refreshPageData = true)
     {
         updateCaptureControls = null;
-        historyDetailHost = null;
-        historyList = null;
-        incidentList = null; filterCount = null; filterEmpty = null;
         pageHost.Content = ViewModel.Page switch
         {
-            AppPage.Analyze => BuildAnalysis(ViewModel.AnalysisMode), AppPage.Incidents => BuildIncidents(), AppPage.History => BuildHistory(),
+            AppPage.Analyze => AnalyzePage(ViewModel.AnalysisMode, refreshPageData),
+            AppPage.Incidents => IncidentsPage(refreshPageData),
+            AppPage.History => HistoryPage(refreshPageData),
             AppPage.Detail => DetailPage(), AppPage.Readiness => BuildReadiness(), AppPage.System => BuildSystem(),
-            AppPage.Settings => BuildSettings(), AppPage.Export => BuildExport(), _ => BuildOverview()
+            AppPage.Settings => BuildSettings(), AppPage.Export => BuildExport(), _ => HomePage(refreshPageData)
         };
         foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Name?.StartsWith("Nav", StringComparison.Ordinal) == true))
         {
@@ -163,6 +161,100 @@ public sealed partial class MainWindow : Window
             SetNavigationSelected(button, button.Name == "Nav" + destination);
         }
         UpdateStatus();
+    }
+
+    private HomeView HomePage(bool refresh)
+    {
+        if (homeView is null)
+        {
+            homePresentation = new HomePresentation(ViewModel);
+            homeView = new HomeView();
+            homeView.RecentAnalysisRequested += () => ViewModel.OpenAnalyze(AnalysisMode.Recent);
+            homeView.AnalysisModeRequested += ViewModel.OpenAnalyze;
+            homeView.PriorityRequested += priority => ViewModel.ShowPriority(priority);
+            homeView.ViewAllRequested += () => ViewModel.ShowPriority(null);
+            homeView.HistoryRequested += async () =>
+            {
+                await ViewModel.RefreshHistoryAsync().ConfigureAwait(true);
+                ViewModel.Navigate(AppPage.History);
+            };
+            homeView.ExportRequested += () => ViewModel.Navigate(AppPage.Export);
+            homeView.IncidentRequested += ViewModel.Select;
+        }
+        if (refresh) homeView.Refresh(homePresentation!, layoutClass);
+        else homeView.SetLayout(layoutClass);
+        return homeView;
+    }
+
+    private AnalyzeView AnalyzePage(AnalysisMode mode, bool refresh)
+    {
+        if (!analyzePages.TryGetValue(mode, out var pair))
+        {
+            var presentation = new AnalyzePresentation(ViewModel);
+            var view = new AnalyzeView();
+            view.BrowseRequested += async () => await RunGuardedAsync(BrowseImportsAsync).ConfigureAwait(true);
+            view.ImportAnalysisRequested += async () => await RunGuardedAsync(ViewModel.AnalyzeImportsAsync).ConfigureAwait(true);
+            view.ImportsDropped += ViewModel.AddImports;
+            view.RunRequested += request => _ = RunAnalysisAsync(request);
+            pair = (view, presentation);
+            analyzePages.Add(mode, pair);
+        }
+        if (refresh)
+        {
+            pair.Presentation.SyncPeriodFromViewModel();
+            pair.View.Refresh(pair.Presentation);
+        }
+        return pair.View;
+    }
+
+    private IncidentsView IncidentsPage(bool refresh)
+    {
+        if (incidentsView is null)
+        {
+            incidentsPresentation = new IncidentListPresentation(ViewModel);
+            incidentsView = new IncidentsView();
+            incidentsView.FilterRequested += ViewModel.SetFilter;
+            incidentsView.ResetRequested += () => ViewModel.SetFilter(new());
+            incidentsView.IncidentRequested += ViewModel.Select;
+        }
+        if (refresh) incidentsView.Refresh(incidentsPresentation!);
+        return incidentsView;
+    }
+
+    private HistoryView HistoryPage(bool refresh)
+    {
+        if (historyView is null)
+        {
+            historyPresentation = new HistoryPresentation(ViewModel);
+            historyView = new HistoryView();
+            historyView.RefreshRequested += async () => await RunGuardedAsync(ViewModel.RefreshHistoryAsync).ConfigureAwait(true);
+            historyView.CopyRequested += async () => await RunGuardedAsync(CopyHistoryAsync).ConfigureAwait(true);
+            historyView.SaveRequested += async () => await RunGuardedAsync(SaveHistoryAsync).ConfigureAwait(true);
+            historyView.SelectionRequested += ViewModel.SelectHistory;
+        }
+        historyView.Refresh(historyPresentation!, ViewModel, refreshItems: refresh, layoutClass: layoutClass);
+        return historyView;
+    }
+
+    private async Task RunAnalysisAsync(AnalyzeRunRequest request)
+    {
+        await RunGuardedAsync(async () =>
+        {
+            ViewModel.CustomFrom = DateTimeInput.Combine(request.From, TimeSpan.Zero);
+            ViewModel.CustomTo = DateTimeInput.Combine(request.To, new TimeSpan(23, 59, 59));
+            if (request.Around)
+            {
+                ViewModel.AroundTime = DateTimeInput.Combine(request.AroundDate, request.AroundTime);
+                ViewModel.WindowMinutes = request.WindowMinutes;
+            }
+            await ViewModel.AnalyzeAsync(request.Around).ConfigureAwait(true);
+        }).ConfigureAwait(true);
+    }
+
+    private async Task RunGuardedAsync(Func<Task> action)
+    {
+        try { await action().ConfigureAwait(true); }
+        catch (Exception exception) { ViewModel.Fail("OperationError", exception); }
     }
     private Control DetailPage()
     {
@@ -184,6 +276,12 @@ public sealed partial class MainWindow : Window
         }
         return detailView!;
     }
+
+    private void PreserveActiveAnalyzePeriod()
+    {
+        if (ViewModel.Page == AppPage.Analyze && analyzePages.TryGetValue(ViewModel.AnalysisMode, out var pair))
+            ViewModel.Period = pair.Presentation.SelectedPeriod;
+    }
     private async void NavigateFromShell(object? sender, RoutedEventArgs args)
     {
         if (sender is not Button { Name: { } name } || !Enum.TryParse<AppPage>(name[3..], out var page)) return;
@@ -196,14 +294,6 @@ public sealed partial class MainWindow : Window
         var section = Stack(Label(T(title), TextRole.SectionTitle), content);
         section.Margin = new Thickness(0, D("primitive.space.2"), 0, 0);
         return section;
-    }
-    private void RenderHistoryDetail()
-    {
-        if (ViewModel.Page == AppPage.History && historyDetailHost is not null)
-        {
-            if (historyList is not null) historyList.SelectedItem = ViewModel.SelectedHistory;
-            historyDetailHost.Content = HistoryDetail();
-        }
     }
     private static string LayoutFor(double width) => width <= 640 ? "small" : width <= 1007 ? "medium" : "large";
     private void RecoverWindowGeometry()
@@ -329,30 +419,5 @@ public sealed partial class MainWindow : Window
         }
         if (panel.Children.Count == 0) panel.Children.Add(Muted(T("CoverageNotChecked")));
         return panel;
-    }
-    private ListBox IncidentList(IEnumerable<IncidentRow> rows, bool overview = false)
-    {
-        var list = new ListBox { ItemsSource = rows, Name = overview ? "RecentSignificantList" : "IncidentList",
-            Background = Brushes.Transparent, BorderThickness = new Thickness(0) };
-        var stretch = new Style(selector => selector.OfType<ListBoxItem>());
-        stretch.Setters.Add(new Setter(ListBoxItem.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-        list.Styles.Add(stretch);
-        list.ItemTemplate = new FuncDataTemplate<IncidentRow>((row, _) =>
-        {
-            if (row is null) return null;
-            var top = new Grid { ColumnDefinitions = new ColumnDefinitions(layoutClass == "small" ? "*" : "*,Auto"), RowDefinitions = new RowDefinitions(layoutClass == "small" ? "Auto,Auto" : "Auto"), ColumnSpacing = D("primitive.space.3") };
-            top.Children.Add(Label(row.Title, TextRole.RowTitle)); var time = Muted(row.Timestamp);
-            if (layoutClass == "small") Grid.SetRow(time, 1); else Grid.SetColumn(time, 1);
-            top.Children.Add(time);
-            var body = Stack(top, Label(row.Assessment), Muted(row.Strength + "   ·   " + row.PriorityText + "   ·   " + row.Context));
-            if (row.RecurrenceCount > 1) body.Children.Add(Muted(row.Recurrence));
-            if (row.SharedReportCount > 1) body.Children.Add(Muted(row.SharedReport));
-            if (row.DevelopmentContext.Length > 0) body.Children.Add(Muted(row.DevelopmentContext));
-            var rowBorder = new Border { Child = body, Padding = new Thickness(D("component.row.padding")), MinHeight = D("component.row.minHeight"), BorderThickness = new Thickness(0,0,0,1) };
-            rowBorder.Bind(Border.BorderBrushProperty, new DynamicResourceExtension("AppBorder"));
-            return rowBorder;
-        }, true);
-        list.SelectionChanged += (_, _) => { if (list.SelectedItem is IncidentRow row) ViewModel.Select(row); };
-        return list;
     }
 }

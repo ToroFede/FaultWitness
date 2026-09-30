@@ -4,6 +4,7 @@ using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Headless.XUnit;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using FaultWitness.App;
@@ -86,12 +87,14 @@ public sealed class UxCorrectionTests
 
             if (stacked)
             {
-                Assert.IsType<StackPanel>(summary);
+                Assert.IsType<WrapPanel>(summary);
+                Assert.Equal(Orientation.Vertical, Assert.IsType<WrapPanel>(summary).Orientation);
                 Assert.Contains("summary-stacked", summary.Classes);
             }
             else
             {
                 Assert.IsType<WrapPanel>(summary);
+                Assert.Equal(Orientation.Horizontal, Assert.IsType<WrapPanel>(summary).Orientation);
                 Assert.Contains("summary-strip", summary.Classes);
             }
 
@@ -150,7 +153,7 @@ public sealed class UxCorrectionTests
             window.ViewModel.SelectHistory(window.ViewModel.History[1]);
             window.UpdateLayout();
             Assert.Same(list, Find<ListBox>(window, "HistoryList"));
-            Assert.Same(window.ViewModel.SelectedHistory, list.SelectedItem);
+            Assert.Equal(window.ViewModel.SelectedHistory!.Scan.Id, Assert.IsType<FaultWitness.App.Presentation.HistoryItemPresentation>(list.SelectedItem).SourceRow.Scan.Id);
             Assert.False(item.IsSelected);
             Assert.False(item.GetVisualDescendants().OfType<Border>().Single(row => row.Name == "HistorySelectionIndicator").IsVisible);
             var next = list.GetVisualDescendants().OfType<ListBoxItem>().Single(row => row.IsSelected);

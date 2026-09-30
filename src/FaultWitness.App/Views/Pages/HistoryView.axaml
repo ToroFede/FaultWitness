@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.HistoryView" x:DataType="p:HistoryPresentation">
+  <Grid Name="HistoryLayout" RowDefinitions="Auto,*" ColumnDefinitions="2*,3*" ColumnSpacing="{DynamicResource primitive.space.6}">
+    <StackPanel Name="HistoryHeading" Grid.ColumnSpan="2" Spacing="{DynamicResource primitive.space.1}">
+      <TextBlock Classes="page-title" Text="{Binding Text[History]}"/>
+      <TextBlock Text="{Binding Text[HistoryHelp]}"/>
+    </StackPanel>
+    <ListBox Name="HistoryList" Grid.Row="1" Classes="history-list" ItemsSource="{Binding Items}" IsVisible="{Binding HasItems}" SelectionChanged="HistorySelectionChanged" AutomationProperties.Name="{Binding Text[History]}" MinHeight="260" Focusable="True" IsTabStop="True">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="p:HistoryItemPresentation">
+          <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}" MinHeight="{DynamicResource component.row.minHeight}" AutomationProperties.Name="{Binding AccessibleSummary}">
+            <Border Width="{DynamicResource component.selection.indicatorWidth}">
+              <Border Name="HistorySelectionIndicator" CornerRadius="{DynamicResource UiActionRadius}" Margin="{DynamicResource UiGroupMargin}" Background="{DynamicResource AppAccent}" IsVisible="{Binding $parent[ListBoxItem].IsSelected}"/>
+            </Border>
+            <StackPanel Grid.Column="1" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiGroupMargin}">
+              <TextBlock Classes="row-title" Text="{Binding Title}"/>
+              <TextBlock Classes="metadata" Text="{Binding Timestamp}"/>
+              <TextBlock Text="{Binding Counts}"/>
+            </StackPanel>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <ScrollViewer Name="HistoryDetailScroll" Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Disabled" IsVisible="{Binding HasSelection}">
+      <Border Name="HistoryDetail" Classes="action-surface" IsVisible="{Binding HasSelection}">
+        <StackPanel Spacing="{DynamicResource primitive.space.3}">
+          <StackPanel Spacing="{DynamicResource primitive.space.1}">
+            <TextBlock Classes="level-one" Text="{Binding Selected.Title}"/>
+            <TextBlock Classes="metadata" Text="{Binding Selected.Timestamp}"/>
+            <TextBlock Text="{Binding Selected.Period}"/>
+            <TextBlock Text="{Binding Selected.Counts}"/>
+            <TextBlock Classes="metadata" IsVisible="{Binding HasDuration}" Text="{Binding Duration}"/>
+          </StackPanel>
+          <Expander Name="HistoryCoverage" IsVisible="{Binding HasCoverageSummary}" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
+            <TextBlock Classes="metadata" Text="{Binding CoverageSummary}"/>
+          </Expander>
+          <TextBlock Classes="row-title" Text="{Binding SavedSummaryLabel}"/>
+          <ItemsControl ItemsSource="{Binding Incidents}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="p:HistoryIncidentPresentation">
+                <StackPanel Margin="{DynamicResource UiGroupMargin}" Spacing="{DynamicResource primitive.space.1}">
+                  <TextBlock Classes="row-title" Text="{Binding Category}"/>
+                  <TextBlock Classes="metadata" Text="{Binding TimestampSeverity}"/>
+                  <TextBlock Text="{Binding ChangeSummary}"/>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <TextBlock Classes="metadata" IsVisible="{Binding HasMoreIncidents}" Text="{Binding MoreIncidents}"/>
+          <WrapPanel>
+            <Button Name="CopyHistory" Classes="secondary-action operation" Click="Copy" AutomationProperties.Name="{Binding CopyLabel}" Margin="{DynamicResource UiCommandMargin}">
+              <TextBlock Text="{Binding CopyLabel}"/>
+            </Button>
+            <Button Name="SaveHistory" Classes="secondary-action operation" Click="Save" AutomationProperties.Name="{Binding SaveLabel}" Margin="{DynamicResource UiCommandMargin}">
+              <TextBlock Text="{Binding SaveLabel}"/>
+            </Button>
+          </WrapPanel>
+        </StackPanel>
+      </Border>
+    </ScrollViewer>
+    <Border Name="HistoryEmpty" Grid.Row="1" Grid.ColumnSpan="2" Classes="action-surface" IsVisible="{Binding IsEmpty}" VerticalAlignment="Top">
+      <StackPanel Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Classes="row-title" Text="{Binding EmptyTitle}"/>
+        <TextBlock Text="{Binding EmptyHelp}"/>
+        <Button Name="RefreshHistory" Classes="secondary-action operation" Click="ReloadHistory" AutomationProperties.Name="{Binding Text[RefreshHistory]}" HorizontalAlignment="Left">
+          <TextBlock Text="{Binding Text[RefreshHistory]}"/>
+        </Button>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

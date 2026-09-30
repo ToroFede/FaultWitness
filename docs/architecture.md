@@ -55,7 +55,7 @@ flowchart TD
 
 | Project | Responsibility and reason for the boundary |
 |---|---|
-| `FaultWitness.App` | Avalonia desktop shell, pages, view model, presentation adapters, settings, and Windows desktop composition. The GUI normally runs as the signed-in user. The shell and Incident Detail are authored in AXAML with semantic UserControls, shared AXAML styles, and a bindable presentation projection. Other pages remain programmatic C# pending Pass 2B. |
+| `FaultWitness.App` | Avalonia desktop shell, pages, view model, presentation adapters, settings, and Windows desktop composition. The GUI normally runs as the signed-in user. The shell, Incident Detail, Home, Analyze, Incidents, and History are authored in AXAML; their C# code-behind handles small events, while bindable presentation projections expose existing state. System, Diagnostic Readiness, Capture, Settings, and Export/Support are still built programmatically in C#. |
 | `FaultWitness.Core` | Platform-neutral event, incident, evidence, coverage, inventory, and capture-policy semantics; analysis, correlation, and neutral capture contracts. Keeping Windows APIs and UI out of Core lets diagnostic meaning be reviewed and tested without an operating-system collector. |
 | `FaultWitness.Platform` | Neutral collection contracts and change-history enrichment orchestration. It keeps acquisition seams and enrichment outside Core's diagnostic semantics. |
 | `FaultWitness.Platform.Windows` | Windows Event Log, WER, Reliability, dump-artifact, import, readiness, inventory, change-history, registry, and helper-client behavior. Windows APIs and OS-specific normalization stay at this boundary. |
@@ -103,7 +103,7 @@ The journal stores intent before dispatch and the verified result afterward so a
 
 | Change | Current files |
 |---|---|
-| Home/Analyze copy | `src/FaultWitness.App/MainWindow.Analysis.cs`; `src/FaultWitness.Localization/Strings*.resx` |
+| Home/Analyze copy | `src/FaultWitness.App/Views/Pages/HomeView.axaml`; `src/FaultWitness.App/Views/Pages/AnalyzeView.axaml`; `src/FaultWitness.App/Presentation/CorePagePresentations.cs`; `src/FaultWitness.Localization/Strings*.resx` |
 | Incident Detail UI | `src/FaultWitness.App/Views/Pages/IncidentDetailView.axaml`; `src/FaultWitness.App/Presentation/IncidentDetailPresentation.cs`; `src/FaultWitness.App/EvidencePresentation.cs` |
 | Diagnostic rule | `src/FaultWitness.Rules/RuleCatalog.cs`; `src/FaultWitness.Rules/ProviderAwareRule.cs`; `src/FaultWitness.Rules/DiagnosticFacts.cs` |
 | Negative evidence / coverage | `src/FaultWitness.Core/CoveragePolicy.cs`; `src/FaultWitness.Core/Analysis.cs`; presentation in `src/FaultWitness.App/EvidencePresentation.cs` |
@@ -111,14 +111,14 @@ The journal stores intent before dispatch and the verified result afterward so a
 | What Changed | `src/FaultWitness.Platform.Windows/WindowsChangeHistoryProvider.cs`; `src/FaultWitness.Platform/ChangeHistoryEnricher.cs`; `src/FaultWitness.Core/ChangeCorrelator.cs`; display in `src/FaultWitness.App/Presentation/IncidentDetailPresentation.cs` and `Views/Pages/IncidentDetailView.axaml` |
 | Readiness / Inventory | `src/FaultWitness.Platform.Windows/WindowsDiagnosticReadiness.cs`; `src/FaultWitness.Platform.Windows/WindowsReadinessSources.cs`; `src/FaultWitness.Platform.Windows/WindowsSystemInventory.cs`; UI in `src/FaultWitness.App/MainWindow.Pages.cs` |
 | Capture / Restore | `src/FaultWitness.App/CaptureWorkflow.cs`; `src/FaultWitness.App/MainWindow.Capture.cs`; `src/FaultWitness.Platform.Windows/CrashCaptureRegistry.cs`; `src/FaultWitness.ElevatedHelper/Program.cs` and `CaptureRequestProtocol.cs` |
-| Storage / History / Journal | `src/FaultWitness.Storage/FaultWitnessStore.cs`; `src/FaultWitness.Storage/CaptureJournalStore.cs`; history UI in `src/FaultWitness.App/MainWindow.Pages.cs` |
+| Storage / History / Journal | `src/FaultWitness.Storage/FaultWitnessStore.cs`; `src/FaultWitness.Storage/CaptureJournalStore.cs`; History UI in `src/FaultWitness.App/Views/Pages/HistoryView.axaml` and `src/FaultWitness.App/Presentation/CorePagePresentations.cs` |
 | Export / privacy | `src/FaultWitness.App/MainWindow.Export.cs`; `src/FaultWitness.Export/ReportExporter.cs`; `src/FaultWitness.Core/SystemChangePrivacy.cs` |
 | Theme / design tokens | `docs/design/faultwitness.tokens.json`; `src/FaultWitness.Design/DesignTokenCatalog.cs`; App resource bridge in `src/FaultWitness.App/Application.cs`; `Styles/SharedStyles.axaml`; responsive shell coordination in `Views/MainWindow.axaml.cs` |
 | Release ZIP layout | `scripts/Compose-ReleaseArtifact.ps1`; validation in `scripts/Test-ReleaseArtifact.ps1` |
 
 ## AXAML ownership and incremental migration
 
-`Views/MainWindow.axaml` owns the navigation shell, page host and status area. Its code-behind coordinates the existing `MainViewModel`, runtime language/theme changes, window lifecycle and the remaining C# page builders. `Views/Pages/IncidentDetailView.axaml` owns the complete Incident Detail layout; its code-behind only forwards Back, support preview and occurrence requests. There is one production detail implementation, with no legacy layout fallback.
+`Views/MainWindow.axaml` owns the navigation shell, page host and status area. Its code-behind coordinates the existing `MainViewModel`, runtime language/theme changes, window lifecycle and the remaining C# page builders. AXAML is the sole production layout for Incident Detail, Home, Analyze, Incidents and History. Their `Views/Pages/*.axaml` files own page structure, bindings, templates and visibility; code-behind forwards UI events to existing orchestration. `Views/Components/IncidentListRow.axaml` is shared by Home and Incidents. `Presentation/CorePagePresentations.cs` projects existing results, filters, imports and retained history for binding; it does not rerun rules or assign diagnostic meaning.
 
 `Views/Components/` contains IncidentHeader, RecommendedActionCard, AssessmentSummary, EvidenceSummary, CoverageSummary and EventRecordDetails. These represent semantic regions or repeated technical-record behavior, rather than generic control wrappers. `Styles/SharedStyles.axaml` consumes the existing token catalog through scalar and typed resources bridged in `Application.cs`. Use AXAML for static structure, bindings, templates and shared styles; keep navigation, services and presentation projections in C#. Everything remains inside the App assembly.
 
@@ -128,4 +128,4 @@ The selected detail view is retained during theme changes, responsive resizing, 
 
 `IncidentDetailDesignData.Sample` supplies fixed, synthetic, in-memory design data to the page preview. The shell selects memory-only services in Avalonia design mode; preview must never collect Windows events, write history or configure capture. An Avalonia-compatible IDE AXAML preview extension is required for interactive designer preview ([official IDE setup](https://docs.avaloniaui.net/docs/get-started/set-up-your-ide)); the repository's headless render tests validate the runtime AXAML independently.
 
-Home, Analyze, Incidents, History, System, Diagnostic Readiness, Capture, Settings and Export/Support content remain in the existing MainWindow partial builders. Pass 2B should adopt these ownership patterns incrementally without changing diagnostic or privileged service semantics.
+Home, Analyze, Incidents and History views are retained while their page is active and across normal language, theme and responsive updates. Analyze keeps one view per mode; History presentation items are reconciled by scan ID so selected-row identity survives refresh. This is view lifetime, not new persisted state. The migration is incremental: System, Diagnostic Readiness, Capture, Settings and Export/Support still use C# visual builders. AXAML ownership is not yet complete.

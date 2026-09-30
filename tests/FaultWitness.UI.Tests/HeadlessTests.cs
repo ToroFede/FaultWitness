@@ -291,8 +291,11 @@ public sealed class HeadlessTests
             foreach (var page in new[] { AppPage.Home, AppPage.Incidents, AppPage.Analyze, AppPage.Settings, AppPage.Readiness, AppPage.History })
             {
                 window.ViewModel.Navigate(page); window.UpdateLayout();
-                foreach (var viewer in window.GetVisualDescendants().OfType<ScrollViewer>())
-                    Assert.True(viewer.Extent.Width <= viewer.Viewport.Width + 2 || viewer.Viewport.Width == 0, $"{page}: horizontal overflow at {width}x{height}");
+                // Single-line TextBox templates scroll their text horizontally by design; that is not page overflow.
+                foreach (var viewer in window.GetVisualDescendants().OfType<ScrollViewer>()
+                    .Where(viewer => !viewer.GetVisualAncestors().OfType<TextBox>().Any()))
+                    Assert.True(viewer.Extent.Width <= viewer.Viewport.Width + 2 || viewer.Viewport.Width == 0,
+                        $"{page}: horizontal overflow at {width}x{height}; {string.Join(" <- ", viewer.GetVisualAncestors().OfType<Control>().Take(12).Select(item => $"{item.GetType().Name}#{item.Name}"))}; extent={viewer.Extent.Width}, viewport={viewer.Viewport.Width}");
             }
         }
         finally { window.Close(); }
@@ -340,7 +343,7 @@ public sealed class HeadlessTests
             foreach (var page in new[] { AppPage.Home, AppPage.Analyze, AppPage.Incidents, AppPage.History, AppPage.System, AppPage.Readiness, AppPage.Settings, AppPage.Export })
             {
                 window.ViewModel.Navigate(page); window.UpdateLayout();
-                Assert.True(window.GetVisualDescendants().OfType<Button>().Count(item => item.Classes.Contains("primary-action")) <= 1, page.ToString());
+                Assert.True(window.GetVisualDescendants().OfType<Button>().Count(item => item.IsEffectivelyVisible && item.Classes.Contains("primary-action")) <= 1, page.ToString());
             }
         }
         finally { window.Close(); }
