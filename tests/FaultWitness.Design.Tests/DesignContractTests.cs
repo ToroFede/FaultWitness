@@ -54,7 +54,7 @@ public sealed class DesignContractTests
     {
         using var json = JsonDocument.Parse(File.ReadAllText(Path.Combine(Root, "docs", "design", "screen-specs.json")));
         var screens = json.RootElement.GetProperty("screens").EnumerateArray().ToArray();
-        string[] ids = ["Home","Analyze","Incidents","IncidentDetail","History","System","DiagnosticReadiness","Settings","ExportSupport"];
+        string[] ids = ["Home","Analyze","Incidents","IncidentDetail","History","System","Capture","DiagnosticReadiness","Settings","ExportSupport"];
         Assert.Equal(ids.Order(), screens.Select(x => x.GetProperty("id").GetString()!).Order());
         Assert.All(screens, screen => { Assert.NotEmpty(screen.GetProperty("defaultFocus").GetString()!); Assert.NotEmpty(screen.GetProperty("keyboardFlow").EnumerateArray()); Assert.True(screen.GetProperty("responsiveRules").TryGetProperty("small", out _)); });
     }

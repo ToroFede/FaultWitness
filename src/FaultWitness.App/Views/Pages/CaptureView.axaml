@@ -1,0 +1,88 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.CaptureView" x:DataType="p:CapturePresentation">
+  <StackPanel Name="CaptureContent" Spacing="{DynamicResource primitive.space.4}">
+    <StackPanel Name="CapturePurpose" Spacing="{DynamicResource primitive.space.2}">
+      <TextBlock Name="CapturePageTitle" Classes="level-one" Text="{Binding Text[CaptureTitle]}"/>
+      <TextBlock Text="{Binding Text[CaptureHelp]}"/>
+    </StackPanel>
+    <TextBlock IsVisible="{Binding !HasService}" Text="{Binding Text[CaptureUnavailable]}"/>
+    <StackPanel Name="CaptureWorkflowContent" IsVisible="{Binding HasService}" Spacing="{DynamicResource primitive.space.4}">
+      <StackPanel Name="CaptureCurrentRegion" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Classes="row-title" Text="{Binding Text[CaptureCurrent]}"/>
+        <TextBlock Name="CaptureCurrentState" Text="{Binding CurrentState}" AutomationProperties.Name="{Binding CurrentState}"/>
+      </StackPanel>
+      <StackPanel Name="CaptureTargetRegion" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Classes="row-title" Text="{Binding Text[CaptureExecutable]}"/>
+        <TextBox Name="CaptureExecutable" MaxLength="128" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[CaptureExecutable]}"/>
+        <TextBlock Text="{Binding Text[CaptureScope]}"/>
+        <WrapPanel>
+          <Button Name="CaptureReadButton" Classes="primary-action" MinHeight="{DynamicResource component.action.primary.minHeight}" IsEnabled="{Binding CanRead}" Click="Preview" AutomationProperties.Name="{Binding Text[CaptureRead]}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[CaptureRead]}"/>
+          </Button>
+          <Button Name="CaptureRefreshButton" Classes="secondary-action" IsEnabled="{Binding CanRead}" Click="RefreshState" AutomationProperties.Name="{Binding Text[CaptureRefresh]}" Margin="{DynamicResource UiCommandMargin}">
+            <TextBlock Text="{Binding Text[CaptureRefresh]}"/>
+          </Button>
+        </WrapPanel>
+      </StackPanel>
+      <Border Name="CapturePreviewRegion" Classes="action-surface">
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Classes="row-title" Text="{Binding Text[CaptureProposed]}"/>
+          <TextBlock Text="{Binding Text[CapturePreviewGuide]}"/>
+          <TextBlock Name="CapturePreviewNotice" Text="{Binding PreviewNotice}" AutomationProperties.Name="{Binding PreviewNotice}" AutomationProperties.LiveSetting="Polite"/>
+          <TextBlock Text="{Binding ProposedState}"/>
+          <TextBlock Text="{Binding Text[CaptureRequiresAdministrator]}"/>
+          <TextBlock Text="{Binding Text[CapturePrivacy]}"/>
+          <TextBlock Text="{Binding Text[CaptureFolder]}"/>
+          <TextBlock Text="{Binding Text[CaptureLimitations]}"/>
+          <Expander Name="CapturePreviewDetails" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
+            <TextBlock Name="CapturePreviewState" Text="{Binding PreviewState}" AutomationProperties.Name="{Binding PreviewState}"/>
+          </Expander>
+        </StackPanel>
+      </Border>
+      <StackPanel Name="CaptureApplyRegion" Spacing="{DynamicResource primitive.space.2}">
+        <CheckBox Name="CaptureArchitectureConfirmation" IsCheckedChanged="ArchitectureChanged" HorizontalContentAlignment="Stretch" AutomationProperties.Name="{Binding Text[CaptureArchitectureConfirmation]}">
+          <TextBlock Text="{Binding Text[CaptureArchitectureConfirmation]}"/>
+        </CheckBox>
+        <TextBlock IsVisible="{Binding !CanConfigure}" Classes="metadata" Text="{Binding ConfigureGuard}"/>
+        <Button Name="CaptureConfigureButton" Classes="secondary-action state-change-action" IsEnabled="{Binding CanConfigure}" Click="Configure" AutomationProperties.Name="{Binding Text[CaptureConfigure]}" HorizontalAlignment="Left">
+          <TextBlock Text="{Binding Text[CaptureConfigure]}"/>
+        </Button>
+      </StackPanel>
+      <StackPanel Name="CaptureResultRegion" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Classes="row-title" Text="{Binding Text[CaptureLastResult]}"/>
+        <TextBlock Name="CaptureOperationStatus" IsVisible="{Binding IsBusy}" Text="{Binding Text[CaptureOperationRunning]}" AutomationProperties.LiveSetting="Polite"/>
+        <TextBlock IsVisible="{Binding HasVerifiedResult}" Text="{Binding Text[CaptureVerificationConfirmed]}"/>
+        <TextBlock Name="CaptureLastResult" IsVisible="{Binding !IsBusy}" Text="{Binding LastResult}" AutomationProperties.Name="{Binding LastResult}" AutomationProperties.LiveSetting="Polite"/>
+      </StackPanel>
+      <StackPanel Name="CaptureRestoreRegion" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Classes="row-title" Text="{Binding Text[CaptureRestore]}"/>
+        <TextBlock Text="{Binding Text[CaptureRestoreHelp]}"/>
+        <TextBlock Name="CaptureRestoreGuard" IsVisible="{Binding HasRestoreGuardResult}" Text="{Binding RestoreGuardResult}" AutomationProperties.LiveSetting="Polite"/>
+      </StackPanel>
+      <StackPanel Name="CaptureJournalRegion" Spacing="{DynamicResource primitive.space.3}">
+        <TextBlock Classes="row-title" Text="{Binding Text[CaptureJournal]}"/>
+        <TextBlock IsVisible="{Binding !HasEntries}" Text="{Binding Text[CaptureNoJournal]}"/>
+        <ItemsControl Name="CaptureJournalEntries" ItemsSource="{Binding Entries}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Spacing="{DynamicResource primitive.space.3}"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="p:CaptureJournalPresentation">
+              <c:CaptureRestoreCard RestoreRequested="RestoreEntry"/>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding MoreChoices}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="p:CapturePresentation">
+              <Button Name="CaptureShowMoreButton" Classes="secondary-action" IsEnabled="{Binding CanRead}" Click="ShowMore" AutomationProperties.Name="{Binding Text[CaptureShowMore]}" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Text[CaptureShowMore]}"/>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

@@ -1,13 +1,13 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.5",
   "automatic": [
     {
       "id": "core-pages-axaml-ownership",
-      "check": "Shell, Incident Detail, Home, Analyze, Incidents, History, System/Inventory, Diagnostic Readiness, Settings and Export/Support each have one production AXAML implementation; Capture is the only remaining programmatically constructed page UI"
+      "check": "Shell, Incident Detail, Home, Analyze, Incidents, History, System/Inventory, Diagnostic Readiness, Settings and Export/Support and Capture each have one production AXAML implementation; confirmation dialogs and the missing-incident fallback are also AXAML"
     },
     {
-      "id": "capture-only-csharp-ui",
-      "check": "MainWindow.Capture.cs remains the only programmatic page UI and is hosted inside System AXAML; capture workflow, privilege, journal and restore behavior are unchanged"
+      "id": "capture-axaml-workflow-boundary",
+      "check": "CaptureView, CaptureRestoreCard and CaptureConfirmationWindow own layout inside the existing System host; MainWindow.Capture.cs only forwards explicit actions. Workflow, privilege, journal, reread, drift and newer-action behavior are unchanged"
     },
     {
       "id": "readiness-source-distinction",
@@ -103,7 +103,7 @@
     },
     {
       "id": "core-pages-runtime-state",
-      "check": "All migrated AXAML pages retain their views and accessible control names during runtime EN/IT/ES/FR/DE/PT/RU/PL and System/Light/Dark changes; Analyze inputs, incident filters, History selection, System subpage, Settings selections and Export options remain stateful"
+      "check": "All migrated AXAML pages retain their views and accessible control names during runtime EN/IT/ES/FR/DE/PT/RU/PL and System/Light/Dark changes; Analyze inputs, incident filters, History selection, System subpage, Settings selections, Export options and Capture target/architecture/outer disclosure remain stateful"
     },
     {
       "id": "detail-four-answers",
@@ -119,6 +119,10 @@
     }
   ],
   "semiAutomatic": [
+    {
+      "id": "capture-controlled-privilege",
+      "check": "In the established disposable environment only, validate explicit Preview/UAC approval/Configure/reread/journal/Restore/exact previous state, UAC cancellation and a safe drift refusal. Synthetic UI/security tests do not establish this gate."
+    },
     {
       "id": "responsive",
       "check": "Headless layouts at 560, 600, 640, 641, 1008, 1280, and 1920 effective pixels show no page-level horizontal overflow or navigation overlap"
@@ -141,7 +145,8 @@
     }
   ],
   "manualVisual": [
-    "All AXAML pages retain readable hierarchy and actions at compact and desktop sizes in Light and Dark; Capture remains the existing embedded C# surface",
+    "Capture has one title, purpose/current/target/preview/apply/result/restore/journal reading order, distinct preview and verified result, nearby guard reasons, closed technical disclosures and no automatic elevation",
+    "All AXAML pages, including Capture embedded inside System, retain readable hierarchy and actions at compact and desktop sizes in Light and Dark",
     "System inventory values wrap safely; Readiness keeps Complete/Partial/Unavailable/AccessDenied/NotSupported distinctions readable without color; Settings and Export controls remain usable in long locales",
     "Scope copy remains subordinate; quiet complete and limited-coverage results remain distinct; filter-empty state offers Reset filters only when records are hidden",
     "obvious first focal point",

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.5",
   "breakpoints": {
     "small": {
       "max": 640
@@ -13,8 +13,8 @@
     }
   },
   "pageImplementation": {
-    "axaml": ["Shell", "Home", "Analyze", "Incidents", "History", "IncidentDetail", "System", "SystemInventory", "DiagnosticReadiness", "Settings", "ExportSupport"],
-    "programmaticCSharp": ["Capture"]
+    "axaml": ["Shell", "Home", "Analyze", "Incidents", "History", "IncidentDetail", "System", "SystemInventory", "DiagnosticReadiness", "Settings", "ExportSupport", "Capture", "CaptureConfirmation", "IncidentUnavailable"],
+    "programmaticCSharp": []
   },
   "screens": [
     {
@@ -346,6 +346,73 @@
       "forbiddenPatterns": [
         "invented inventory",
         "health assessment"
+      ]
+    },
+    {
+      "id": "Capture",
+      "userGoal": "explicitly prepare stronger evidence for a future application crash",
+      "primaryQuestion": "What is observed, what would change, and can the previous setting be restored safely?",
+      "primaryAction": "Preview current target",
+      "secondaryActions": [
+        "Refresh",
+        "Configure after preview and architecture confirmation",
+        "Restore recorded previous state after authoritative guards"
+      ],
+      "informationPriority": [
+        "purpose",
+        "observed current state",
+        "target and fixed policy",
+        "proposed change and preview readiness",
+        "explicit Configure",
+        "result and verification",
+        "Restore guidance and refusal",
+        "journal and technical details"
+      ],
+      "regions": [
+        "purpose",
+        "currentState",
+        "target",
+        "preview",
+        "apply",
+        "result",
+        "restore",
+        "journal"
+      ],
+      "defaultFocus": "existing System information/readiness subnavigation",
+      "emptyState": "single title and unavailable text without service; otherwise no recorded changes",
+      "loadingState": "operation in progress, disabled actions; Pending never implies success",
+      "errorState": "existing workflow result code and refusal explanation; cancellation remains distinct",
+      "responsiveRules": {
+        "small": "single column; wrapping translated text and commands; no fixed-width target",
+        "medium": "single reading column; natural command wrapping",
+        "large": "single constrained reading column inside System"
+      },
+      "keyboardFlow": [
+        "System subnavigation",
+        "target",
+        "Preview",
+        "Refresh",
+        "preview disclosure",
+        "architecture confirmation",
+        "Configure",
+        "Restore candidates",
+        "journal disclosures",
+        "more entries"
+      ],
+      "allowedComponents": [
+        "PrimaryAction",
+        "SecondaryAction",
+        "Disclosure",
+        "InlineStatus",
+        "Dialog"
+      ],
+      "forbiddenPatterns": [
+        "automatic elevation",
+        "force restore",
+        "independent drift eligibility",
+        "preview shown as success",
+        "new dump options",
+        "color-only state"
       ]
     },
     {

@@ -1,9 +1,6 @@
 using Avalonia;
 using Avalonia.Automation;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
-using Avalonia.Layout;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
@@ -18,13 +15,13 @@ namespace FaultWitness.App;
 
 public sealed partial class MainWindow : Window
 {
-    private Grid shell = new();
-    private ContentControl pageHost = new();
-    private TextBlock statusText = new();
-    private Grid statusArea = new();
-    private ProgressBar progress = new();
-    private Button cancelButton = new();
-    private Expander technicalDetails = new();
+    private readonly Grid shell;
+    private readonly ContentControl pageHost;
+    private readonly TextBlock statusText;
+    private readonly Grid statusArea;
+    private readonly ProgressBar progress;
+    private readonly Button cancelButton;
+    private readonly Expander technicalDetails;
     private readonly DispatcherTimer activityTimer = new() { Interval = TimeSpan.FromMilliseconds(100) };
     private HomeView? homeView;
     private HomePresentation? homePresentation;
@@ -148,11 +145,10 @@ public sealed partial class MainWindow : Window
         if (technicalDetails.Content is TextBlock detail) detail.Text = ViewModel.TechnicalError;
         foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Classes.Contains("operation")))
             button.IsEnabled = !ViewModel.IsBusy;
-        updateCaptureControls?.Invoke();
+        RefreshCapture();
     }
     private void RenderPage(bool refreshPageData = true)
     {
-        updateCaptureControls = null;
         pageHost.Content = ViewModel.Page switch
         {
             AppPage.Analyze => AnalyzePage(ViewModel.AnalysisMode, refreshPageData),
@@ -179,7 +175,7 @@ public sealed partial class MainWindow : Window
             systemView.InformationRequested += () => ViewModel.Navigate(AppPage.System);
             systemView.ReadinessRequested += () => ViewModel.Navigate(AppPage.Readiness);
         }
-        systemView.Refresh(systemPresentation!, ViewModel, layoutClass, BuildCaptureSection());
+        systemView.Refresh(systemPresentation!, ViewModel, layoutClass, CapturePage());
         return systemView;
     }
 
@@ -322,7 +318,7 @@ public sealed partial class MainWindow : Window
     }
     private Control DetailPage()
     {
-        if (ViewModel.Selected is not { } row) return Empty("SelectIncident");
+        if (ViewModel.Selected is not { } row) return new IncidentUnavailableView { DataContext = new IncidentUnavailablePresentation(new(ViewModel.Text), T(ViewModel.HasAnalysis ? "CheckCoverage" : "NoHistory")) };
         if (detailPresentation?.Incident.Id != row.Incident.Id)
         {
             detailResult = null;
@@ -353,12 +349,6 @@ public sealed partial class MainWindow : Window
         if (page == AppPage.History) await ViewModel.RefreshHistoryAsync();
     }
     private void CancelFromShell(object? sender, RoutedEventArgs args) => ViewModel.Cancel();
-    private StackPanel Section(string title, Control content)
-    {
-        var section = Stack(Label(T(title), TextRole.SectionTitle), content);
-        section.Margin = new Thickness(0, D("primitive.space.2"), 0, 0);
-        return section;
-    }
     private static string LayoutFor(double width) => width <= 640 ? "small" : width <= 1007 ? "medium" : "large";
     private void RecoverWindowGeometry()
     {
@@ -377,42 +367,6 @@ public sealed partial class MainWindow : Window
         try { ViewModel.ChangeSettings(ViewModel.Settings with { WindowWidth = size.Width, WindowHeight = size.Height, WindowState = state }); } catch { /* shutdown persistence must not prevent closing */ }
     }
     private static double D(string key) => Convert.ToDouble(Avalonia.Application.Current?.Resources[key] ?? 0, System.Globalization.CultureInfo.InvariantCulture);
-    private enum TextRole { Caption, Body, RowTitle, SectionTitle, PageTitle }
-    private static TextBlock Label(string text, TextRole role = TextRole.Body, bool bold = false) => new()
-    { Text = text, FontSize = D(role switch { TextRole.Caption => "primitive.fontSize.caption", TextRole.RowTitle => "primitive.fontSize.row", TextRole.SectionTitle => "primitive.fontSize.section", TextRole.PageTitle => "primitive.fontSize.page", _ => "primitive.fontSize.body" }),
-        FontWeight = bold || role is TextRole.RowTitle or TextRole.SectionTitle or TextRole.PageTitle ? FontWeight.SemiBold : FontWeight.Normal, TextWrapping = TextWrapping.Wrap };
-    private static TextBlock Muted(string text, TextRole role = TextRole.Caption)
-    {
-        var label = Label(text, role);
-        label.Bind(TextBlock.ForegroundProperty, new DynamicResourceExtension("AppMuted"));
-        return label;
-    }
-    private static StackPanel Stack(params Control[] controls)
-    {
-        var panel = new StackPanel { Spacing = D("primitive.space.3") };
-        foreach (var control in controls) panel.Children.Add(control);
-        return panel;
-    }
-    private static WrapPanel Actions(params Control[] controls)
-    {
-        var panel = new WrapPanel { Orientation = Orientation.Horizontal };
-        foreach (var control in controls) { control.Margin = new Thickness(0, 0, D("primitive.space.3"), D("primitive.space.2")); panel.Children.Add(control); }
-        return panel;
-    }
-    private static Border Surface(Control child, double? padding = null)
-    {
-        var border = new Border { Child = child, Padding = new Thickness(padding ?? D("primitive.space.4")), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(D("primitive.radius.small")) };
-        border.Bind(Border.BackgroundProperty, new DynamicResourceExtension("AppSurface"));
-        border.Bind(Border.BorderBrushProperty, new DynamicResourceExtension("AppBorder"));
-        return border;
-    }
-    private Button Button(string key, Action action, string? name = null)
-    {
-        var button = new Button { Content = new TextBlock { Text = T(key), TextWrapping = TextWrapping.Wrap }, Name = name, Padding = new Thickness(D("primitive.space.3"), D("primitive.space.2")), MinHeight = D("component.action.standard.minHeight") };
-        button.Classes.Add("secondary-action");
-        AutomationProperties.SetName(button, T(key)); button.Click += (_, _) => action();
-        return button;
-    }
     private void SetNavigationSelected(Button button, bool selected)
     {
         button.Classes.Set("selected", selected);
@@ -422,48 +376,5 @@ public sealed partial class MainWindow : Window
             content.Children[0].Opacity = selected ? 1 : 0;
             ((TextBlock)content.Children[1]).FontWeight = selected ? FontWeight.SemiBold : FontWeight.Normal;
         }
-    }
-    private Button PrimaryButton(string key, Action action, string? name = null) { var button = Button(key, action, name); button.Classes.Remove("secondary-action"); button.Classes.Add("primary-action"); button.MinHeight = D("component.action.primary.minHeight"); return button; }
-    private Button SubtleButton(string key, Action action, string? name = null) { var button = Button(key, action, name); button.Classes.Remove("secondary-action"); button.Classes.Add("subtle-action"); return button; }
-    private Button DangerButton(string key, Action action, string? name = null) { var button = Button(key, action, name); button.Classes.Remove("secondary-action"); button.Classes.Add("danger-action"); return button; }
-    private Button AsyncButton(string key, Func<Task> action, string? name = null)
-    {
-        var button = Button(key, () => { }, name);
-        button.Classes.Add("operation");
-        button.IsEnabled = !ViewModel.IsBusy;
-        button.Click += async (_, _) =>
-        {
-            try { await action().ConfigureAwait(true); }
-            catch (Exception exception) { ViewModel.Fail("OperationError", exception); }
-        };
-        return button;
-    }
-    private Button PrimaryAsyncButton(string key, Func<Task> action, string? name = null) { var button = AsyncButton(key, action, name); button.Classes.Remove("secondary-action"); button.Classes.Add("primary-action"); button.MinHeight = D("component.action.primary.minHeight"); return button; }
-    private static ScrollViewer Scroll(Control content) => new() { Content = content, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
-    private StackPanel Heading(string key, string? subtitle = null) => Stack(Label(T(key), TextRole.PageTitle), Muted(T(subtitle ?? "Tagline"), TextRole.Body));
-    private Expander Expand(string key, Control content, bool open = false) => new()
-    { Header = T(key), Content = content, IsExpanded = open, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch };
-    private StackPanel Field(string key, Control control)
-    {
-        AutomationProperties.SetName(control, T(key));
-        return Stack(Muted(T(key)), control);
-    }
-    private Border Empty(string key = "NoSignificant", string? helpKey = null) => Surface(Stack(Label(T(key), TextRole.RowTitle), Muted(T(helpKey ?? (ViewModel.HasAnalysis ? "CheckCoverage" : "NoHistory")), TextRole.Body)));
-    private StackPanel Coverage(IEnumerable<SourceCoverage> coverage)
-    {
-        var panel = new StackPanel { Spacing = D("primitive.space.2"), Name = "CoveragePanel" };
-        foreach (var source in coverage)
-        {
-            var row = new Grid { ColumnDefinitions = new ColumnDefinitions("*,Auto") };
-            row.Children.Add(Label(T(PresentationPolicy.SourceKey(source))));
-            var state = Label(T("Coverage" + source.State), bold: true); Grid.SetColumn(state, 1); row.Children.Add(state);
-            var details = Stack(Label(T("CoverageHelp" + source.State)), Muted(source.ExaminedFromUtc is null ? T("IntervalUnknown") :
-                ViewModel.Text.Format("IntervalValue", source.ExaminedFromUtc.Value.ToLocalTime().ToString("g", ViewModel.Text.Culture), source.ExaminedToUtc?.ToLocalTime().ToString("g", ViewModel.Text.Culture) ?? T("NotAvailable"))));
-            var expander = new Expander { Header = row, Content = details, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch };
-            AutomationProperties.SetName(expander, T(PresentationPolicy.SourceKey(source)) + " — " + T("Coverage" + source.State));
-            ToolTip.SetTip(expander, T("CoverageHelp" + source.State)); panel.Children.Add(expander);
-        }
-        if (panel.Children.Count == 0) panel.Children.Add(Muted(T("CoverageNotChecked")));
-        return panel;
     }
 }

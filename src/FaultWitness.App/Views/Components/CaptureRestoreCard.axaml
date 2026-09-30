@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.CaptureRestoreCard" x:DataType="p:CaptureJournalPresentation">
+  <Border Classes="action-surface" AutomationProperties.Name="{Binding AccessibleName}">
+    <StackPanel Spacing="{DynamicResource primitive.space.2}">
+      <TextBlock Classes="row-title" Text="{Binding Title}"/>
+      <TextBlock Classes="metadata" Text="{Binding Timestamp}"/>
+      <TextBlock Text="{Binding Status}"/>
+      <TextBlock Classes="metadata" Text="{Binding Restoration}"/>
+      <StackPanel IsVisible="{Binding CanRestore}" Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Text="{Binding Text[CapturePrevious]}"/>
+        <TextBlock Classes="metadata" Text="{Binding Previous}"/>
+        <ItemsControl ItemsSource="{Binding RestoreChoices}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="p:CaptureJournalPresentation">
+              <Button Name="{Binding RestoreButtonName}" Classes="secondary-action state-change-action" IsEnabled="{Binding CanInvoke}" Click="Restore" AutomationProperties.Name="{Binding Text[CaptureRestore]}" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Text[CaptureRestore]}"/>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+      <Expander Header="{Binding Text[CaptureJournalDetails]}" AutomationProperties.Name="{Binding Text[CaptureJournalDetails]}">
+        <StackPanel Spacing="{DynamicResource primitive.space.1}">
+          <TextBlock Text="{Binding Text[CapturePrevious]}"/>
+          <TextBlock Classes="metadata" Text="{Binding Previous}"/>
+          <TextBlock Text="{Binding Text[CaptureRequested]}"/>
+          <TextBlock Classes="metadata" Text="{Binding Requested}"/>
+          <TextBlock Text="{Binding Text[CaptureObserved]}"/>
+          <TextBlock Classes="metadata" Text="{Binding Observed}"/>
+        </StackPanel>
+      </Expander>
+    </StackPanel>
+  </Border>
+</UserControl>

@@ -107,7 +107,7 @@ public sealed class CaptureRecoveryUiTests
             Assert.DoesNotContain(window.GetVisualDescendants().OfType<Button>(), x => x.Name == "CaptureShowMoreButton");
             var recovery = Find<Button>(window, "CaptureRestoreButton" + pending.ActionId.ToString("N"));
             Assert.True(recovery.IsEnabled);
-            var row = recovery.GetVisualAncestors().OfType<Border>().First();
+            var row = recovery.GetVisualAncestors().OfType<Border>().First(border => !string.IsNullOrEmpty(AutomationProperties.GetName(border)));
             Assert.Contains(window.ViewModel.Text.Get("CaptureResultPending"), AutomationProperties.GetName(row));
             Assert.Equal(CaptureResultCode.Pending, capture.Entries.Single(x => x.ActionId == pending.ActionId).Result);
             Click(window, recovery.Name!);
