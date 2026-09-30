@@ -1,0 +1,186 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{DynamicResource AppBackground}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="TextBlock">
+    <Setter Property="TextWrapping" Value="Wrap"/>
+  </Style>
+  <Style Selector="TextBlock.page-title">
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.page}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="TextBlock.level-one, TextBlock.observed">
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.section}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="TextBlock.row-title">
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.row}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="TextBlock.metadata">
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.caption}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+  </Style>
+  <Style Selector="Border.action-surface">
+    <Setter Property="Padding" Value="{DynamicResource UiSurfacePadding}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource UiSurfaceRadius}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+    <Setter Property="Background" Value="{DynamicResource AppSurface}"/>
+  </Style>
+  <Style Selector="Expander">
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+  <Style Selector="Button">
+    <Setter Property="Padding" Value="{DynamicResource UiButtonPadding}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource component.action.standard.minHeight}"/>
+  </Style>
+  <Style Selector="Button.primary-action">
+    <Setter Property="CornerRadius" Value="{DynamicResource UiActionRadius}"/>
+  </Style>
+  <Style Selector="Button.secondary-action">
+    <Setter Property="CornerRadius" Value="{DynamicResource UiActionRadius}"/>
+  </Style>
+  <Style Selector="Button.subtle-action">
+    <Setter Property="CornerRadius" Value="{DynamicResource UiActionRadius}"/>
+  </Style>
+  <Style Selector="Button.danger-action">
+    <Setter Property="CornerRadius" Value="{DynamicResource UiActionRadius}"/>
+  </Style>
+  <Style Selector="Button.secondary-action">
+    <Setter Property="Background" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Button.primary-action">
+    <Setter Property="Background" Value="{DynamicResource AppAccent}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="Button.subtle-action">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppAccent}"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+  </Style>
+  <Style Selector="Button.danger-action">
+    <Setter Property="Background" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppError}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="Button.state-change-action">
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAttention}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="Button.primary-action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppAccentHover}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="Button.primary-action:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppAccentPressed}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="Button.primary-action:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Button.secondary-action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="Button.secondary-action:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="Button.secondary-action:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Button.subtle-action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="Button.subtle-action:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="Button.subtle-action:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Button.danger-action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppError}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+  </Style>
+  <Style Selector="Button.danger-action:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppError}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+  </Style>
+  <Style Selector="Button.danger-action:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Button.state-change-action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAttention}"/>
+  </Style>
+  <Style Selector="Button.state-change-action:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAttention}"/>
+  </Style>
+  <Style Selector="Button.state-change-action:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Button.navigation-item">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="MinHeight" Value="{DynamicResource component.navigation.itemHeight}"/>
+    <Setter Property="Padding" Value="{DynamicResource UiNavPadding}"/>
+  </Style>
+  <Style Selector="Button.navigation-item.selected">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+  </Style>
+  <Style Selector="Button.navigation-item:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="Button.navigation-item:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="Button.summary-metric">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="ListBox.history-list ListBoxItem">
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+  <Style Selector="ListBox.history-list ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+</Styles>

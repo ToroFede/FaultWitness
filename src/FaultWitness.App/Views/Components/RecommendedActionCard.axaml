@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.RecommendedActionCard" x:DataType="p:IncidentDetailPresentation">
+  <Border Classes="action-surface">
+    <StackPanel Spacing="{DynamicResource primitive.space.2}">
+      <TextBlock Classes="level-one" Text="{Binding Text[BestNextStep]}"/>
+      <TextBlock Text="{Binding BestNextStep}"/>
+      <Expander Name="WhyStep" Header="{Binding Text[WhyThisTest]}" AutomationProperties.Name="{Binding Text[WhyThisTest]}">
+        <TextBlock Text="{Binding Text[WhyEvidenceFirst]}"/>
+      </Expander>
+    </StackPanel>
+  </Border>
+</UserControl>

@@ -465,4 +465,14 @@
   <data name="BackgroundEntriesCount" xml:space="preserve"><value>{0} : {1}</value></data>
   <data name="CoverageLimitSummary" xml:space="preserve"><value>Limites de couverture :</value></data>
   <data name="ImportScope" xml:space="preserve"><value>FaultWitness examine uniquement les enregistrements de diagnostic pris en charge dans les fichiers que vous sélectionnez. Il n’évalue pas l’état général ni l’entretien du PC.</value></data>
+  <data name="DetailAssessment" xml:space="preserve"><value>Ce que suggèrent les preuves</value></data>
+  <data name="DetailEvidence" xml:space="preserve"><value>Pourquoi cette évaluation</value></data>
+  <data name="DetailHypotheses" xml:space="preserve"><value>Explications possibles (hypothèses)</value></data>
+  <data name="DetailCoverageLimits" xml:space="preserve"><value>Limites des sources examinées</value></data>
+  <data name="DetailTimelineCount" xml:space="preserve"><value>Chronologie complète ({0} enregistrements)</value></data>
+  <data name="DetailRelevantChanges" xml:space="preserve"><value>{0} changements pertinents dans les enregistrements examinés</value></data>
+  <data name="DetailProvider" xml:space="preserve"><value>Fournisseur de l’événement</value></data>
+  <data name="DetailChannel" xml:space="preserve"><value>Canal de l’événement</value></data>
+  <data name="DetailEventId" xml:space="preserve"><value>Identifiant de l’événement</value></data>
+  <data name="DetailRecordId" xml:space="preserve"><value>Identifiant de l’enregistrement</value></data>
 </root>

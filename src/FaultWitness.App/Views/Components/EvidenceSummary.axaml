@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.EvidenceSummary" x:DataType="p:IncidentDetailPresentation">
+  <StackPanel Spacing="{DynamicResource primitive.space.2}">
+    <TextBlock Classes="level-one" Text="{Binding Text[DetailEvidence]}"/>
+    <StackPanel Name="EvidencePanel">
+      <ItemsControl ItemsSource="{Binding EvidenceGroups}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="p:EvidenceGroupPresentation">
+            <StackPanel Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiGroupMargin}">
+              <TextBlock Classes="row-title" Text="{Binding Heading}"/>
+              <TextBlock Classes="metadata" IsVisible="{Binding HasNoItems}" Text="{Binding EmptyText}"/>
+              <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="p:EvidenceItemPresentation">
+                    <TextBlock Text="{Binding Description}"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

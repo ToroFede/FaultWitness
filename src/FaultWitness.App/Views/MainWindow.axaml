@@ -1,0 +1,63 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="FaultWitness.App.MainWindow">
+  <Grid Name="Shell" ColumnDefinitions="Auto,*">
+    <Border Name="NavigationSurface" BorderThickness="0,0,1,0" Background="{DynamicResource AppSurface}" BorderBrush="{DynamicResource AppBorder}">
+      <Grid RowDefinitions="Auto,*,Auto" Margin="{DynamicResource UiNavMargin}">
+        <StackPanel Spacing="{DynamicResource primitive.space.3}">
+          <TextBlock Name="NavigationBrand" Classes="level-one" Text="FaultWitness" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" ToolTip.Tip="FaultWitness"/>
+          <TextBlock Name="LocalFirstLabel" Classes="metadata"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiDestinationsMargin}">
+          <Button Name="NavHome" Classes="navigation-item" Click="NavigateFromShell" Grid.Row="0">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+              <Border Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+              <TextBlock Name="NavHomeLabel" Grid.Column="1"/>
+            </Grid>
+          </Button>
+          <Button Name="NavAnalyze" Classes="navigation-item" Click="NavigateFromShell" Grid.Row="0">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+              <Border Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+              <TextBlock Name="NavAnalyzeLabel" Grid.Column="1"/>
+            </Grid>
+          </Button>
+          <Button Name="NavIncidents" Classes="navigation-item" Click="NavigateFromShell" Grid.Row="0">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+              <Border Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+              <TextBlock Name="NavIncidentsLabel" Grid.Column="1"/>
+            </Grid>
+          </Button>
+          <Button Name="NavHistory" Classes="navigation-item" Click="NavigateFromShell" Grid.Row="0">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+              <Border Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+              <TextBlock Name="NavHistoryLabel" Grid.Column="1"/>
+            </Grid>
+          </Button>
+          <Button Name="NavSystem" Classes="navigation-item" Click="NavigateFromShell" Grid.Row="0">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+              <Border Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+              <TextBlock Name="NavSystemLabel" Grid.Column="1"/>
+            </Grid>
+          </Button>
+        </StackPanel>
+        <Button Name="NavSettings" Classes="navigation-item" Click="NavigateFromShell" Grid.Row="2">
+          <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+            <Border Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+            <TextBlock Name="NavSettingsLabel" Grid.Column="1"/>
+          </Grid>
+        </Button>
+      </Grid>
+    </Border>
+    <Grid Name="MainRegion" Grid.Column="1" RowDefinitions="*,Auto">
+      <ContentControl Name="PageHost" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+      <Grid Name="StatusArea" Grid.Row="1" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" Margin="{DynamicResource UiStatusMargin}">
+        <TextBlock Name="StatusText" AutomationProperties.LiveSetting="Polite"/>
+        <Button Name="CancelAnalysis" Grid.Column="1" Classes="secondary-action" Click="CancelFromShell">
+          <TextBlock Name="CancelLabel"/>
+        </Button>
+        <ProgressBar Name="AnalysisProgress" Grid.Row="1" Grid.ColumnSpan="2" IsIndeterminate="True" Height="3"/>
+        <Expander Name="TechnicalError" Grid.Row="2" Grid.ColumnSpan="2">
+          <TextBlock Name="TechnicalErrorText"/>
+        </Expander>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

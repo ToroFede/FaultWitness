@@ -184,6 +184,9 @@ public sealed class HeadlessTests
             window.UpdateLayout(); var text = VisibleText(window);
             Assert.Contains("Observed", text, StringComparison.Ordinal); Assert.Contains("Not observed", text, StringComparison.Ordinal); Assert.Contains("Unknown", text, StringComparison.Ordinal);
             Assert.Contains("Recurring", text, StringComparison.Ordinal); Assert.Contains("Best next step", text, StringComparison.Ordinal);
+            var coverage = Find<Expander>(window, "FullCoverage");
+            Assert.False(coverage.IsExpanded);
+            coverage.IsExpanded = true; window.UpdateLayout();
             Assert.NotNull(Find<StackPanel>(window, "CoveragePanel")); Assert.DoesNotContain("<Event>", text, StringComparison.Ordinal);
         }
         finally { window.Close(); }

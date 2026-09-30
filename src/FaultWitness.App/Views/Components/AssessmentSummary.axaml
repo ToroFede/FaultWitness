@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.AssessmentSummary" x:DataType="p:IncidentDetailPresentation">
+  <StackPanel Spacing="{DynamicResource primitive.space.3}">
+    <StackPanel Name="AssessmentRegion" Spacing="{DynamicResource primitive.space.1}">
+      <TextBlock Classes="level-one" Text="{Binding Text[DetailAssessment]}"/>
+      <ItemsControl ItemsSource="{Binding Interpretations}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="x:String">
+            <TextBlock Text="{Binding}"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+    <StackPanel Name="LimitsRegion" Spacing="{DynamicResource primitive.space.1}">
+      <TextBlock Classes="level-one" Text="{Binding Text[CannotConclude]}"/>
+      <ItemsControl ItemsSource="{Binding Limitations}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="x:String">
+            <TextBlock Text="{Binding}"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

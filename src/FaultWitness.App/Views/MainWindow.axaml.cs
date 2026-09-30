@@ -8,6 +8,10 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using Avalonia.Markup.Xaml;
+using Avalonia.Interactivity;
+using FaultWitness.App.Presentation;
+using FaultWitness.App.Views.Pages;
 using FaultWitness.Core;
 
 namespace FaultWitness.App;
@@ -29,14 +33,26 @@ public sealed partial class MainWindow : Window
     private readonly DispatcherTimer activityTimer = new() { Interval = TimeSpan.FromMilliseconds(100) };
     private string layoutClass = "large";
     private bool rebuildingShell;
+    private IncidentDetailView? detailView;
+    private IncidentDetailPresentation? detailPresentation;
+    private ScanResult? detailResult;
+    private string? detailCulture;
     private double normalWidth;
     private double normalHeight;
     private int normalSizeRevision;
     public MainViewModel ViewModel { get; }
     public long ResponsiveTicks { get; private set; }
-    public MainWindow() : this(new MainViewModel(new DesktopServices())) { }
+    public MainWindow() : this(new MainViewModel(Avalonia.Controls.Design.IsDesignMode ? new IncidentDetailDesignServices() : new DesktopServices())) { }
     public MainWindow(MainViewModel viewModel)
     {
+        AvaloniaXamlLoader.Load(this);
+        shell = this.FindControl<Grid>("Shell")!;
+        pageHost = this.FindControl<ContentControl>("PageHost")!;
+        statusText = this.FindControl<TextBlock>("StatusText")!;
+        statusArea = this.FindControl<Grid>("StatusArea")!;
+        progress = this.FindControl<ProgressBar>("AnalysisProgress")!;
+        cancelButton = this.FindControl<Button>("CancelAnalysis")!;
+        technicalDetails = this.FindControl<Expander>("TechnicalError")!;
         ViewModel = viewModel;
         DataContext = viewModel;
         Title = "FaultWitness";
@@ -94,48 +110,23 @@ public sealed partial class MainWindow : Window
         {
         ApplyTheme();
         var compact = layoutClass == "small";
-        shell = new Grid { ColumnDefinitions = new ColumnDefinitions(compact ? "Auto,*" : FormattableString.Invariant($"{D("component.navigation.width")},*")) };
-        var nav = new Grid { RowDefinitions = new RowDefinitions("Auto,*,Auto"), Margin = new Thickness(D("primitive.space.3"), D("primitive.space.6"), D("primitive.space.3"), D("primitive.space.4")) };
-        var brandText = Label("FaultWitness", TextRole.SectionTitle);
-        brandText.Name = "NavigationBrand";
-        brandText.TextWrapping = TextWrapping.NoWrap;
-        brandText.TextTrimming = TextTrimming.CharacterEllipsis;
-        ToolTip.SetTip(brandText, "FaultWitness");
-        var brand = Stack(brandText, Muted(T("LocalFirst")));
-        nav.Children.Add(brand);
-        var destinations = new StackPanel { Spacing = D("primitive.space.1"), Margin = new Thickness(0, D("primitive.space.8"), 0, 0) };
-        Grid.SetRow(destinations, 1);
-        foreach (var (key, page) in new[] { ("Home", AppPage.Home), ("Analyze", AppPage.Analyze), ("Incidents", AppPage.Incidents), ("History", AppPage.History), ("System", AppPage.System) })
+        shell.ColumnDefinitions[0].Width = compact ? GridLength.Auto : new GridLength(D("component.navigation.width"));
+        var side = this.FindControl<Border>("NavigationSurface")!;
+        side.MinWidth = compact ? D("component.navigation.compactMinWidth") : 0;
+        side.MaxWidth = compact ? D("component.navigation.width") : double.PositiveInfinity;
+        var gutter = D(compact ? "component.layout.gutterSmall" : "component.layout.gutterNormal");
+        this.FindControl<Grid>("MainRegion")!.Margin = new Thickness(gutter, D("primitive.space.6"), gutter, D("primitive.space.4"));
+        pageHost.MaxWidth = layoutClass == "large" ? D("component.layout.readingWidth") : double.PositiveInfinity;
+        this.FindControl<TextBlock>("LocalFirstLabel")!.Text = T("LocalFirst");
+        foreach (var key in new[] { "Home", "Analyze", "Incidents", "History", "System", "Settings" })
         {
-            var button = NavigationButton(key, page == AppPage.History ? async () => { ViewModel.Navigate(page); await ViewModel.RefreshHistoryAsync(); } : () => ViewModel.Navigate(page), "Nav" + page);
-            destinations.Children.Add(button);
+            this.FindControl<TextBlock>("Nav" + key + "Label")!.Text = T(key);
+            AutomationProperties.SetName(this.FindControl<Button>("Nav" + key)!, T(key));
         }
-        nav.Children.Add(destinations);
-        var settings = NavigationButton("Settings", () => ViewModel.Navigate(AppPage.Settings), "NavSettings");
-        Grid.SetRow(settings, 2); nav.Children.Add(settings);
-        var side = Surface(nav, 0); side.BorderThickness = new Thickness(0, 0, 1, 0);
-        if (compact) { side.MinWidth = D("component.navigation.compactMinWidth"); side.MaxWidth = D("component.navigation.width"); }
-        shell.Children.Add(side);
-        var gutter = D(layoutClass == "small" ? "component.layout.gutterSmall" : "component.layout.gutterNormal");
-        var main = new Grid { RowDefinitions = new RowDefinitions("*,Auto"), Margin = new Thickness(gutter, D("primitive.space.6"), gutter, D("primitive.space.4")) };
-        Grid.SetColumn(main, 1);
-        pageHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch,
-            MaxWidth = layoutClass == "large" ? D("component.layout.readingWidth") : double.PositiveInfinity, HorizontalAlignment = HorizontalAlignment.Stretch };
-        main.Children.Add(pageHost);
-        var bottom = new Grid { ColumnDefinitions = new ColumnDefinitions("*,Auto"), RowDefinitions = new RowDefinitions("Auto,Auto,Auto"), Margin = new Thickness(0, D("primitive.space.4"), 0, 0) };
-        statusArea = bottom;
-        statusText = Label(string.Empty); statusText.Name = "StatusText";
-        AutomationProperties.SetLiveSetting(statusText, AutomationLiveSetting.Polite);
-        bottom.Children.Add(statusText);
-        cancelButton = Button("Cancel", ViewModel.Cancel, "CancelAnalysis"); Grid.SetColumn(cancelButton, 1); bottom.Children.Add(cancelButton);
-        progress = new ProgressBar { IsIndeterminate = true, Height = 3, Margin = new Thickness(0, D("primitive.space.2"), 0, 0), Name = "AnalysisProgress" };
+        this.FindControl<TextBlock>("CancelLabel")!.Text = T("Cancel");
+        AutomationProperties.SetName(cancelButton, T("Cancel"));
         AutomationProperties.SetName(progress, T("AnalysisInProgress"));
-        Grid.SetRow(progress, 1); Grid.SetColumnSpan(progress, 2); bottom.Children.Add(progress);
-        technicalDetails = Expand("TechnicalDetails", Label(string.Empty));
-        technicalDetails.Name = "TechnicalError";
-        Grid.SetRow(technicalDetails, 2); Grid.SetColumnSpan(technicalDetails, 2); bottom.Children.Add(technicalDetails);
-        Grid.SetRow(bottom, 1); main.Children.Add(bottom);
-        shell.Children.Add(main); Content = shell;
+        technicalDetails.Header = T("TechnicalDetails");
         RenderPage(); UpdateStatus();
         }
         finally { rebuildingShell = false; }
@@ -163,7 +154,7 @@ public sealed partial class MainWindow : Window
         pageHost.Content = ViewModel.Page switch
         {
             AppPage.Analyze => BuildAnalysis(ViewModel.AnalysisMode), AppPage.Incidents => BuildIncidents(), AppPage.History => BuildHistory(),
-            AppPage.Detail => BuildDetail(), AppPage.Readiness => BuildReadiness(), AppPage.System => BuildSystem(),
+            AppPage.Detail => DetailPage(), AppPage.Readiness => BuildReadiness(), AppPage.System => BuildSystem(),
             AppPage.Settings => BuildSettings(), AppPage.Export => BuildExport(), _ => BuildOverview()
         };
         foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Name?.StartsWith("Nav", StringComparison.Ordinal) == true))
@@ -172,6 +163,39 @@ public sealed partial class MainWindow : Window
             SetNavigationSelected(button, button.Name == "Nav" + destination);
         }
         UpdateStatus();
+    }
+    private Control DetailPage()
+    {
+        if (ViewModel.Selected is not { } row) return Empty("SelectIncident");
+        if (detailPresentation?.Incident.Id != row.Incident.Id)
+        {
+            detailResult = null;
+            detailPresentation = new IncidentDetailPresentation();
+            detailView = new IncidentDetailView { DataContext = detailPresentation };
+            detailView.BackRequested += (_, _) => ViewModel.Navigate(AppPage.Incidents);
+            detailView.SupportRequested += (_, _) => { exportSelectedOnly = true; ViewModel.Navigate(AppPage.Export); };
+            detailView.OccurrencesRequested += (_, _) => ViewModel.ViewOccurrences();
+        }
+        if (!ReferenceEquals(detailResult, ViewModel.Result) || detailCulture != ViewModel.Text.Culture.Name || !ReferenceEquals(detailPresentation.Incident, row.Incident))
+        {
+            detailPresentation.Refresh(row, ViewModel.Result, ViewModel.Text, ViewModel.Origin);
+            detailResult = ViewModel.Result;
+            detailCulture = ViewModel.Text.Culture.Name;
+        }
+        return detailView!;
+    }
+    private async void NavigateFromShell(object? sender, RoutedEventArgs args)
+    {
+        if (sender is not Button { Name: { } name } || !Enum.TryParse<AppPage>(name[3..], out var page)) return;
+        ViewModel.Navigate(page);
+        if (page == AppPage.History) await ViewModel.RefreshHistoryAsync();
+    }
+    private void CancelFromShell(object? sender, RoutedEventArgs args) => ViewModel.Cancel();
+    private StackPanel Section(string title, Control content)
+    {
+        var section = Stack(Label(T(title), TextRole.SectionTitle), content);
+        section.Margin = new Thickness(0, D("primitive.space.2"), 0, 0);
+        return section;
     }
     private void RenderHistoryDetail()
     {
@@ -235,6 +259,7 @@ public sealed partial class MainWindow : Window
         AutomationProperties.SetName(button, T(key)); button.Click += (_, _) => action();
         return button;
     }
+    // Retained for the System page tabs until their Pass 2B migration. The shell is AXAML.
     private Button NavigationButton(string key, Action action, string name, bool selected = false)
     {
         var button = Button(key, action, name);

@@ -1,0 +1,8 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.EventRecordDetails" x:DataType="p:EventRecordPresentation">
+  <StackPanel Spacing="{DynamicResource primitive.space.2}">
+    <TextBox Text="{Binding Technical}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" AutomationProperties.Name="{Binding Heading}"/>
+    <Expander Header="{Binding RawTitle}" AutomationProperties.Name="{Binding RawTitle}">
+      <TextBox Text="{Binding Raw}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
+    </Expander>
+  </StackPanel>
+</UserControl>

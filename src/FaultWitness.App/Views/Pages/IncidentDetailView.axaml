@@ -1,0 +1,144 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.IncidentDetailView" x:DataType="p:IncidentDetailPresentation">
+  <Design.DataContext>
+    <x:Static Member="p:IncidentDetailDesignData.Sample"/>
+  </Design.DataContext>
+  <UserControl.Resources>
+    <DataTemplate x:Key="ChangeRow" x:DataType="p:ChangeRowPresentation">
+      <StackPanel Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiGroupMargin}">
+        <TextBlock Text="{Binding Description}"/>
+        <Expander Header="{Binding DetailsTitle}" AutomationProperties.Name="{Binding DetailsTitle}">
+          <TextBlock Classes="metadata" Text="{Binding Details}"/>
+        </Expander>
+      </StackPanel>
+    </DataTemplate>
+  </UserControl.Resources>
+  <ScrollViewer Name="DetailScroll" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="DetailSections" Classes="incident-detail" Spacing="{DynamicResource primitive.space.4}">
+      <WrapPanel>
+        <Button Name="DetailBack" Classes="subtle-action" Click="Back" AutomationProperties.Name="{Binding Text[Back]}" Margin="{DynamicResource UiCommandMargin}">
+          <TextBlock Text="{Binding Text[Back]}"/>
+        </Button>
+        <Button Name="DetailCopy" Classes="secondary-action" Click="Copy" AutomationProperties.Name="{Binding Text[CopyForSupport]}">
+          <TextBlock Text="{Binding Text[CopyForSupport]}"/>
+        </Button>
+      </WrapPanel>
+      <c:IncidentHeader Name="IdentityRegion"/>
+      <c:RecommendedActionCard Name="NextStepRegion"/>
+      <c:AssessmentSummary Name="AssessmentLimitsRegion"/>
+      <c:CoverageSummary Name="MaterialCoverageRegion"/>
+      <c:EvidenceSummary Name="KeyEvidenceRegion"/>
+      <Expander Name="FullTimeline" Header="{Binding TimelineTitle}" AutomationProperties.Name="{Binding TimelineTitle}">
+        <ItemsControl Name="TimelineList" ItemsSource="{Binding TimelineRows}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="p:EventRecordPresentation">
+              <Expander AutomationProperties.Name="{Binding Heading}">
+                <Expander.Header>
+                  <StackPanel>
+                    <TextBlock Classes="row-title" Text="{Binding Heading}"/>
+                    <TextBlock Classes="metadata" Text="{Binding Relation}"/>
+                  </StackPanel>
+                </Expander.Header>
+                <c:EventRecordDetails/>
+              </Expander>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Expander>
+      <Expander Name="WhatChanged" AutomationProperties.Name="{Binding Text[ChangesNearFirst]}">
+        <Expander.Header>
+          <StackPanel>
+            <TextBlock Classes="row-title" Text="{Binding Text[ChangesNearFirst]}"/>
+            <TextBlock Classes="metadata" Text="{Binding ChangeSummary}"/>
+          </StackPanel>
+        </Expander.Header>
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <ItemsControl ItemsSource="{Binding ChangeNotes}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="x:String">
+                <TextBlock Text="{Binding}"/>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <ItemsControl ItemsSource="{Binding RelevantChanges}" ItemTemplate="{StaticResource ChangeRow}"/>
+          <Expander Name="LowChanges" IsVisible="{Binding HasLowChanges}" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
+            <ItemsControl ItemsSource="{Binding LowChanges}" ItemTemplate="{StaticResource ChangeRow}"/>
+          </Expander>
+          <Expander Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
+            <ItemsControl ItemsSource="{Binding ChangeCoverage}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                  <TextBlock Classes="metadata" Text="{Binding}"/>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Expander>
+        </StackPanel>
+      </Expander>
+      <Expander Name="Patterns" IsVisible="{Binding HasPattern}" Header="{Binding Text[RecurringPattern]}" AutomationProperties.Name="{Binding Text[RecurringPattern]}">
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Text="{Binding Recurrence}"/>
+          <TextBlock Classes="metadata" Text="{Binding FirstLatest}"/>
+          <TextBlock Text="{Binding ReportContext}"/>
+          <Button Name="ViewOccurrences" Classes="secondary-action" Click="Occurrences" AutomationProperties.Name="{Binding Text[ViewOccurrences]}">
+            <TextBlock Text="{Binding Text[ViewOccurrences]}"/>
+          </Button>
+        </StackPanel>
+      </Expander>
+      <Expander Name="Hypotheses" IsVisible="{Binding HasHypotheses}" Header="{Binding Text[DetailHypotheses]}" AutomationProperties.Name="{Binding Text[DetailHypotheses]}">
+        <ItemsControl ItemsSource="{Binding Hypotheses}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="x:String">
+              <TextBlock Text="{Binding}"/>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Expander>
+      <Expander Name="OtherSteps" IsVisible="{Binding HasOtherActions}" Header="{Binding Text[OtherTests]}" AutomationProperties.Name="{Binding Text[OtherTests]}">
+        <ItemsControl ItemsSource="{Binding OtherActions}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="x:String">
+              <TextBlock Text="{Binding}"/>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Expander>
+      <Expander Name="FullCoverage" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
+        <StackPanel Name="CoveragePanel">
+          <TextBlock IsVisible="{Binding HasNoCoverage}" Text="{Binding Text[CoverageNotChecked]}"/>
+          <ItemsControl ItemsSource="{Binding CoverageRows}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="p:CoverageRowPresentation">
+                <Expander AutomationProperties.Name="{Binding Name}">
+                  <Expander.Header>
+                    <StackPanel>
+                      <TextBlock Classes="row-title" Text="{Binding Name}"/>
+                      <TextBlock Text="{Binding State}"/>
+                    </StackPanel>
+                  </Expander.Header>
+                  <StackPanel>
+                    <TextBlock Text="{Binding Help}"/>
+                    <TextBlock Classes="metadata" Text="{Binding Interval}"/>
+                  </StackPanel>
+                </Expander>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Expander>
+      <Expander Name="TechnicalData" Header="{Binding Text[RawData]}" AutomationProperties.Name="{Binding Text[RawData]}">
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Classes="metadata" Text="{Binding TechnicalContext}"/>
+          <ItemsControl ItemsSource="{Binding TechnicalRows}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="p:EventRecordPresentation">
+                <Expander Header="{Binding Heading}" AutomationProperties.Name="{Binding Heading}">
+                  <c:EventRecordDetails/>
+                </Expander>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Expander>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

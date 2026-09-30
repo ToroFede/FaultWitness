@@ -1,5 +1,5 @@
 using Avalonia;
-using System.Reflection;
+using FaultWitness.App.Views.Pages;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -38,10 +38,9 @@ public sealed class WhatChangedVisualTests
             foreach (var (name, item) in scenarios)
             {
                 viewModel.ChangeSettings(viewModel.Settings with { Theme = theme }); viewModel.SetResult(baseResult with { Incidents = [item] }); viewModel.Select(viewModel.AllRows[0]); viewModel.Navigate(AppPage.Detail); window.Width = 1100; window.Height = 800; window.UpdateLayout();
-                var method = typeof(MainWindow).GetMethod("ChangesSection", BindingFlags.Instance | BindingFlags.NonPublic)!;
-                var section = (Control)method.Invoke(window, [item])!;
-                window.Content = new ScrollViewer { Content = new Border { Padding = new Thickness(24), Child = section } };
-                window.UpdateLayout();
+                var section = window.GetVisualDescendants().OfType<IncidentDetailView>().Single();
+                var changes = section.FindControl<Expander>("WhatChanged")!;
+                changes.IsExpanded = true; changes.BringIntoView(); window.UpdateLayout();
                 var visible = VisibleText(window);
                 Assert.Contains(viewModel.Text.Get("ChangesNearFirst"), visible, StringComparison.Ordinal);
                 Assert.True(window.GetVisualDescendants().OfType<ScrollViewer>().All(view => view.Extent.Width <= view.Viewport.Width + 2 || view.Viewport.Width == 0), name + "/" + theme);

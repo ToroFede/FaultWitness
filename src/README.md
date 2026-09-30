@@ -17,3 +17,5 @@ Each directory under `src/` contains one production project:
 - `FaultWitness.ElevatedHelper` — bounded, one-shot privileged helper process.
 
 Project and directory names match. The repository keeps production projects under `src/`, tests under `tests/`, product and contributor material under `docs/`, and build/release tooling under `scripts/`.
+
+Inside `FaultWitness.App`, start at `Views/MainWindow.axaml` for the shell, `Views/Pages/IncidentDetailView.axaml` for Incident Detail, `Views/Components/` for semantic controls, `Styles/SharedStyles.axaml` for shared styling, and `Presentation/IncidentDetailPresentation.cs` for the detail projection. `MainViewModel.cs` still coordinates application state and services. Other page layouts remain in the root `MainWindow.*.cs` partials until Pass 2B; do not duplicate them when migrating a page.

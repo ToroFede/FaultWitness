@@ -465,4 +465,14 @@
   <data name="BackgroundEntriesCount" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="CoverageLimitSummary" xml:space="preserve"><value>Einschränkungen der Quellenabdeckung:</value></data>
   <data name="ImportScope" xml:space="preserve"><value>FaultWitness prüft nur unterstützte Diagnoseeinträge in den ausgewählten Dateien. Es bewertet weder den allgemeinen Zustand noch den Wartungsbedarf des PCs.</value></data>
+  <data name="DetailAssessment" xml:space="preserve"><value>Was die Belege nahelegen</value></data>
+  <data name="DetailEvidence" xml:space="preserve"><value>Warum diese Einschätzung</value></data>
+  <data name="DetailHypotheses" xml:space="preserve"><value>Mögliche Erklärungen (Hypothesen)</value></data>
+  <data name="DetailCoverageLimits" xml:space="preserve"><value>Grenzen der untersuchten Quellen</value></data>
+  <data name="DetailTimelineCount" xml:space="preserve"><value>Vollständiger Zeitverlauf ({0} Datensätze)</value></data>
+  <data name="DetailRelevantChanges" xml:space="preserve"><value>{0} relevante Änderungen in untersuchten Datensätzen</value></data>
+  <data name="DetailProvider" xml:space="preserve"><value>Ereignisanbieter</value></data>
+  <data name="DetailChannel" xml:space="preserve"><value>Ereigniskanal</value></data>
+  <data name="DetailEventId" xml:space="preserve"><value>Ereigniskennung</value></data>
+  <data name="DetailRecordId" xml:space="preserve"><value>Datensatzkennung</value></data>
 </root>

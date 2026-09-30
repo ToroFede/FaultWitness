@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "breakpoints": {
     "small": {
       "max": 640
@@ -169,7 +169,7 @@
     {
       "id": "IncidentDetail",
       "userGoal": "understand evidence and next diagnostic step",
-      "primaryQuestion": "What happened, what supports it, and what can I safely do next?",
+      "primaryQuestion": "What happened, what should I do, what does the evidence suggest, and what does it not establish?",
       "primaryAction": "none; diagnostic result and best next step have visual priority",
       "secondaryActions": [
         "back",
@@ -178,34 +178,43 @@
         "view occurrences"
       ],
       "informationPriority": [
-        "identity",
-        "observed result",
-        "metadata",
+        "identity / observed fact / metadata",
         "best next step",
-        "evidence",
-        "timeline",
-        "explanations",
-        "not established",
-        "coverage",
-        "raw detail"
+        "interpretations",
+        "distinct causal limitations",
+        "material source limitations",
+        "all grouped evidence",
+        "full timeline",
+        "What Changed",
+        "patterns / occurrences",
+        "hypotheses",
+        "other supported steps",
+        "source coverage",
+        "technical / raw data"
       ],
       "regions": [
         "identity",
         "nextStep",
-        "evidence",
+        "assessment",
+        "notEstablished",
+        "materialCoverage",
+        "keyEvidence",
         "timeline",
-        "interpretation",
+        "changes",
+        "patterns",
+        "hypotheses",
+        "otherSteps",
         "coverage",
-        "advanced"
+        "technical"
       ],
       "defaultFocus": "back",
       "emptyState": "incident unavailable",
       "loadingState": "not applicable",
       "errorState": "retain safe summary",
       "responsiveRules": {
-        "small": "one column",
-        "medium": "one column",
-        "large": "65/35 main and supporting column"
+        "small": "single reading column; natural wrapping; no horizontal scrolling; compact navigation and 12 epx gutter",
+        "medium": "single reading column; natural wrapping; no horizontal scrolling; 24 epx gutter",
+        "large": "single reading column; natural wrapping; no horizontal scrolling; content constrained to token reading width"
       },
       "keyboardFlow": [
         "back",
@@ -224,7 +233,22 @@
         "raw XML expanded by default",
         "generic unknown source text",
         "causal claim"
-      ]
+      ],
+      "defaultDisclosureState": {
+        "identity": "visible",
+        "nextStep": "visible; generic rationale collapsed",
+        "assessment": "visible",
+        "notEstablished": "visible",
+        "materialCoverage": "visible when limited or not examined",
+        "keyEvidence": "open; all items retained, no top-N selection",
+        "timeline": "collapsed; records and raw XML nested closed",
+        "changes": "collapsed; header distinguishes relevant count / no relevant examined / not examined / limited / unavailable",
+        "patterns": "collapsed when present; omitted otherwise",
+        "hypotheses": "collapsed when present; omitted otherwise",
+        "otherSteps": "collapsed when additional actions exist; omitted otherwise",
+        "coverage": "collapsed; individual sources nested closed",
+        "technical": "collapsed; records and raw XML nested closed"
+      }
     },
     {
       "id": "History",

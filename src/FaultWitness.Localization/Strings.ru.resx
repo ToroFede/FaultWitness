@@ -464,4 +464,14 @@
   <data name="BackgroundEntriesCount" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="CoverageLimitSummary" xml:space="preserve"><value>Ограничения охвата источников:</value></data>
   <data name="ImportScope" xml:space="preserve"><value>FaultWitness изучает только поддерживаемые диагностические записи в выбранных файлах. Он не оценивает общее состояние ПК и его обслуживание.</value></data>
+  <data name="DetailAssessment" xml:space="preserve"><value>Что показывают свидетельства</value></data>
+  <data name="DetailEvidence" xml:space="preserve"><value>Основания этой оценки</value></data>
+  <data name="DetailHypotheses" xml:space="preserve"><value>Возможные объяснения (гипотезы)</value></data>
+  <data name="DetailCoverageLimits" xml:space="preserve"><value>Ограничения проверенных источников</value></data>
+  <data name="DetailTimelineCount" xml:space="preserve"><value>Полная хронология ({0} записей)</value></data>
+  <data name="DetailRelevantChanges" xml:space="preserve"><value>Значимых изменений в проверенных записях: {0}</value></data>
+  <data name="DetailProvider" xml:space="preserve"><value>Поставщик событий</value></data>
+  <data name="DetailChannel" xml:space="preserve"><value>Канал событий</value></data>
+  <data name="DetailEventId" xml:space="preserve"><value>Идентификатор события</value></data>
+  <data name="DetailRecordId" xml:space="preserve"><value>Идентификатор записи</value></data>
 </root>

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "automatic": [
     {
       "id": "beta-workflow-guidance",
@@ -84,6 +84,18 @@
     {
       "id": "history-selection",
       "check": "Selected row uses semantic selection surface and visible indicator without render re-entry"
+    },
+    {
+      "id": "detail-four-answers",
+      "check": "Observed fact, existing best next step, every distinct interpretation and causal limitation appear in reading order without opening technical disclosures; optional empty sections are omitted"
+    },
+    {
+      "id": "detail-lossless-projection",
+      "check": "Existing incident identity, action order, all evidence including duplicates and late limiting Unknown items, timeline relations, coverage states, change relevance and occurrence data are retained without independent scoring"
+    },
+    {
+      "id": "detail-runtime-state",
+      "check": "All eight languages switch while detail is open; Light/Dark/System, widths 560/600/640/641/1008/1280/1920 and navigation preserve selection, cached view and outer disclosure state; commands remain named and keyboard operable"
     }
   ],
   "semiAutomatic": [
@@ -118,6 +130,8 @@
     "no excessive cardification",
     "no clipping or wrapping problems",
     "state is understandable without color",
-    "translated UI remains usable"
+    "translated UI remains usable",
+    "Incident Detail first viewport or short scroll answers what happened, what to do, what evidence suggests and what cannot be concluded before technical expansion",
+    "Incident Detail uses one strongest next-step surface, distinct assessment/limits, open grouped evidence and subordinate closed investigation details"
   ]
 }

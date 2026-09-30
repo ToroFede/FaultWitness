@@ -62,7 +62,8 @@ public sealed class DesignContractTests
     [Fact]
     public void AppStyling_HasNoRawColorLiteralsOutsideCanonicalTokens()
     {
-        var offenders = Directory.EnumerateFiles(Path.Combine(Root, "src", "FaultWitness.App"), "*.cs", SearchOption.AllDirectories)
+        var offenders = Directory.EnumerateFiles(Path.Combine(Root, "src", "FaultWitness.App"), "*", SearchOption.AllDirectories)
+            .Where(path => path.EndsWith(".cs", StringComparison.Ordinal) || path.EndsWith(".axaml", StringComparison.Ordinal))
             .Where(path => Regex.IsMatch(File.ReadAllText(path), "#[0-9A-Fa-f]{6,8}")).Select(Path.GetFileName).ToArray();
         Assert.Empty(offenders);
     }
@@ -87,7 +88,7 @@ public sealed class DesignContractTests
     [Fact]
     public void AppTypography_UsesSemanticRolesInsteadOfNumericLabelSizes()
     {
-        var sources = Directory.EnumerateFiles(Path.Combine(Root, "src", "FaultWitness.App"), "*.cs").Select(File.ReadAllText);
+        var sources = Directory.EnumerateFiles(Path.Combine(Root, "src", "FaultWitness.App"), "*.cs", SearchOption.AllDirectories).Select(File.ReadAllText);
         Assert.DoesNotContain(sources, source => source.Split('\n').Any(line => Regex.IsMatch(line, "Label\\(.*?,\\s*(12|14|15|16|17|18|20|23|28|29|32)(?:,|\\))")));
     }
     [Fact]

@@ -30,6 +30,13 @@ public sealed class WhatChangedPresentationTests
             window.ViewModel.SetResult(result); window.ViewModel.Select(window.ViewModel.AllRows[0]); window.ViewModel.Navigate(AppPage.Detail); window.UpdateLayout();
             var text = VisibleText(window);
             Assert.Contains(window.ViewModel.Text.Get("ChangesNearFirst"), text, StringComparison.Ordinal);
+            var changes = window.GetVisualDescendants().OfType<Expander>().Single(item => item.Name == "WhatChanged");
+            Assert.False(changes.IsExpanded);
+            changes.IsExpanded = true; window.UpdateLayout();
+            text = VisibleText(window);
+            Assert.Contains(viewModel.Text.Get("ChangesDisclaimer"), text, StringComparison.Ordinal);
+            foreach (var coverage in changes.GetVisualDescendants().OfType<Expander>().Where(item => Equals(item.Header, viewModel.Text.Get("SourceCoverage")))) coverage.IsExpanded = true;
+            window.UpdateLayout(); text = VisibleText(window);
             Assert.Contains("Updates", text, StringComparison.Ordinal);
             Assert.Contains(window.ViewModel.Text.Get("TechnicalDetails"), text, StringComparison.Ordinal);
             Assert.Contains(window.ViewModel.Text.Get("ChangesCoverageHelp"), text, StringComparison.Ordinal);

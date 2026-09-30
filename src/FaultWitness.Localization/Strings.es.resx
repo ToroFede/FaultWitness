@@ -465,4 +465,14 @@
   <data name="BackgroundEntriesCount" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="CoverageLimitSummary" xml:space="preserve"><value>Límites de cobertura:</value></data>
   <data name="ImportScope" xml:space="preserve"><value>FaultWitness solo revisa registros de diagnóstico compatibles en los archivos que selecciones. No evalúa la salud general ni el mantenimiento del PC.</value></data>
+  <data name="DetailAssessment" xml:space="preserve"><value>Qué sugieren las evidencias</value></data>
+  <data name="DetailEvidence" xml:space="preserve"><value>Por qué esta evaluación</value></data>
+  <data name="DetailHypotheses" xml:space="preserve"><value>Posibles explicaciones (hipótesis)</value></data>
+  <data name="DetailCoverageLimits" xml:space="preserve"><value>Límites de las fuentes examinadas</value></data>
+  <data name="DetailTimelineCount" xml:space="preserve"><value>Cronología completa ({0} registros)</value></data>
+  <data name="DetailRelevantChanges" xml:space="preserve"><value>{0} cambios relevantes en los registros examinados</value></data>
+  <data name="DetailProvider" xml:space="preserve"><value>Proveedor del evento</value></data>
+  <data name="DetailChannel" xml:space="preserve"><value>Canal del evento</value></data>
+  <data name="DetailEventId" xml:space="preserve"><value>Identificador del evento</value></data>
+  <data name="DetailRecordId" xml:space="preserve"><value>Identificador del registro</value></data>
 </root>

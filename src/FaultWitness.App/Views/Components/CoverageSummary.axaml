@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.CoverageSummary" x:DataType="p:IncidentDetailPresentation">
+  <StackPanel Spacing="{DynamicResource primitive.space.1}" IsVisible="{Binding HasCoverageLimitations}">
+    <TextBlock Classes="row-title" Text="{Binding Text[DetailCoverageLimits]}"/>
+    <ItemsControl ItemsSource="{Binding CoverageLimitations}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="x:String">
+          <TextBlock Classes="metadata" Text="{Binding}"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>
