@@ -8,12 +8,44 @@ namespace FaultWitness.App.Views.Pages;
 
 public sealed partial class IncidentsView : UserControl
 {
+    private static readonly string[] FilterFieldNames = ["PriorityFilterField", "CategoryFilterField", "StrengthFilterField", "SearchFilterField"];
     private bool synchronizing;
+    private int filterColumns;
     public event Action<IncidentFilter>? FilterRequested;
     public event Action? ResetRequested;
     public event Action<IncidentRow>? IncidentRequested;
 
     public IncidentsView() => AvaloniaXamlLoader.Load(this);
+
+    private void FiltersSizeChanged(object? sender, SizeChangedEventArgs args) => ArrangeFilters(args.NewSize.Width);
+
+    private void ArrangeFilters(double availableWidth)
+    {
+        if (availableWidth <= 0 || !double.IsFinite(availableWidth)) return;
+
+        var columns = availableWidth >= 920 ? 3 : availableWidth >= 680 ? 2 : 1;
+        if (columns == filterColumns) return;
+
+        var grid = this.FindControl<Grid>("IncidentFilters")!;
+        grid.ColumnDefinitions.Clear();
+        for (var index = 0; index < columns; index++) grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+
+        var fields = FilterFieldNames.Select(name => this.FindControl<StackPanel>(name)!).ToArray();
+        var rows = (fields.Length + columns - 1) / columns;
+        grid.RowDefinitions.Clear();
+        for (var index = 0; index < rows; index++) grid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+
+        for (var index = 0; index < fields.Length; index++)
+        {
+            var row = index / columns;
+            var column = index % columns;
+            Grid.SetRow(fields[index], row);
+            Grid.SetColumn(fields[index], column);
+            Grid.SetColumnSpan(fields[index], columns == 3 && index == fields.Length - 1 ? columns : 1);
+        }
+
+        filterColumns = columns;
+    }
 
     public void Refresh(IncidentListPresentation presentation)
     {

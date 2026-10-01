@@ -1,5 +1,5 @@
 {
-  "version": "1.0.5",
+  "version": "1.0.6",
   "automatic": [
     {
       "id": "core-pages-axaml-ownership",
@@ -28,6 +28,26 @@
     {
       "id": "beta-action-states",
       "check": "Shared actions retain keyboard focus and disabled invocation guards in Light/Dark; primary default, hover and pressed text contrast is at least 4.5:1"
+    },
+    {
+      "id": "incidents-filter-composition",
+      "check": "Incidents filter fields use one, two or three aligned columns based on actual available page content width; Search stretches independently of placeholder length and query/filter state survives resize and runtime locale/theme updates"
+    },
+    {
+      "id": "settings-field-alignment",
+      "check": "Analysis and Privacy selector fields share the left inset of General while retaining existing values, persistence and runtime updates"
+    },
+    {
+      "id": "history-severity-display",
+      "check": "All stored severity enum values use localized History display labels in all eight locales; persistence and export values remain unchanged"
+    },
+    {
+      "id": "native-datepicker-culture",
+      "check": "Native Avalonia DatePicker presentation follows Windows regional culture; switching FaultWitness language changes app-owned copy but leaves selected DateTime values and query intervals unchanged"
+    },
+    {
+      "id": "analyze-content-measure",
+      "check": "Analyze form content is left-aligned and capped at 800 epx on wide pages, while compact layouts use available content width"
     },
     {
       "id": "tokens-schema",

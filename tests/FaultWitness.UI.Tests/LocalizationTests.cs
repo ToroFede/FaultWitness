@@ -40,6 +40,28 @@ public sealed class LocalizationTests
             if (culture != "en" && !IdenticalAllowed.Contains(key, StringComparer.Ordinal)) Assert.NotEqual(english[key], value);
         }
     }
+
+    [Theory]
+    [InlineData("en")][InlineData("it")][InlineData("es")][InlineData("fr")]
+    [InlineData("de")][InlineData("pt")][InlineData("ru")][InlineData("pl")]
+    public void SearchAndHistorySeverityDisplayResources_ArePresentWithoutEnglishFallback(string culture)
+    {
+        var resources = Read(culture);
+        var service = new LocalizationService();
+        service.SetCulture(culture);
+
+        Assert.Equal(resources["Search"], service.Get("Search"));
+        Assert.False(string.IsNullOrWhiteSpace(resources["Search"]));
+        if (culture != "en") Assert.NotEqual("Search", service.Get("Search"));
+
+        foreach (var severity in new[] { "Informational", "Low", "Medium", "High" })
+        {
+            var key = "Severity" + severity;
+            Assert.Equal(resources[key], service.Get(key));
+            Assert.False(string.IsNullOrWhiteSpace(resources[key]), key);
+            if (culture != "en") Assert.NotEqual(severity, service.Get(key));
+        }
+    }
     [Theory]
     [InlineData("en")][InlineData("it")][InlineData("es")][InlineData("fr")]
     [InlineData("de")][InlineData("pt")][InlineData("ru")][InlineData("pl")]

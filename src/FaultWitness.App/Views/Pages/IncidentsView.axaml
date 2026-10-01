@@ -5,24 +5,24 @@
         <TextBlock Classes="page-title" Text="{Binding Text[Incidents]}"/>
         <TextBlock Text="{Binding HeadingHelp}"/>
       </StackPanel>
-      <WrapPanel Name="IncidentFilters">
-        <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+      <Grid Name="IncidentFilters" ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="{DynamicResource primitive.space.2}" RowSpacing="{DynamicResource primitive.space.2}" SizeChanged="FiltersSizeChanged">
+        <StackPanel Name="PriorityFilterField" Spacing="{DynamicResource primitive.space.1}">
           <TextBlock Text="{Binding Text[Priority]}"/>
-          <ComboBox Name="PriorityFilter" ItemsSource="{Binding Priorities}" SelectionChanged="PriorityChanged" AutomationProperties.Name="{Binding Text[Priority]}" Width="190"/>
+          <ComboBox Name="PriorityFilter" ItemsSource="{Binding Priorities}" SelectionChanged="PriorityChanged" AutomationProperties.Name="{Binding Text[Priority]}" HorizontalAlignment="Stretch"/>
         </StackPanel>
-        <StackPanel MinWidth="190" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+        <StackPanel Name="CategoryFilterField" Spacing="{DynamicResource primitive.space.1}">
           <TextBlock Text="{Binding Text[Category]}"/>
-          <ComboBox Name="CategoryFilter" ItemsSource="{Binding Categories}" SelectionChanged="CategoryChanged" AutomationProperties.Name="{Binding Text[Category]}" Width="195"/>
+          <ComboBox Name="CategoryFilter" ItemsSource="{Binding Categories}" SelectionChanged="CategoryChanged" AutomationProperties.Name="{Binding Text[Category]}" HorizontalAlignment="Stretch"/>
         </StackPanel>
-        <StackPanel MinWidth="160" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+        <StackPanel Name="StrengthFilterField" Spacing="{DynamicResource primitive.space.1}">
           <TextBlock Text="{Binding Text[Evidence]}"/>
-          <ComboBox Name="StrengthFilter" ItemsSource="{Binding Strengths}" SelectionChanged="StrengthChanged" AutomationProperties.Name="{Binding Text[Evidence]}" Width="160"/>
+          <ComboBox Name="StrengthFilter" ItemsSource="{Binding Strengths}" SelectionChanged="StrengthChanged" AutomationProperties.Name="{Binding Text[Evidence]}" HorizontalAlignment="Stretch"/>
         </StackPanel>
-        <StackPanel MinWidth="250" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
+        <StackPanel Name="SearchFilterField" Spacing="{DynamicResource primitive.space.1}">
           <TextBlock Text="{Binding Text[Search]}"/>
-          <TextBox Name="IncidentSearch" TextChanged="SearchChanged" PlaceholderText="{Binding Text[SearchHint]}" AutomationProperties.Name="{Binding Text[Search]}" MinWidth="250"/>
+          <TextBox Name="IncidentSearch" TextChanged="SearchChanged" PlaceholderText="{Binding Text[SearchHint]}" AutomationProperties.Name="{Binding Text[Search]}" HorizontalAlignment="Stretch"/>
         </StackPanel>
-      </WrapPanel>
+      </Grid>
       <Expander Name="DateRange" Header="{Binding Text[DateRange]}" AutomationProperties.Name="{Binding Text[DateRange]}">
         <WrapPanel>
           <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">

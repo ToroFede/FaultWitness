@@ -9,11 +9,11 @@
         <StackPanel Spacing="{DynamicResource primitive.space.3}">
           <TextBlock Classes="level-one" Text="{Binding Text[General]}"/>
           <WrapPanel>
-            <StackPanel Width="270" Margin="{DynamicResource UiCommandMargin}" Spacing="{DynamicResource primitive.space.1}">
+            <StackPanel Name="LanguageSettingField" Width="270" Margin="{DynamicResource UiCommandMargin}" Spacing="{DynamicResource primitive.space.1}">
               <TextBlock Classes="metadata" Text="{Binding Text[Language]}"/>
               <ComboBox Name="LanguageSelector" MaxWidth="270" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[Language]}" SelectionChanged="LanguageChanged"/>
             </StackPanel>
-            <StackPanel Width="200" Margin="{DynamicResource UiCommandMargin}" Spacing="{DynamicResource primitive.space.1}">
+            <StackPanel Name="ThemeSettingField" Width="200" Margin="{DynamicResource UiCommandMargin}" Spacing="{DynamicResource primitive.space.1}">
               <TextBlock Classes="metadata" Text="{Binding Text[Theme]}"/>
               <ComboBox Name="ThemeSelector" MaxWidth="200" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[Theme]}" SelectionChanged="ThemeChanged"/>
             </StackPanel>
@@ -23,7 +23,7 @@
       <Border Classes="action-surface">
         <StackPanel Spacing="{DynamicResource primitive.space.3}">
           <TextBlock Classes="level-one" Text="{Binding Text[Analysis]}"/>
-          <StackPanel Width="270" Spacing="{DynamicResource primitive.space.1}">
+          <StackPanel Name="PeriodSettingField" Width="270" HorizontalAlignment="Left" Spacing="{DynamicResource primitive.space.1}">
             <TextBlock Classes="metadata" Text="{Binding Text[DefaultAnalysisPeriod]}"/>
             <ComboBox Name="DefaultPeriod" MaxWidth="270" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[DefaultAnalysisPeriod]}" SelectionChanged="PeriodChanged"/>
           </StackPanel>
@@ -32,7 +32,7 @@
       <Border Classes="action-surface">
         <StackPanel Spacing="{DynamicResource primitive.space.3}">
           <TextBlock Classes="level-one" Text="{Binding Text[Privacy]}"/>
-          <StackPanel Width="270" Spacing="{DynamicResource primitive.space.1}">
+          <StackPanel Name="RetentionSettingField" Width="270" HorizontalAlignment="Left" Spacing="{DynamicResource primitive.space.1}">
             <TextBlock Classes="metadata" Text="{Binding Text[HistoryRetention]}"/>
             <ComboBox Name="RetentionSelector" MaxWidth="270" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[HistoryRetention]}" SelectionChanged="RetentionChanged"/>
           </StackPanel>

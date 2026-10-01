@@ -1,5 +1,5 @@
 {
-  "version": "1.0.5",
+  "version": "1.0.6",
   "breakpoints": {
     "small": {
       "max": 640
@@ -103,8 +103,9 @@
       "responsiveRules": {
         "small": "stack fields and actions",
         "medium": "wrap fields",
-        "large": "constrain form to 800 epx"
+        "large": "left-align form content at an 800 epx maximum; use available width below that"
       },
+      "datePresentationCulture": "Native Avalonia DatePicker follows Windows regional culture; app-owned labels and timestamp summaries follow the selected FaultWitness language",
       "keyboardFlow": [
         "workflowSelector",
         "fields",
@@ -148,10 +149,11 @@
       "loadingState": "retain current list",
       "errorState": "inline status",
       "responsiveRules": {
-        "small": "filter groups wrap within available width; labels remain with their controls and Search moves to a new row when needed",
-        "medium": "filter groups wrap within available width",
-        "large": "dense list width constrained for scanning"
+        "small": "one-column filter fields below 680 epx available content width; Search stretches and each label stays with its control",
+        "medium": "two-column aligned filter pairs from 680 to under 920 epx available content width",
+        "large": "three aligned selectors at 920 epx or more available content width; Search spans a stable full row; dense list width remains constrained for scanning"
       },
+      "datePresentationCulture": "Native Avalonia DatePicker follows Windows regional culture; app-owned labels and timestamp summaries follow the selected FaultWitness language",
       "keyboardFlow": [
         "search",
         "priority",
@@ -489,6 +491,7 @@
         "medium": "two fields where safe",
         "large": "constrain reading width"
       },
+      "fieldAlignment": "Analysis and Privacy selectors share the left inset of the General language selector",
       "keyboardFlow": [
         "language",
         "theme",

@@ -305,7 +305,12 @@
   <data name="SavingHistory" xml:space="preserve"><value>Сохранение локальной сводки…</value></data>
   <data name="ScanComplete" xml:space="preserve"><value>Анализ завершён. Требуют внимания: {0}; полезно знать: {1}.</value></data>
   <data name="Scope" xml:space="preserve"><value>Включить</value></data>
+  <data name="Search" xml:space="preserve"><value>Поиск</value></data>
   <data name="SearchHint" xml:space="preserve"><value>Поиск приложения, модуля, поставщика, устройства или оценки</value></data>
+  <data name="SeverityHigh" xml:space="preserve"><value>Высокая</value></data>
+  <data name="SeverityInformational" xml:space="preserve"><value>Информационная</value></data>
+  <data name="SeverityLow" xml:space="preserve"><value>Низкая</value></data>
+  <data name="SeverityMedium" xml:space="preserve"><value>Средняя</value></data>
   <data name="SelectedIncident" xml:space="preserve"><value>Выбранное событие</value></data>
   <data name="SelectIncident" xml:space="preserve"><value>Выберите событие, чтобы увидеть свидетельства.</value></data>
   <data name="Settings" xml:space="preserve"><value>Настройки</value></data>

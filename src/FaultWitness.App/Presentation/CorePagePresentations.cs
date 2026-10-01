@@ -374,6 +374,9 @@ public sealed record HistoryIncidentPresentation(string Category, string Timesta
 {
     public static HistoryIncidentPresentation From(StoredIncident incident, LocalizationService text)
     {
+        var severity = Enum.TryParse<IncidentSeverity>(incident.Severity, ignoreCase: true, out var parsedSeverity) && Enum.IsDefined(parsedSeverity)
+            ? text.Get("Severity" + parsedSeverity)
+            : incident.Severity;
         var summary = string.Empty;
         try
         {
@@ -388,6 +391,6 @@ public sealed record HistoryIncidentPresentation(string Category, string Timesta
             }
         }
         catch (JsonException) { }
-        return new(text.Get("Category" + incident.Category), incident.OccurredUtc.ToLocalTime().ToString("G", text.Culture) + " · " + incident.Severity, summary);
+        return new(text.Get("Category" + incident.Category), incident.OccurredUtc.ToLocalTime().ToString("G", text.Culture) + " · " + severity, summary);
     }
 }

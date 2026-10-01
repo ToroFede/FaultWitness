@@ -295,6 +295,7 @@ public sealed class CorePagesAxamlTests
                 Assert.Same(view, Current<HistoryView>(window));
                 Assert.Equal("second", viewModel.SelectedHistory!.Scan.Id);
                 Assert.Equal("second", Assert.IsType<HistoryItemPresentation>(list.SelectedItem).Id);
+                Assert.Contains(" · " + viewModel.Text.Get("SeverityHigh"), ((HistoryPresentation)view.DataContext!).Incidents[0].TimestampSeverity, StringComparison.Ordinal);
                 Assert.True(list.IsKeyboardFocusWithin, $"History focus lost after {language}/{theme}.");
             }
 

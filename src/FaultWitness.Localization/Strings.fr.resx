@@ -305,7 +305,12 @@
   <data name="SavingHistory" xml:space="preserve"><value>Enregistrement du résumé local…</value></data>
   <data name="ScanComplete" xml:space="preserve"><value>Analyse terminée. {0} éléments à examiner ; {1} à connaître.</value></data>
   <data name="Scope" xml:space="preserve"><value>Inclure</value></data>
+  <data name="Search" xml:space="preserve"><value>Rechercher</value></data>
   <data name="SearchHint" xml:space="preserve"><value>Rechercher application, module, fournisseur, périphérique ou évaluation</value></data>
+  <data name="SeverityHigh" xml:space="preserve"><value>Élevée</value></data>
+  <data name="SeverityInformational" xml:space="preserve"><value>Informative</value></data>
+  <data name="SeverityLow" xml:space="preserve"><value>Faible</value></data>
+  <data name="SeverityMedium" xml:space="preserve"><value>Moyenne</value></data>
   <data name="SelectedIncident" xml:space="preserve"><value>Incident sélectionné</value></data>
   <data name="SelectIncident" xml:space="preserve"><value>Sélectionnez un incident pour voir ses éléments probants.</value></data>
   <data name="Settings" xml:space="preserve"><value>Paramètres</value></data>
