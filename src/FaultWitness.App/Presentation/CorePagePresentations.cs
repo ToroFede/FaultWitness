@@ -129,16 +129,17 @@ public sealed class AnalyzePresentation(MainViewModel viewModel) : PagePresentat
     public int PeriodIndex => (int)selectedPeriod;
     public AnalysisPeriod SelectedPeriod => selectedPeriod;
     public int WindowMinutes => WindowOptions[windowIndex];
-    public int WindowIndex { get => windowIndex; set { if (value >= 0 && value < WindowOptions.Length) { windowIndex = value; viewModel.WindowMinutes = WindowOptions[value]; Changed(); } } }
-    public DateTimeOffset? CustomFromDate { get => customFromDate; set { customFromDate = value; if (value is { } date) viewModel.CustomFrom = date; Changed(); } }
-    public DateTimeOffset? CustomToDate { get => customToDate; set { customToDate = value; if (value is { } date) viewModel.CustomTo = date; Changed(); } }
-    public DateTimeOffset? AroundDate { get => aroundDate; set { aroundDate = value; Changed(); } }
-    public TimeSpan? AroundClock { get => aroundClock; set { aroundClock = value; Changed(); } }
+    public int WindowIndex { get => windowIndex; set { if (value >= 0 && value < WindowOptions.Length) { if (windowIndex != value) viewModel.ClearValidationFeedback(); windowIndex = value; viewModel.WindowMinutes = WindowOptions[value]; Changed(); } } }
+    public DateTimeOffset? CustomFromDate { get => customFromDate; set { if (customFromDate != value) viewModel.ClearValidationFeedback(); customFromDate = value; if (value is { } date) viewModel.CustomFrom = date; Changed(); } }
+    public DateTimeOffset? CustomToDate { get => customToDate; set { if (customToDate != value) viewModel.ClearValidationFeedback(); customToDate = value; if (value is { } date) viewModel.CustomTo = date; Changed(); } }
+    public DateTimeOffset? AroundDate { get => aroundDate; set { if (aroundDate != value) viewModel.ClearValidationFeedback(); aroundDate = value; Changed(); } }
+    public TimeSpan? AroundClock { get => aroundClock; set { if (aroundClock != value) viewModel.ClearValidationFeedback(); aroundClock = value; Changed(); } }
     public bool IsRecent => viewModel.AnalysisMode == AnalysisMode.Recent;
     public bool IsAround => viewModel.AnalysisMode == AnalysisMode.Around;
     public bool IsFiles => viewModel.AnalysisMode == AnalysisMode.Files;
     public bool IsCustomPeriod => selectedPeriod == AnalysisPeriod.Custom && IsRecent;
     public bool HasImports => Imports.Count > 0;
+    public bool CanAnalyzeImports => IsFiles && HasImports;
     public bool IsNoImports => !HasImports;
     public bool IsBusy => viewModel.IsBusy;
 
@@ -165,6 +166,7 @@ public sealed class AnalyzePresentation(MainViewModel viewModel) : PagePresentat
     {
         if (index is >= 0 and <= 3 && index != PeriodIndex)
         {
+            viewModel.ClearValidationFeedback();
             selectedPeriod = (AnalysisPeriod)index;
             viewModel.Period = selectedPeriod;
             Changed();
@@ -294,7 +296,8 @@ public sealed class HistoryPresentation(MainViewModel viewModel) : PagePresentat
     public IReadOnlyList<HistoryItemPresentation> Items => items;
     public HistoryItemPresentation? Selected { get; private set; }
     public bool HasItems => items.Count > 0;
-    public bool IsEmpty => !HasItems;
+    public bool IsEmpty => !HasItems && !viewModel.IsBusy && !(viewModel.HasLocalFeedback && viewModel.StatusKey == "HistoryError");
+    public void RefreshFeedback() => Changed();
     public bool HasSelection => Selected is not null;
     public bool HasDuration => Selected?.HasDuration ?? false;
     public bool HasCoverageSummary => Selected?.HasCoverageSummary ?? false;

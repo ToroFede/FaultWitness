@@ -1,5 +1,5 @@
 {
-  "version": "1.0.6",
+  "version": "1.0.7",
   "automatic": [
     {
       "id": "core-pages-axaml-ownership",
@@ -111,7 +111,19 @@
     },
     {
       "id": "status-scope",
-      "check": "Ready is hidden; completed source checks do not remain visible after navigation; active operation stays accessible"
+      "check": "Ready is hidden; settled feedback clears on navigation; active operations stay accessible in the shell away from their originating page/mode; shell shares PageHost measure on wide windows"
+    },
+    {
+      "id": "command-local-feedback",
+      "check": "Analyze validation and running/cancellation text precede the existing Analyze/Cancel command area; Export feedback precedes Copy/Save; HistoryError appears near its heading with existing Refresh history. All project the single MainViewModel status without changing validation, calls, output or result classification"
+    },
+    {
+      "id": "feedback-live-owner-and-lifecycle",
+      "check": "Exactly one visible Polite live owner per status: local on its owning page/mode, otherwise shell. Input edits expire validation without revalidating; new commands replace settled feedback/detail; delayed Copy/Save outcomes retain origin and cannot replace a newer command. Feedback updates preserve focus and expose validation as input HelpText"
+    },
+    {
+      "id": "history-error-not-empty",
+      "check": "Existing load/update HistoryError and loading suppress the known-empty claim; successful empty loads show it, successful populated loads retain selection, and failed refreshes preserve prior rows. No persistence/query/retention change"
     },
     {
       "id": "detail-secondary-copy",

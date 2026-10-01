@@ -13,6 +13,9 @@ public sealed class MainViewModel : IDisposable
     private CancellationTokenSource? operation;
     private AppPage operationPage;
     private AppPage statusPage;
+    private AnalysisMode operationMode;
+    private AnalysisMode statusMode;
+    internal long FeedbackRevision { get; private set; }
     private bool inventoryAttempted;
     private Task? inventoryRefreshTask;
     private IReadOnlyList<IncidentRow> rows = [];
@@ -66,6 +69,9 @@ public sealed class MainViewModel : IDisposable
     public HistoryRow? SelectedHistory { get; private set; }
     public string StatusText => StatusKey == "AnalysisComplete" ? Text.Format(StatusKey, AttentionCount, KnowingCount) : Text.Get(StatusKey);
     public bool HasVisibleStatus => StatusKey != "Ready" && (IsBusy || statusPage == Page);
+    // Location is derived from the existing status owner, never a second error state.
+    public bool HasLocalFeedback => HasVisibleStatus && statusPage == Page &&
+        (Page is AppPage.Export or AppPage.History || Page == AppPage.Analyze && statusMode == AnalysisMode);
     public string Origin => Text.Get(IsImported ? "ImportedData" : "LocalSystem");
 
     public void Navigate(AppPage page)
@@ -79,7 +85,24 @@ public sealed class MainViewModel : IDisposable
             if (Capture is not null) _ = Capture.RefreshAsync();
         }
     }
-    public void OpenAnalyze(AnalysisMode mode) { AnalysisMode = mode; Navigate(AppPage.Analyze); }
+    public void OpenAnalyze(AnalysisMode mode)
+    {
+        if (AnalysisMode != mode && Page == AppPage.Analyze) ClearFeedback();
+        AnalysisMode = mode;
+        Navigate(AppPage.Analyze);
+    }
+    public void ClearFeedback()
+    {
+        if (IsBusy) return;
+        FeedbackRevision++;
+        StatusKey = "Ready";
+        TechnicalError = string.Empty;
+        Changed?.Invoke(ViewChange.State);
+    }
+    public void ClearValidationFeedback()
+    {
+        if (Page == AppPage.Analyze && StatusKey == "InvalidTimeRange") ClearFeedback();
+    }
     public void SelectHistory(HistoryRow row)
     {
         if (ReferenceEquals(SelectedHistory, row)) return;
@@ -127,6 +150,7 @@ public sealed class MainViewModel : IDisposable
     public async Task AnalyzeAsync(bool around = false)
     {
         if (IsBusy) return;
+        ClearFeedback();
         var now = DateTimeOffset.UtcNow;
         var to = around ? AroundTime.ToUniversalTime().AddMinutes(WindowMinutes) : Period == AnalysisPeriod.Custom ? CustomTo.ToUniversalTime() : now;
         var from = around ? AroundTime.ToUniversalTime().AddMinutes(-WindowMinutes) : Period switch
@@ -277,12 +301,26 @@ public sealed class MainViewModel : IDisposable
         catch (Exception exception) { Fail("HistoryError", exception); }
         finally { EndOperation(); Changed?.Invoke(ViewChange.Page); }
     }
-    public void Notify(string key) { StatusKey = key; statusPage = operation is null ? Page : operationPage; Changed?.Invoke(ViewChange.State); }
-    public void Fail(string key, Exception exception) { TechnicalError = exception.GetType().Name; Notify(key); }
+    public void Notify(string key, AppPage? origin = null, long? revision = null)
+    {
+        if (revision is { } expected && expected != FeedbackRevision) return;
+        StatusKey = key;
+        statusPage = origin ?? (operation is null ? Page : operationPage);
+        statusMode = operation is null ? AnalysisMode : operationMode;
+        Changed?.Invoke(ViewChange.State);
+    }
+    public void Fail(string key, Exception exception, AppPage? origin = null, long? revision = null)
+    {
+        if (revision is { } expected && expected != FeedbackRevision) return;
+        TechnicalError = exception.GetType().Name;
+        Notify(key, origin, revision);
+    }
     private CancellationTokenSource BeginOperation(string status)
     {
+        FeedbackRevision++;
         operation = new CancellationTokenSource();
         operationPage = Page;
+        operationMode = AnalysisMode;
         IsBusy = true;
         TechnicalError = string.Empty;
         Notify(status);

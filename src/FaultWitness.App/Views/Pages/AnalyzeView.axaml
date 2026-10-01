@@ -37,10 +37,6 @@
             <TextBlock Text="{Binding Text[SourceArtifacts]}"/>
           </StackPanel>
         </Expander>
-        <Button Name="RunAnalysis" Classes="primary-action operation" Click="RunRecent" AutomationProperties.Name="{Binding Text[RunSelectedAnalysis]}" HorizontalAlignment="Left">
-          <TextBlock Text="{Binding Text[RunSelectedAnalysis]}"/>
-        </Button>
-        <TextBlock Classes="metadata" Text="{Binding Privacy}"/>
       </StackPanel>
       <StackPanel Name="AroundAnalysisInputs" IsVisible="{Binding IsAround}" Spacing="{DynamicResource primitive.space.3}">
         <WrapPanel>
@@ -67,10 +63,6 @@
             <TextBlock Text="{Binding Text[SourceArtifacts]}"/>
           </StackPanel>
         </Expander>
-        <Button Name="RunAroundAnalysis" Classes="primary-action operation" Click="RunAround" AutomationProperties.Name="{Binding Text[AnalyzeCrashFreeze]}" HorizontalAlignment="Left">
-          <TextBlock Text="{Binding Text[AnalyzeCrashFreeze]}"/>
-        </Button>
-        <TextBlock Classes="metadata" Text="{Binding Privacy}"/>
       </StackPanel>
       <StackPanel Name="ImportAnalysisInputs" IsVisible="{Binding IsFiles}" Spacing="{DynamicResource primitive.space.3}">
         <Border Name="ImportDropSurface" Classes="action-surface">
@@ -95,11 +87,26 @@
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Name="AnalyzeImports" Classes="primary-action operation" Click="ImportAnalyze" IsVisible="{Binding HasImports}" AutomationProperties.Name="{Binding Text[AnalyzeImported]}" HorizontalAlignment="Left">
+      </StackPanel>
+      <StackPanel Name="AnalyzeFeedbackRegion" IsVisible="False" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Name="AnalyzeFeedback"/>
+        <Expander Name="AnalyzeFeedbackDetails" IsVisible="False"><TextBlock/></Expander>
+      </StackPanel>
+      <WrapPanel Name="AnalyzeCommands">
+        <Button Name="RunAnalysis" Classes="primary-action operation" Click="RunRecent" AutomationProperties.Name="{Binding Text[RunSelectedAnalysis]}" HorizontalAlignment="Left" Margin="{DynamicResource UiCommandMargin}" IsVisible="{Binding IsRecent}">
+          <TextBlock Text="{Binding Text[RunSelectedAnalysis]}"/>
+        </Button>
+        <Button Name="RunAroundAnalysis" Classes="primary-action operation" Click="RunAround" AutomationProperties.Name="{Binding Text[AnalyzeCrashFreeze]}" HorizontalAlignment="Left" Margin="{DynamicResource UiCommandMargin}" IsVisible="{Binding IsAround}">
+          <TextBlock Text="{Binding Text[AnalyzeCrashFreeze]}"/>
+        </Button>
+        <Button Name="AnalyzeImports" Classes="primary-action operation" Click="ImportAnalyze" IsVisible="{Binding CanAnalyzeImports}" AutomationProperties.Name="{Binding Text[AnalyzeImported]}" HorizontalAlignment="Left" Margin="{DynamicResource UiCommandMargin}">
           <TextBlock Text="{Binding Text[AnalyzeImported]}"/>
         </Button>
-        <TextBlock Classes="metadata" Text="{Binding Text[ImportCoverageHelp]}"/>
-      </StackPanel>
+        <Button Name="CancelAnalyzeLocal" Classes="secondary-action" Click="Cancel" IsVisible="False" Margin="{DynamicResource UiCommandMargin}"><TextBlock/></Button>
+      </WrapPanel>
+      <ProgressBar Name="AnalyzeLocalProgress" IsVisible="False" IsIndeterminate="True" Height="3"/>
+      <TextBlock Classes="metadata" IsVisible="{Binding !IsFiles}" Text="{Binding Privacy}"/>
+      <TextBlock Classes="metadata" IsVisible="{Binding IsFiles}" Text="{Binding Text[ImportCoverageHelp]}"/>
       </StackPanel>
     </Grid>
   </ScrollViewer>

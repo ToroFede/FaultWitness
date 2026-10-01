@@ -15,6 +15,7 @@ public sealed partial class AnalyzeView : UserControl
     public event Action? ImportAnalysisRequested;
     public event Action<IEnumerable<string>>? ImportsDropped;
     public event Action<AnalyzeRunRequest>? RunRequested;
+    public event Action? CancelRequested;
 
     public AnalyzeView()
     {
@@ -52,6 +53,7 @@ public sealed partial class AnalyzeView : UserControl
     }
 
     private void RunRecent(object? sender, RoutedEventArgs args) => RaiseRun(false);
+    private void Cancel(object? sender, RoutedEventArgs args) => CancelRequested?.Invoke();
     private void RunAround(object? sender, RoutedEventArgs args) => RaiseRun(true);
     private void Browse(object? sender, RoutedEventArgs args) => BrowseRequested?.Invoke();
     private void ImportAnalyze(object? sender, RoutedEventArgs args) => ImportAnalysisRequested?.Invoke();

@@ -22,6 +22,10 @@ internal sealed class TestServices : IAppServices
     public bool WaitForCancellation { get; set; }
     public bool RejectImport { get; set; }
     public bool FailHistory { get; set; }
+    public bool FailHistoryLoad { get; set; }
+    public bool WaitForHistoryCancellation { get; set; }
+    public int HistoryLoads { get; private set; }
+    public int AnalysisCalls { get; private set; }
     public bool SourceUnavailable { get; set; }
     public bool FailInventory { get; set; }
     public bool FailAnalysis { get; set; }
@@ -32,6 +36,7 @@ internal sealed class TestServices : IAppServices
     public DateTimeOffset To { get; private set; }
     public async Task<ScanResult> AnalyzeAsync(DateTimeOffset from, DateTimeOffset endUtc, IProgress<string> progress, CancellationToken token)
     {
+        AnalysisCalls++;
         From = from; To = endUtc; progress.Report("ReadingSources");
         if (FailAnalysis) throw new UnauthorizedAccessException("synthetic-private detail");
         if (WaitForCancellation) await Task.Delay(Timeout.Infinite, token);
@@ -55,7 +60,13 @@ internal sealed class TestServices : IAppServices
     public IReadOnlyList<FaultWitness.Storage.StoredScan> History { get; set; } = [];
     public Task SaveAsync(ScanResult result, int retentionDays, FaultWitness.Storage.ScanHistoryMetadata metadata, CancellationToken token)
     { if (FailHistory) throw new IOException("synthetic"); Saved++; return Task.CompletedTask; }
-    public Task<IReadOnlyList<FaultWitness.Storage.StoredScan>> LoadHistoryAsync(CancellationToken token) => Task.FromResult(History);
+    public async Task<IReadOnlyList<FaultWitness.Storage.StoredScan>> LoadHistoryAsync(CancellationToken token)
+    {
+        HistoryLoads++;
+        if (WaitForHistoryCancellation) await Task.Delay(Timeout.Infinite, token);
+        if (FailHistoryLoad) throw new IOException("synthetic history read failure");
+        return History;
+    }
     public Task ClearAsync(CancellationToken token) { Cleared++; return Task.CompletedTask; }
     public UserSettings LoadSettings() => Settings;
     public void SaveSettings(UserSettings settings) => Settings = settings;

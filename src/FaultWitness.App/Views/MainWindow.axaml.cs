@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Avalonia.Markup.Xaml;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using FaultWitness.App.Presentation;
 using FaultWitness.App.Views.Pages;
 using FaultWitness.Core;
@@ -119,6 +120,7 @@ public sealed partial class MainWindow : Window
         var gutter = D(compact ? "component.layout.gutterSmall" : "component.layout.gutterNormal");
         this.FindControl<Grid>("MainRegion")!.Margin = new Thickness(gutter, D("primitive.space.6"), gutter, D("primitive.space.4"));
         pageHost.MaxWidth = layoutClass == "large" ? D("component.layout.readingWidth") : double.PositiveInfinity;
+        statusArea.MaxWidth = pageHost.MaxWidth;
         this.FindControl<TextBlock>("LocalFirstLabel")!.Text = T("LocalFirst");
         foreach (var key in new[] { "Home", "Analyze", "Incidents", "History", "System", "Settings" })
         {
@@ -135,15 +137,28 @@ public sealed partial class MainWindow : Window
     }
     private void UpdateStatus()
     {
+        var local = ViewModel.HasLocalFeedback;
+        // One visible live owner; the shell resumes ownership away from the origin.
+        AutomationProperties.SetLiveSetting(statusText, local ? AutomationLiveSetting.Off : AutomationLiveSetting.Polite);
         statusText.Text = ViewModel.StatusText;
-        statusText.IsVisible = ViewModel.HasVisibleStatus;
-        statusArea.IsVisible = ViewModel.IsBusy || ViewModel.HasVisibleStatus;
-        progress.IsVisible = ViewModel.IsBusy;
-        cancelButton.IsVisible = ViewModel.IsBusy;
+        statusText.IsVisible = ViewModel.HasVisibleStatus && !local;
+        statusArea.IsVisible = (ViewModel.IsBusy || ViewModel.HasVisibleStatus) && !local;
+        progress.IsVisible = ViewModel.IsBusy && !local;
+        cancelButton.IsVisible = ViewModel.IsBusy && !local;
         ToolTip.SetTip(statusText, string.IsNullOrEmpty(ViewModel.TechnicalError) ? null : ViewModel.TechnicalError);
-        technicalDetails.IsVisible = ViewModel.HasVisibleStatus && !string.IsNullOrEmpty(ViewModel.TechnicalError);
+        technicalDetails.IsVisible = ViewModel.HasVisibleStatus && !local && !string.IsNullOrEmpty(ViewModel.TechnicalError);
         if (technicalDetails.Content is TextBlock detail) detail.Text = ViewModel.TechnicalError;
-        foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Classes.Contains("operation")))
+        if (pageHost.Content is AnalyzeView analyze) CommandFeedback.Refresh(analyze, "Analyze", ViewModel);
+        if (pageHost.Content is ExportSupportView export) CommandFeedback.Refresh(export, "Export", ViewModel);
+        if (pageHost.Content is HistoryView history)
+        {
+            historyPresentation?.RefreshFeedback();
+            CommandFeedback.Refresh(history, "History", ViewModel);
+            history.FindControl<Button>("RetryHistory")!.IsVisible = local && ViewModel.StatusKey == "HistoryError";
+        }
+        // A newly attached cached page may not have its visual children yet.
+        var pageButtons = (pageHost.Content as Control)?.GetLogicalDescendants().OfType<Button>() ?? [];
+        foreach (var button in shell.GetVisualDescendants().OfType<Button>().Concat(pageButtons).Distinct().Where(item => item.Classes.Contains("operation")))
             button.IsEnabled = !ViewModel.IsBusy;
         RefreshCapture();
     }
@@ -235,8 +250,8 @@ public sealed partial class MainWindow : Window
             homeView.ViewAllRequested += () => ViewModel.ShowPriority(null);
             homeView.HistoryRequested += async () =>
             {
-                await ViewModel.RefreshHistoryAsync().ConfigureAwait(true);
                 ViewModel.Navigate(AppPage.History);
+                await ViewModel.RefreshHistoryAsync().ConfigureAwait(true);
             };
             homeView.ExportRequested += () => ViewModel.Navigate(AppPage.Export);
             homeView.IncidentRequested += ViewModel.Select;
@@ -256,6 +271,7 @@ public sealed partial class MainWindow : Window
             view.ImportAnalysisRequested += async () => await RunGuardedAsync(ViewModel.AnalyzeImportsAsync).ConfigureAwait(true);
             view.ImportsDropped += ViewModel.AddImports;
             view.RunRequested += request => _ = RunAnalysisAsync(request);
+            view.CancelRequested += ViewModel.Cancel;
             pair = (view, presentation);
             analyzePages.Add(mode, pair);
         }
@@ -313,8 +329,15 @@ public sealed partial class MainWindow : Window
 
     private async Task RunGuardedAsync(Func<Task> action)
     {
-        try { await action().ConfigureAwait(true); }
-        catch (Exception exception) { ViewModel.Fail("OperationError", exception); }
+        var origin = ViewModel.Page;
+        var revision = ViewModel.FeedbackRevision;
+        try
+        {
+            var pending = action();
+            revision = ViewModel.FeedbackRevision;
+            await pending.ConfigureAwait(true);
+        }
+        catch (Exception exception) { ViewModel.Fail("OperationError", exception, origin, revision); }
     }
     private Control DetailPage()
     {

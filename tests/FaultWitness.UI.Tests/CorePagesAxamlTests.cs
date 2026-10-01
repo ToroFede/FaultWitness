@@ -167,7 +167,7 @@ public sealed class CorePagesAxamlTests
     }
 
     [AvaloniaFact]
-    public async Task AnalyzeAxaml_ReportsRunningCancellationAndErrorsThroughTheExistingShell()
+    public async Task AnalyzeAxaml_ReportsRunningCancellationAndErrorsBesideItsCommand()
     {
         var waitingServices = new TestServices { WaitForCancellation = true, Settings = new UserSettings(Language: "en") };
         var waitingVm = new MainViewModel(waitingServices);
@@ -177,9 +177,9 @@ public sealed class CorePagesAxamlTests
             waitingVm.OpenAnalyze(AnalysisMode.Recent);
             Current<AnalyzeView>(waitingWindow).FindControl<Button>("RunAnalysis")!.RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
             await WaitFor(() => waitingVm.IsBusy);
-            Assert.True(waitingWindow.FindControl<Button>("CancelAnalysis")!.IsVisible);
+            Assert.True(Current<AnalyzeView>(waitingWindow).FindControl<Button>("CancelAnalyzeLocal")!.IsVisible);
             Assert.True(waitingVm.HasVisibleStatus);
-            waitingWindow.FindControl<Button>("CancelAnalysis")!.RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
+            Current<AnalyzeView>(waitingWindow).FindControl<Button>("CancelAnalyzeLocal")!.RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
             await WaitFor(() => !waitingVm.IsBusy);
             Assert.Equal("AnalysisCancelled", waitingVm.StatusKey);
         }
@@ -193,8 +193,8 @@ public sealed class CorePagesAxamlTests
             failingVm.OpenAnalyze(AnalysisMode.Recent);
             Current<AnalyzeView>(failingWindow).FindControl<Button>("RunAnalysis")!.RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
             await WaitFor(() => !failingVm.IsBusy && failingVm.StatusKey == "AnalysisError");
-            Assert.True(failingWindow.FindControl<TextBlock>("StatusText")!.IsVisible);
-            Assert.True(failingWindow.FindControl<Expander>("TechnicalError")!.IsVisible);
+            Assert.True(Current<AnalyzeView>(failingWindow).FindControl<StackPanel>("AnalyzeFeedbackRegion")!.IsVisible);
+            Assert.True(Current<AnalyzeView>(failingWindow).FindControl<Expander>("AnalyzeFeedbackDetails")!.IsVisible);
         }
         finally { failingWindow.Close(); }
     }

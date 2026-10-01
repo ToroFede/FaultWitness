@@ -12,13 +12,19 @@ public sealed partial class MainWindow
 {
     private async Task CopyHistoryAsync()
     {
-        if (Clipboard is null || ViewModel.SelectedHistory is not { } row) { ViewModel.Notify("ClipboardUnavailable"); return; }
+        var origin = ViewModel.Page;
+        ViewModel.ClearFeedback();
+        var revision = ViewModel.FeedbackRevision;
+        if (Clipboard is null || ViewModel.SelectedHistory is not { } row) { ViewModel.Notify("ClipboardUnavailable", origin, revision); return; }
         await Clipboard.SetTextAsync(HistorySummaryText(row)).ConfigureAwait(true);
-        ViewModel.Notify("SummaryCopied");
+        ViewModel.Notify("SummaryCopied", origin, revision);
     }
 
     private async Task SaveHistoryAsync()
     {
+        var origin = ViewModel.Page;
+        ViewModel.ClearFeedback();
+        var revision = ViewModel.FeedbackRevision;
         if (ViewModel.SelectedHistory is not { } row) return;
         var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
@@ -30,7 +36,7 @@ public sealed partial class MainWindow
         stream.SetLength(0);
         await using var writer = new StreamWriter(stream, new System.Text.UTF8Encoding(false));
         await writer.WriteAsync(HistorySummaryText(row)).ConfigureAwait(true);
-        ViewModel.Notify("ExportSaved");
+        ViewModel.Notify("ExportSaved", origin, revision);
     }
 
     private string HistorySummaryText(HistoryRow row)

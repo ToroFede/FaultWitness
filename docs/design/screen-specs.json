@@ -1,5 +1,13 @@
 {
-  "version": "1.0.6",
+  "version": "1.0.7",
+  "feedbackPlacement": {
+    "authority": "MainViewModel StatusKey, TechnicalError, operation/status origin and busy state; local regions are stateless projections",
+    "local": "Analyze form and command area, Export Copy/Save area, and History heading/load-retry context",
+    "global": "Other application contexts and active operations away from their originating page or Analyze mode; shell shares PageHost measure, capped at 1120 epx on large windows",
+    "announcementOwner": "Only the visible local feedback text is Polite when locally owned; otherwise the existing shell text is Polite. The inactive owner is Off and hidden",
+    "lifecycle": "Settled navigation clears feedback; busy navigation preserves it. Input edits expire existing validation without revalidating. New commands clear settled feedback and technical detail. Async command origins and a central feedback revision prevent late results replacing a newer command",
+    "focus": "Feedback updates do not move keyboard focus; validation text is also exposed as input HelpText"
+  },
   "breakpoints": {
     "small": {
       "max": 640
@@ -98,8 +106,8 @@
       ],
       "defaultFocus": "workflowSelector",
       "emptyState": "diagnostic-files drop target",
-      "loadingState": "progress and cancellation",
-      "errorState": "specific friendly failure",
+      "loadingState": "existing progress text before Analyze/Cancel, indeterminate progress below; shell owns ongoing visibility while away",
+      "errorState": "existing validation/failure text between inputs/source disclosure and primary action; technical details stay subordinate",
       "responsiveRules": {
         "small": "stack fields and actions",
         "medium": "wrap fields",
@@ -276,9 +284,9 @@
         "summaryDetail"
       ],
       "defaultFocus": "latestScan",
-      "emptyState": "Run an analysis to start building local history",
-      "loadingState": "short local loading state",
-      "errorState": "history unavailable without losing current result",
+      "emptyState": "Run an analysis to start building local history only when not loading and no existing local HistoryError is present",
+      "loadingState": "existing local loading text; suppress the confident empty claim",
+      "errorState": "existing HistoryError near the heading with Refresh history and subordinate technical details; retained rows and current result survive",
       "responsiveRules": {
         "small": "one column; list then detail; hide the empty list/detail panels when no saved analysis exists",
         "medium": "one column; list then detail; hide the empty list/detail panels when no saved analysis exists",
@@ -534,8 +542,8 @@
       ],
       "defaultFocus": "format",
       "emptyState": "No analysis available",
-      "loadingState": "exporting",
-      "errorState": "friendly export failure",
+      "loadingState": "existing Copy/Save availability; no new export busy state or progress algorithm",
+      "errorState": "existing Copy/Save success or failure text immediately before commands; subordinate technical disclosure and unchanged silent picker cancellation",
       "responsiveRules": {
         "small": "one column",
         "medium": "one column",

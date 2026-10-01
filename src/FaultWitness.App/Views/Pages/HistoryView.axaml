@@ -3,6 +3,13 @@
     <StackPanel Name="HistoryHeading" Grid.ColumnSpan="2" Spacing="{DynamicResource primitive.space.1}">
       <TextBlock Classes="page-title" Text="{Binding Text[History]}"/>
       <TextBlock Text="{Binding Text[HistoryHelp]}"/>
+      <StackPanel Name="HistoryFeedbackRegion" IsVisible="False" Margin="{DynamicResource UiStatusMargin}" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Name="HistoryFeedback"/>
+        <Expander Name="HistoryFeedbackDetails" IsVisible="False"><TextBlock/></Expander>
+        <Button Name="RetryHistory" Classes="secondary-action operation" Click="ReloadHistory" IsVisible="False" AutomationProperties.Name="{Binding Text[RefreshHistory]}" HorizontalAlignment="Left">
+          <TextBlock Text="{Binding Text[RefreshHistory]}"/>
+        </Button>
+      </StackPanel>
     </StackPanel>
     <ListBox Name="HistoryList" Grid.Row="1" Classes="history-list" ItemsSource="{Binding Items}" IsVisible="{Binding HasItems}" SelectionChanged="HistorySelectionChanged" AutomationProperties.Name="{Binding Text[History]}" MinHeight="260" Focusable="True" IsTabStop="True">
       <ListBox.ItemTemplate>

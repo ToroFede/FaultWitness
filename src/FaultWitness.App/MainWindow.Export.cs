@@ -55,12 +55,18 @@ public sealed partial class MainWindow
     }
     public async Task CopySupportAsync()
     {
-        if (Clipboard is null) { ViewModel.Notify("ClipboardUnavailable"); return; }
+        var origin = ViewModel.Page;
+        ViewModel.ClearFeedback();
+        var revision = ViewModel.FeedbackRevision;
+        if (Clipboard is null) { ViewModel.Notify("ClipboardUnavailable", origin, revision); return; }
         await Clipboard.SetTextAsync(SupportText()).ConfigureAwait(true);
-        ViewModel.Notify("SummaryCopied");
+        ViewModel.Notify("SummaryCopied", origin, revision);
     }
     private async Task SaveExportAsync()
     {
+        var origin = ViewModel.Page;
+        ViewModel.ClearFeedback();
+        var revision = ViewModel.FeedbackRevision;
         var extension = exportFormat switch { ExportFormat.Html => "html", ExportFormat.Json => "json", ExportFormat.Bundle => "zip", _ => "md" };
         var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
@@ -71,7 +77,7 @@ public sealed partial class MainWindow
         if (exportFormat == ExportFormat.Bundle)
         {
             var path = file.TryGetLocalPath();
-            if (path is null) { ViewModel.Notify("LocalDestinationRequired"); return; }
+            if (path is null) { ViewModel.Notify("LocalDestinationRequired", origin, revision); return; }
             await ReportExporter.CreateSupportBundleAsync(path, ExportResult, new ExportPrivacyOptions(), CancellationToken.None).ConfigureAwait(true);
         }
         else
@@ -87,6 +93,6 @@ public sealed partial class MainWindow
             };
             await writer.WriteAsync(output).ConfigureAwait(true);
         }
-        ViewModel.Notify("ExportSaved");
+        ViewModel.Notify("ExportSaved", origin, revision);
     }
 }
