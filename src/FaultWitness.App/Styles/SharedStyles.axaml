@@ -150,6 +150,30 @@
     <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
   </Style>
+  <Style Selector="Button.danger-action.state-change-action">
+    <Setter Property="Foreground" Value="{DynamicResource AppError}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="Button.danger-action.state-change-action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppError}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+  </Style>
+  <Style Selector="Button.danger-action.state-change-action:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppError}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+  </Style>
+  <Style Selector="Button.danger-action.state-change-action:focus /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Foreground" Value="{DynamicResource AppError}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+  </Style>
+  <Style Selector="Button.danger-action.state-change-action:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+  </Style>
   <Style Selector="Button.navigation-item">
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>

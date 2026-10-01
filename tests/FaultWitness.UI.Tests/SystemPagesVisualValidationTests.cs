@@ -92,8 +92,8 @@ public sealed class SystemPagesVisualValidationTests
         using var viewModel = new MainViewModel(services);
         if (scenario.HasResult) viewModel.SetResult(SyntheticResults.Create(scenario.ResultCount));
         if (scenario.SelectIncident) viewModel.Select(viewModel.AllRows[0]);
-        var window = new MainWindow(viewModel) { Width = scenario.Width, Height = 900 };
-        window.Show();
+        var window = new MainWindow(viewModel);
+        VisualRenderGeometry.ShowAtRequestedGeometry(window, scenario.Width, 900);
         try
         {
             viewModel.ChangeSettings(viewModel.Settings with { Language = scenario.Language, Theme = scenario.Theme });
@@ -115,7 +115,7 @@ public sealed class SystemPagesVisualValidationTests
                     $"{scenario.Name}: page overflow {viewer.Extent.Width} > {viewer.Viewport.Width}"));
 
             using var frame = window.CaptureRenderedFrame() ?? throw new InvalidOperationException($"{scenario.Name} produced no render.");
-            Assert.True(frame.PixelSize.Width > 0 && frame.PixelSize.Height > 0, scenario.Name);
+            VisualRenderGeometry.AssertFrameMatches(window, frame, scenario.Width, 900, scenario.Name);
             if (!string.IsNullOrWhiteSpace(output)) frame.Save(Path.Combine(output, scenario.Name + ".png"), new PngBitmapEncoderOptions());
         }
         finally { window.Close(); }

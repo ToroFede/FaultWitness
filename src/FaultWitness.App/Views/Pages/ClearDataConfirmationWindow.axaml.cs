@@ -10,8 +10,9 @@ public sealed partial class ClearDataConfirmationWindow : Window
 {
     public ClearDataConfirmationWindow() => AvaloniaXamlLoader.Load(this);
 
-    public void Prepare(LocalizationService text)
+    public void Prepare(LocalizationService text, Window owner)
     {
+        RequestedThemeVariant = owner.RequestedThemeVariant;
         Title = text.Get("ClearData");
         DataContext = new ClearDataConfirmationPresentation(text);
     }

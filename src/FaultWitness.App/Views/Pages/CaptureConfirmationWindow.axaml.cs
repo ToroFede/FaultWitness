@@ -7,10 +7,10 @@ namespace FaultWitness.App.Views.Pages;
 public sealed partial class CaptureConfirmationWindow : Window
 {
     public CaptureConfirmationWindow() => AvaloniaXamlLoader.Load(this);
-    public void Prepare(LocalizationService text, bool restore)
+    public void Prepare(LocalizationService text, Window owner, bool restore)
     {
+        RequestedThemeVariant = owner.RequestedThemeVariant;
         Title = text.Get(restore ? "CaptureRestore" : "CaptureConfigure");
-        Height = restore ? 260 : 300;
         DataContext = new CaptureConfirmationPresentation(new(text), text.Get(restore ? "CaptureRestoreWarning" : "CaptureConfigureWarning"), text.Get(restore ? "CaptureConfirmRestore" : "CaptureConfirmConfigure"));
         var button = this.FindControl<Button>("CaptureConfirmButton")!;
         button.Classes.Add(restore ? "secondary-action" : "primary-action");

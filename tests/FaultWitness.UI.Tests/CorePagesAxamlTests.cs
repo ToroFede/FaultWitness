@@ -408,7 +408,7 @@ public sealed class CorePagesAxamlTests
         foreach (var scenario in new[] { "relevant", "background", "quiet-complete", "quiet-limited" })
         foreach (var mode in visualModes)
         {
-            usingWindow(RenderHome(scenario, mode), $"home-{scenario}-{mode.Item1}");
+            usingWindow(RenderHome(scenario, mode), $"home-{scenario}-{mode.Item1}", mode.Item4, mode.Item5);
         }
 
         var analyzeCases = new (string State, string Variant)[]
@@ -423,7 +423,7 @@ public sealed class CorePagesAxamlTests
         {
             var mode = visualModes.Single(item => item.Item1 == variant);
             var window = RenderAnalyze(state, mode);
-            usingWindow(window, $"analyze-{state}-{variant}");
+            usingWindow(window, $"analyze-{state}-{variant}", mode.Item4, mode.Item5);
         }
 
         foreach (var (state, variant) in new[]
@@ -433,8 +433,9 @@ public sealed class CorePagesAxamlTests
             ("filter-empty", "de-dark-compact"), ("filter-empty", "en-light-desktop")
         })
         {
-            var window = RenderIncidents(state, visualModes.Single(item => item.Item1 == variant));
-            usingWindow(window, $"incidents-{state}-{variant}");
+            var mode = visualModes.Single(item => item.Item1 == variant);
+            var window = RenderIncidents(state, mode);
+            usingWindow(window, $"incidents-{state}-{variant}", mode.Item4, mode.Item5);
         }
 
         foreach (var (state, variant) in new[]
@@ -443,13 +444,14 @@ public sealed class CorePagesAxamlTests
             ("selected", "en-dark-desktop"), ("selected", "it-light-large")
         })
         {
-            var window = RenderHistory(state, visualModes.Single(item => item.Item1 == variant));
-            usingWindow(window, $"history-{state}-{variant}");
+            var mode = visualModes.Single(item => item.Item1 == variant);
+            var window = RenderHistory(state, mode);
+            usingWindow(window, $"history-{state}-{variant}", mode.Item4, mode.Item5);
         }
 
         Assert.Equal(41, index);
 
-        void usingWindow(MainWindow window, string name)
+        void usingWindow(MainWindow window, string name, int requestedWidth, int requestedHeight)
         {
             try
             {
@@ -462,7 +464,7 @@ public sealed class CorePagesAxamlTests
                 Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
                 AvaloniaHeadlessPlatform.ForceRenderTimerTick(3);
                 using var frame = window.CaptureRenderedFrame() ?? throw new InvalidOperationException($"{name} did not render.");
-                Assert.True(frame.PixelSize.Width > 0 && frame.PixelSize.Height > 0, $"{name} produced an empty frame.");
+                VisualRenderGeometry.AssertFrameMatches(window, frame, requestedWidth, requestedHeight, name);
                 if (!string.IsNullOrWhiteSpace(output)) frame.Save(Path.Combine(output, $"{index:D2}-{name}.png"), new PngBitmapEncoderOptions());
                 index++;
             }
@@ -479,14 +481,14 @@ public sealed class CorePagesAxamlTests
             "quiet-complete" => SyntheticResults.Create(0) with { Coverage = [Coverage(CoverageState.Complete)] },
             _ => SyntheticResults.Create(0) with { Coverage = [Coverage(CoverageState.Partial)] }
         };
-        var window = Open(new MainViewModel(new TestServices { Result = result, Settings = new UserSettings(Language: mode.Language, Theme: mode.Theme) }), mode.Width, mode.Height);
+        var window = OpenForVisualRender(new MainViewModel(new TestServices { Result = result, Settings = new UserSettings(Language: mode.Language, Theme: mode.Theme) }), mode.Width, mode.Height);
         window.ViewModel.SetResult(result);
         return window;
     }
 
     private static MainWindow RenderAnalyze(string state, (string Name, string Language, AppTheme Theme, int Width, int Height) mode)
     {
-        var window = Open(new MainViewModel(new TestServices { Settings = new UserSettings(Language: mode.Language, Theme: mode.Theme) }), mode.Width, mode.Height);
+        var window = OpenForVisualRender(new MainViewModel(new TestServices { Settings = new UserSettings(Language: mode.Language, Theme: mode.Theme) }), mode.Width, mode.Height);
         switch (state)
         {
             case "around": window.ViewModel.OpenAnalyze(AnalysisMode.Around); break;
@@ -510,7 +512,7 @@ public sealed class CorePagesAxamlTests
     private static MainWindow RenderIncidents(string state, (string Name, string Language, AppTheme Theme, int Width, int Height) mode)
     {
         var viewModel = new MainViewModel(new TestServices { Settings = new UserSettings(Language: mode.Language, Theme: mode.Theme) });
-        var window = Open(viewModel, mode.Width, mode.Height);
+        var window = OpenForVisualRender(viewModel, mode.Width, mode.Height);
         viewModel.SetResult(SyntheticResults.Create(4));
         viewModel.Navigate(AppPage.Incidents);
         if (state == "filtered") viewModel.SetFilter(new(Priority: AttentionLevel.Attention));
@@ -523,7 +525,7 @@ public sealed class CorePagesAxamlTests
     {
         StoredScan[] scans = state == "empty" ? [] : [Stored("selected", "SourceWer=Partial", 3), Stored("older", "SourceSystem=Complete", 1)];
         var viewModel = new MainViewModel(new TestServices { History = scans, Settings = new UserSettings(Language: mode.Language, Theme: mode.Theme) });
-        var window = Open(viewModel, mode.Width, mode.Height);
+        var window = OpenForVisualRender(viewModel, mode.Width, mode.Height);
         if (scans.Length > 0)
         {
             WaitFor(() => viewModel.RefreshHistoryAsync()).GetAwaiter().GetResult();
@@ -558,6 +560,15 @@ public sealed class CorePagesAxamlTests
         var window = new MainWindow(viewModel);
 #pragma warning restore CA2000
         window.Width = width; window.Height = height; window.Show(); window.UpdateLayout();
+        return window;
+    }
+
+    private static MainWindow OpenForVisualRender(MainViewModel viewModel, int width, int height)
+    {
+#pragma warning disable CA2000 // MainWindow owns and disposes the supplied view model on Closed.
+        var window = new MainWindow(viewModel);
+#pragma warning restore CA2000
+        VisualRenderGeometry.ShowAtRequestedGeometry(window, width, height);
         return window;
     }
 

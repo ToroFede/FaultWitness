@@ -69,7 +69,7 @@ public sealed partial class MainWindow
     private async Task ConfirmClearAsync()
     {
         var dialog = new ClearDataConfirmationWindow();
-        dialog.Prepare(ViewModel.Text);
+        dialog.Prepare(ViewModel.Text, this);
         if (await dialog.ShowDialog<bool>(this).ConfigureAwait(true)) await ViewModel.ClearDataAsync().ConfigureAwait(true);
     }
 }

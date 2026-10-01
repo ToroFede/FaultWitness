@@ -1,15 +1,15 @@
-<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.ClearDataConfirmationWindow" x:DataType="p:ClearDataConfirmationPresentation" Width="480" Height="250" CanResize="False" WindowStartupLocation="CenterOwner">
-  <Border Padding="{DynamicResource UiSurfacePadding}">
-    <StackPanel Spacing="{DynamicResource primitive.space.4}">
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.ClearDataConfirmationWindow" x:DataType="p:ClearDataConfirmationPresentation" Width="480" Height="240" CanResize="False" WindowStartupLocation="CenterOwner">
+  <Grid RowDefinitions="*,Auto" Margin="{DynamicResource UiSurfacePadding}" RowSpacing="{DynamicResource primitive.space.4}">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
       <TextBlock Text="{Binding Text[ClearDataWarning]}"/>
-      <WrapPanel HorizontalAlignment="Right">
+    </ScrollViewer>
+    <WrapPanel Grid.Row="1">
         <Button Name="ConfirmClear" Classes="danger-action state-change-action" Click="Confirm" AutomationProperties.Name="{Binding Text[ConfirmClear]}" Margin="{DynamicResource UiCommandMargin}">
           <TextBlock Text="{Binding Text[ConfirmClear]}"/>
         </Button>
-        <Button Name="CancelClear" Classes="secondary-action" Click="Cancel" AutomationProperties.Name="{Binding Text[Cancel]}" Margin="{DynamicResource UiCommandMargin}">
+        <Button Name="CancelClear" Classes="secondary-action" Click="Cancel" IsCancel="True" AutomationProperties.Name="{Binding Text[Cancel]}" Margin="{DynamicResource UiCommandMargin}">
           <TextBlock Text="{Binding Text[Cancel]}"/>
         </Button>
-      </WrapPanel>
-    </StackPanel>
-  </Border>
+    </WrapPanel>
+  </Grid>
 </Window>

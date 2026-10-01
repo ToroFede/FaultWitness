@@ -151,26 +151,32 @@ public sealed class SystemPagesAxamlTests
     }
 
     [AvaloniaFact]
-    public void ClearHistoryConfirmation_IsLocalizedAndUsesNamedSemanticButtons()
+    public async Task ClearHistoryConfirmation_IsLocalizedAndUsesNamedSemanticButtons()
     {
         var text = new LocalizationService();
         text.SetCulture("de");
+#pragma warning disable CA2000 // The opened MainWindow owns and disposes the supplied view model.
+        var owner = Open(new MainViewModel(new TestServices { Settings = new UserSettings(Language: "de", Theme: AppTheme.Dark) }));
+#pragma warning restore CA2000
         var dialog = new ClearDataConfirmationWindow();
-        dialog.Prepare(text);
-        dialog.Show();
+        dialog.Prepare(text, owner);
+        var result = dialog.ShowDialog<bool>(owner);
         try
         {
             dialog.UpdateLayout();
+            Assert.Equal(ThemeVariant.Dark, dialog.ActualThemeVariant);
             Assert.Contains(text.Get("ClearDataWarning"), string.Join(" ", dialog.GetVisualDescendants()
                 .OfType<TextBlock>().Where(control => control.IsVisible).Select(control => control.Text)), StringComparison.Ordinal);
             var confirm = dialog.GetVisualDescendants().OfType<Button>().Single(control => control.Name == "ConfirmClear");
             var cancel = dialog.GetVisualDescendants().OfType<Button>().Single(control => control.Name == "CancelClear");
             Assert.Equal(text.Get("ConfirmClear"), AutomationProperties.GetName(confirm));
             Assert.Equal(text.Get("Cancel"), AutomationProperties.GetName(cancel));
+            Assert.True(cancel.IsCancel);
+            Assert.Contains("danger-action", confirm.Classes);
             confirm.RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
-            Assert.False(dialog.IsVisible);
+            Assert.True(await result);
         }
-        finally { dialog.Close(); }
+        finally { owner.Close(); }
     }
 
     [AvaloniaFact]

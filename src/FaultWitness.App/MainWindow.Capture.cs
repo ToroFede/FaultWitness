@@ -36,7 +36,7 @@ public sealed partial class MainWindow
     {
         if (ViewModel.Capture is not { } capture || !captureArchitectureConfirmed || !capture.CanConfigure || ViewModel.IsBusy) return;
         var dialog = new CaptureConfirmationWindow();
-        dialog.Prepare(ViewModel.Text, restore: false);
+        dialog.Prepare(ViewModel.Text, this, restore: false);
         if (await dialog.ShowDialog<bool>(this).ConfigureAwait(true)) await capture.ConfigureAsync().ConfigureAwait(true);
         RefreshCapture();
         if (ViewModel.Page == AppPage.System) captureView?.FindControl<Button>("CaptureConfigureButton")?.Focus();
@@ -45,7 +45,7 @@ public sealed partial class MainWindow
     private async Task ConfirmRestoreAsync(Guid actionId)
     {
         var dialog = new CaptureConfirmationWindow();
-        dialog.Prepare(ViewModel.Text, restore: true);
+        dialog.Prepare(ViewModel.Text, this, restore: true);
         if (await dialog.ShowDialog<bool>(this).ConfigureAwait(true) && ViewModel.Capture is { } capture)
             await capture.RestoreAsync(actionId).ConfigureAwait(true);
         RefreshCapture();
