@@ -18,7 +18,7 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </StackPanel>
-      <Expander Header="{Binding Text[CaptureJournalDetails]}" AutomationProperties.Name="{Binding Text[CaptureJournalDetails]}">
+      <Expander Classes="semantic-disclosure" Header="{Binding Text[CaptureJournalDetails]}" AutomationProperties.Name="{Binding Text[CaptureJournalDetails]}">
         <StackPanel Spacing="{DynamicResource primitive.space.1}">
           <TextBlock Text="{Binding Text[CapturePrevious]}"/>
           <TextBlock Classes="metadata" Text="{Binding Previous}"/>

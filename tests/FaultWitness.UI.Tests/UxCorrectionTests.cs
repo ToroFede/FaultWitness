@@ -73,34 +73,33 @@ public sealed class UxCorrectionTests
     }
 
     [AvaloniaTheory]
-    [InlineData(640, true)]
-    [InlineData(641, false)]
-    [InlineData(1008, false)]
-    public void HomeSummary_UsesResponsiveDenseContainerAndRendersAllPriorities(double width, bool stacked)
+    [InlineData(560)]
+    [InlineData(600)]
+    [InlineData(640)]
+    [InlineData(641)]
+    [InlineData(1008)]
+    [InlineData(1280)]
+    [InlineData(1920)]
+    public void HomeSummary_UsesAvailableWidthWithoutOrphaningMetrics(double width)
     {
         var window = Open(width: width);
         try
         {
             window.ViewModel.SetResult(SyntheticResults.Create(3));
             window.UpdateLayout();
-            var summary = Find<Panel>(window, "HomeSummary");
-
-            if (stacked)
-            {
-                Assert.IsType<WrapPanel>(summary);
-                Assert.Equal(Orientation.Vertical, Assert.IsType<WrapPanel>(summary).Orientation);
-                Assert.Contains("summary-stacked", summary.Classes);
-            }
-            else
-            {
-                Assert.IsType<WrapPanel>(summary);
-                Assert.Equal(Orientation.Horizontal, Assert.IsType<WrapPanel>(summary).Orientation);
-                Assert.Contains("summary-strip", summary.Classes);
-            }
+            var summary = Find<Grid>(window, "HomeSummary");
+            var buttons = SummaryMetricNames.Select(name => Find<Button>(window, name)).ToArray();
+            foreach (var button in buttons) button.Measure(Size.Infinity);
+            var requiredWidth = buttons.Sum(static button => button.DesiredSize.Width) + 2 * summary.ColumnSpacing;
+            var fitsAsStrip = requiredWidth <= summary.Bounds.Width + 0.5;
 
             Assert.Equal(3, summary.Children.Count);
             Assert.All(SummaryMetricNames, name => Assert.True(Find<Button>(window, name).IsVisible));
-            Assert.True(summary.Bounds.Height <= 3 * Convert.ToDouble(Avalonia.Application.Current!.Resources["component.row.minHeight"], CultureInfo.InvariantCulture));
+            Assert.Equal(fitsAsStrip ? 3 : 1, summary.ColumnDefinitions.Count);
+            Assert.Equal(fitsAsStrip ? 1 : 3, summary.RowDefinitions.Count);
+            Assert.Equal(Convert.ToDouble(Avalonia.Application.Current!.Resources["primitive.space.1"], CultureInfo.InvariantCulture), summary.RowSpacing);
+            Assert.All(buttons, button => Assert.True(button.Bounds.Height >= Convert.ToDouble(Avalonia.Application.Current!.Resources["component.action.standard.minHeight"], CultureInfo.InvariantCulture)));
+            Assert.Contains(fitsAsStrip ? "summary-strip" : "summary-stacked", summary.Classes);
         }
         finally
         {

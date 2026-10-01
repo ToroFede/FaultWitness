@@ -6,7 +6,7 @@
     <DataTemplate x:Key="ChangeRow" x:DataType="p:ChangeRowPresentation">
       <StackPanel Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiGroupMargin}">
         <TextBlock Text="{Binding Description}"/>
-        <Expander Header="{Binding DetailsTitle}" AutomationProperties.Name="{Binding DetailsTitle}">
+        <Expander Classes="semantic-disclosure" Header="{Binding DetailsTitle}" AutomationProperties.Name="{Binding DetailsTitle}">
           <TextBlock Classes="metadata" Text="{Binding Details}"/>
         </Expander>
       </StackPanel>
@@ -27,11 +27,11 @@
       <c:AssessmentSummary Name="AssessmentLimitsRegion"/>
       <c:CoverageSummary Name="MaterialCoverageRegion"/>
       <c:EvidenceSummary Name="KeyEvidenceRegion"/>
-      <Expander Name="FullTimeline" Header="{Binding TimelineTitle}" AutomationProperties.Name="{Binding TimelineTitle}">
+      <Expander Name="FullTimeline" Classes="semantic-disclosure" Header="{Binding TimelineTitle}" AutomationProperties.Name="{Binding TimelineTitle}">
         <ItemsControl Name="TimelineList" ItemsSource="{Binding TimelineRows}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="p:EventRecordPresentation">
-              <Expander AutomationProperties.Name="{Binding Heading}">
+              <Expander Classes="semantic-disclosure" AutomationProperties.Name="{Binding Heading}">
                 <Expander.Header>
                   <StackPanel>
                     <TextBlock Classes="row-title" Text="{Binding Heading}"/>
@@ -44,7 +44,7 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </Expander>
-      <Expander Name="WhatChanged" AutomationProperties.Name="{Binding Text[ChangesNearFirst]}">
+      <Expander Name="WhatChanged" Classes="semantic-disclosure" AutomationProperties.Name="{Binding Text[ChangesNearFirst]}">
         <Expander.Header>
           <StackPanel>
             <TextBlock Classes="row-title" Text="{Binding Text[ChangesNearFirst]}"/>
@@ -60,10 +60,10 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
           <ItemsControl ItemsSource="{Binding RelevantChanges}" ItemTemplate="{StaticResource ChangeRow}"/>
-          <Expander Name="LowChanges" IsVisible="{Binding HasLowChanges}" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
+          <Expander Name="LowChanges" Classes="semantic-disclosure" IsVisible="{Binding HasLowChanges}" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
             <ItemsControl ItemsSource="{Binding LowChanges}" ItemTemplate="{StaticResource ChangeRow}"/>
           </Expander>
-          <Expander Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
+          <Expander Classes="semantic-disclosure" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
             <ItemsControl ItemsSource="{Binding ChangeCoverage}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
@@ -74,7 +74,7 @@
           </Expander>
         </StackPanel>
       </Expander>
-      <Expander Name="Patterns" IsVisible="{Binding HasPattern}" Header="{Binding Text[RecurringPattern]}" AutomationProperties.Name="{Binding Text[RecurringPattern]}">
+      <Expander Name="Patterns" Classes="semantic-disclosure" IsVisible="{Binding HasPattern}" Header="{Binding Text[RecurringPattern]}" AutomationProperties.Name="{Binding Text[RecurringPattern]}">
         <StackPanel Spacing="{DynamicResource primitive.space.2}">
           <TextBlock Text="{Binding Recurrence}"/>
           <TextBlock Classes="metadata" Text="{Binding FirstLatest}"/>
@@ -84,7 +84,7 @@
           </Button>
         </StackPanel>
       </Expander>
-      <Expander Name="Hypotheses" IsVisible="{Binding HasHypotheses}" Header="{Binding Text[DetailHypotheses]}" AutomationProperties.Name="{Binding Text[DetailHypotheses]}">
+      <Expander Name="Hypotheses" Classes="semantic-disclosure" IsVisible="{Binding HasHypotheses}" Header="{Binding Text[DetailHypotheses]}" AutomationProperties.Name="{Binding Text[DetailHypotheses]}">
         <ItemsControl ItemsSource="{Binding Hypotheses}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="x:String">
@@ -93,7 +93,7 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </Expander>
-      <Expander Name="OtherSteps" IsVisible="{Binding HasOtherActions}" Header="{Binding Text[OtherTests]}" AutomationProperties.Name="{Binding Text[OtherTests]}">
+      <Expander Name="OtherSteps" Classes="semantic-disclosure" IsVisible="{Binding HasOtherActions}" Header="{Binding Text[OtherTests]}" AutomationProperties.Name="{Binding Text[OtherTests]}">
         <ItemsControl ItemsSource="{Binding OtherActions}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="x:String">
@@ -102,13 +102,13 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </Expander>
-      <Expander Name="FullCoverage" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
+      <Expander Name="FullCoverage" Classes="semantic-disclosure" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
         <StackPanel Name="CoveragePanel">
           <TextBlock IsVisible="{Binding HasNoCoverage}" Text="{Binding Text[CoverageNotChecked]}"/>
           <ItemsControl ItemsSource="{Binding CoverageRows}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="p:CoverageRowPresentation">
-                <Expander AutomationProperties.Name="{Binding Name}">
+                <Expander Classes="semantic-disclosure" AutomationProperties.Name="{Binding Name}">
                   <Expander.Header>
                     <StackPanel>
                       <TextBlock Classes="row-title" Text="{Binding Name}"/>
@@ -125,13 +125,13 @@
           </ItemsControl>
         </StackPanel>
       </Expander>
-      <Expander Name="TechnicalData" Header="{Binding Text[RawData]}" AutomationProperties.Name="{Binding Text[RawData]}">
+      <Expander Name="TechnicalData" Classes="semantic-disclosure" Header="{Binding Text[RawData]}" AutomationProperties.Name="{Binding Text[RawData]}">
         <StackPanel Spacing="{DynamicResource primitive.space.2}">
           <TextBlock Classes="metadata" Text="{Binding TechnicalContext}"/>
           <ItemsControl ItemsSource="{Binding TechnicalRows}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="p:EventRecordPresentation">
-                <Expander Header="{Binding Heading}" AutomationProperties.Name="{Binding Heading}">
+                <Expander Classes="semantic-disclosure" Header="{Binding Heading}" AutomationProperties.Name="{Binding Heading}">
                   <c:EventRecordDetails/>
                 </Expander>
               </DataTemplate>

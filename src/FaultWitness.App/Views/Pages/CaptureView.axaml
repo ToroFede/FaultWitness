@@ -33,7 +33,7 @@
           <TextBlock Text="{Binding Text[CapturePrivacy]}"/>
           <TextBlock Text="{Binding Text[CaptureFolder]}"/>
           <TextBlock Text="{Binding Text[CaptureLimitations]}"/>
-          <Expander Name="CapturePreviewDetails" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
+          <Expander Name="CapturePreviewDetails" Classes="semantic-disclosure" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
             <TextBlock Name="CapturePreviewState" Text="{Binding PreviewState}" AutomationProperties.Name="{Binding PreviewState}"/>
           </Expander>
         </StackPanel>

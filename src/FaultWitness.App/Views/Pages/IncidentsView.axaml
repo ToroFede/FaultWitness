@@ -23,7 +23,7 @@
           <TextBox Name="IncidentSearch" TextChanged="SearchChanged" PlaceholderText="{Binding Text[SearchHint]}" AutomationProperties.Name="{Binding Text[Search]}" HorizontalAlignment="Stretch"/>
         </StackPanel>
       </Grid>
-      <Expander Name="DateRange" Header="{Binding Text[DateRange]}" AutomationProperties.Name="{Binding Text[DateRange]}">
+      <Expander Name="DateRange" Classes="semantic-disclosure" Header="{Binding Text[DateRange]}" AutomationProperties.Name="{Binding Text[DateRange]}">
         <WrapPanel>
           <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">
             <TextBlock Text="{Binding Text[FromDate]}"/>
@@ -37,7 +37,7 @@
       </Expander>
       <TextBlock Name="FilterCount" Classes="metadata" Text="{Binding CountText}"/>
       <Grid Name="IncidentResultRegion">
-        <ListBox Name="IncidentList" Classes="incident-list" ItemsSource="{Binding Rows}" IsVisible="{Binding HasRows}" SelectionChanged="IncidentSelected" AutomationProperties.Name="{Binding Text[Incidents]}" MinHeight="260">
+        <ListBox Name="IncidentList" Classes="semantic-list incident-list" ItemsSource="{Binding Rows}" IsVisible="{Binding HasRows}" SelectionChanged="IncidentSelected" AutomationProperties.Name="{Binding Text[Incidents]}" MinHeight="260">
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="a:IncidentRow">
               <c:IncidentListRow/>

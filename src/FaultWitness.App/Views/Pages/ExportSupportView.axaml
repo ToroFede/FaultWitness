@@ -33,7 +33,7 @@
         <TextBox Name="ExportPreview" Text="{Binding Preview, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" Height="320" AutomationProperties.Name="{Binding Text[Preview]}"/>
         <StackPanel Name="ExportFeedbackRegion" IsVisible="False" Spacing="{DynamicResource primitive.space.2}">
           <TextBlock Name="ExportFeedback"/>
-          <Expander Name="ExportFeedbackDetails" IsVisible="False"><TextBlock/></Expander>
+          <Expander Name="ExportFeedbackDetails" Classes="semantic-disclosure" IsVisible="False"><TextBlock/></Expander>
         </StackPanel>
         <WrapPanel Name="ExportCommands">
           <Button Name="CopySupport" Classes="secondary-action operation" Click="Copy" AutomationProperties.Name="{Binding Text[CopyForSupport]}" IsEnabled="{Binding CanExport}" Margin="{DynamicResource UiCommandMargin}">

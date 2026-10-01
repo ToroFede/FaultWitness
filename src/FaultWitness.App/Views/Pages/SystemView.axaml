@@ -33,7 +33,7 @@
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Expander IsVisible="{Binding HasAdditionalDevices}" Header="{Binding MoreLabel}" AutomationProperties.Name="{Binding MoreLabel}">
+                <Expander Classes="semantic-disclosure" IsVisible="{Binding HasAdditionalDevices}" Header="{Binding MoreLabel}" AutomationProperties.Name="{Binding MoreLabel}">
                   <ItemsControl ItemsSource="{Binding AdditionalDevices}">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="p:InventoryDevicePresentation">

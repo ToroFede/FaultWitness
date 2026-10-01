@@ -32,17 +32,17 @@
           <TextBlock Classes="metadata" Text="{Binding RangeAndOrigin}"/>
           <TextBlock Classes="metadata" IsVisible="{Binding HasDuration}" Text="{Binding Duration}"/>
         </StackPanel>
-        <WrapPanel Name="HomeSummary">
-          <Button Name="CountAttention" Classes="summary-metric" Click="ShowAttention" AutomationProperties.Name="{Binding SummaryMetrics[0].AccessibleName}" Margin="{DynamicResource UiCommandMargin}">
+        <Grid Name="HomeSummary" ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto" ColumnSpacing="{DynamicResource primitive.space.1}" RowSpacing="{DynamicResource primitive.space.1}" SizeChanged="SummarySizeChanged">
+          <Button Name="CountAttention" Grid.Column="0" Classes="summary-metric" Click="ShowAttention" AutomationProperties.Name="{Binding SummaryMetrics[0].AccessibleName}">
             <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[0].CountLabel}"/>
           </Button>
-          <Button Name="CountKnowing" Classes="summary-metric" Click="ShowKnowing" AutomationProperties.Name="{Binding SummaryMetrics[1].AccessibleName}" Margin="{DynamicResource UiCommandMargin}">
+          <Button Name="CountKnowing" Grid.Column="1" Classes="summary-metric" Click="ShowKnowing" AutomationProperties.Name="{Binding SummaryMetrics[1].AccessibleName}">
             <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[1].CountLabel}"/>
           </Button>
-          <Button Name="CountBackground" Classes="summary-metric" Click="ShowBackground" AutomationProperties.Name="{Binding SummaryMetrics[2].AccessibleName}" Margin="{DynamicResource UiCommandMargin}">
+          <Button Name="CountBackground" Grid.Column="2" Classes="summary-metric" Click="ShowBackground" AutomationProperties.Name="{Binding SummaryMetrics[2].AccessibleName}">
             <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[2].CountLabel}"/>
           </Button>
-        </WrapPanel>
+        </Grid>
         <TextBlock Classes="level-one" Text="{Binding Text[RecentSignificant]}"/>
         <Border Name="QuietResult" Classes="action-surface" IsVisible="{Binding ShowQuietResult}">
           <StackPanel Spacing="{DynamicResource primitive.space.2}">
@@ -52,7 +52,7 @@
             <TextBlock Classes="metadata" IsVisible="{Binding HasLimitedCoverage}" Text="{Binding QuietCoverage}"/>
           </StackPanel>
         </Border>
-        <ListBox Name="RecentSignificantList" Classes="incident-list" ItemsSource="{Binding RecentIncidents}" IsVisible="{Binding HasSignificantIncidents}" SelectionChanged="IncidentSelected" AutomationProperties.Name="{Binding Text[RecentSignificant]}">
+        <ListBox Name="RecentSignificantList" Classes="semantic-list incident-list" ItemsSource="{Binding RecentIncidents}" IsVisible="{Binding HasSignificantIncidents}" SelectionChanged="IncidentSelected" AutomationProperties.Name="{Binding Text[RecentSignificant]}">
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="a:IncidentRow">
               <c:IncidentListRow/>
@@ -70,11 +70,11 @@
             <TextBlock Text="{Binding Text[Export]}"/>
           </Button>
         </WrapPanel>
-        <Expander Name="HomeCoverage" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
+        <Expander Name="HomeCoverage" Classes="semantic-disclosure" Header="{Binding Text[SourceCoverage]}" AutomationProperties.Name="{Binding Text[SourceCoverage]}">
           <ItemsControl ItemsSource="{Binding CoverageRows}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="p:CoverageDetailPresentation">
-                <Expander AutomationProperties.Name="{Binding Name}">
+                <Expander Classes="semantic-disclosure" AutomationProperties.Name="{Binding Name}">
                   <Expander.Header>
                     <Grid ColumnDefinitions="*,Auto">
                       <TextBlock Classes="row-title" Text="{Binding Name}"/>

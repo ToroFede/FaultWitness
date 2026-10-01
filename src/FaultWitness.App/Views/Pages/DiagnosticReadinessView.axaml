@@ -32,7 +32,7 @@
                   <TextBlock Grid.Column="1" Classes="row-title" Text="{Binding Status}" HorizontalAlignment="Right"/>
                 </Grid>
                 <TextBlock Text="{Binding Detail}"/>
-                <Expander IsVisible="{Binding HasObservations}" Header="{Binding TechnicalDetailsLabel}" AutomationProperties.Name="{Binding TechnicalAccessibleName}">
+                <Expander Classes="semantic-disclosure" IsVisible="{Binding HasObservations}" Header="{Binding TechnicalDetailsLabel}" AutomationProperties.Name="{Binding TechnicalAccessibleName}">
                   <ItemsControl ItemsSource="{Binding Observations}">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="p:ReadinessObservationPresentation">

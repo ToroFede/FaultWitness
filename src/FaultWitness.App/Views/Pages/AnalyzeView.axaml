@@ -27,7 +27,7 @@
             <DatePicker Name="ToDate" SelectedDate="{Binding CustomToDate, Mode=TwoWay}" AutomationProperties.Name="{Binding Text[ToDate]}"/>
           </StackPanel>
         </WrapPanel>
-        <Expander Name="AdvancedSources" Header="{Binding Text[AdvancedSources]}" AutomationProperties.Name="{Binding Text[AdvancedSources]}">
+        <Expander Name="AdvancedSources" Classes="semantic-disclosure" Header="{Binding Text[AdvancedSources]}" AutomationProperties.Name="{Binding Text[AdvancedSources]}">
           <StackPanel Spacing="{DynamicResource primitive.space.1}">
             <TextBlock Text="{Binding Text[SourcesHelp]}"/>
             <TextBlock Text="{Binding Text[SourceSystem]}"/>
@@ -53,7 +53,7 @@
             <ComboBox Name="AroundWindow" ItemsSource="{Binding Windows}" SelectedIndex="{Binding WindowIndex, Mode=TwoWay}" AutomationProperties.Name="{Binding Text[Window]}" Width="160" MaxWidth="220"/>
           </StackPanel>
         </WrapPanel>
-        <Expander Name="AroundAdvancedSources" Header="{Binding Text[AdvancedSources]}" AutomationProperties.Name="{Binding Text[AdvancedSources]}">
+        <Expander Name="AroundAdvancedSources" Classes="semantic-disclosure" Header="{Binding Text[AdvancedSources]}" AutomationProperties.Name="{Binding Text[AdvancedSources]}">
           <StackPanel Spacing="{DynamicResource primitive.space.1}">
             <TextBlock Text="{Binding Text[SourcesHelp]}"/>
             <TextBlock Text="{Binding Text[SourceSystem]}"/>
@@ -90,7 +90,7 @@
       </StackPanel>
       <StackPanel Name="AnalyzeFeedbackRegion" IsVisible="False" Spacing="{DynamicResource primitive.space.2}">
         <TextBlock Name="AnalyzeFeedback"/>
-        <Expander Name="AnalyzeFeedbackDetails" IsVisible="False"><TextBlock/></Expander>
+        <Expander Name="AnalyzeFeedbackDetails" Classes="semantic-disclosure" IsVisible="False"><TextBlock/></Expander>
       </StackPanel>
       <WrapPanel Name="AnalyzeCommands">
         <Button Name="RunAnalysis" Classes="primary-action operation" Click="RunRecent" AutomationProperties.Name="{Binding Text[RunSelectedAnalysis]}" HorizontalAlignment="Left" Margin="{DynamicResource UiCommandMargin}" IsVisible="{Binding IsRecent}">

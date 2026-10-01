@@ -1,5 +1,5 @@
 {
-  "version": "1.0.7",
+  "version": "1.0.8",
   "automatic": [
     {
       "id": "core-pages-axaml-ownership",
@@ -107,7 +107,19 @@
     },
     {
       "id": "home-summary-density",
-      "check": "Medium/large count controls form a compact wrapping strip; small layout stacks"
+      "check": "Three accessible count actions use three intrinsic columns only when all labels fit actual Home content width; otherwise they form one full-width column with canonical 4 epx spacing and no 2+1 orphan row at 600/640/641"
+    },
+    {
+      "id": "history-visual-rhythm",
+      "check": "History keeps a 16 epx canonical gap after its heading and between compact list/detail regions; large 40/60 layout, empty-state meaning, scan selection and independent detail scroll remain intact"
+    },
+    {
+      "id": "semantic-list-disclosure-surfaces",
+      "check": "Scoped lists use AppSurface ordinary rows, AppSurfaceMuted hover, AppSelection selected, visible focus and muted disabled text; semantic disclosures use AppSurfaceMuted headers, AppSurface bodies, AppBorder divisions and preserve Fluent expansion/chevrons in Light and Dark"
+    },
+    {
+      "id": "incident-fallback-natural-size",
+      "check": "Missing-incident fallback remains the existing localized explanation, sizes to content and aligns at the top at compact and desktop widths"
     },
     {
       "id": "status-scope",

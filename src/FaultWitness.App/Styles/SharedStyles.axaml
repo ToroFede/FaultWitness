@@ -215,4 +215,68 @@
     <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
     <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
   </Style>
+  <Style Selector="ListBox.semantic-list">
+    <Setter Property="Background" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+  <Style Selector="ListBox.semantic-list ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="ListBox.semantic-list ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="ListBox.semantic-list ListBoxItem:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="ListBox.semantic-list ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="ListBox.semantic-list ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="ListBox.semantic-list ListBoxItem:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure">
+    <Setter Property="Background" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ Border#ExpanderContent">
+    <Setter Property="Background" Value="{DynamicResource AppSurface}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader /template/ Border#ToggleButtonBackground">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader:pointerover /template/ Border#ToggleButtonBackground, Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader:pressed /template/ Border#ToggleButtonBackground">
+    <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader:focus /template/ Border#ToggleButtonBackground">
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader:disabled /template/ Border#ToggleButtonBackground">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+  </Style>
+  <Style Selector="Expander.semantic-disclosure /template/ ToggleButton#ExpanderHeader:disabled">
+    <Setter Property="Foreground" Value="{DynamicResource AppMuted}"/>
+  </Style>
 </Styles>

@@ -3,7 +3,7 @@
     <StackPanel Spacing="{DynamicResource primitive.space.2}">
       <TextBlock Classes="level-one" Text="{Binding Text[BestNextStep]}"/>
       <TextBlock Text="{Binding BestNextStep}"/>
-      <Expander Name="WhyStep" Header="{Binding Text[WhyThisTest]}" AutomationProperties.Name="{Binding Text[WhyThisTest]}">
+      <Expander Name="WhyStep" Classes="semantic-disclosure" Header="{Binding Text[WhyThisTest]}" AutomationProperties.Name="{Binding Text[WhyThisTest]}">
         <TextBlock Text="{Binding Text[WhyEvidenceFirst]}"/>
       </Expander>
     </StackPanel>

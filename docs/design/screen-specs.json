@@ -1,5 +1,5 @@
 {
-  "version": "1.0.7",
+  "version": "1.0.8",
   "feedbackPlacement": {
     "authority": "MainViewModel StatusKey, TechnicalError, operation/status origin and busy state; local regions are stateless projections",
     "local": "Analyze form and command area, Export Copy/Save area, and History heading/load-retry context",
@@ -23,6 +23,10 @@
   "pageImplementation": {
     "axaml": ["Shell", "Home", "Analyze", "Incidents", "History", "IncidentDetail", "System", "SystemInventory", "DiagnosticReadiness", "Settings", "ExportSupport", "Capture", "CaptureConfirmation", "IncidentUnavailable"],
     "programmaticCSharp": []
+  },
+  "sharedSurfaceStates": {
+    "lists": "Scoped semantic lists use AppSurface for ordinary rows, AppSurfaceMuted for hover, AppSelection for selected rows and retain visible keyboard focus and disabled text",
+    "disclosures": "Scoped semantic disclosures use AppSurfaceMuted headers, AppSurface expanded content, AppBorder divisions and retain Fluent chevrons, hover, focus, disabled and expanded behavior"
   },
   "screens": [
     {
@@ -55,10 +59,11 @@
       "loadingState": "inline progress with cancellation",
       "errorState": "friendly status with technical disclosure",
       "responsiveRules": {
-        "small": "single content column; intrinsic compact navigation 160–208 epx; brand no wrap, ellipsis only if text scaling exceeds available width; stacked summary counts; 12 epx gutter",
-        "medium": "compact summary strip with natural wrapping; 24 epx gutter",
-        "large": "constrained 1120 epx content; compact summary strip"
+        "small": "single content column; intrinsic compact navigation 160–208 epx; brand no wrap, ellipsis only if text scaling exceeds available width; summary counts stack together only when all labels cannot fit within available page width; 4 epx summary gap; 12 epx gutter",
+        "medium": "three summary actions stay on one row only when all fit available page content width; 4 epx summary gap; 24 epx gutter",
+        "large": "constrained 1120 epx content; three intrinsic summary actions remain compact and aligned"
       },
+      "summaryLayout": "Three accessible count actions use three intrinsic columns when all labels fit the actual Home content width; otherwise they form one full-width column without a 2+1 orphan row",
       "keyboardFlow": [
         "navigation",
         "primaryAction",
@@ -223,6 +228,7 @@
       ],
       "defaultFocus": "back",
       "emptyState": "incident unavailable",
+      "unavailableFallback": "content-sized bordered surface aligned at the top, retaining the existing explanation and navigation/help content",
       "loadingState": "not applicable",
       "errorState": "retain safe summary",
       "responsiveRules": {
@@ -288,9 +294,9 @@
       "loadingState": "existing local loading text; suppress the confident empty claim",
       "errorState": "existing HistoryError near the heading with Refresh history and subordinate technical details; retained rows and current result survive",
       "responsiveRules": {
-        "small": "one column; list then detail; hide the empty list/detail panels when no saved analysis exists",
-        "medium": "one column; list then detail; hide the empty list/detail panels when no saved analysis exists",
-        "large": "40/60 master-detail; independently scrollable detail; selected row uses subtle surface and accent indicator"
+        "small": "one column; list then independently scrollable detail separated by a 16 epx canonical gap; hide empty list/detail panels when no saved analysis exists",
+        "medium": "one column; list then independently scrollable detail separated by a 16 epx canonical gap; hide empty list/detail panels when no saved analysis exists",
+        "large": "40/60 master-detail with 16 epx heading-to-body gap; independently scrollable detail; selected row uses subtle surface and accent indicator"
       },
       "keyboardFlow": [
         "historyList",
