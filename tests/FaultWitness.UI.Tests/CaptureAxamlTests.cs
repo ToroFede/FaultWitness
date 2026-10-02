@@ -15,7 +15,7 @@ namespace FaultWitness.UI.Tests;
 
 public sealed class CaptureAxamlTests
 {
-    private static readonly string[] Regions = ["CapturePurpose", "CaptureCurrentRegion", "CaptureTargetRegion", "CapturePreviewRegion", "CaptureApplyRegion", "CaptureResultRegion", "CaptureRestoreRegion", "CaptureJournalRegion"];
+    private static readonly string[] Regions = ["CapturePurpose", "CaptureCurrentRegion", "CaptureTargetRegion", "CapturePolicyRegion", "CaptureSafetyRegion", "CapturePreviewRegion", "CaptureApplyRegion", "CaptureResultRegion", "CaptureRestoreRegion", "CaptureJournalRegion", "CaptureTechnicalRegion"];
 
     [AvaloniaTheory]
     [InlineData(false)][InlineData(true)]

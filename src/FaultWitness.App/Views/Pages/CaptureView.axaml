@@ -1,5 +1,16 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.CaptureView" x:DataType="p:CapturePresentation">
-  <StackPanel Name="CaptureContent" Spacing="{DynamicResource primitive.space.4}">
+  <UserControl.Styles>
+    <Style Selector="Border#CaptureResultRegion.verified">
+      <Setter Property="BorderBrush" Value="{DynamicResource AppReady}"/>
+    </Style>
+    <Style Selector="Border#CaptureResultRegion.attention">
+      <Setter Property="BorderBrush" Value="{DynamicResource AppAttention}"/>
+    </Style>
+    <Style Selector="Border#CaptureResultRegion.error">
+      <Setter Property="BorderBrush" Value="{DynamicResource AppError}"/>
+    </Style>
+  </UserControl.Styles>
+  <StackPanel Name="CaptureContent" MaxWidth="800" HorizontalAlignment="Left" Spacing="{DynamicResource primitive.space.4}">
     <StackPanel Name="CapturePurpose" Spacing="{DynamicResource primitive.space.2}">
       <TextBlock Name="CapturePageTitle" Classes="level-one" Text="{Binding Text[CaptureTitle]}"/>
       <TextBlock Text="{Binding Text[CaptureHelp]}"/>
@@ -23,21 +34,35 @@
           </Button>
         </WrapPanel>
       </StackPanel>
-      <Border Name="CapturePreviewRegion" Classes="action-surface">
+      <Border Name="CapturePolicyRegion" Classes="action-surface">
         <StackPanel Spacing="{DynamicResource primitive.space.2}">
-          <TextBlock Classes="row-title" Text="{Binding Text[CaptureProposed]}"/>
-          <TextBlock Text="{Binding Text[CapturePreviewGuide]}"/>
-          <TextBlock Name="CapturePreviewNotice" Text="{Binding PreviewNotice}" AutomationProperties.Name="{Binding PreviewNotice}" AutomationProperties.LiveSetting="Polite"/>
-          <TextBlock Text="{Binding ProposedState}"/>
-          <TextBlock Text="{Binding Text[CaptureRequiresAdministrator]}"/>
-          <TextBlock Text="{Binding Text[CapturePrivacy]}"/>
-          <TextBlock Text="{Binding Text[CaptureFolder]}"/>
-          <TextBlock Text="{Binding Text[CaptureLimitations]}"/>
-          <Expander Name="CapturePreviewDetails" Classes="semantic-disclosure" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
-            <TextBlock Name="CapturePreviewState" Text="{Binding PreviewState}" AutomationProperties.Name="{Binding PreviewState}"/>
-          </Expander>
+          <TextBlock Classes="row-title" Text="{Binding Text[CapturePolicyTitle]}"/>
+          <TextBlock Name="CapturePolicyTarget" AutomationProperties.Name="{Binding PolicyTarget}">
+            <Run Text="{Binding Text[CapturePolicyTarget]}" Foreground="{DynamicResource AppMuted}"/><Run Text=": "/><Run Text="{Binding PolicyTarget}"/>
+          </TextBlock>
+          <TextBlock>
+            <Run Text="{Binding Text[CapturePolicyDump]}" Foreground="{DynamicResource AppMuted}"/><Run Text=": "/><Run Text="{Binding Text[CapturePolicyMiniDump]}"/>
+          </TextBlock>
+          <TextBlock Name="CapturePolicyLimit">
+            <Run Text="{Binding Text[CapturePolicyLimit]}" Foreground="{DynamicResource AppMuted}"/><Run Text=": "/><Run Text="{Binding PolicyLimit}"/>
+          </TextBlock>
+          <TextBlock>
+            <Run Text="{Binding Text[CapturePolicyFolder]}" Foreground="{DynamicResource AppMuted}"/><Run Text=": "/><Run Text="{Binding Text[CaptureDefaultFolder]}"/>
+          </TextBlock>
         </StackPanel>
       </Border>
+      <StackPanel Name="CaptureSafetyRegion" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Classes="row-title" Text="{Binding Text[CaptureSafetyTitle]}"/>
+        <TextBlock Text="{Binding Text[CaptureRequiresAdministrator]}"/>
+        <TextBlock Text="{Binding Text[CapturePreviewGuide]}"/>
+        <TextBlock Text="{Binding Text[CapturePrivacy]}"/>
+        <TextBlock Text="{Binding Text[CaptureFolder]}"/>
+        <TextBlock Text="{Binding Text[CaptureLimitations]}"/>
+      </StackPanel>
+      <StackPanel Name="CapturePreviewRegion" IsVisible="{Binding !IsBusy}" Spacing="{DynamicResource primitive.space.2}">
+        <TextBlock Classes="row-title" Text="{Binding Text[CapturePreviewTitle]}"/>
+        <TextBlock Name="CapturePreviewNotice" Text="{Binding PreviewNotice}" AutomationProperties.Name="{Binding PreviewNotice}" AutomationProperties.LiveSetting="{Binding PreviewLiveSetting}"/>
+      </StackPanel>
       <StackPanel Name="CaptureApplyRegion" Spacing="{DynamicResource primitive.space.2}">
         <CheckBox Name="CaptureArchitectureConfirmation" IsCheckedChanged="ArchitectureChanged" HorizontalContentAlignment="Stretch" AutomationProperties.Name="{Binding Text[CaptureArchitectureConfirmation]}">
           <TextBlock Text="{Binding Text[CaptureArchitectureConfirmation]}"/>
@@ -47,16 +72,18 @@
           <TextBlock Text="{Binding Text[CaptureConfigure]}"/>
         </Button>
       </StackPanel>
-      <StackPanel Name="CaptureResultRegion" Spacing="{DynamicResource primitive.space.2}">
-        <TextBlock Classes="row-title" Text="{Binding Text[CaptureLastResult]}"/>
-        <TextBlock Name="CaptureOperationStatus" IsVisible="{Binding IsBusy}" Text="{Binding Text[CaptureOperationRunning]}" AutomationProperties.LiveSetting="Polite"/>
-        <TextBlock IsVisible="{Binding HasVerifiedResult}" Text="{Binding Text[CaptureVerificationConfirmed]}"/>
-        <TextBlock Name="CaptureLastResult" IsVisible="{Binding !IsBusy}" Text="{Binding LastResult}" AutomationProperties.Name="{Binding LastResult}" AutomationProperties.LiveSetting="Polite"/>
-      </StackPanel>
+      <Border Name="CaptureResultRegion" Classes="action-surface" Classes.verified="{Binding HasVerifiedResult}" Classes.attention="{Binding ResultIsAttention}" Classes.error="{Binding ResultIsError}" BorderThickness="3,1,1,1">
+        <StackPanel Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Classes="row-title" Text="{Binding Text[CaptureLastResult]}"/>
+          <TextBlock Name="CaptureOperationStatus" IsVisible="{Binding IsBusy}" Text="{Binding Text[CaptureOperationRunning]}" AutomationProperties.Name="{Binding Text[CaptureOperationRunning]}" AutomationProperties.LiveSetting="{Binding OperationLiveSetting}"/>
+          <TextBlock Name="CaptureLastResult" IsVisible="{Binding !IsBusy}" Text="{Binding LastResult}" AutomationProperties.Name="{Binding LastResult}" AutomationProperties.LiveSetting="{Binding ResultLiveSetting}"/>
+          <TextBlock Name="CaptureVerifiedResult" IsVisible="{Binding HasVerifiedResult}" Text="{Binding Text[CaptureVerificationConfirmed]}"/>
+        </StackPanel>
+      </Border>
       <StackPanel Name="CaptureRestoreRegion" Spacing="{DynamicResource primitive.space.2}">
         <TextBlock Classes="row-title" Text="{Binding Text[CaptureRestore]}"/>
         <TextBlock Text="{Binding Text[CaptureRestoreHelp]}"/>
-        <TextBlock Name="CaptureRestoreGuard" IsVisible="{Binding HasRestoreGuardResult}" Text="{Binding RestoreGuardResult}" AutomationProperties.LiveSetting="Polite"/>
+        <TextBlock Name="CaptureRestoreGuard" IsVisible="{Binding HasRestoreGuardResult}" Text="{Binding RestoreGuardResult}" AutomationProperties.Name="{Binding RestoreGuardResult}"/>
       </StackPanel>
       <StackPanel Name="CaptureJournalRegion" Spacing="{DynamicResource primitive.space.3}">
         <TextBlock Classes="row-title" Text="{Binding Text[CaptureJournal]}"/>
@@ -82,6 +109,16 @@
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
+      </StackPanel>
+      <StackPanel Name="CaptureTechnicalRegion" Spacing="{DynamicResource primitive.space.2}">
+        <Expander Name="CapturePreviewDetails" Classes="semantic-disclosure" Header="{Binding Text[TechnicalDetails]}" AutomationProperties.Name="{Binding Text[TechnicalDetails]}">
+          <StackPanel Spacing="{DynamicResource primitive.space.2}">
+            <TextBlock Text="{Binding Text[CaptureCurrent]}" Classes="row-title"/>
+            <TextBlock Name="CapturePreviewState" Text="{Binding PreviewState}" AutomationProperties.Name="{Binding PreviewState}"/>
+            <TextBlock Text="{Binding Text[CaptureRequested]}" Classes="row-title"/>
+            <TextBlock Text="{Binding ProposedState}"/>
+          </StackPanel>
+        </Expander>
       </StackPanel>
     </StackPanel>
   </StackPanel>

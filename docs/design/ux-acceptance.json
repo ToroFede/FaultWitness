@@ -1,5 +1,5 @@
 {
-  "version": "1.0.8",
+  "version": "1.0.9",
   "automatic": [
     {
       "id": "core-pages-axaml-ownership",
@@ -8,6 +8,18 @@
     {
       "id": "capture-axaml-workflow-boundary",
       "check": "CaptureView, CaptureRestoreCard and CaptureConfirmationWindow own layout inside the existing System host; MainWindow.Capture.cs only forwards explicit actions. Workflow, privilege, journal, reread, drift and newer-action behavior are unchanged"
+    },
+    {
+      "id": "capture-hierarchy-and-consent",
+      "check": "Capture reads purpose/current state/target/fixed policy/open consent/read-only preview/Configure/result/recovery/journal/technical details. All existing safety prose remains open before Configure; the fixed policy has no editable options; target changes invalidate Preview through the existing workflow. Content reuses the 800 epx form measure and stacks at compact widths"
+    },
+    {
+      "id": "capture-result-and-recovery-projection",
+      "check": "Result styling projects existing outcome codes; verified success keeps the existing Success plus observed-state predicate. Cancellation and Pending never use verified styling. Recorded absence has an explicit previous-state summary; actual previous values and raw previous/requested/observed details remain available. Restore candidate wording retains safety checks; drift and newer-action refusals stay adjacent without changing eligibility or helper executions"
+    },
+    {
+      "id": "capture-live-owner-and-focus",
+      "check": "Capture has one visible Polite owner: preview notice before a result, operation text while busy, latest result after settlement. Verification, Restore guard and historical journal text do not announce duplicates. Target/Preview/Refresh/architecture/Configure/Restore/disclosures retain keyboard order and focus across locale/theme/navigation updates; presentation causes no helper execution"
     },
     {
       "id": "readiness-source-distinction",
@@ -189,7 +201,7 @@
     }
   ],
   "manualVisual": [
-    "Capture has one title, purpose/current/target/preview/apply/result/restore/journal reading order, distinct preview and verified result, nearby guard reasons, closed technical disclosures and no automatic elevation",
+    "Capture has one title and purpose/current/target/fixed policy/open consent/read-only preview/apply/result/restore/journal/technical reading order. Preview is neutral, verified success restrained, cancellation distinct from failure and historical Pending visibly unverified. Previous-state summaries and refusal reasons stay near Restore; technical disclosures start closed; safety information remains complete and open in long compact locales",
     "All AXAML pages, including Capture embedded inside System, retain readable hierarchy and actions at compact and desktop sizes in Light and Dark",
     "System inventory values wrap safely; Readiness keeps Complete/Partial/Unavailable/AccessDenied/NotSupported distinctions readable without color; Settings and Export controls remain usable in long locales",
     "Scope copy remains subordinate; quiet complete and limited-coverage results remain distinct; filter-empty state offers Reset filters only when records are hidden",

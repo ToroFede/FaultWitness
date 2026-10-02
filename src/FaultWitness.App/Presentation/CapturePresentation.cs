@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using Avalonia.Automation;
 using FaultWitness.Core;
 using FaultWitness.Localization;
 
@@ -19,6 +20,14 @@ public sealed class CapturePresentation : PagePresentation
     public string CurrentState { get; private set; } = string.Empty;
     public string PreviewNotice { get; private set; } = string.Empty;
     public bool HasVerifiedResult { get; private set; }
+    public bool HasResult { get; private set; }
+    public bool ResultIsAttention { get; private set; }
+    public bool ResultIsError { get; private set; }
+    public AutomationLiveSetting PreviewLiveSetting => !IsBusy && !HasResult ? AutomationLiveSetting.Polite : AutomationLiveSetting.Off;
+    public AutomationLiveSetting ResultLiveSetting => !IsBusy && HasResult ? AutomationLiveSetting.Polite : AutomationLiveSetting.Off;
+    public AutomationLiveSetting OperationLiveSetting => IsBusy ? AutomationLiveSetting.Polite : AutomationLiveSetting.Off;
+    public string PolicyTarget => Target.Length > 0 ? Target : Text["NotAvailable"];
+    public string PolicyLimit { get; private set; } = string.Empty;
     public string PreviewState { get; private set; } = string.Empty;
     public string ProposedState { get; private set; } = string.Empty;
     public string LastResult { get; private set; } = string.Empty;
@@ -43,12 +52,20 @@ public sealed class CapturePresentation : PagePresentation
         ConfigureGuard = CanRead && flow is { CanConfigure: false, Preview: { Code: CaptureResultCode.Success, State: not null } } ? text.Get("CaptureResultUnsupportedConfiguration") : text.Get("CaptureConfigureGuard");
         PreviewNotice = flow?.CanConfigure == true ? text.Get("CapturePreviewReady") : flow?.Preview is { Code: not CaptureResultCode.Success } failed ? text.Get("CaptureResult" + failed.Code) : text.Get("CaptureNotRead");
         HasVerifiedResult = !IsBusy && flow?.LastResult is { Code: CaptureResultCode.Success, ObservedState: not null };
+        HasResult = flow?.LastResult is not null;
+        // Styling projects recorded codes only. It does not classify an operation or verify an observation.
+        ResultIsAttention = !IsBusy && flow?.LastResult?.Code is CaptureResultCode.CancelledByUser or CaptureResultCode.Pending or
+            CaptureResultCode.UnexpectedCurrentState or CaptureResultCode.InvalidRequest or CaptureResultCode.UnsupportedConfiguration or CaptureResultCode.AlreadyRestored;
+        ResultIsError = !IsBusy && flow?.LastResult?.Code is CaptureResultCode.AccessDenied or CaptureResultCode.ApplyFailed or
+            CaptureResultCode.VerificationFailed or CaptureResultCode.RollbackFailed or CaptureResultCode.RegistryUnavailable or
+            CaptureResultCode.UnsupportedPlatform or CaptureResultCode.HelperUnavailable or CaptureResultCode.HelperIncompatible;
         CurrentState = text.Format("CaptureActiveState", text.Get("CaptureState" + (flow?.ActiveState ?? CaptureActiveState.CouldNotVerify)));
         PreviewState = flow?.Preview is not { } read ? text.Get("CaptureNotRead") : read.State is not { } state
             ? text.Get("CaptureReadUnavailable") + " " + text.Get("CaptureResult" + read.Code)
             : text.Format("CapturePreviewValue", Number(state.DumpType, text), Number(state.DumpCount, text), state.DumpFolder ?? text.Get("NotAvailable"));
         // Display the existing fixed policy, never construct a request or add dump-mode choices.
         ProposedState = text.Format("CaptureRequestedValue", CrashCapturePolicy.DumpType, CrashCapturePolicy.DumpCount, text.Get("CaptureDefaultFolder"));
+        PolicyLimit = text.Format("CapturePolicyLimitValue", CrashCapturePolicy.DumpCount);
         LastResult = flow?.LastResult is { } result ? text.Format("CaptureLastResultValue", text.Get("CaptureResult" + result.Code)) : text.Get("CaptureNoResult");
         // Do not independently infer drift/newer actions or pre-authorize Restore. Show only the workflow's refusal.
         RestoreGuardResult = flow?.LastResult is { Code: CaptureResultCode.UnexpectedCurrentState or CaptureResultCode.InvalidRequest or CaptureResultCode.AlreadyRestored or CaptureResultCode.VerificationFailed or CaptureResultCode.RegistryUnavailable or CaptureResultCode.UnsupportedConfiguration } guard
@@ -86,10 +103,12 @@ public sealed class CaptureJournalPresentation : PagePresentation
     public string Restoration { get; private set; } = string.Empty;
     public string AccessibleName { get; private set; } = string.Empty;
     public string Previous { get; private set; } = string.Empty;
+    public string PreviousSummary { get; private set; } = string.Empty;
     public string Requested { get; private set; } = string.Empty;
     public string Observed { get; private set; } = string.Empty;
     public string RestoreButtonName => "CaptureRestoreButton" + Source.ActionId.ToString("N");
     public bool CanRestore { get; private set; }
+    public bool IsPending => Source.Result == CaptureResultCode.Pending;
     public bool CanInvoke { get; private set; }
     public IReadOnlyList<CaptureJournalPresentation> RestoreChoices => CanRestore ? [this] : [];
 
@@ -105,6 +124,7 @@ public sealed class CaptureJournalPresentation : PagePresentation
         Restoration = text.Get(entry.RollbackStatus == "Complete" ? "CaptureResultAlreadyRestored" : CanRestore ? "CaptureRestoreAvailable" : "CaptureRestoreUnavailable");
         AccessibleName = text.Format("CaptureJournalRow", Title, Timestamp, Status, Restoration);
         Previous = CapturePresentation.StateText(entry.PreviousState, text);
+        PreviousSummary = entry.PreviousState.KeyExists ? Previous : text.Get("CapturePreviousAbsent");
         Requested = text.Format("CaptureRequestedValue", entry.RequestedState.DumpType ?? 1, entry.RequestedState.DumpCount ?? 3, entry.RequestedState.DumpFolder ?? text.Get("CaptureDefaultFolder"));
         Observed = entry.ObservedState is { } state ? text.Format("CaptureObservedValue", CapturePresentation.Number(state.DumpType, text),
             CapturePresentation.Number(state.DumpCount, text), state.DumpFolder ?? text.Get("CaptureDefaultFolder")) : text.Get("CaptureObservedUnavailable");

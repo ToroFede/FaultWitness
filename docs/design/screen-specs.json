@@ -1,5 +1,5 @@
 {
-  "version": "1.0.8",
+  "version": "1.0.9",
   "feedbackPlacement": {
     "authority": "MainViewModel StatusKey, TechnicalError, operation/status origin and busy state; local regions are stateless projections",
     "local": "Analyze form and command area, Export Copy/Save area, and History heading/load-retry context",
@@ -377,10 +377,12 @@
       "informationPriority": [
         "purpose",
         "observed current state",
-        "target and fixed policy",
-        "proposed change and preview readiness",
-        "explicit Configure",
-        "result and verification",
+        "executable target",
+        "proposed fixed policy summary",
+        "open safety and consent information",
+        "read-only preview readiness",
+        "architecture confirmation and explicit Configure",
+        "authoritative result and verification",
         "Restore guidance and refusal",
         "journal and technical details"
       ],
@@ -388,33 +390,37 @@
         "purpose",
         "currentState",
         "target",
+        "policy",
+        "safety",
         "preview",
         "apply",
         "result",
         "restore",
-        "journal"
+        "journal",
+        "technical"
       ],
       "defaultFocus": "existing System information/readiness subnavigation",
       "emptyState": "single title and unavailable text without service; otherwise no recorded changes",
       "loadingState": "operation in progress, disabled actions; Pending never implies success",
       "errorState": "existing workflow result code and refusal explanation; cancellation remains distinct",
       "responsiveRules": {
-        "small": "single column; wrapping translated text and commands; no fixed-width target",
-        "medium": "single reading column; natural command wrapping",
-        "large": "single constrained reading column inside System"
+        "small": "single column; full safety prose remains open above Configure; translated text and commands wrap at 560/600/640/641",
+        "medium": "single reading column; natural command wrapping; previous-state summary stays next to each Restore candidate",
+        "large": "left-aligned reading column capped at the existing 800 epx form measure inside System at 1008/1280/1920"
       },
       "keyboardFlow": [
         "System subnavigation",
         "target",
         "Preview",
         "Refresh",
-        "preview disclosure",
         "architecture confirmation",
         "Configure",
         "Restore candidates",
         "journal disclosures",
-        "more entries"
+        "more entries",
+        "technical preview disclosure"
       ],
+      "feedbackOwnership": "Exactly one visible Polite owner: preview notice before a result, operation text while busy, otherwise latest result. Verification, Restore refusal and journal text remain readable without duplicate live announcements. Historical Pending remains unverified and is not promoted to a current result.",
       "allowedComponents": [
         "PrimaryAction",
         "SecondaryAction",
@@ -428,7 +434,11 @@
         "independent drift eligibility",
         "preview shown as success",
         "new dump options",
-        "color-only state"
+        "color-only state",
+        "collapsed required consent",
+        "independent result or Restore safety decisions",
+        "verified styling for Pending",
+        "raw technical values as primary policy summary"
       ]
     },
     {

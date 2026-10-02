@@ -1,13 +1,18 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.CaptureRestoreCard" x:DataType="p:CaptureJournalPresentation">
+  <UserControl.Styles>
+    <Style Selector="TextBlock.pending">
+      <Setter Property="Foreground" Value="{DynamicResource AppAttention}"/>
+    </Style>
+  </UserControl.Styles>
   <Border Classes="action-surface" AutomationProperties.Name="{Binding AccessibleName}">
     <StackPanel Spacing="{DynamicResource primitive.space.2}">
       <TextBlock Classes="row-title" Text="{Binding Title}"/>
       <TextBlock Classes="metadata" Text="{Binding Timestamp}"/>
-      <TextBlock Text="{Binding Status}"/>
+      <TextBlock Name="CaptureJournalStatus" Classes.pending="{Binding IsPending}" Text="{Binding Status}"/>
       <TextBlock Classes="metadata" Text="{Binding Restoration}"/>
+      <TextBlock Classes="row-title" Text="{Binding Text[CapturePrevious]}"/>
+      <TextBlock Name="CapturePreviousSummary" Text="{Binding PreviousSummary}" AutomationProperties.Name="{Binding PreviousSummary}"/>
       <StackPanel IsVisible="{Binding CanRestore}" Spacing="{DynamicResource primitive.space.1}">
-        <TextBlock Text="{Binding Text[CapturePrevious]}"/>
-        <TextBlock Classes="metadata" Text="{Binding Previous}"/>
         <ItemsControl ItemsSource="{Binding RestoreChoices}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="p:CaptureJournalPresentation">
