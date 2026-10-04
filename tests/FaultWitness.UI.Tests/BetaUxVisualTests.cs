@@ -16,7 +16,7 @@ public sealed class BetaUxVisualTests
     [
         ("home", AppPage.Home), ("analyze", AppPage.Analyze), ("incidents", AppPage.Incidents),
         ("incident-detail", AppPage.Detail), ("history", AppPage.History), ("system", AppPage.System),
-        ("readiness", AppPage.Readiness), ("capture", AppPage.System), ("settings", AppPage.Settings)
+        ("readiness", AppPage.Readiness), ("capture", AppPage.Capture), ("settings", AppPage.Settings)
     ];
 
     [AvaloniaFact]
@@ -84,7 +84,7 @@ public sealed class BetaUxVisualTests
             // The capture journal is a separate bounded view at normal size.
             foreach (var theme in new[] { AppTheme.Light, AppTheme.Dark })
             {
-                await Prepare(window, viewModel, AppPage.System, theme, "en", 1280, 900);
+                await Prepare(window, viewModel, AppPage.Capture, theme, "en", 1280, 900);
                 var restore = window.GetVisualDescendants().OfType<Button>().Single(button => button.Name?.StartsWith("CaptureRestoreButton", StringComparison.Ordinal) == true);
                 restore.BringIntoView();
                 window.UpdateLayout();

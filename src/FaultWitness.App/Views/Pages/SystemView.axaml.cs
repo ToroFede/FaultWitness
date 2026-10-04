@@ -20,7 +20,7 @@ public sealed partial class SystemView : UserControl
         navigation.ReadinessRequested += () => ReadinessRequested?.Invoke();
     }
 
-    public void Refresh(SystemPresentation presentation, MainViewModel source, string layoutClass, Control captureContent)
+    public void Refresh(SystemPresentation presentation, MainViewModel source, string layoutClass)
     {
         var scroll = this.FindControl<ScrollViewer>("SystemScroll")!;
         var offset = scroll.Offset;
@@ -28,7 +28,6 @@ public sealed partial class SystemView : UserControl
         presentation.Refresh(source, layoutClass);
         this.FindControl<SystemSubnavigation>("SystemNavigation")!.DataContext = presentation.Text;
         this.FindControl<SystemSubnavigation>("SystemNavigation")!.Refresh(presentation.Text, source.Page == AppPage.Readiness);
-        this.FindControl<ContentControl>("CaptureHost")!.Content = captureContent;
         scroll.Offset = offset;
     }
 

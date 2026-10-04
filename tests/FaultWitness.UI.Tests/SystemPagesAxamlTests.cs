@@ -17,7 +17,7 @@ public sealed class SystemPagesAxamlTests
     private static readonly string[] Languages = ["en", "it", "es", "fr", "de", "pt", "ru", "pl"];
 
     [AvaloniaFact]
-    public async Task System_InventoryAndCaptureEntryRemainAvailable_AndFailureIsReadable()
+    public async Task System_InventoryRemainsAvailableWithoutCapture_AndFailureIsReadable()
     {
         var services = new TestServices
         {
@@ -36,7 +36,9 @@ public sealed class SystemPagesAxamlTests
             var text = VisibleText(window);
             Assert.Contains("Synthetic Windows", text, StringComparison.Ordinal);
             Assert.Contains(viewModel.Text.Get("InventoryAvailabilityAccessDenied"), text, StringComparison.Ordinal);
-            Assert.Contains(viewModel.Text.Get("CaptureTitle"), text, StringComparison.Ordinal);
+            Assert.DoesNotContain(viewModel.Text.Get("CaptureTitle"), text, StringComparison.Ordinal);
+            Assert.Empty(view.GetVisualDescendants().OfType<CaptureView>());
+            Assert.Null(view.FindControl<ContentControl>("CaptureHost"));
             Assert.DoesNotContain("synthetic-private-device-id", text, StringComparison.Ordinal);
             Assert.DoesNotContain("synthetic-gpu-id", text, StringComparison.Ordinal);
             Assert.NotNull(Find<Button>(window, "SystemInformationTab"));

@@ -168,7 +168,7 @@ public sealed class CaptureAxamlTests
         {
             var view = View(window); var input = Find<TextBox>(window, "CaptureExecutable");
             input.Text = "first.exe";
-            window.ViewModel.Navigate(AppPage.Home); window.ViewModel.Navigate(AppPage.System); Settle(window);
+            window.ViewModel.Navigate(AppPage.Home); window.ViewModel.Navigate(AppPage.Capture); Settle(window);
             Assert.Same(view, View(window)); Assert.Equal("first.exe", input.Text); Assert.Equal(0, service.Executions);
             input.Text = "bad/path.exe"; Click(window, "CaptureReadButton");
             Find<CheckBox>(window, "CaptureArchitectureConfirmation").IsChecked = true;
@@ -194,7 +194,7 @@ public sealed class CaptureAxamlTests
                     Assert.True(Find<Button>(window, "CaptureConfigureButton").IsEnabled);
                 }
             }
-            window.ViewModel.Navigate(AppPage.Home); window.ViewModel.Navigate(AppPage.System); Settle(window);
+            window.ViewModel.Navigate(AppPage.Home); window.ViewModel.Navigate(AppPage.Capture); Settle(window);
             Assert.Same(view, View(window)); Assert.True(disclosure.IsExpanded);
             Assert.Equal("valid.exe", input.Text);
             input.Text = "changed.exe";
@@ -284,7 +284,7 @@ public sealed class CaptureAxamlTests
     internal static MainWindow Open(CaptureWorkflow? capture, string language = "en")
     {
         var window = new MainWindow(new MainViewModel(new TestServices { Capture = capture, Settings = new UserSettings(Language: language) }));
-        window.Width = 1280; window.Height = 1000; window.Show(); window.ViewModel.Navigate(AppPage.System); Settle(window); return window;
+        window.Width = 1280; window.Height = 1000; window.Show(); window.ViewModel.Navigate(AppPage.Capture); Settle(window); return window;
     }
     internal static CaptureView View(MainWindow window) => window.GetVisualDescendants().OfType<CaptureView>().Single();
     internal static void Settle(MainWindow window) { Dispatcher.UIThread.RunJobs(); window.UpdateLayout(); }

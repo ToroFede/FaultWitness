@@ -17,6 +17,7 @@ public sealed class MainViewModel : IDisposable
     private AnalysisMode statusMode;
     internal long FeedbackRevision { get; private set; }
     private bool inventoryAttempted;
+    private bool captureAttempted;
     private Task? inventoryRefreshTask;
     private IReadOnlyList<IncidentRow> rows = [];
     public MainViewModel(IAppServices services, LocalizationService? text = null)
@@ -35,6 +36,7 @@ public sealed class MainViewModel : IDisposable
     public CaptureWorkflow? Capture { get; }
     public UserSettings Settings { get; private set; }
     public AppPage Page { get; private set; } = AppPage.Home;
+    public AppPage AnalyzeDestination { get; private set; } = AppPage.Analyze;
     public AnalysisMode AnalysisMode { get; private set; } = AnalysisMode.Recent;
     public AnalysisPeriod Period { get; set; } = AnalysisPeriod.Week;
     public DateTimeOffset CustomFrom { get; set; } = DateTimeOffset.Now.AddDays(-7);
@@ -78,11 +80,17 @@ public sealed class MainViewModel : IDisposable
     {
         if (Page != page && !IsBusy) { StatusKey = "Ready"; TechnicalError = string.Empty; }
         Page = page;
+        if (page is AppPage.Analyze or AppPage.Capture) AnalyzeDestination = page;
         Changed?.Invoke(ViewChange.Page);
         if (page == AppPage.System && !IsBusy)
         {
             if (!inventoryAttempted) _ = RefreshInventoryAsync();
-            if (Capture is not null) _ = Capture.RefreshAsync();
+        }
+        // Initialize the relocated page once; tab revisits keep target/Preview edits intact.
+        if (page == AppPage.Capture && !IsBusy && !captureAttempted && Capture is not null)
+        {
+            captureAttempted = true;
+            _ = Capture.RefreshAsync();
         }
     }
     public void OpenAnalyze(AnalysisMode mode)

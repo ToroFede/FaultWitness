@@ -1,0 +1,9 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.AnalyzeCaptureView" x:DataType="p:LocalizedLabels">
+  <ScrollViewer Name="AnalyzeCaptureScroll" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Name="AnalyzeCaptureContent" MaxWidth="800" HorizontalAlignment="Left" Spacing="{DynamicResource primitive.space.4}">
+      <TextBlock Classes="page-title" Text="{Binding [Analyze]}"/>
+      <c:AnalyzeSubnavigation Name="AnalyzeNavigation"/>
+      <ContentControl Name="CaptureHost" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

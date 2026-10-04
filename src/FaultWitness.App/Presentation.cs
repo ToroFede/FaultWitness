@@ -8,7 +8,7 @@ namespace FaultWitness.App;
 
 public enum AttentionLevel { Attention, Knowing, Background }
 public enum AnalysisPeriod { Day, Week, Month, Custom }
-public enum AppPage { Home, Analyze, Incidents, Detail, History, Readiness, System, Settings, Export }
+public enum AppPage { Home, Analyze, Incidents, Detail, History, Readiness, System, Settings, Export, Capture }
 public enum AnalysisMode { Recent, Around, Files }
 public enum AppTheme { System, Light, Dark }
 public enum ExportFormat { Summary, Html, Json, Bundle }

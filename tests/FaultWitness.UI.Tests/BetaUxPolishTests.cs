@@ -52,7 +52,7 @@ public sealed class BetaUxPolishTests
         var window = new MainWindow(viewModel); window.Show();
         try
         {
-            await capture.PreviewAsync(); viewModel.Navigate(AppPage.System); window.UpdateLayout();
+            await capture.PreviewAsync(); viewModel.Navigate(AppPage.Capture); window.UpdateLayout();
             var preview = window.GetLogicalDescendants().OfType<TextBlock>().Single(block => block.Name == "CapturePreviewState");
             var details = preview.GetLogicalAncestors().OfType<Expander>().Single();
             Assert.False(details.IsExpanded);

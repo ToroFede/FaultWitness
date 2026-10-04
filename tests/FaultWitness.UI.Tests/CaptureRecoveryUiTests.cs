@@ -123,7 +123,7 @@ public sealed class CaptureRecoveryUiTests
 #pragma warning disable CA2000 // MainWindow disposes the view model on Closed in each test finally.
         var window = new MainWindow(new MainViewModel(new TestServices { Capture = capture, Settings = new UserSettings(Language: language) }));
 #pragma warning restore CA2000
-        window.Show(); window.ViewModel.Navigate(AppPage.System); window.UpdateLayout(); return window;
+        window.Show(); window.ViewModel.Navigate(AppPage.Capture); window.UpdateLayout(); return window;
     }
     private static T Find<T>(MainWindow window, string name) where T : Control { Dispatcher.UIThread.RunJobs(); window.UpdateLayout(); return window.GetVisualDescendants().OfType<T>().Single(x => x.Name == name); }
     private static void Click(MainWindow window, string name) { Find<Button>(window, name).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); window.UpdateLayout(); }

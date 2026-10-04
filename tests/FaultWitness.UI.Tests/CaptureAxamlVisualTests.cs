@@ -54,9 +54,9 @@ public sealed class CaptureAxamlVisualTests
                     var view = CaptureAxamlTests.View(window);
                     if (scenario == "selection") CaptureAxamlTests.Find<TextBox>(window, "CaptureExecutable").Text = "selected.exe";
                     if (scenario is "preview" or "configured-verified") CaptureAxamlTests.Find<CheckBox>(window, "CaptureArchitectureConfirmation").IsChecked = true;
-                    var system = window.GetVisualDescendants().OfType<SystemView>().Single();
-                    var scroll = system.FindControl<ScrollViewer>("SystemScroll")!;
-                    var root = system.FindControl<StackPanel>("SystemContent")!;
+                    var system = window.GetVisualDescendants().OfType<AnalyzeCaptureView>().Single();
+                    var scroll = system.FindControl<ScrollViewer>("AnalyzeCaptureScroll")!;
+                    var root = system.FindControl<StackPanel>("AnalyzeCaptureContent")!;
                     if (scenario == "preview" && language == "de") view.FindControl<Expander>("CapturePreviewDetails")!.IsExpanded = true;
                     if (scenario == "pending-recovery" && language == "de") view.GetVisualDescendants().OfType<Expander>().Single(item => item.Name != "CapturePreviewDetails").IsExpanded = true;
                     var focusRegion = scenario is "restore-available" or "drift-blocked" or "pending-recovery" ? "CaptureResultRegion" : "CapturePurpose";

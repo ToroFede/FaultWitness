@@ -1,11 +1,12 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.AnalyzeView" x:DataType="p:AnalyzePresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.AnalyzeView" x:DataType="p:AnalyzePresentation">
   <ScrollViewer HorizontalScrollBarVisibility="Disabled">
     <Grid Name="AnalyzePageRegion" HorizontalAlignment="Stretch">
       <StackPanel Name="AnalyzeContent" MaxWidth="800" HorizontalAlignment="Left" Spacing="{DynamicResource primitive.space.4}">
       <StackPanel Spacing="{DynamicResource primitive.space.1}">
         <TextBlock Classes="page-title" Text="{Binding Text[Analyze]}"/>
-        <TextBlock Text="{Binding ModeGuidance}"/>
       </StackPanel>
+      <c:AnalyzeSubnavigation Name="AnalyzeNavigation"/>
+      <TextBlock Text="{Binding ModeGuidance}"/>
       <TextBlock Name="ProductScope" Text="{Binding Scope}"/>
       <StackPanel Spacing="{DynamicResource primitive.space.1}">
         <TextBlock Text="{Binding Text[AnalysisWorkflow]}"/>

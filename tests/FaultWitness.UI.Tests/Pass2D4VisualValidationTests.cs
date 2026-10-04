@@ -119,11 +119,11 @@ public sealed class Pass2D4VisualValidationTests
                     break;
                 case "capture":
                     await captureFlow!.PreviewAsync();
-                    viewModel.Navigate(AppPage.System);
+                    viewModel.Navigate(AppPage.Capture);
                     window.UpdateLayout();
                     var preview = window.GetVisualDescendants().OfType<Expander>().Single(item => item.Name == "CapturePreviewDetails");
                     preview.IsExpanded = true;
-                    var systemScroll = window.GetVisualDescendants().OfType<ScrollViewer>().Single(item => item.Name == "SystemScroll");
+                    var systemScroll = window.GetVisualDescendants().OfType<ScrollViewer>().Single(item => item.Name == "AnalyzeCaptureScroll");
                     systemScroll.ScrollToEnd();
                     break;
                 default:

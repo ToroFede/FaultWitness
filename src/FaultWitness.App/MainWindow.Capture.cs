@@ -39,7 +39,7 @@ public sealed partial class MainWindow
         dialog.Prepare(ViewModel.Text, this, restore: false);
         if (await dialog.ShowDialog<bool>(this).ConfigureAwait(true)) await capture.ConfigureAsync().ConfigureAwait(true);
         RefreshCapture();
-        if (ViewModel.Page == AppPage.System) captureView?.FindControl<Button>("CaptureConfigureButton")?.Focus();
+        if (ViewModel.Page == AppPage.Capture) captureView?.FindControl<Button>("CaptureConfigureButton")?.Focus();
     }
 
     private async Task ConfirmRestoreAsync(Guid actionId)
@@ -49,7 +49,7 @@ public sealed partial class MainWindow
         if (await dialog.ShowDialog<bool>(this).ConfigureAwait(true) && ViewModel.Capture is { } capture)
             await capture.RestoreAsync(actionId).ConfigureAwait(true);
         RefreshCapture();
-        if (ViewModel.Page == AppPage.System && captureView is not null)
+        if (ViewModel.Page == AppPage.Capture && captureView is not null)
         {
             captureView.UpdateLayout();
             var restore = captureView.GetVisualDescendants().OfType<Button>().FirstOrDefault(button => button.Name == "CaptureRestoreButton" + actionId.ToString("N"));

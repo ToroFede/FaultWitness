@@ -1,5 +1,5 @@
 {
-  "version": "1.0.9",
+  "version": "1.0.10",
   "automatic": [
     {
       "id": "core-pages-axaml-ownership",
@@ -7,7 +7,11 @@
     },
     {
       "id": "capture-axaml-workflow-boundary",
-      "check": "CaptureView, CaptureRestoreCard and CaptureConfirmationWindow own layout inside the existing System host; MainWindow.Capture.cs only forwards explicit actions. Workflow, privilege, journal, reread, drift and newer-action behavior are unchanged"
+      "check": "CaptureView, CaptureRestoreCard and CaptureConfirmationWindow own layout inside the Analyze Capture subpage host; MainWindow.Capture.cs only forwards explicit actions. Workflow, privilege, journal, reread, drift and newer-action behavior are unchanged"
+    },
+    {
+      "id": "analyze-capture-navigation",
+      "check": "Analyze defaults to the existing recent/around/import experience and adds one Capture next crash subpage using the established semantic subnavigation. System contains Inventory and Diagnostic Readiness only. Mode-specific views, form inputs, Capture target/Preview/architecture/disclosures survive switching, locale/theme updates and resize. Explicit workflow links select Analyze; shell navigation remembers the last subpage. Keyboard activation keeps focus on the selected subnavigation control. Ongoing analysis/Capture feedback projects authoritative state with one visible owner per context; no workflow, helper or security change."
     },
     {
       "id": "capture-hierarchy-and-consent",
@@ -115,7 +119,7 @@
     },
     {
       "id": "selected-destination",
-      "check": "Current destination has selection class, visible shape, emphasized label and accessible state; Detail maps to Incidents and Readiness to System"
+      "check": "Current destination has selection class, visible shape, emphasized label and accessible state; Detail maps to Incidents and Readiness to System; Capture maps to Analyze"
     },
     {
       "id": "home-summary-density",
@@ -159,7 +163,7 @@
     },
     {
       "id": "core-pages-runtime-state",
-      "check": "All migrated AXAML pages retain their views and accessible control names during runtime EN/IT/ES/FR/DE/PT/RU/PL and System/Light/Dark changes; Analyze inputs, incident filters, History selection, System subpage, Settings selections, Export options and Capture target/architecture/outer disclosure remain stateful"
+      "check": "All migrated AXAML pages retain their views and accessible control names during runtime EN/IT/ES/FR/DE/PT/RU/PL and System/Light/Dark changes; Analyze inputs, incident filters, History selection, Analyze/Capture selection, System subpage, Settings selections, Export options and Capture target/architecture/outer disclosure remain stateful"
     },
     {
       "id": "detail-four-answers",
@@ -202,7 +206,8 @@
   ],
   "manualVisual": [
     "Capture has one title and purpose/current/target/fixed policy/open consent/read-only preview/apply/result/restore/journal/technical reading order. Preview is neutral, verified success restrained, cancellation distinct from failure and historical Pending visibly unverified. Previous-state summaries and refusal reasons stay near Restore; technical disclosures start closed; safety information remains complete and open in long compact locales",
-    "All AXAML pages, including Capture embedded inside System, retain readable hierarchy and actions at compact and desktop sizes in Light and Dark",
+    "Analyze destination title precedes the two localized subnavigation controls and the selected content; Capture retains its existing subordinate section title, not a second full page title. Compare 600/640/641 compact locales, 1008/1280/1920, Light and Dark; System shows only Inventory and Readiness.",
+    "All AXAML pages, including Capture hosted under Analyze, retain readable hierarchy and actions at compact and desktop sizes in Light and Dark",
     "System inventory values wrap safely; Readiness keeps Complete/Partial/Unavailable/AccessDenied/NotSupported distinctions readable without color; Settings and Export controls remain usable in long locales",
     "Scope copy remains subordinate; quiet complete and limited-coverage results remain distinct; filter-empty state offers Reset filters only when records are hidden",
     "obvious first focal point",

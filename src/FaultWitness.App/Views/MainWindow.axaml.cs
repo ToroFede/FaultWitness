@@ -32,6 +32,7 @@ public sealed partial class MainWindow : Window
     private HistoryView? historyView;
     private HistoryPresentation? historyPresentation;
     private SystemView? systemView;
+    private AnalyzeCaptureView? analyzeCaptureView;
     private SystemPresentation? systemPresentation;
     private DiagnosticReadinessView? readinessView;
     private ReadinessPresentation? readinessPresentation;
@@ -138,12 +139,15 @@ public sealed partial class MainWindow : Window
     private void UpdateStatus()
     {
         var local = ViewModel.HasLocalFeedback;
+        var captureAway = ViewModel.Page != AppPage.Capture && ViewModel.Capture?.IsBusy == true &&
+            (local || !ViewModel.HasVisibleStatus);
         // One visible live owner; the shell resumes ownership away from the origin.
-        AutomationProperties.SetLiveSetting(statusText, local ? AutomationLiveSetting.Off : AutomationLiveSetting.Polite);
-        statusText.Text = ViewModel.StatusText;
-        statusText.IsVisible = ViewModel.HasVisibleStatus && !local;
-        statusArea.IsVisible = (ViewModel.IsBusy || ViewModel.HasVisibleStatus) && !local;
-        progress.IsVisible = ViewModel.IsBusy && !local;
+        AutomationProperties.SetLiveSetting(statusText, local && !captureAway ? AutomationLiveSetting.Off : AutomationLiveSetting.Polite);
+        statusText.Text = captureAway ? T("CaptureOperationRunning") : ViewModel.StatusText;
+        statusText.IsVisible = captureAway || ViewModel.HasVisibleStatus && !local;
+        statusArea.IsVisible = captureAway || (ViewModel.IsBusy || ViewModel.HasVisibleStatus) && !local;
+        progress.IsVisible = captureAway || ViewModel.IsBusy && !local;
+        AutomationProperties.SetName(progress, T(captureAway ? "CaptureOperationRunning" : "AnalysisInProgress"));
         cancelButton.IsVisible = ViewModel.IsBusy && !local;
         ToolTip.SetTip(statusText, string.IsNullOrEmpty(ViewModel.TechnicalError) ? null : ViewModel.TechnicalError);
         technicalDetails.IsVisible = ViewModel.HasVisibleStatus && !local && !string.IsNullOrEmpty(ViewModel.TechnicalError);
@@ -167,6 +171,7 @@ public sealed partial class MainWindow : Window
         pageHost.Content = ViewModel.Page switch
         {
             AppPage.Analyze => AnalyzePage(ViewModel.AnalysisMode, refreshPageData),
+            AppPage.Capture => AnalyzeCapturePage(),
             AppPage.Incidents => IncidentsPage(refreshPageData),
             AppPage.History => HistoryPage(refreshPageData),
             AppPage.Detail => DetailPage(), AppPage.Readiness => ReadinessPage(), AppPage.System => SystemPage(),
@@ -174,7 +179,7 @@ public sealed partial class MainWindow : Window
         };
         foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Name?.StartsWith("Nav", StringComparison.Ordinal) == true))
         {
-            var destination = ViewModel.Page switch { AppPage.Detail => AppPage.Incidents, AppPage.Readiness => AppPage.System, _ => ViewModel.Page };
+            var destination = ViewModel.Page switch { AppPage.Detail => AppPage.Incidents, AppPage.Readiness => AppPage.System, AppPage.Capture => AppPage.Analyze, _ => ViewModel.Page };
             SetNavigationSelected(button, button.Name == "Nav" + destination);
         }
         UpdateStatus();
@@ -190,8 +195,32 @@ public sealed partial class MainWindow : Window
             systemView.InformationRequested += () => ViewModel.Navigate(AppPage.System);
             systemView.ReadinessRequested += () => ViewModel.Navigate(AppPage.Readiness);
         }
-        systemView.Refresh(systemPresentation!, ViewModel, layoutClass, CapturePage());
+        systemView.Refresh(systemPresentation!, ViewModel, layoutClass);
         return systemView;
+    }
+
+    private AnalyzeCaptureView AnalyzeCapturePage()
+    {
+        if (analyzeCaptureView is null)
+        {
+            analyzeCaptureView = new AnalyzeCaptureView();
+            analyzeCaptureView.AnalyzeRequested += () => SwitchAnalyzeDestination(AppPage.Analyze);
+        }
+        analyzeCaptureView.Refresh(new(ViewModel.Text), CapturePage());
+        return analyzeCaptureView;
+    }
+
+    private void SwitchAnalyzeDestination(AppPage destination)
+    {
+        var tabName = destination == AppPage.Capture ? "AnalyzeCaptureTab" : "AnalyzeWorkflowTab";
+        var keepTabFocus = (pageHost.Content as Control)?.GetVisualDescendants().OfType<Button>()
+            .Any(button => button.Name == tabName && button.IsFocused) == true;
+        ViewModel.Navigate(destination);
+        if (keepTabFocus)
+        {
+            UpdateLayout();
+            (pageHost.Content as Control)?.GetLogicalDescendants().OfType<Button>().Single(button => button.Name == tabName).Focus();
+        }
     }
 
     private DiagnosticReadinessView ReadinessPage()
@@ -272,6 +301,7 @@ public sealed partial class MainWindow : Window
             view.ImportsDropped += ViewModel.AddImports;
             view.RunRequested += request => _ = RunAnalysisAsync(request);
             view.CancelRequested += ViewModel.Cancel;
+            view.CaptureRequested += () => SwitchAnalyzeDestination(AppPage.Capture);
             pair = (view, presentation);
             analyzePages.Add(mode, pair);
         }
@@ -368,6 +398,7 @@ public sealed partial class MainWindow : Window
     private async void NavigateFromShell(object? sender, RoutedEventArgs args)
     {
         if (sender is not Button { Name: { } name } || !Enum.TryParse<AppPage>(name[3..], out var page)) return;
+        if (page == AppPage.Analyze) page = ViewModel.AnalyzeDestination;
         ViewModel.Navigate(page);
         if (page == AppPage.History) await ViewModel.RefreshHistoryAsync();
     }

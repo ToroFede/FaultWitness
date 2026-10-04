@@ -116,7 +116,7 @@ public sealed class CaptureHierarchyTests
             Assert.False(view.FindControl<TextBlock>("CaptureLastResult")!.IsVisible);
             Assert.False(view.FindControl<StackPanel>("CapturePreviewRegion")!.IsVisible);
             AssertOwner(window, "CaptureOperationStatus");
-            window.ViewModel.Navigate(AppPage.Home); window.ViewModel.Navigate(AppPage.System);
+            window.ViewModel.Navigate(AppPage.Home); window.ViewModel.Navigate(AppPage.Capture);
             CaptureAxamlTests.Settle(window);
             Assert.Same(view, CaptureAxamlTests.View(window));
             AssertOwner(window, "CaptureOperationStatus");

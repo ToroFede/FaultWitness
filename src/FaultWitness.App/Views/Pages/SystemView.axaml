@@ -56,7 +56,6 @@
       <Button Name="ReadSystem" Classes="secondary-action operation" Click="RefreshInventory" AutomationProperties.Name="{Binding RefreshLabel}" HorizontalAlignment="Left">
         <TextBlock Text="{Binding RefreshLabel}"/>
       </Button>
-      <ContentControl Name="CaptureHost" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
     </StackPanel>
   </ScrollViewer>
 </UserControl>

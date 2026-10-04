@@ -26,7 +26,7 @@ public sealed class CaptureVisualValidationTests
         if (!string.IsNullOrWhiteSpace(output)) Directory.CreateDirectory(output);
 
         await capture.PreviewAsync();
-        viewModel.Navigate(AppPage.System); await RenderAndSave(window, output, "preview");
+        viewModel.Navigate(AppPage.Capture); await RenderAndSave(window, output, "preview");
         await capture.ConfigureAsync(); await RenderAndSave(window, output, "configured-journal-restore");
         service.State = service.State with { DumpCount = 7 };
         await capture.RefreshAsync(); await RenderAndSave(window, output, "configuration-changed");

@@ -231,7 +231,7 @@ public sealed class DialogConsistencyTests
             }
             else
             {
-                owner.ViewModel.Navigate(AppPage.System);
+                owner.ViewModel.Navigate(AppPage.Capture);
                 Settle(owner);
                 if (kind == "configure")
                 {

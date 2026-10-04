@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using FaultWitness.App.Presentation;
+using FaultWitness.App.Views.Components;
 using FaultWitness.Core;
 
 namespace FaultWitness.App.Views.Pages;
@@ -16,10 +17,12 @@ public sealed partial class AnalyzeView : UserControl
     public event Action<IEnumerable<string>>? ImportsDropped;
     public event Action<AnalyzeRunRequest>? RunRequested;
     public event Action? CancelRequested;
+    public event Action? CaptureRequested;
 
     public AnalyzeView()
     {
         AvaloniaXamlLoader.Load(this);
+        this.FindControl<AnalyzeSubnavigation>("AnalyzeNavigation")!.CaptureRequested += () => CaptureRequested?.Invoke();
         var drop = this.FindControl<Border>("ImportDropSurface")!;
         DragDrop.SetAllowDrop(drop, true);
         drop.AddHandler(DragDrop.DragOverEvent, OnDragOver);
@@ -31,6 +34,7 @@ public sealed partial class AnalyzeView : UserControl
         synchronizing = true;
         if (!ReferenceEquals(DataContext, presentation)) DataContext = presentation;
         presentation.Refresh();
+        this.FindControl<AnalyzeSubnavigation>("AnalyzeNavigation")!.Refresh(presentation.Text, false);
         var mode = this.FindControl<ComboBox>("AnalysisMode")!;
         var period = this.FindControl<ComboBox>("PeriodSelector")!;
         var window = this.FindControl<ComboBox>("AroundWindow")!;

@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="FaultWitness.App.Views.Components.AnalyzeSubnavigation">
+  <WrapPanel Name="AnalyzeSubnavigationItems">
+    <Button Name="AnalyzeWorkflowTab" Classes="navigation-item" Click="ShowAnalyze" Margin="{DynamicResource UiCommandMargin}">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+        <Border Name="AnalyzeWorkflowIndicator" Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+        <TextBlock Name="AnalyzeWorkflowLabel" Grid.Column="1"/>
+      </Grid>
+    </Button>
+    <Button Name="AnalyzeCaptureTab" Classes="navigation-item" Click="ShowCapture" Margin="{DynamicResource UiCommandMargin}">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}">
+        <Border Name="AnalyzeCaptureIndicator" Width="{DynamicResource component.selection.indicatorWidth}" Background="{DynamicResource AppAccent}" Opacity="0"/>
+        <TextBlock Name="AnalyzeCaptureLabel" Grid.Column="1"/>
+      </Grid>
+    </Button>
+  </WrapPanel>
+</UserControl>

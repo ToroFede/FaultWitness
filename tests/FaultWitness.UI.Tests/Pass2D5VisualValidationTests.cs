@@ -72,7 +72,7 @@ public sealed class Pass2D5VisualValidationTests
                 var view = CaptureAxamlTests.View(window);
                 if (scenario.State == "selection")
                 {
-                    // Opening System legitimately refreshes Capture. Edit afterward to retain the real invalidated state.
+                    // Opening Capture legitimately refreshes Capture. Edit afterward to retain the real invalidated state.
                     view.FindControl<TextBox>("CaptureExecutable")!.Text = "selected.exe";
                     Assert.Null(flow!.Preview);
                     Assert.Null(flow.LastResult);
@@ -83,9 +83,9 @@ public sealed class Pass2D5VisualValidationTests
                 if (scenario.State == "journal-expanded")
                     view.GetVisualDescendants().OfType<CaptureRestoreCard>().Single().GetVisualDescendants().OfType<Expander>().Single().IsExpanded = true;
                 CaptureAxamlTests.Settle(window);
-                var system = window.GetVisualDescendants().OfType<SystemView>().Single();
-                var scroll = system.FindControl<ScrollViewer>("SystemScroll")!;
-                var root = system.FindControl<StackPanel>("SystemContent")!;
+                var system = window.GetVisualDescendants().OfType<AnalyzeCaptureView>().Single();
+                var scroll = system.FindControl<ScrollViewer>("AnalyzeCaptureScroll")!;
+                var root = system.FindControl<StackPanel>("AnalyzeCaptureContent")!;
                 var anchor = view.FindControl<Control>(scenario.Anchor)!;
                 scroll.Offset = new Vector(0, anchor.TranslatePoint(default, root)!.Value.Y);
                 CaptureAxamlTests.Settle(window);
