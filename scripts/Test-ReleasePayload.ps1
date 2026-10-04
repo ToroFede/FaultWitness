@@ -104,14 +104,14 @@ function Test-Dependencies([string] $Path, [string] $Rid, [string] $Label, [Syst
 function Test-Version([string] $ExePath, [string] $Label, [string] $Rid, [System.Collections.Generic.List[string]] $Errors) {
     if (-not (Test-Path -LiteralPath $ExePath -PathType Leaf)) { return $null }
     $info = [Diagnostics.FileVersionInfo]::GetVersionInfo($ExePath)
-    $expectedInformational = '0.9.0-beta.1+' + $script:SourceRevision
+    $expectedInformational = '0.9.0-beta.2+' + $script:SourceRevision
     if ($info.ProductName -ne 'FaultWitness') { [void]$Errors.Add("Product mismatch ($Label): $($info.ProductName)") }
     if (($Label -eq 'app' -and $info.FileDescription -ne 'FaultWitness') -or ($Label -eq 'helper' -and $info.FileDescription -ne 'FaultWitness.ElevatedHelper')) {
         [void]$Errors.Add("File description mismatch ($Label): $($info.FileDescription)")
     }
     if (-not [string]::IsNullOrWhiteSpace($info.CompanyName)) { [void]$Errors.Add("Company identity must be blank ($Label): $($info.CompanyName)") }
     if ([string]::IsNullOrWhiteSpace($info.FileVersion)) { [void]$Errors.Add("Missing file version ($Label).") }
-    if ([string]::IsNullOrWhiteSpace($info.ProductVersion) -or $info.ProductVersion -notlike '*beta*' -or $info.ProductVersion -notlike "*$($script:SourceRevision)*") {
+    if ([string]::IsNullOrWhiteSpace($info.ProductVersion) -or $info.ProductVersion -ne $expectedInformational) {
         [void]$Errors.Add("Informational/product version mismatch ($Label): $($info.ProductVersion); expected $expectedInformational")
     }
     try {
@@ -151,7 +151,7 @@ function Test-Publish([string] $PublishRoot, [string] $Rid) {
         $payloadRid = if ($null -ne $payload.PSObject.Properties['Rid']) { [string]$payload.Rid } else { '' }
         $payloadBuild = if ($null -ne $payload.PSObject.Properties['Build']) { [string]$payload.Build } else { '' }
         if ($payloadRid -ne $Rid) { [void]$errors.Add("Helper payload RID mismatch: $payloadRid; expected $Rid") }
-        if ($payloadBuild -notlike "*$($script:SourceRevision)*") { [void]$errors.Add("Helper payload build does not contain SourceRevisionId: $payloadBuild") }
+        if ($payloadBuild -ne ('0.9.0-beta.2+' + $script:SourceRevision)) { [void]$errors.Add("Helper payload build does not contain SourceRevisionId: $payloadBuild") }
     }
     catch { [void]$errors.Add("Invalid helper payload JSON: $($_.Exception.Message)") }
     Test-Inventory $PublishRoot $errors

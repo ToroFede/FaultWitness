@@ -2,7 +2,8 @@
 param(
     [Parameter(Mandatory = $true)] [string] $PublishRoot,
     [Parameter(Mandatory = $true)] [string] $OutputRoot,
-    [string] $Version = '0.9.0-beta.1',
+    [string] $Version = '0.9.0-beta.2',
+    [Parameter(Mandatory = $true)] [string] $LauncherPath,
     [string] $SourceRevision = '',
     [string] $Rid = 'win-x64'
 )
@@ -58,20 +59,32 @@ if ($SourceRevision -notmatch '^[0-9a-f]{7,64}$') { throw 'SourceRevision must b
 
 $productDirectory = "FaultWitness-$Version-$Rid"
 $staging = Join-Path $output $productDirectory
-if (Test-Path -LiteralPath $staging) { Remove-Item -LiteralPath $staging -Recurse -Force }
+if (Test-Path -LiteralPath $staging) { throw 'Use a fresh OutputRoot; existing release staging is never overwritten.' }
 New-Item -ItemType Directory -Path $staging -Force | Out-Null
 foreach ($file in @(Get-ChildItem -LiteralPath $publish -File -Recurse | Sort-Object { Get-Relative $publish $_.FullName })) {
     $relative = Get-Relative $publish $file.FullName
-    $target = Join-Path $staging ($relative -replace '/', [IO.Path]::DirectorySeparatorChar)
+    $target = Join-Path (Join-Path $staging 'app') ($relative -replace '/', [IO.Path]::DirectorySeparatorChar)
     New-Item -ItemType Directory -Path (Split-Path $target -Parent) -Force | Out-Null
     Copy-Item -LiteralPath $file.FullName -Destination $target
 }
 $repoRoot = Split-Path -Parent $PSScriptRoot
-foreach ($document in @('LICENSE', 'THIRD-PARTY-NOTICES.txt', 'README.md')) {
-    $documentPath = Join-Path $repoRoot $document
-    if (-not (Test-Path -LiteralPath $documentPath -PathType Leaf)) { throw "Required release document is missing: $document" }
-    Copy-Item -LiteralPath $documentPath -Destination (Join-Path $staging $document)
+$documents = Join-Path $staging 'app/docs'
+New-Item -ItemType Directory -Path $documents -Force | Out-Null
+Copy-Item -LiteralPath $LauncherPath -Destination (Join-Path $staging 'FaultWitness.exe')
+$launcherInfo = [Diagnostics.FileVersionInfo]::GetVersionInfo((Join-Path $staging 'FaultWitness.exe'))
+if ($launcherInfo.ProductVersion -ne "$Version+$SourceRevision") { throw 'Launcher version/source revision does not match the package.' }
+foreach ($document in @('LICENSE', 'THIRD-PARTY-NOTICES.txt', 'SECURITY.md')) {
+    Copy-Item -LiteralPath (Join-Path $repoRoot $document) -Destination (Join-Path $documents $document)
 }
+foreach ($document in @('capture-next-crash-security.md', 'code-signing-policy.md', 'change-history-sources.md', 'release-notes-0.9.0-beta.2.md')) {
+    Copy-Item -LiteralPath (Join-Path $repoRoot "docs/$document") -Destination (Join-Path $documents $document)
+}
+New-Item -ItemType Directory -Path (Join-Path $documents 'images') -Force | Out-Null
+foreach ($image in @('incidents-beta2.png', 'incident-detail-beta2.png')) {
+    Copy-Item -LiteralPath (Join-Path $repoRoot "docs/images/$image") -Destination (Join-Path $documents "images/$image")
+}
+$readme = (Get-Content -LiteralPath (Join-Path $repoRoot 'README.md') -Raw).Replace('](docs/', '](app/docs/').Replace('](LICENSE)', '](app/docs/LICENSE)').Replace('](THIRD-PARTY-NOTICES.txt)', '](app/docs/THIRD-PARTY-NOTICES.txt)').Replace('](SECURITY.md)', '](app/docs/SECURITY.md)')
+Set-Content -LiteralPath (Join-Path $staging 'README.md') -Value $readme -Encoding UTF8
 @'
 # FaultWitness Quick Start
 
@@ -79,13 +92,13 @@ foreach ($document in @('LICENSE', 'THIRD-PARTY-NOTICES.txt', 'README.md')) {
 
 1. Extract the full ZIP package to a folder and keep its subfolders in place.
 2. Open `FaultWitness.exe` from the extracted folder.
-3. Choose a recent period (24 hours, 7 days, 30 days or a custom range up to 90 days), or investigate around a known incident time.
+3. Open **Analyze → Analyze** and choose a recent period (24 hours, 7 days, 30 days or a custom range up to 90 days), or investigate around a known incident time.
 4. Results depend on the records Windows retained and the sources FaultWitness could examine. A quiet result does not prove that the PC is fault-free.
 5. **System → Diagnostic Readiness** is optional source investigation. It helps explain source status and access; it is not a prerequisite health scan.
 
-The `helper` folder is required for administrator-approved crash-capture configuration. Keep it beside the application executable. See `README.md` for diagnostic scope and privacy details.
+Use **Analyze → Capture next crash** for the optional capture workflow. The `app/helper` folder is required for administrator-approved crash-capture configuration. Keep the complete `app` folder beside the root launcher; do not launch the helper directly. See `README.md` for diagnostic scope and privacy details.
 '@ | Set-Content -LiteralPath (Join-Path $staging 'QUICKSTART.md') -Encoding UTF8
-$noticeRoot = Join-Path $staging 'third-party'
+$noticeRoot = Join-Path $documents 'third-party'
 $deps = @(Get-ChildItem -LiteralPath $publish -Filter '*.deps.json' -File -Recurse | ForEach-Object { (Get-Content $_.FullName -Raw | ConvertFrom-Json).libraries.PSObject.Properties.Name })
 $packageKeys = @($deps | Where-Object { $_ -match '(?i)^(skiasharp|skiasharp\.nativeassets\.win32|avalonia\.angle\.windows\.natives|runtimepack\.microsoft\.netcore\.app\.runtime\.win-x64)/' })
 foreach ($key in $packageKeys) {
@@ -103,12 +116,12 @@ foreach ($key in $packageKeys) {
 $manifestFiles = @(Get-ChildItem -LiteralPath $staging -File -Recurse | Sort-Object { Get-Relative $staging $_.FullName } | ForEach-Object {
     [ordered]@{ path = Get-Relative $staging $_.FullName; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant(); bytes = $_.Length }
 })
-$manifest = [ordered]@{ product = 'FaultWitness'; version = $Version; rid = $Rid; sourceRevision = $SourceRevision; manifestFile = 'release-manifest.json'; filesExcludeManifest = $true; files = $manifestFiles }
-$manifest | ConvertTo-Json -Depth 8 -Compress | Set-Content -LiteralPath (Join-Path $staging 'release-manifest.json') -Encoding UTF8
+$manifest = [ordered]@{ product = 'FaultWitness'; version = $Version; rid = $Rid; sourceRevision = $SourceRevision; manifestFile = 'app/docs/release-manifest.json'; filesExcludeManifest = $true; files = $manifestFiles }
+$manifest | ConvertTo-Json -Depth 8 -Compress | Set-Content -LiteralPath (Join-Path $documents 'release-manifest.json') -Encoding UTF8
 $zip = Join-Path $output "$productDirectory.zip"
-if (Test-Path -LiteralPath $zip) { Remove-Item -LiteralPath $zip -Force }
+if (Test-Path -LiteralPath $zip) { throw 'Release ZIP already exists.' }
 New-DeterministicZip $staging $zip $productDirectory
 $hash = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant()
-Set-Content -LiteralPath (Join-Path $output "$productDirectory.zip.sha256") -Value "$hash  $productDirectory.zip" -Encoding ASCII
+Set-Content -LiteralPath (Join-Path $output 'SHA256.txt') -Value "$hash  $productDirectory.zip" -Encoding ASCII
 @([ordered]@{ artifact = (Split-Path $zip -Leaf); productDirectory = $productDirectory; version = $Version; rid = $Rid; sourceRevision = $SourceRevision; sha256 = $hash; fileCount = $manifestFiles.Count } | ConvertTo-Json -Compress) | Set-Content -LiteralPath (Join-Path $output 'release-summary.json') -Encoding UTF8
 Write-Output $zip

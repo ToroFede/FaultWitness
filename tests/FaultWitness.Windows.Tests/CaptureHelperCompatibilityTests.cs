@@ -24,7 +24,7 @@ public sealed class CaptureHelperCompatibilityTests : IDisposable
             File.Copy(Path.Combine(AppContext.BaseDirectory, name + ".dll"), Path.Combine(directory, name + ".dll"));
         WriteContract(1, Build, Rid);
         File.WriteAllText(Path.Combine(directory, Name + ".runtimeconfig.json"), "{\"runtimeOptions\":{\"tfm\":\"net10.0\",\"framework\":{\"name\":\"Microsoft.NETCore.App\",\"version\":\"10.0.0\"}}}");
-        File.WriteAllText(Path.Combine(directory, Name + ".deps.json"), "{\"runtimeTarget\":{\"name\":\"net10.0/" + Rid + "\"},\"targets\":{\"net10.0/" + Rid + "\":{\"" + Name + "/0.9.0-beta.1\":{\"runtime\":{\"" + Name + ".dll\":{}}}}}}");
+        File.WriteAllText(Path.Combine(directory, Name + ".deps.json"), "{\"runtimeTarget\":{\"name\":\"net10.0/" + Rid + "\"},\"targets\":{\"net10.0/" + Rid + "\":{\"" + Name + "/0.9.0-beta.2\":{\"runtime\":{\"" + Name + ".dll\":{}}}}}}");
     }
     private void WriteContract(int schema, string build, string rid) => File.WriteAllText(Path.Combine(directory, Name + ".payload.json"), JsonSerializer.Serialize(new { SchemaVersion = schema, Build = build, Rid = rid }));
     private CaptureResultCode Validate() => CaptureHelperCompatibility.Validate(directory, Build, Rid);

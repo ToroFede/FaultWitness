@@ -3,7 +3,7 @@ name: release-candidate
 on:
   push:
     tags:
-      - 'v0.9.0-beta.1'
+      - 'v0.9.0-beta.2'
 
 permissions:
   contents: read
@@ -21,7 +21,7 @@ jobs:
       - name: Verify release tag
         shell: pwsh
         run: |
-          if ('${{ github.ref_name }}' -ne 'v0.9.0-beta.1') { throw 'Unexpected release tag.' }
+          if ('${{ github.ref_name }}' -ne 'v0.9.0-beta.2') { throw 'Unexpected release tag.' }
       - name: Restore
         run: dotnet restore FaultWitness.slnx
       - name: Clean publish directory
@@ -41,22 +41,26 @@ jobs:
           ./scripts/Test-ReleasePayload.ps1
           -PublishRoot artifacts/release-candidate/publish
           -Rid win-x64
+      - name: Build fixed-path root launcher
+        shell: pwsh
+        run: ./scripts/Build-Launcher.ps1 -OutputRoot artifacts/release-candidate/launcher -SourceRevision ${{ github.sha }}
       - name: Compose deterministic artifact
         shell: pwsh
         run: >-
           ./scripts/Compose-ReleaseArtifact.ps1
           -PublishRoot artifacts/release-candidate/publish
           -OutputRoot artifacts/release-candidate/out
-          -Version 0.9.0-beta.1 -Rid win-x64 -SourceRevision ${{ github.sha }}
+          -LauncherPath artifacts/release-candidate/launcher/FaultWitness.exe
+          -Version 0.9.0-beta.2 -Rid win-x64 -SourceRevision ${{ github.sha }}
       - name: Audit composed artifact
         shell: pwsh
         run: ./scripts/Test-ReleaseArtifact.ps1 -ArtifactRoot artifacts/release-candidate/out
       - name: Upload candidate artifact
         uses: actions/upload-artifact@v7
         with:
-          name: FaultWitness-0.9.0-beta.1-win-x64
+          name: FaultWitness-0.9.0-beta.2-win-x64
           path: |
-            artifacts/release-candidate/out/FaultWitness-0.9.0-beta.1-win-x64.zip
-            artifacts/release-candidate/out/FaultWitness-0.9.0-beta.1-win-x64.zip.sha256
+            artifacts/release-candidate/out/FaultWitness-0.9.0-beta.2-win-x64.zip
+            artifacts/release-candidate/out/SHA256.txt
             artifacts/release-candidate/out/release-summary.json
           if-no-files-found: error
