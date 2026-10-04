@@ -1,6 +1,9 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.IncidentHeader" x:DataType="p:IncidentDetailPresentation">
   <StackPanel Spacing="{DynamicResource primitive.space.2}">
     <TextBlock Classes="page-title" Text="{Binding Title}"/>
+    <TextBlock Name="IncidentSubject" Classes="row-title" Text="{Binding Subject}"/>
+    <TextBlock Name="IncidentRecordedAt" Classes="metadata" Text="{Binding RecordedAt}"/>
+    <TextBlock Name="IncidentSource" Classes="metadata" Text="{Binding Source}"/>
     <TextBlock Classes="observed" Text="{Binding ObservedSummary}" AutomationProperties.Name="{Binding Text[WhatHappened]}"/>
     <TextBlock Classes="metadata" Text="{Binding Metadata}"/>
     <TextBlock Classes="metadata" Text="{Binding Recurrence}" IsVisible="{Binding HasPattern}"/>

@@ -49,7 +49,7 @@ public sealed class CorePagesAxamlTests
             Assert.True(home.FindControl<Border>("QuietResult")!.IsVisible);
             var backgroundText = VisibleText(home);
             var quietTitle = ((HomePresentation)home.DataContext!).QuietTitle;
-            Assert.StartsWith("No incidents needing attention or worth noting were found for ", quietTitle, StringComparison.Ordinal);
+            Assert.StartsWith(viewModel.Text.Get("AnalysisCompleteLimited") + ". No incidents needing attention or worth noting were found for ", quietTitle, StringComparison.Ordinal);
             Assert.DoesNotContain("{0}", quietTitle, StringComparison.Ordinal);
             Assert.Contains(viewModel.Text.Get("PriorityBackground"), backgroundText, StringComparison.Ordinal);
             Assert.Contains(viewModel.Text.Format("BackgroundEntriesCount", viewModel.Text.Get("PriorityBackground"), "1"), backgroundText, StringComparison.Ordinal);
@@ -63,11 +63,15 @@ public sealed class CorePagesAxamlTests
             viewModel.SetResult(complete);
             var quiet = VisibleText(home);
             Assert.Contains("No supported stability incidents were found in the examined records for ", ((HomePresentation)home.DataContext!).QuietTitle, StringComparison.Ordinal);
+            Assert.StartsWith(viewModel.Text.Get("QuietAnalysisComplete") + ". ", ((HomePresentation)home.DataContext!).QuietTitle, StringComparison.Ordinal);
+            Assert.DoesNotContain("{0}", ((HomePresentation)home.DataContext!).QuietTitle, StringComparison.Ordinal);
+            Assert.DoesNotContain("{1}", ((HomePresentation)home.DataContext!).QuietTitle, StringComparison.Ordinal);
             Assert.Contains(viewModel.Text.Get("QuietResultCaution"), quiet, StringComparison.Ordinal);
             Assert.False(((HomePresentation)home.DataContext!).HasLimitedCoverage);
 
             var limited = complete with { Coverage = [new(SourceType.Wer, CoverageState.Partial, null, null, "synthetic")] };
             viewModel.SetResult(limited);
+            Assert.StartsWith(viewModel.Text.Get("AnalysisCompleteLimited") + ". ", ((HomePresentation)home.DataContext!).QuietTitle, StringComparison.Ordinal);
             Assert.Contains(viewModel.Text.Get("CoveragePartial"), VisibleText(home), StringComparison.Ordinal);
             Assert.True(((HomePresentation)home.DataContext!).HasLimitedCoverage);
             home.FindControl<Button>("StartAroundFlow")!.RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));

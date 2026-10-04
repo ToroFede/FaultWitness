@@ -77,15 +77,14 @@ public sealed class IncidentRow
         Incident = incident;
         Priority = PresentationPolicy.Classify(incident, recurrenceCount);
         PriorityText = text.Get("Priority" + Priority);
-        Title = text.Get("Category" + incident.Category);
+        Identity = IncidentIdentity.From(incident, text);
+        Title = Identity.Type;
         Timestamp = incident.StartTimeUtc.ToLocalTime().ToString("G", text.Culture);
         Strength = text.Format("EvidenceValue", text.Get("Strength" + incident.EvidenceStrength));
         var primary = incident.Findings.Where(item => item.Disposition != FindingDisposition.Suppressed)
             .OrderBy(item => item.Disposition).ThenBy(item => item.Strength).FirstOrDefault();
         Assessment = primary is null ? text.Get("BackgroundDescription") : text.Get(primary.ObservedKey);
-        Context = string.Join(" · ", new[] { incident.AnchorEvent.Process, incident.AnchorEvent.Module, incident.AnchorEvent.Device }
-            .Where(value => !string.IsNullOrWhiteSpace(value)).Select(value => Path.GetFileName(value!.Replace('\\', '/'))));
-        if (Context.Length == 0) Context = text.Get("Priority" + Priority);
+        Context = Identity.Subject;
         DevelopmentContext = PresentationPolicy.HasDevelopmentExecutableName(incident.AnchorEvent.Process) ? text.Get("DevelopmentProcessContext") : string.Empty;
         RecurrenceCount = recurrenceCount;
         Recurrence = recurrenceCount > 1 ? text.Format("RecurringCount", recurrenceCount) : string.Empty;
@@ -96,6 +95,7 @@ public sealed class IncidentRow
             .Append(Title));
     }
     public Incident Incident { get; }
+    public IncidentIdentity Identity { get; }
     public AttentionLevel Priority { get; }
     public string PriorityText { get; }
     public string Title { get; }
@@ -111,8 +111,8 @@ public sealed class IncidentRow
     public bool HasRecurrence => RecurrenceCount > 1;
     public bool HasSharedReport => SharedReportCount > 1;
     public bool HasDevelopmentContext => DevelopmentContext.Length > 0;
-    public string SummaryMetadata => Strength + "   ·   " + PriorityText + "   ·   " + Context;
-    public string AccessibleName => Title + " · " + Timestamp + " · " + Assessment + " · " + SummaryMetadata;
+    public string SummaryMetadata => Strength + "   ·   " + PriorityText;
+    public string AccessibleName => Title + " · " + Context + " · " + Timestamp + " · " + Assessment + " · " + SummaryMetadata;
     public string SearchText { get; }
     public override string ToString() => Title + " · " + Timestamp + " · " + Strength;
 }

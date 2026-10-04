@@ -521,7 +521,7 @@
   <data name="NoSupportedIncidentsImported" xml:space="preserve"><value>No supported stability incidents were found in the imported records.</value></data>
   <data name="NoPriorityIncidents" xml:space="preserve"><value>No incidents needing attention or worth noting were found for {0}.</value></data>
   <data name="NoPriorityIncidentsImported" xml:space="preserve"><value>No incidents needing attention or worth noting were found in the imported records.</value></data>
-  <data name="QuietResultCaution" xml:space="preserve"><value>This is not a general health check. A quiet result does not prove that the PC is fault-free.</value></data>
+  <data name="QuietResultCaution" xml:space="preserve"><value>This is not a general health check. A quiet result does not prove that no instability occurred outside the supported records. Source and coverage limits still apply.</value></data>
   <data name="BackgroundEntriesCount" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="CoverageLimitSummary" xml:space="preserve"><value>Coverage limits:</value></data>
   <data name="ImportScope" xml:space="preserve"><value>FaultWitness reviews only supported diagnostic records in files you select. It does not assess general PC health or maintenance.</value></data>
@@ -549,4 +549,14 @@
   <data name="CaptureSafetyTitle" xml:space="preserve"><value>Before configuring</value></data>
   <data name="CapturePreviewTitle" xml:space="preserve"><value>Read-only preview</value></data>
   <data name="CapturePreviousAbsent" xml:space="preserve"><value>No capture configuration for this application; the target setting was absent.</value></data>
+  <data name="MaximumAnalysisRange" xml:space="preserve"><value>Maximum analysis range: 90 days.</value></data>
+  <data name="IncidentComponentValue" xml:space="preserve"><value>Component in record: {0}</value></data>
+  <data name="IncidentIdentityUnknown" xml:space="preserve"><value>Application / process / component: not established by this record.</value></data>
+  <data name="IncidentServiceValue" xml:space="preserve"><value>Service in record: {0}</value></data>
+  <data name="IncidentRecordedAt" xml:space="preserve"><value>Windows recorded this event at: {0}</value></data>
+  <data name="AnalysisCompleteLimited" xml:space="preserve"><value>Analysis completed with source limits</value></data>
+  <data name="BackgroundProcessGuidance" xml:space="preserve"><value>Windows can record events involving applications, services and background processes even while you are not actively using the PC. FaultWitness reports the recorded event; it does not establish that the process was in the foreground.</value></data>
+  <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Contextual records were found, but none matched the current classification for an incident needing attention or worth noting. Background context is not proof of a failure.</value></data>
+  <data name="IncidentProcessValue" xml:space="preserve"><value>Application / process in record: {0}</value></data>
+  <data name="QuietAnalysisComplete" xml:space="preserve"><value>Analysis completed</value></data>
 </root>

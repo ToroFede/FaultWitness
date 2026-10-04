@@ -59,36 +59,15 @@ public sealed class HomePresentation(MainViewModel viewModel) : PagePresentation
         };
         var backgroundOnly = IsBackgroundOnly;
         var key = backgroundOnly ? "NoPriorityIncidents" : "NoSupportedIncidents";
-        QuietTitle = viewModel.IsImported
-            ? viewModel.Text.Get(key + "Imported")
-            : viewModel.Text.Format(key, AnalysisRange());
-        QuietBackgroundCount = backgroundOnly
-            ? viewModel.Text.Format("BackgroundEntriesCount", viewModel.Text.Get("PriorityBackground"), viewModel.BackgroundCount.ToString(viewModel.Text.Culture))
-            : string.Empty;
-        QuietCaution = viewModel.Text.Get("QuietResultCaution");
-        var limited = viewModel.Result.Coverage.Where(source => source.State != CoverageState.Complete)
-            .Select(source => viewModel.Text.Get(PresentationPolicy.SourceKey(source)) + ": " + viewModel.Text.Get("Coverage" + source.State)).ToArray();
-        QuietCoverage = limited.Length == 0 ? string.Empty : viewModel.Text.Get("CoverageLimitSummary") + " " + string.Join(" · ", limited);
+        var quiet = QuietResultProjection.Create(viewModel, key, backgroundOnly);
+        QuietTitle = quiet.Title;
+        QuietBackgroundCount = quiet.BackgroundCount;
+        QuietCaution = quiet.Caution;
+        QuietCoverage = quiet.Coverage;
         CoverageRows = viewModel.Result.Coverage.Select(source => CoverageDetailPresentation.From(source, viewModel.Text)).ToArray();
         Changed();
     }
 
-    private string AnalysisRange()
-    {
-        var now = DateTimeOffset.Now;
-        var (from, to) = viewModel.LastRequestedFromUtc is { } requestedFrom && viewModel.LastRequestedToUtc is { } requestedTo
-            ? (requestedFrom, requestedTo)
-            : viewModel.IsAround
-                ? (viewModel.AroundTime.AddMinutes(-viewModel.WindowMinutes), viewModel.AroundTime.AddMinutes(viewModel.WindowMinutes))
-                : viewModel.Period switch
-                {
-                    AnalysisPeriod.Day => (now.AddDays(-1), now),
-                    AnalysisPeriod.Month => (now.AddDays(-30), now),
-                    AnalysisPeriod.Custom => (viewModel.CustomFrom, viewModel.CustomTo),
-                    _ => (now.AddDays(-7), now)
-                };
-        return from.ToLocalTime().ToString("g", viewModel.Text.Culture) + " — " + to.ToLocalTime().ToString("g", viewModel.Text.Culture);
-    }
 }
 
 public sealed record SummaryMetricPresentation(AttentionLevel Priority, int Count, string Label, string FormattedCount)
@@ -197,6 +176,7 @@ public sealed class IncidentListPresentation(MainViewModel viewModel) : PagePres
     public IReadOnlyList<string> Categories { get; private set; } = [];
     public IReadOnlyList<string> Strengths { get; private set; } = [];
     public string CountText { get; private set; } = string.Empty;
+    public string AnalysisPeriod { get; private set; } = string.Empty;
     public string HeadingHelp { get; private set; } = string.Empty;
     public string EmptyHeading { get; private set; } = string.Empty;
     public string EmptyHelp { get; private set; } = string.Empty;
@@ -223,6 +203,8 @@ public sealed class IncidentListPresentation(MainViewModel viewModel) : PagePres
         Categories = [viewModel.Text.Get("AllCategories"), .. Enum.GetValues<IncidentCategory>().Select(value => viewModel.Text.Get("Category" + value))];
         Strengths = [viewModel.Text.Get("AllEvidence"), .. Enum.GetValues<EvidenceStrength>().Select(value => viewModel.Text.Get("Strength" + value))];
         CountText = viewModel.Text.Format("ItemsShown", viewModel.FilteredRows.Count, viewModel.AllRows.Count);
+        AnalysisPeriod = viewModel.IsImported ? viewModel.Text.Get("ImportedData") :
+            viewModel.Text.Get("AnalysisPeriod") + ": " + QuietResultProjection.Range(viewModel);
         HeadingHelp = viewModel.Text.Get(viewModel.IsImported ? "ImportedData" : "IncidentHelp");
         ShowResetFilters = viewModel.HasAnalysis && viewModel.AllRows.Count > 0 && viewModel.FilteredRows.Count == 0;
         if (!viewModel.HasAnalysis)
@@ -234,7 +216,8 @@ public sealed class IncidentListPresentation(MainViewModel viewModel) : PagePres
         else if (viewModel.AllRows.Count == 0)
         {
             var quiet = QuietResultProjection.Create(viewModel, "NoSupportedIncidents", false);
-            EmptyHeading = quiet.Title; EmptyHelp = quiet.Caution; EmptyCoverage = quiet.Coverage; EmptyBackgroundCount = string.Empty;
+            EmptyHeading = quiet.Title; EmptyHelp = quiet.Caution; EmptyCoverage = quiet.Coverage;
+            EmptyCaution = EmptyBackgroundCount = string.Empty;
         }
         else if (ShowResetFilters)
         {
@@ -256,26 +239,23 @@ public sealed record QuietResultProjection(string Title, string BackgroundCount,
 {
     public static QuietResultProjection Create(MainViewModel viewModel, string key, bool backgroundOnly)
     {
-        var now = DateTimeOffset.Now;
-        var (from, to) = viewModel.LastRequestedFromUtc is { } requestedFrom && viewModel.LastRequestedToUtc is { } requestedTo
-            ? (requestedFrom, requestedTo)
-            : viewModel.IsAround
-                ? (viewModel.AroundTime.AddMinutes(-viewModel.WindowMinutes), viewModel.AroundTime.AddMinutes(viewModel.WindowMinutes))
-                : viewModel.Period switch
-                {
-                    AnalysisPeriod.Day => (now.AddDays(-1), now), AnalysisPeriod.Month => (now.AddDays(-30), now),
-                    AnalysisPeriod.Custom => (viewModel.CustomFrom, viewModel.CustomTo), _ => (now.AddDays(-7), now)
-                };
-        var range = from.ToLocalTime().ToString("g", viewModel.Text.Culture) + " — " + to.ToLocalTime().ToString("g", viewModel.Text.Culture);
-        var title = viewModel.IsImported ? viewModel.Text.Get(key + "Imported") : viewModel.Text.Format(key, range);
+        var title = viewModel.IsImported ? viewModel.Text.Get(key + "Imported") : viewModel.Text.Format(key, Range(viewModel));
         var background = backgroundOnly
             ? viewModel.Text.Format("BackgroundEntriesCount", viewModel.Text.Get("PriorityBackground"), viewModel.BackgroundCount.ToString(viewModel.Text.Culture))
             : string.Empty;
         var limited = viewModel.Result.Coverage.Where(source => source.State != CoverageState.Complete)
             .Select(source => viewModel.Text.Get(PresentationPolicy.SourceKey(source)) + ": " + viewModel.Text.Get("Coverage" + source.State)).ToArray();
-        var coverage = limited.Length == 0 ? string.Empty : viewModel.Text.Get("CoverageLimitSummary") + " " + string.Join(" · ", limited);
-        return new(title, background, viewModel.Text.Get("QuietResultCaution"), coverage);
+        var coverage = viewModel.Result.Coverage.Count == 0 ? viewModel.Text.Get("CoverageNotChecked") :
+            limited.Length == 0 ? string.Empty : viewModel.Text.Get("CoverageLimitSummary") + " " + string.Join(" · ", limited);
+        title = viewModel.Text.Get(coverage.Length > 0 ? "AnalysisCompleteLimited" : "QuietAnalysisComplete") + ". " + title;
+        var caution = (backgroundOnly ? viewModel.Text.Get("BackgroundOnlyExplanation") + " " : string.Empty) + viewModel.Text.Get("QuietResultCaution");
+        return new(title, background, caution, coverage);
     }
+
+    public static string Range(MainViewModel viewModel) =>
+        viewModel.LastRequestedFromUtc is { } from && viewModel.LastRequestedToUtc is { } to
+            ? from.ToLocalTime().ToString("g", viewModel.Text.Culture) + " — " + to.ToLocalTime().ToString("g", viewModel.Text.Culture)
+            : viewModel.Text.Get("HistoryPeriodUnavailable");
 }
 
 public static class DateTimeInput

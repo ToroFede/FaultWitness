@@ -28,6 +28,7 @@
             <DatePicker Name="ToDate" SelectedDate="{Binding CustomToDate, Mode=TwoWay}" AutomationProperties.Name="{Binding Text[ToDate]}"/>
           </StackPanel>
         </WrapPanel>
+        <TextBlock Name="MaximumAnalysisRange" Classes="metadata" Text="{Binding Text[MaximumAnalysisRange]}"/>
         <Expander Name="AdvancedSources" Classes="semantic-disclosure" Header="{Binding Text[AdvancedSources]}" AutomationProperties.Name="{Binding Text[AdvancedSources]}">
           <StackPanel Spacing="{DynamicResource primitive.space.1}">
             <TextBlock Text="{Binding Text[SourcesHelp]}"/>

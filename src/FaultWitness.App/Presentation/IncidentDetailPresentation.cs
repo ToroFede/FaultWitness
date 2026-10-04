@@ -14,6 +14,9 @@ public sealed class IncidentDetailPresentation : INotifyPropertyChanged
     public string Title { get; private set; } = string.Empty;
     public string ObservedSummary { get; private set; } = string.Empty;
     public string Metadata { get; private set; } = string.Empty;
+    public string Subject { get; private set; } = string.Empty;
+    public string Source { get; private set; } = string.Empty;
+    public string RecordedAt { get; private set; } = string.Empty;
     public string Recurrence { get; private set; } = string.Empty;
     public string BestNextStep { get; private set; } = string.Empty;
     public IReadOnlyList<string> ActionKeys { get; private set; } = [];
@@ -47,6 +50,9 @@ public sealed class IncidentDetailPresentation : INotifyPropertyChanged
         Incident = row.Incident;
         Text = new(text);
         Title = row.Title;
+        Subject = row.Identity.Subject;
+        Source = row.Identity.Source + (row.Identity.EventIdentity.Length == 0 ? string.Empty : " · " + row.Identity.EventIdentity);
+        RecordedAt = text.Format("IncidentRecordedAt", Incident.AnchorEvent.TimestampUtc.ToLocalTime().ToString("G", text.Culture));
         ObservedSummary = row.Assessment;
         Metadata = row.Timestamp + " · " + row.Strength + " · " + origin;
         var findings = Incident.Findings.Where(item => item.Disposition != FindingDisposition.Suppressed).ToArray();
@@ -96,6 +102,7 @@ public sealed class IncidentDetailPresentation : INotifyPropertyChanged
         {
             text.Get("DetailProvider") + ": " + item.Provider, text.Get("DetailChannel") + ": " + item.Channel,
             text.Get("DetailEventId") + ": " + item.EventId, text.Get("DetailRecordId") + ": " + item.Field("OriginalRecordId"),
+            text.Get("SourceRecord") + ": " + item.SourceReference,
             "UTC: " + item.TimestampUtc.ToString("O"), text.Get("LocalTime") + ": " + item.TimestampUtc.ToLocalTime().ToString("O")
         }.Concat(item.Fields.Select(pair => pair.Key + ": " + pair.Value)));
         return new(item, timeline ? item.TimestampUtc.ToLocalTime().ToString("T", text.Culture) + " · " +

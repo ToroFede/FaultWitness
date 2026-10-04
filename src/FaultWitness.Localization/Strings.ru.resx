@@ -465,7 +465,7 @@
   <data name="NoSupportedIncidentsImported" xml:space="preserve"><value>В импортированных записях не найдено поддерживаемых инцидентов стабильности.</value></data>
   <data name="NoPriorityIncidents" xml:space="preserve"><value>За период {0} не найдено инцидентов, требующих внимания или заслуживающих упоминания.</value></data>
   <data name="NoPriorityIncidentsImported" xml:space="preserve"><value>В импортированных записях не найдено инцидентов, требующих внимания или заслуживающих упоминания.</value></data>
-  <data name="QuietResultCaution" xml:space="preserve"><value>Это не общая проверка состояния ПК. Отсутствие инцидентов не доказывает, что с ПК всё в порядке.</value></data>
+  <data name="QuietResultCaution" xml:space="preserve"><value>Это не общая проверка состояния компьютера. Результат без значимых инцидентов не доказывает отсутствие нестабильности за пределами поддерживаемых записей. Ограничения источников и охвата остаются в силе.</value></data>
   <data name="BackgroundEntriesCount" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="CoverageLimitSummary" xml:space="preserve"><value>Ограничения охвата источников:</value></data>
   <data name="ImportScope" xml:space="preserve"><value>FaultWitness изучает только поддерживаемые диагностические записи в выбранных файлах. Он не оценивает общее состояние ПК и его обслуживание.</value></data>
@@ -493,4 +493,14 @@
   <data name="CaptureSafetyTitle" xml:space="preserve"><value>Перед настройкой</value></data>
   <data name="CapturePreviewTitle" xml:space="preserve"><value>Предпросмотр без изменений</value></data>
   <data name="CapturePreviousAbsent" xml:space="preserve"><value>Для этого приложения не было настройки записи; параметр целевого приложения отсутствовал.</value></data>
+  <data name="MaximumAnalysisRange" xml:space="preserve"><value>Максимальный период анализа: 90 дней.</value></data>
+  <data name="IncidentComponentValue" xml:space="preserve"><value>Компонент в записи: {0}</value></data>
+  <data name="IncidentIdentityUnknown" xml:space="preserve"><value>Приложение / процесс / компонент: не установлен этой записью.</value></data>
+  <data name="IncidentServiceValue" xml:space="preserve"><value>Служба в записи: {0}</value></data>
+  <data name="IncidentRecordedAt" xml:space="preserve"><value>Windows зарегистрировала это событие: {0}</value></data>
+  <data name="AnalysisCompleteLimited" xml:space="preserve"><value>Анализ завершён с ограничениями источников</value></data>
+  <data name="BackgroundProcessGuidance" xml:space="preserve"><value>Windows может регистрировать события приложений, служб и фоновых процессов, даже когда вы не пользуетесь компьютером активно. FaultWitness показывает зарегистрированное событие; он не устанавливает, что процесс был на переднем плане.</value></data>
+  <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Найдены контекстные записи, но ни одна не соответствует текущей классификации инцидента, требующего внимания или заслуживающего упоминания. Фоновый контекст не доказывает сбой.</value></data>
+  <data name="IncidentProcessValue" xml:space="preserve"><value>Приложение / процесс в записи: {0}</value></data>
+  <data name="QuietAnalysisComplete" xml:space="preserve"><value>Анализ завершён</value></data>
 </root>

@@ -19,6 +19,7 @@
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>
+      <TextBlock Name="DetailBackgroundProcessGuidance" Text="{Binding Text[BackgroundProcessGuidance]}"/>
     </StackPanel>
   </StackPanel>
 </UserControl>

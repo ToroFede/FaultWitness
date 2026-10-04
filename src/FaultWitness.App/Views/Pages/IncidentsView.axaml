@@ -1,9 +1,10 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:a="using:FaultWitness.App" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.IncidentsView" x:DataType="p:IncidentListPresentation" Name="IncidentsPage">
-  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+  <ScrollViewer Name="IncidentScroll" HorizontalScrollBarVisibility="Disabled" AllowAutoHide="False">
     <StackPanel Name="IncidentPageContent" Spacing="{DynamicResource primitive.space.3}">
       <StackPanel Spacing="{DynamicResource primitive.space.1}">
         <TextBlock Classes="page-title" Text="{Binding Text[Incidents]}"/>
         <TextBlock Text="{Binding HeadingHelp}"/>
+        <TextBlock Name="BackgroundProcessGuidance" Classes="metadata" Text="{Binding Text[BackgroundProcessGuidance]}"/>
       </StackPanel>
       <Grid Name="IncidentFilters" ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="{DynamicResource primitive.space.2}" RowSpacing="{DynamicResource primitive.space.2}" SizeChanged="FiltersSizeChanged">
         <StackPanel Name="PriorityFilterField" Spacing="{DynamicResource primitive.space.1}">
@@ -36,6 +37,7 @@
         </WrapPanel>
       </Expander>
       <TextBlock Name="FilterCount" Classes="metadata" Text="{Binding CountText}"/>
+      <TextBlock Name="AnalyzedPeriod" Classes="metadata" IsVisible="{Binding HasAnalysis}" Text="{Binding AnalysisPeriod}"/>
       <Grid Name="IncidentResultRegion">
         <ListBox Name="IncidentList" Classes="semantic-list incident-list" ItemsSource="{Binding Rows}" IsVisible="{Binding HasRows}" SelectionChanged="IncidentSelected" AutomationProperties.Name="{Binding Text[Incidents]}" MinHeight="260">
           <ListBox.ItemTemplate>

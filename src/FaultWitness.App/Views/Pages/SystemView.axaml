@@ -16,7 +16,7 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="p:InventoryGroupPresentation">
-            <Border Classes="action-surface" Margin="{DynamicResource UiCommandMargin}" AutomationProperties.Name="{Binding AccessibleName}">
+            <Border Classes="action-surface" VerticalAlignment="Top" Margin="{DynamicResource UiCommandMargin}" AutomationProperties.Name="{Binding AccessibleName}">
               <StackPanel Spacing="{DynamicResource primitive.space.2}">
                 <TextBlock Classes="row-title" Text="{Binding Name}"/>
                 <TextBlock Classes="metadata" IsVisible="{Binding !HasDevices}" Text="{Binding EmptyText}"/>

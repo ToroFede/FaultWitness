@@ -466,7 +466,7 @@
   <data name="NoSupportedIncidentsImported" xml:space="preserve"><value>Aucun incident de stabilité pris en charge n’a été trouvé dans les enregistrements importés.</value></data>
   <data name="NoPriorityIncidents" xml:space="preserve"><value>Aucun incident nécessitant une attention particulière ou méritant d’être signalé n’a été trouvé pour {0}.</value></data>
   <data name="NoPriorityIncidentsImported" xml:space="preserve"><value>Aucun incident nécessitant une attention particulière ou méritant d’être signalé n’a été trouvé dans les enregistrements importés.</value></data>
-  <data name="QuietResultCaution" xml:space="preserve"><value>Ceci n’est pas un bilan général de l’état du PC. Un résultat sans incident ne prouve pas que le PC est exempt de problèmes.</value></data>
+  <data name="QuietResultCaution" xml:space="preserve"><value>Ce n&apos;est pas un bilan général de santé du PC. Un résultat sans incident pertinent ne prouve pas qu&apos;aucune instabilité ne s&apos;est produite en dehors des relevés pris en charge. Les limites des sources et de la couverture restent applicables.</value></data>
   <data name="BackgroundEntriesCount" xml:space="preserve"><value>{0} : {1}</value></data>
   <data name="CoverageLimitSummary" xml:space="preserve"><value>Limites de couverture :</value></data>
   <data name="ImportScope" xml:space="preserve"><value>FaultWitness examine uniquement les enregistrements de diagnostic pris en charge dans les fichiers que vous sélectionnez. Il n’évalue pas l’état général ni l’entretien du PC.</value></data>
@@ -494,4 +494,14 @@
   <data name="CaptureSafetyTitle" xml:space="preserve"><value>Avant de configurer</value></data>
   <data name="CapturePreviewTitle" xml:space="preserve"><value>Aperçu en lecture seule</value></data>
   <data name="CapturePreviousAbsent" xml:space="preserve"><value>Aucune configuration de capture pour cette application ; le paramètre cible était absent.</value></data>
+  <data name="MaximumAnalysisRange" xml:space="preserve"><value>Période d&apos;analyse maximale : 90 jours.</value></data>
+  <data name="IncidentComponentValue" xml:space="preserve"><value>Composant dans le relevé : {0}</value></data>
+  <data name="IncidentIdentityUnknown" xml:space="preserve"><value>Application / processus / composant : non établi par ce relevé.</value></data>
+  <data name="IncidentServiceValue" xml:space="preserve"><value>Service dans le relevé : {0}</value></data>
+  <data name="IncidentRecordedAt" xml:space="preserve"><value>Windows a enregistré cet événement à : {0}</value></data>
+  <data name="AnalysisCompleteLimited" xml:space="preserve"><value>Analyse terminée avec des limites dans les sources</value></data>
+  <data name="BackgroundProcessGuidance" xml:space="preserve"><value>Windows peut enregistrer des événements concernant des applications, services et processus en arrière-plan même lorsque vous n&apos;utilisez pas activement le PC. FaultWitness présente l&apos;événement enregistré ; il n&apos;établit pas que le processus était au premier plan.</value></data>
+  <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Des relevés de contexte ont été trouvés, mais aucun ne correspond à la classification actuelle d&apos;un incident nécessitant une attention ou méritant une remarque. Le contexte en arrière-plan ne prouve pas une défaillance.</value></data>
+  <data name="IncidentProcessValue" xml:space="preserve"><value>Application / processus dans le relevé : {0}</value></data>
+  <data name="QuietAnalysisComplete" xml:space="preserve"><value>Analyse terminée</value></data>
 </root>

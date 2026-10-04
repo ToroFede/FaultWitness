@@ -2,6 +2,7 @@
   <Border Classes="incident-row" Padding="{DynamicResource UiSurfacePadding}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppBorder}">
     <StackPanel Spacing="{DynamicResource primitive.space.1}">
       <TextBlock Classes="row-title" Text="{Binding Title}"/>
+      <TextBlock Text="{Binding Context}"/>
       <TextBlock Classes="metadata" Text="{Binding Timestamp}"/>
       <TextBlock Text="{Binding Assessment}"/>
       <TextBlock Classes="metadata" Text="{Binding SummaryMetadata}"/>
