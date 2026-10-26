@@ -1,6 +1,6 @@
 # FaultWitness
 
-Development on this branch targets **0.9.0-beta.3**, including the desktop redesign. It is a release candidate, not a validated public release. The current public download remains beta.2. See [candidate release notes and validation gates](docs/release-notes-0.9.0-beta.3.md).
+FaultWitness **0.9.0-beta.3** is the current public Windows pre-release, with the approved desktop redesign and System layout improvements. See the [beta.3 release notes](docs/release-notes-0.9.0-beta.3.md).
 
 FaultWitness helps you review Windows evidence after crashes, unexpected restarts, freezes or recurring instability. It examines supported diagnostic records; it is not a general PC health or maintenance checker.
 
@@ -10,7 +10,7 @@ It distinguishes recorded facts, correlations, interpretations, hypotheses and c
 
 **Supported:** Windows 11 on Intel/AMD 64-bit x64 PCs. This is still a beta. Windows ARM64/Snapdragon, Linux and macOS are not supported.
 
-[Download FaultWitness-0.9.0-beta.2-win-x64.zip](https://github.com/ToroFede/FaultWitness/releases/download/v0.9.0-beta.2/FaultWitness-0.9.0-beta.2-win-x64.zip). The matching **SHA256.txt** is on the [pre-release page](https://github.com/ToroFede/FaultWitness/releases/tag/v0.9.0-beta.2).
+[Download FaultWitness-0.9.0-beta.3-win-x64.zip](https://github.com/ToroFede/FaultWitness/releases/download/v0.9.0-beta.3/FaultWitness-0.9.0-beta.3-win-x64.zip). Verify the archive against **SHA256.txt** on the [beta.3 pre-release page](https://github.com/ToroFede/FaultWitness/releases/tag/v0.9.0-beta.3).
 
 This beta is unsigned. Windows may display Unknown publisher or a SmartScreen warning. A matching SHA-256 verifies package bytes against the published checksum; it does not authenticate the publisher. Keep normal Windows security protections enabled. Trusted signing is planned for a future release.
 
