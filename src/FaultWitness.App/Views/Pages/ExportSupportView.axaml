@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.ExportSupportView" x:DataType="p:ExportSupportPresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.ExportSupportView" x:DataType="p:ExportSupportPresentation" Classes="redesigned">
   <ScrollViewer Name="ExportSupportScroll" HorizontalScrollBarVisibility="Disabled">
     <StackPanel Name="ExportSupportContent" Spacing="{DynamicResource primitive.space.4}">
       <StackPanel Spacing="{DynamicResource primitive.space.1}">
@@ -8,7 +8,7 @@
       <Border Name="ExportUnavailable" Classes="action-surface" IsVisible="{Binding !HasAnalysis}">
         <StackPanel Spacing="{DynamicResource primitive.space.2}">
           <TextBlock Classes="row-title" Text="{Binding Text[NoAnalysis]}"/>
-          <TextBlock Text="{Binding Text[NoHistory]}"/>
+          <TextBlock Text="{Binding Text[ExportEmptyHelp]}"/>
         </StackPanel>
       </Border>
       <StackPanel Name="ExportContent" IsVisible="{Binding HasAnalysis}" Spacing="{DynamicResource primitive.space.3}">
@@ -30,11 +30,27 @@
         </Border>
         <TextBlock Classes="level-one" Text="{Binding Text[Preview]}"/>
         <TextBlock Classes="metadata" IsVisible="{Binding HasPreviewNote}" Text="{Binding PreviewNote}"/>
-        <TextBox Name="ExportPreview" Text="{Binding Preview, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" Height="320" AutomationProperties.Name="{Binding Text[Preview]}"/>
-        <StackPanel Name="ExportFeedbackRegion" IsVisible="False" Spacing="{DynamicResource primitive.space.2}">
-          <TextBlock Name="ExportFeedback"/>
-          <Expander Name="ExportFeedbackDetails" Classes="semantic-disclosure" IsVisible="False"><TextBlock/></Expander>
-        </StackPanel>
+        <Border Classes="action-surface">
+          <Grid>
+            <TextBox Name="ExportPreview" IsVisible="{Binding IsJsonPreview}" Text="{Binding Preview, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" Height="360" FontFamily="monospace" AutomationProperties.Name="{Binding Text[Preview]}"/>
+            <ScrollViewer Name="FormattedExportScroll" IsVisible="{Binding !IsJsonPreview}" HorizontalScrollBarVisibility="Disabled" MaxHeight="520" AutomationProperties.Name="{Binding Text[Preview]}">
+              <ItemsControl Name="FormattedExportPreview" ItemsSource="{Binding PreviewLines}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Spacing="{DynamicResource primitive.space.2}"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="p:ReportPreviewLine">
+                    <SelectableTextBlock Classes="report-preview-line" Classes.preview-title="{Binding IsTitle}" Classes.preview-heading="{Binding IsHeading}" IsVisible="{Binding !IsBlank}" Text="{Binding Text}" TextWrapping="Wrap"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Border>
+        <Border Name="ExportFeedbackSurface" Classes="action-surface" IsVisible="False">
+          <StackPanel Name="ExportFeedbackRegion" Spacing="{DynamicResource primitive.space.2}">
+            <TextBlock Name="ExportFeedback"/>
+            <Expander Name="ExportFeedbackDetails" Classes="semantic-disclosure" IsVisible="False"><TextBlock/></Expander>
+          </StackPanel>
+        </Border>
         <WrapPanel Name="ExportCommands">
           <Button Name="CopySupport" Classes="secondary-action operation" Click="Copy" AutomationProperties.Name="{Binding Text[CopyForSupport]}" IsEnabled="{Binding CanExport}" Margin="{DynamicResource UiCommandMargin}">
             <TextBlock Text="{Binding Text[CopyForSupport]}"/>

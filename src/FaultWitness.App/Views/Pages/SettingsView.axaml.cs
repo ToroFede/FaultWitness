@@ -35,6 +35,14 @@ public sealed partial class SettingsView : UserControl
         combo.SelectedIndex = selectedIndex;
     }
 
+    private void MotionChanged(object? sender, RoutedEventArgs args)
+    {
+        if (!synchronizing && sender is CheckBox check) SettingChanged?.Invoke("ReduceMotion", check.IsChecked == true ? 1 : 0);
+    }
+    private void BackdropChanged(object? sender, RoutedEventArgs args)
+    {
+        if (!synchronizing && sender is CheckBox check) SettingChanged?.Invoke("UseSystemBackdrop", check.IsChecked == true ? 1 : 0);
+    }
     private void LanguageChanged(object? sender, SelectionChangedEventArgs args) => RaiseChange("LanguageSelector", "Language");
     private void ThemeChanged(object? sender, SelectionChangedEventArgs args) => RaiseChange("ThemeSelector", "Theme");
     private void PeriodChanged(object? sender, SelectionChangedEventArgs args) => RaiseChange("DefaultPeriod", "Period");

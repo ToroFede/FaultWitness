@@ -7,10 +7,10 @@
         "$value": "#FFFFFF"
       },
       "neutral25": {
-        "$value": "#F7F8FA"
+        "$value": "#F4F7FB"
       },
       "neutral50": {
-        "$value": "#EFF2F5"
+        "$value": "#EAF0F7"
       },
       "neutral200": {
         "$value": "#CFD6DF"
@@ -19,19 +19,19 @@
         "$value": "#4B5868"
       },
       "neutral850": {
-        "$value": "#202731"
+        "$value": "#19283D"
       },
       "neutral900": {
-        "$value": "#171C23"
+        "$value": "#111D2E"
       },
       "neutral950": {
-        "$value": "#101419"
+        "$value": "#0A1322"
       },
       "blue500": {
-        "$value": "#0F6CBD"
+        "$value": "#185BB5"
       },
       "blue400": {
-        "$value": "#479EF5"
+        "$value": "#70ADFF"
       },
       "amber600": {
         "$value": "#8A4F00"
@@ -58,10 +58,13 @@
         "$value": "#0F548C"
       },
       "blue300": {
-        "$value": "#62ABF5"
+        "$value": "#9AC5FF"
       },
       "blue200": {
-        "$value": "#96C6FA"
+        "$value": "#BCD9FF"
+      },
+      "shadow": {
+        "$value": "#000000"
       }
     },
     "space": {
@@ -97,19 +100,22 @@
     "radius": {
       "$type": "dimension",
       "small": {
-        "$value": 4
+        "$value": 8
       },
       "medium": {
-        "$value": 6
+        "$value": 12
       },
       "large": {
-        "$value": 10
+        "$value": 16
       }
     },
     "fontSize": {
       "$type": "dimension",
       "caption": {
         "$value": 12
+      },
+      "secondary": {
+        "$value": 13
       },
       "body": {
         "$value": 14
@@ -192,10 +198,10 @@
           "$value": "#F1F4F8"
         },
         "textMuted": {
-          "$value": "#B8C2CF"
+          "$value": "#A9BCD2"
         },
         "border": {
-          "$value": "#3A4655"
+          "$value": "#344860"
         },
         "accent": {
           "$value": "{primitive.color.blue400}"
@@ -242,14 +248,14 @@
       "standard": {
         "minHeight": {
           "$type": "dimension",
-          "$value": "{primitive.space.8}"
+          "$value": 36
         }
       }
     },
     "navigation": {
       "width": {
         "$type": "dimension",
-        "$value": 208
+        "$value": 224
       },
       "itemHeight": {
         "$type": "dimension",
@@ -292,6 +298,60 @@
       "indicatorWidth": {
         "$type": "dimension",
         "$value": "{primitive.space.1}"
+      }
+    },
+    "redesign": {
+      "cardPadding": {
+        "$type": "dimension",
+        "$value": "{primitive.space.5}"
+      },
+      "cardRadius": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.large}"
+      },
+      "metricSize": {
+        "$type": "dimension",
+        "$value": 30
+      },
+      "interactionMilliseconds": {
+        "$type": "number",
+        "$value": 140
+      },
+      "entranceMilliseconds": {
+        "$type": "number",
+        "$value": 180
+      },
+      "metricMinHeight": {
+        "$type": "dimension",
+        "$value": 96
+      },
+      "canvasOpacity": {
+        "$type": "number",
+        "$value": 0.82
+      },
+      "navigationOpacity": {
+        "$type": "number",
+        "$value": 0.60
+      },
+      "cardOpacity": {
+        "$type": "number",
+        "$value": 0.82
+      },
+      "shadowOpacity": {
+        "$type": "number",
+        "$value": 0.12
+      },
+      "shadowBlur": {
+        "$type": "number",
+        "$value": 12
+      },
+      "shadowOffset": {
+        "$type": "number",
+        "$value": 3
+      },
+      "lightCanvasOpacity": {
+        "$type": "number",
+        "$value": 0.9
       }
     }
   },
@@ -349,7 +409,7 @@
     "metadata": {
       "size": {
         "$type": "dimension",
-        "$value": "{primitive.fontSize.caption}"
+        "$value": "{primitive.fontSize.secondary}"
       },
       "weight": {
         "$type": "string",

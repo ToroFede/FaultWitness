@@ -504,4 +504,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Kontextdatensätze wurden gefunden, aber keiner entspricht der aktuellen Einstufung als Vorfall, der Aufmerksamkeit erfordert oder erwähnenswert ist. Hintergrundkontext ist kein Nachweis eines Fehlers.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Anwendung / Prozess im Datensatz: {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Analyse abgeschlossen</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Animationen reduzieren</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Systemhintergrund verwenden, wenn verfügbar</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Führe eine Analyse aus, um eine Vorschau der bereinigten Diagnosezusammenfassung anzuzeigen, sie zu kopieren oder zu exportieren.</value></data>
 </root>

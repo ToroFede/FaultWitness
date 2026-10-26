@@ -15,7 +15,7 @@ namespace FaultWitness.UI.Tests;
 
 public sealed class CaptureAxamlTests
 {
-    private static readonly string[] Regions = ["CapturePurpose", "CaptureCurrentRegion", "CaptureTargetRegion", "CapturePolicyRegion", "CaptureSafetyRegion", "CapturePreviewRegion", "CaptureApplyRegion", "CaptureResultRegion", "CaptureRestoreRegion", "CaptureJournalRegion", "CaptureTechnicalRegion"];
+    private static readonly string[] Regions = ["CapturePurpose", "CaptureCurrentRegion", "CaptureTargetRegion", "CapturePreviewRegion", "CapturePolicyRegion", "CaptureSafetyRegion", "CaptureApplyRegion", "CaptureResultRegion", "CaptureRestoreRegion", "CaptureJournalRegion", "CaptureTechnicalRegion"];
 
     [AvaloniaTheory]
     [InlineData(false)][InlineData(true)]
@@ -29,7 +29,8 @@ public sealed class CaptureAxamlTests
             var view = View(window);
             Assert.Single(view.GetVisualDescendants().OfType<TextBlock>(), item => item.Text == window.ViewModel.Text.Get("CaptureTitle"));
             var sections = view.FindControl<StackPanel>("CaptureWorkflowContent")!;
-            Assert.Equal(Regions.Skip(1), sections.Children.Select(item => item.Name));
+            Assert.Equal(Regions.Skip(1), sections.GetVisualDescendants().OfType<Control>()
+                .Where(item => Regions.Contains(item.Name, StringComparer.Ordinal)).Select(item => item.Name));
             Assert.Equal(!fallback, sections.IsVisible);
             Assert.False(view.FindControl<Expander>("CapturePreviewDetails")!.IsExpanded);
             Assert.Equal(0, service.Executions);

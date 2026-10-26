@@ -12,7 +12,7 @@ public enum AppWindowState { Normal, Maximized }
 public sealed record UserSettings(string Language = "system", AppTheme Theme = AppTheme.System,
     AnalysisPeriod Period = AnalysisPeriod.Week, int RetentionDays = 30,
     double WindowWidth = WindowLifecyclePolicy.FirstLaunchWidth, double WindowHeight = WindowLifecyclePolicy.FirstLaunchHeight,
-    AppWindowState WindowState = AppWindowState.Normal);
+    AppWindowState WindowState = AppWindowState.Normal, bool ReduceMotion = false, bool UseSystemBackdrop = false);
 
 public interface IAppServices
 {

@@ -73,7 +73,7 @@ public sealed partial class MainWindow : Window
         activityTimer.Tick += (_, _) => { if (ViewModel.IsBusy) ResponsiveTicks++; };
         Opened += (_, _) =>
         {
-            activityTimer.Start(); RecoverWindowGeometry();
+            activityTimer.Start(); RecoverWindowGeometry(); RefreshBackdrop();
             if (restoreMaximized) Dispatcher.UIThread.Post(() => WindowState = WindowState.Maximized);
         };
         SizeChanged += (_, args) =>
@@ -90,7 +90,11 @@ public sealed partial class MainWindow : Window
             if (rebuildingShell || args.NewSize.Width < MinWidth) return;
             var next = LayoutFor(args.NewSize.Width); if (next != layoutClass) { layoutClass = next; BuildShell(refreshPageData: false); }
         };
-        Closed += (_, _) => { activityTimer.Stop(); ViewModel.Changed -= OnChanged; SaveWindowSettings(); ViewModel.Dispose(); };
+        PropertyChanged += (_, args) =>
+        {
+            if (args.Property == ActualThemeVariantProperty || args.Property == ActualTransparencyLevelProperty) RefreshBackdrop();
+        };
+        Closed += (_, _) => { StopPageAnimation(); activityTimer.Stop(); ViewModel.Changed -= OnChanged; SaveWindowSettings(); ViewModel.Dispose(); };
     }
     private string T(string key) => ViewModel.Text.Get(key);
     private void OnChanged(ViewChange change)
@@ -105,8 +109,12 @@ public sealed partial class MainWindow : Window
             incidentsView.Refresh(incidentsPresentation);
         UpdateStatus();
     }
-    private void ApplyTheme() => RequestedThemeVariant = ViewModel.Settings.Theme switch
-    { AppTheme.Light => ThemeVariant.Light, AppTheme.Dark => ThemeVariant.Dark, _ => ThemeVariant.Default };
+    private void ApplyTheme()
+    {
+        RequestedThemeVariant = ViewModel.Settings.Theme switch
+        { AppTheme.Light => ThemeVariant.Light, AppTheme.Dark => ThemeVariant.Dark, _ => ThemeVariant.Default };
+        ApplyVisualPreferences();
+    }
     private void BuildShell(bool refreshPageData = true)
     {
         rebuildingShell = true;
@@ -114,7 +122,7 @@ public sealed partial class MainWindow : Window
         {
         ApplyTheme();
         var compact = layoutClass == "small";
-        shell.ColumnDefinitions[0].Width = compact ? GridLength.Auto : new GridLength(D("component.navigation.width"));
+        shell.ColumnDefinitions[0].Width = new GridLength(D(compact ? "component.navigation.compactMinWidth" : "component.navigation.width"));
         var side = this.FindControl<Border>("NavigationSurface")!;
         side.MinWidth = compact ? D("component.navigation.compactMinWidth") : 0;
         side.MaxWidth = compact ? D("component.navigation.width") : double.PositiveInfinity;
@@ -123,6 +131,7 @@ public sealed partial class MainWindow : Window
         pageHost.MaxWidth = layoutClass == "large" ? D("component.layout.readingWidth") : double.PositiveInfinity;
         statusArea.MaxWidth = pageHost.MaxWidth;
         this.FindControl<TextBlock>("LocalFirstLabel")!.Text = T("LocalFirst");
+        this.FindControl<TextBlock>("ReleaseLabel")!.Text = ReleaseIdentity.Product;
         foreach (var key in new[] { "Home", "Analyze", "Incidents", "History", "System", "Settings" })
         {
             this.FindControl<TextBlock>("Nav" + key + "Label")!.Text = T(key);
@@ -146,7 +155,8 @@ public sealed partial class MainWindow : Window
         statusText.Text = captureAway ? T("CaptureOperationRunning") : ViewModel.StatusText;
         statusText.IsVisible = captureAway || ViewModel.HasVisibleStatus && !local;
         statusArea.IsVisible = captureAway || (ViewModel.IsBusy || ViewModel.HasVisibleStatus) && !local;
-        progress.IsVisible = captureAway || ViewModel.IsBusy && !local;
+        this.FindControl<Border>("StatusSurface")!.IsVisible = statusArea.IsVisible;
+        progress.IsVisible = !ViewModel.Settings.ReduceMotion && (captureAway || ViewModel.IsBusy && !local);
         AutomationProperties.SetName(progress, T(captureAway ? "CaptureOperationRunning" : "AnalysisInProgress"));
         cancelButton.IsVisible = ViewModel.IsBusy && !local;
         ToolTip.SetTip(statusText, string.IsNullOrEmpty(ViewModel.TechnicalError) ? null : ViewModel.TechnicalError);
@@ -168,6 +178,7 @@ public sealed partial class MainWindow : Window
     }
     private void RenderPage(bool refreshPageData = true)
     {
+        var previousPage = pageHost.Content;
         pageHost.Content = ViewModel.Page switch
         {
             AppPage.Analyze => AnalyzePage(ViewModel.AnalysisMode, refreshPageData),
@@ -177,6 +188,7 @@ public sealed partial class MainWindow : Window
             AppPage.Detail => DetailPage(), AppPage.Readiness => ReadinessPage(), AppPage.System => SystemPage(),
             AppPage.Settings => SettingsPage(), AppPage.Export => ExportSupportPage(), _ => HomePage(refreshPageData)
         };
+        if (!ReferenceEquals(previousPage, pageHost.Content)) AnimateCurrentPage();
         foreach (var button in shell.GetVisualDescendants().OfType<Button>().Where(item => item.Name?.StartsWith("Nav", StringComparison.Ordinal) == true))
         {
             var destination = ViewModel.Page switch { AppPage.Detail => AppPage.Incidents, AppPage.Readiness => AppPage.System, AppPage.Capture => AppPage.Analyze, _ => ViewModel.Page };
@@ -259,6 +271,8 @@ public sealed partial class MainWindow : Window
         var updated = setting switch
         {
             "Language" when index >= 0 && index < presentation.Languages.Count => current with { Language = SettingsPresentation.LanguageCodeAt(index) },
+            "ReduceMotion" => current with { ReduceMotion = index == 1 },
+            "UseSystemBackdrop" => current with { UseSystemBackdrop = index == 1 },
             "Theme" when index >= 0 && index < presentation.Themes.Count => current with { Theme = SettingsPresentation.ThemeAt(index) },
             "Period" when index >= 0 && index < presentation.Periods.Count => current with { Period = SettingsPresentation.PeriodAt(index) },
             "Retention" when index >= 0 && index < presentation.RetentionOptions.Count => current with { RetentionDays = SettingsPresentation.RetentionDaysAt(index) },

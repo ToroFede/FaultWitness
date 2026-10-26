@@ -510,4 +510,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Foram encontrados registos de contexto, mas nenhum corresponde à classificação atual de um incidente que requer atenção ou merece uma nota. O contexto em segundo plano não comprova uma falha.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Aplicação / processo no registo: {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Análise concluída</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Reduzir animações</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Usar o fundo do sistema quando disponível</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Executa uma análise para pré-visualizar, copiar ou exportar um resumo de diagnóstico com dados sensíveis ocultados.</value></data>
 </root>

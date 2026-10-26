@@ -12,6 +12,8 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+[xml]$productProps = Get-Content -LiteralPath (Join-Path (Split-Path -Parent $PSScriptRoot) 'Directory.Build.props')
+$script:ProductVersion = [string]$productProps.Project.PropertyGroup.Version
 
 function Resolve-FullPath([string] $Path) {
     return [IO.Path]::GetFullPath((Resolve-Path -LiteralPath $Path -ErrorAction Stop).Path)
@@ -104,7 +106,7 @@ function Test-Dependencies([string] $Path, [string] $Rid, [string] $Label, [Syst
 function Test-Version([string] $ExePath, [string] $Label, [string] $Rid, [System.Collections.Generic.List[string]] $Errors) {
     if (-not (Test-Path -LiteralPath $ExePath -PathType Leaf)) { return $null }
     $info = [Diagnostics.FileVersionInfo]::GetVersionInfo($ExePath)
-    $expectedInformational = '0.9.0-beta.2+' + $script:SourceRevision
+    $expectedInformational = $script:ProductVersion + '+' + $script:SourceRevision
     if ($info.ProductName -ne 'FaultWitness') { [void]$Errors.Add("Product mismatch ($Label): $($info.ProductName)") }
     if (($Label -eq 'app' -and $info.FileDescription -ne 'FaultWitness') -or ($Label -eq 'helper' -and $info.FileDescription -ne 'FaultWitness.ElevatedHelper')) {
         [void]$Errors.Add("File description mismatch ($Label): $($info.FileDescription)")
@@ -151,7 +153,7 @@ function Test-Publish([string] $PublishRoot, [string] $Rid) {
         $payloadRid = if ($null -ne $payload.PSObject.Properties['Rid']) { [string]$payload.Rid } else { '' }
         $payloadBuild = if ($null -ne $payload.PSObject.Properties['Build']) { [string]$payload.Build } else { '' }
         if ($payloadRid -ne $Rid) { [void]$errors.Add("Helper payload RID mismatch: $payloadRid; expected $Rid") }
-        if ($payloadBuild -ne ('0.9.0-beta.2+' + $script:SourceRevision)) { [void]$errors.Add("Helper payload build does not contain SourceRevisionId: $payloadBuild") }
+        if ($payloadBuild -ne ($script:ProductVersion + '+' + $script:SourceRevision)) { [void]$errors.Add("Helper payload build does not contain SourceRevisionId: $payloadBuild") }
     }
     catch { [void]$errors.Add("Invalid helper payload JSON: $($_.Exception.Message)") }
     Test-Inventory $PublishRoot $errors

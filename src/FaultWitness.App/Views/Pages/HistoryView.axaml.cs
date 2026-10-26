@@ -53,14 +53,14 @@ public sealed partial class HistoryView : UserControl
         var list = this.FindControl<ListBox>("HistoryList")!;
         var detail = this.FindControl<ScrollViewer>("HistoryDetailScroll")!;
         var empty = this.FindControl<Border>("HistoryEmpty")!;
-        grid.ColumnDefinitions = new ColumnDefinitions(large ? "2*,3*" : "*");
+        grid.ColumnDefinitions = new ColumnDefinitions(large ? "1.1*,2*" : "*");
         grid.RowDefinitions = new RowDefinitions(large ? "Auto,*" : "Auto,Auto,*");
         Grid.SetColumnSpan(heading, large ? 2 : 1);
         Grid.SetRow(list, 1); Grid.SetColumn(list, 0);
         Grid.SetRow(detail, large ? 1 : 2); Grid.SetColumn(detail, large ? 1 : 0);
         Grid.SetRow(empty, 1); Grid.SetColumn(empty, 0);
         Grid.SetColumnSpan(empty, large ? 2 : 1); Grid.SetRowSpan(empty, large ? 1 : 2);
-        list.MaxHeight = large ? double.PositiveInfinity : 340;
+        list.MaxHeight = large ? 480 : 200;
     }
 
     private void HistorySelectionChanged(object? sender, SelectionChangedEventArgs args)

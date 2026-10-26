@@ -1,17 +1,19 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.HistoryView" x:DataType="p:HistoryPresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.HistoryView" x:DataType="p:HistoryPresentation" Classes="redesigned">
   <Grid Name="HistoryLayout" RowDefinitions="Auto,*" ColumnDefinitions="2*,3*" RowSpacing="{DynamicResource primitive.space.4}" ColumnSpacing="{DynamicResource primitive.space.6}">
     <StackPanel Name="HistoryHeading" Grid.ColumnSpan="2" Spacing="{DynamicResource primitive.space.1}">
       <TextBlock Classes="page-title" Text="{Binding Text[History]}"/>
       <TextBlock Text="{Binding Text[HistoryHelp]}"/>
-      <StackPanel Name="HistoryFeedbackRegion" IsVisible="False" Margin="{DynamicResource UiStatusMargin}" Spacing="{DynamicResource primitive.space.2}">
-        <TextBlock Name="HistoryFeedback"/>
-        <Expander Name="HistoryFeedbackDetails" Classes="semantic-disclosure" IsVisible="False"><TextBlock/></Expander>
-        <Button Name="RetryHistory" Classes="secondary-action operation" Click="ReloadHistory" IsVisible="False" AutomationProperties.Name="{Binding Text[RefreshHistory]}" HorizontalAlignment="Left">
-          <TextBlock Text="{Binding Text[RefreshHistory]}"/>
-        </Button>
-      </StackPanel>
+      <Border Name="HistoryFeedbackSurface" Classes="action-surface" IsVisible="False" Margin="{DynamicResource UiStatusMargin}">
+        <StackPanel Name="HistoryFeedbackRegion" Spacing="{DynamicResource primitive.space.2}">
+          <TextBlock Name="HistoryFeedback"/>
+          <Expander Name="HistoryFeedbackDetails" Classes="semantic-disclosure" IsVisible="False"><TextBlock/></Expander>
+          <Button Name="RetryHistory" Classes="secondary-action operation" Click="ReloadHistory" IsVisible="False" AutomationProperties.Name="{Binding Text[RefreshHistory]}" HorizontalAlignment="Left">
+            <TextBlock Text="{Binding Text[RefreshHistory]}"/>
+          </Button>
+        </StackPanel>
+      </Border>
     </StackPanel>
-    <ListBox Name="HistoryList" Grid.Row="1" Classes="semantic-list history-list" ItemsSource="{Binding Items}" IsVisible="{Binding HasItems}" SelectionChanged="HistorySelectionChanged" AutomationProperties.Name="{Binding Text[History]}" MinHeight="260" Focusable="True" IsTabStop="True">
+    <ListBox Name="HistoryList" Grid.Row="1" Classes="semantic-list history-list" ItemsSource="{Binding Items}" IsVisible="{Binding HasItems}" SelectionChanged="HistorySelectionChanged" AutomationProperties.Name="{Binding Text[History]}" Padding="0,0,0,8" VerticalAlignment="Top" Focusable="True" IsTabStop="True">
       <ListBox.ItemTemplate>
         <DataTemplate x:DataType="p:HistoryItemPresentation">
           <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource primitive.space.2}" MinHeight="{DynamicResource component.row.minHeight}" AutomationProperties.Name="{Binding AccessibleSummary}">
@@ -28,7 +30,7 @@
       </ListBox.ItemTemplate>
     </ListBox>
     <ScrollViewer Name="HistoryDetailScroll" Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Disabled" IsVisible="{Binding HasSelection}">
-      <Border Name="HistoryDetail" Classes="action-surface" IsVisible="{Binding HasSelection}">
+      <Border Name="HistoryDetail" Classes="action-surface" IsVisible="{Binding HasSelection}" VerticalAlignment="Top">
         <StackPanel Spacing="{DynamicResource primitive.space.3}">
           <StackPanel Spacing="{DynamicResource primitive.space.1}">
             <TextBlock Classes="level-one" Text="{Binding Selected.Title}"/>

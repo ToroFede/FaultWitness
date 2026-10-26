@@ -1,0 +1,145 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="using:FaultWitness.App.Views.Components">
+  <Styles.Resources>
+    <ControlTheme x:Key="{x:Type c:SurfaceCard}" TargetType="c:SurfaceCard">
+      <Setter Property="Background" Value="{DynamicResource AppCard}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="{DynamicResource UiCardPadding}"/>
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Name="CardSurface" BoxShadow="{DynamicResource UiCardShadow}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource UiCardRadius}">
+            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type c:MetricCard}" TargetType="c:MetricCard" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="Background" Value="{DynamicResource AppCard}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource UiCardRadius}"/>
+      <Setter Property="Padding" Value="{DynamicResource UiCardPadding}"/>
+      <Setter Property="MinHeight" Value="{DynamicResource component.redesign.metricMinHeight}"/>
+      <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      <Setter Property="Template">
+        <ControlTemplate>
+          <ContentPresenter Name="PART_ContentPresenter" BoxShadow="{DynamicResource UiCardShadow}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="Center"/>
+        </ControlTemplate>
+      </Setter>
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AppSurfaceMuted}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AppSelection}"/>
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+  <Style Selector="c|SurfaceCard.compact-card">
+    <Setter Property="Padding" Value="{DynamicResource UiCompactCardPadding}"/>
+  </Style>
+  <Style Selector="c|MetricCard:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector="c|SurfaceCard.hero-card">
+    <Setter Property="Background" Value="{DynamicResource AppHero}"/>
+  </Style>
+  <Style Selector=":is(Window) Button.navigation-item">
+    <Setter Property="CornerRadius" Value="{DynamicResource UiSurfaceRadius}"/>
+    <Setter Property="Padding" Value="{DynamicResource UiButtonPadding}"/>
+  </Style>
+  <Style Selector=":is(Window) Button.navigation-item.selected">
+    <Setter Property="Foreground" Value="{DynamicResource AppAccent}"/>
+  </Style>
+  <Style Selector=":is(UserControl).redesigned TextBlock.page-title">
+    <Setter Property="LetterSpacing" Value="-0.4"/>
+    <Setter Property="AutomationProperties.HeadingLevel" Value="1"/>
+  </Style>
+  <Style Selector=":is(UserControl).redesigned TextBlock.level-one">
+    <Setter Property="AutomationProperties.HeadingLevel" Value="2"/>
+  </Style>
+  <Style Selector=":is(UserControl).redesigned TextBlock.metadata">
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.secondary}"/>
+  </Style>
+  <Style Selector=":is(UserControl).redesigned Border.action-surface, :is(Window).redesigned Border.action-surface">
+    <Setter Property="Background" Value="{DynamicResource AppCard}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource UiCardRadius}"/>
+    <Setter Property="BoxShadow" Value="{DynamicResource UiCardShadow}"/>
+  </Style>
+  <Style Selector="TextBlock.eyebrow">
+    <Setter Property="Foreground" Value="{DynamicResource AppAccent}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.caption}"/>
+  </Style>
+  <Style Selector=":is(UserControl).redesigned Button.primary-action">
+    <Setter Property="MinHeight" Value="{DynamicResource component.action.primary.minHeight}"/>
+  </Style>
+  <Style Selector=":is(UserControl).redesigned ListBox.semantic-list">
+    <Setter Property="CornerRadius" Value="{DynamicResource UiCardRadius}"/>
+    <Setter Property="ClipToBounds" Value="True"/>
+    <Setter Property="Background" Value="{DynamicResource AppCard}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+  <Style Selector=":is(UserControl).redesigned Expander.semantic-disclosure">
+    <Setter Property="Background" Value="{DynamicResource AppCard}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource UiSurfaceRadius}"/>
+  </Style>
+  <Style Selector=":is(Window).motion-enabled :is(Button) /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="RenderTransform" Value="scale(1)"/>
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="{StaticResource UiInteractionDuration}" Easing="CubicEaseOut"/>
+        <BrushTransition Property="BorderBrush" Duration="{StaticResource UiInteractionDuration}" Easing="CubicEaseOut"/>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{StaticResource UiInteractionDuration}" Easing="CubicEaseOut"/>
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector=":is(Window).motion-enabled :is(Button):pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="RenderTransform" Value="scale(0.985)"/>
+  </Style>
+  <Style Selector="SelectableTextBlock.report-preview-line">
+    <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}"/>
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.body}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AppText}"/>
+    <Setter Property="LineHeight" Value="22"/>
+  </Style>
+  <Style Selector="SelectableTextBlock.preview-title">
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.section}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="AutomationProperties.HeadingLevel" Value="1"/>
+  </Style>
+  <Style Selector="SelectableTextBlock.preview-heading">
+    <Setter Property="FontSize" Value="{DynamicResource primitive.fontSize.row}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Margin" Value="0,12,0,0"/>
+    <Setter Property="AutomationProperties.HeadingLevel" Value="2"/>
+  </Style>
+  <Style Selector=":is(Window).motion-enabled c|SurfaceCard /template/ Border#CardSurface">
+    <Setter Property="Transitions"><Transitions><BrushTransition Property="BorderBrush" Duration="{StaticResource UiInteractionDuration}" Easing="CubicEaseOut"/></Transitions></Setter>
+  </Style>
+  <Style Selector="c|SurfaceCard:pointerover"><Setter Property="BorderBrush" Value="{DynamicResource AppMuted}"/></Style>
+  <Style Selector=":is(UserControl).redesigned Border.interpretation-marker"><Setter Property="BorderBrush" Value="{DynamicResource AppAccent}"/></Style>
+  <Style Selector=":is(UserControl).redesigned Border.limit-marker"><Setter Property="BorderBrush" Value="{DynamicResource AppBorder}"/></Style>
+  <Style Selector=":is(Window).motion-enabled Expander /template/ ToggleButton">
+    <Setter Property="Transitions">
+      <Transitions><BrushTransition Property="Background" Duration="{StaticResource UiInteractionDuration}" Easing="CubicEaseOut"/></Transitions>
+    </Setter>
+  </Style>
+  <Style Selector=":is(Window).motion-enabled :is(UserControl).redesigned Expander">
+    <Setter Property="ContentTransition"><CrossFade Duration="{StaticResource UiInteractionDuration}"/></Setter>
+  </Style>
+  <Style Selector=":is(Window).reduced-motion Expander">
+    <Setter Property="ContentTransition" Value="{x:Null}"/>
+  </Style>
+  <Style Selector=":is(Window).reduced-motion :is(Control)">
+    <Setter Property="Transitions" Value="{x:Null}"/>
+  </Style>
+</Styles>

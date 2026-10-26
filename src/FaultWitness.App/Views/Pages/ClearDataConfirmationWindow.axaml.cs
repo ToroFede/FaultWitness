@@ -12,7 +12,7 @@ public sealed partial class ClearDataConfirmationWindow : Window
 
     public void Prepare(LocalizationService text, Window owner)
     {
-        RequestedThemeVariant = owner.RequestedThemeVariant;
+        Components.DialogVisualPreferences.Apply(this, owner);
         Title = text.Get("ClearData");
         DataContext = new ClearDataConfirmationPresentation(text);
     }

@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.SettingsView" x:DataType="p:SettingsPresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.SettingsView" x:DataType="p:SettingsPresentation" Classes="redesigned">
   <ScrollViewer Name="SettingsScroll" HorizontalScrollBarVisibility="Disabled">
     <StackPanel Name="SettingsContent" Spacing="{DynamicResource primitive.space.4}">
       <StackPanel Spacing="{DynamicResource primitive.space.1}">
@@ -18,6 +18,8 @@
               <ComboBox Name="ThemeSelector" MaxWidth="200" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Text[Theme]}" SelectionChanged="ThemeChanged"/>
             </StackPanel>
           </WrapPanel>
+          <CheckBox Name="ReduceMotionPreference" IsChecked="{Binding ReduceMotion, Mode=OneWay}" IsCheckedChanged="MotionChanged" HorizontalContentAlignment="Stretch" AutomationProperties.Name="{Binding Text[ReduceMotion]}"><TextBlock Text="{Binding Text[ReduceMotion]}" TextWrapping="Wrap"/></CheckBox>
+          <CheckBox Name="BackdropPreference" IsChecked="{Binding UseSystemBackdrop, Mode=OneWay}" IsCheckedChanged="BackdropChanged" HorizontalContentAlignment="Stretch" AutomationProperties.Name="{Binding Text[UseSystemBackdrop]}"><TextBlock Text="{Binding Text[UseSystemBackdrop]}" TextWrapping="Wrap"/></CheckBox>
         </StackPanel>
       </Border>
       <Border Classes="action-surface">

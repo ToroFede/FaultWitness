@@ -504,4 +504,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Des relevés de contexte ont été trouvés, mais aucun ne correspond à la classification actuelle d&apos;un incident nécessitant une attention ou méritant une remarque. Le contexte en arrière-plan ne prouve pas une défaillance.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Application / processus dans le relevé : {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Analyse terminée</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Réduire les animations</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Utiliser l’arrière-plan du système si disponible</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Effectuez une analyse pour afficher un aperçu, copier ou exporter un résumé diagnostique expurgé.</value></data>
 </root>

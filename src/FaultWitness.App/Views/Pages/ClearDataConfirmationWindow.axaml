@@ -1,9 +1,11 @@
-<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.ClearDataConfirmationWindow" x:DataType="p:ClearDataConfirmationPresentation" Width="480" Height="240" CanResize="False" WindowStartupLocation="CenterOwner">
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.ClearDataConfirmationWindow" x:DataType="p:ClearDataConfirmationPresentation" Width="480" Height="280" MinWidth="280" MinHeight="240" CanResize="True" WindowStartupLocation="CenterOwner" Classes="redesigned">
   <Grid RowDefinitions="*,Auto" Margin="{DynamicResource UiSurfacePadding}" RowSpacing="{DynamicResource primitive.space.4}">
     <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-      <TextBlock Text="{Binding Text[ClearDataWarning]}"/>
+      <Border Classes="action-surface" VerticalAlignment="Top">
+        <TextBlock Text="{Binding Text[ClearDataWarning]}"/>
+      </Border>
     </ScrollViewer>
-    <WrapPanel Grid.Row="1">
+    <WrapPanel Name="ConfirmationActions" Grid.Row="1">
         <Button Name="ConfirmClear" Classes="danger-action state-change-action" Click="Confirm" AutomationProperties.Name="{Binding Text[ConfirmClear]}" Margin="{DynamicResource UiCommandMargin}">
           <TextBlock Text="{Binding Text[ConfirmClear]}"/>
         </Button>

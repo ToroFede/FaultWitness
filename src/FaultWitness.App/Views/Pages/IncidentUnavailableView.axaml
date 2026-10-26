@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.IncidentUnavailableView" x:DataType="p:IncidentUnavailablePresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.IncidentUnavailableView" x:DataType="p:IncidentUnavailablePresentation" Classes="redesigned">
   <Border Classes="action-surface" VerticalAlignment="Top">
     <StackPanel Spacing="{DynamicResource primitive.space.3}">
       <TextBlock Classes="row-title" Text="{Binding Text[SelectIncident]}"/>

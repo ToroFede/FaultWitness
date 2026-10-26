@@ -1,9 +1,10 @@
 name: release-candidate
 
 on:
+  workflow_dispatch:
   push:
     tags:
-      - 'v0.9.0-beta.2'
+      - 'v0.9.0-beta.*'
 
 permissions:
   contents: read
@@ -18,12 +19,22 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - name: Verify release tag
+      - name: Resolve candidate version and verify tag
         shell: pwsh
         run: |
-          if ('${{ github.ref_name }}' -ne 'v0.9.0-beta.2') { throw 'Unexpected release tag.' }
+          [xml]$props = Get-Content Directory.Build.props
+          $version = [string]$props.Project.PropertyGroup.Version
+          if ('${{ github.ref_type }}' -eq 'tag' -and '${{ github.ref_name }}' -ne "v$version") { throw 'Release tag does not match source version.' }
+          "FAULTWITNESS_VERSION=$version" >> $env:GITHUB_ENV
       - name: Restore
         run: dotnet restore FaultWitness.slnx
+      - name: Build Release and run all tests
+        shell: pwsh
+        run: |
+          dotnet build FaultWitness.slnx -c Release --no-restore
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet test FaultWitness.slnx -c Release --no-build --no-restore
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Clean publish directory
         shell: pwsh
         run: Remove-Item -LiteralPath artifacts/release-candidate -Recurse -Force -ErrorAction SilentlyContinue
@@ -51,16 +62,16 @@ jobs:
           -PublishRoot artifacts/release-candidate/publish
           -OutputRoot artifacts/release-candidate/out
           -LauncherPath artifacts/release-candidate/launcher/FaultWitness.exe
-          -Version 0.9.0-beta.2 -Rid win-x64 -SourceRevision ${{ github.sha }}
+          -Version ${{ env.FAULTWITNESS_VERSION }} -Rid win-x64 -SourceRevision ${{ github.sha }}
       - name: Audit composed artifact
         shell: pwsh
         run: ./scripts/Test-ReleaseArtifact.ps1 -ArtifactRoot artifacts/release-candidate/out
       - name: Upload candidate artifact
         uses: actions/upload-artifact@v7
         with:
-          name: FaultWitness-0.9.0-beta.2-win-x64
+          name: FaultWitness-${{ env.FAULTWITNESS_VERSION }}-win-x64
           path: |
-            artifacts/release-candidate/out/FaultWitness-0.9.0-beta.2-win-x64.zip
+            artifacts/release-candidate/out/FaultWitness-${{ env.FAULTWITNESS_VERSION }}-win-x64.zip
             artifacts/release-candidate/out/SHA256.txt
             artifacts/release-candidate/out/release-summary.json
           if-no-files-found: error

@@ -506,4 +506,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Sono stati trovati record di contesto, ma nessuno corrisponde alla classificazione attuale di un incidente che richiede attenzione o merita una nota. Il contesto in background non dimostra un guasto.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Applicazione / processo nel record: {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Analisi completata</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Riduci le animazioni</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Usa lo sfondo di sistema quando disponibile</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Esegui un'analisi per visualizzare l'anteprima, copiare o esportare un riepilogo diagnostico oscurato.</value></data>
 </root>

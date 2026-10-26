@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:a="using:FaultWitness.App" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.IncidentsView" x:DataType="p:IncidentListPresentation" Name="IncidentsPage">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:a="using:FaultWitness.App" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.IncidentsView" x:DataType="p:IncidentListPresentation" Name="IncidentsPage" Classes="redesigned">
   <ScrollViewer Name="IncidentScroll" HorizontalScrollBarVisibility="Disabled" AllowAutoHide="False">
     <StackPanel Name="IncidentPageContent" Spacing="{DynamicResource primitive.space.3}">
       <StackPanel Spacing="{DynamicResource primitive.space.1}">
@@ -6,6 +6,7 @@
         <TextBlock Text="{Binding HeadingHelp}"/>
         <TextBlock Name="BackgroundProcessGuidance" Classes="metadata" Text="{Binding Text[BackgroundProcessGuidance]}"/>
       </StackPanel>
+      <Border Classes="action-surface">
       <Grid Name="IncidentFilters" ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="{DynamicResource primitive.space.2}" RowSpacing="{DynamicResource primitive.space.2}" SizeChanged="FiltersSizeChanged">
         <StackPanel Name="PriorityFilterField" Spacing="{DynamicResource primitive.space.1}">
           <TextBlock Text="{Binding Text[Priority]}"/>
@@ -24,6 +25,7 @@
           <TextBox Name="IncidentSearch" TextChanged="SearchChanged" PlaceholderText="{Binding Text[SearchHint]}" AutomationProperties.Name="{Binding Text[Search]}" HorizontalAlignment="Stretch"/>
         </StackPanel>
       </Grid>
+      </Border>
       <Expander Name="DateRange" Classes="semantic-disclosure" Header="{Binding Text[DateRange]}" AutomationProperties.Name="{Binding Text[DateRange]}">
         <WrapPanel>
           <StackPanel MinWidth="180" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiCommandMargin}">

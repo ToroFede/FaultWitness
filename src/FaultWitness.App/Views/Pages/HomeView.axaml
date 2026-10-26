@@ -1,18 +1,17 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:a="using:FaultWitness.App" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.HomeView" x:DataType="p:HomePresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:a="using:FaultWitness.App" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.HomeView" x:DataType="p:HomePresentation" Classes="redesigned">
   <ScrollViewer HorizontalScrollBarVisibility="Disabled">
     <StackPanel Name="HomeContent" Spacing="{DynamicResource primitive.space.4}">
-      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+      <c:SurfaceCard Classes="hero-card compact-card">
+        <StackPanel Spacing="{DynamicResource primitive.space.3}">
+      <StackPanel Spacing="{DynamicResource primitive.space.2}">
         <TextBlock Classes="page-title" Text="{Binding Text[Home]}"/>
         <TextBlock Text="{Binding Text[HomePurpose]}"/>
       </StackPanel>
-      <Button Name="PrimaryAnalyze" Classes="primary-action" Click="AnalyzeRecent" AutomationProperties.Name="{Binding PrimaryAction}" HorizontalAlignment="Left">
+      <WrapPanel Name="HomeSecondaryActions">
+      <Button Name="PrimaryAnalyze" Classes="primary-action" Click="AnalyzeRecent" AutomationProperties.Name="{Binding PrimaryAction}" HorizontalAlignment="Left" Margin="{DynamicResource UiCommandMargin}">
         <TextBlock Text="{Binding PrimaryAction}"/>
       </Button>
-      <StackPanel Spacing="{DynamicResource primitive.space.1}">
-        <TextBlock Text="{Binding Text[ProductScope]}"/>
-        <TextBlock Classes="metadata" Text="{Binding Text[LocalAnalysisOnly]}"/>
-      </StackPanel>
-      <WrapPanel Name="HomeSecondaryActions">
+
         <Button Name="StartAroundFlow" Classes="subtle-action" Click="AnalyzeAround" AutomationProperties.Name="{Binding Text[AnalyzeCrashFreeze]}" Margin="{DynamicResource UiCommandMargin}">
           <TextBlock Text="{Binding Text[AnalyzeCrashFreeze]}"/>
         </Button>
@@ -20,6 +19,13 @@
           <TextBlock Text="{Binding Text[AnalyzeFiles]}"/>
         </Button>
       </WrapPanel>
+      <StackPanel Spacing="{DynamicResource primitive.space.1}">
+        <TextBlock Text="{Binding Text[ProductScope]}"/>
+        <TextBlock Classes="metadata" Text="{Binding Text[LocalAnalysisOnly]}"/>
+      </StackPanel>
+
+        </StackPanel>
+      </c:SurfaceCard>
       <Border Name="HomeNoAnalysis" Classes="action-surface" IsVisible="{Binding IsNoAnalysis}">
         <StackPanel Spacing="{DynamicResource primitive.space.2}">
           <TextBlock Classes="row-title" Text="{Binding Text[NoAnalysis]}"/>
@@ -32,16 +38,16 @@
           <TextBlock Classes="metadata" Text="{Binding RangeAndOrigin}"/>
           <TextBlock Classes="metadata" IsVisible="{Binding HasDuration}" Text="{Binding Duration}"/>
         </StackPanel>
-        <Grid Name="HomeSummary" ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto" ColumnSpacing="{DynamicResource primitive.space.1}" RowSpacing="{DynamicResource primitive.space.1}" SizeChanged="SummarySizeChanged">
-          <Button Name="CountAttention" Grid.Column="0" Classes="summary-metric" Click="ShowAttention" AutomationProperties.Name="{Binding SummaryMetrics[0].AccessibleName}">
-            <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[0].CountLabel}"/>
-          </Button>
-          <Button Name="CountKnowing" Grid.Column="1" Classes="summary-metric" Click="ShowKnowing" AutomationProperties.Name="{Binding SummaryMetrics[1].AccessibleName}">
-            <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[1].CountLabel}"/>
-          </Button>
-          <Button Name="CountBackground" Grid.Column="2" Classes="summary-metric" Click="ShowBackground" AutomationProperties.Name="{Binding SummaryMetrics[2].AccessibleName}">
-            <TextBlock FontWeight="SemiBold" Text="{Binding SummaryMetrics[2].CountLabel}"/>
-          </Button>
+        <Grid Name="HomeSummary" ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto" ColumnSpacing="{DynamicResource primitive.space.3}" RowSpacing="{DynamicResource primitive.space.3}" SizeChanged="SummarySizeChanged">
+          <c:MetricCard Name="CountAttention" Grid.Column="0" Classes="summary-metric" Click="ShowAttention" AutomationProperties.Name="{Binding SummaryMetrics[0].AccessibleName}">
+            <StackPanel Spacing="{DynamicResource primitive.space.2}"><TextBlock FontSize="{DynamicResource component.redesign.metricSize}" FontWeight="SemiBold" Text="{Binding SummaryMetrics[0].FormattedCount}"/><TextBlock Classes="metadata" Text="{Binding SummaryMetrics[0].Label}"/></StackPanel>
+          </c:MetricCard>
+          <c:MetricCard Name="CountKnowing" Grid.Column="1" Classes="summary-metric" Click="ShowKnowing" AutomationProperties.Name="{Binding SummaryMetrics[1].AccessibleName}">
+            <StackPanel Spacing="{DynamicResource primitive.space.2}"><TextBlock FontSize="{DynamicResource component.redesign.metricSize}" FontWeight="SemiBold" Text="{Binding SummaryMetrics[1].FormattedCount}"/><TextBlock Classes="metadata" Text="{Binding SummaryMetrics[1].Label}"/></StackPanel>
+          </c:MetricCard>
+          <c:MetricCard Name="CountBackground" Grid.Column="2" Classes="summary-metric" Click="ShowBackground" AutomationProperties.Name="{Binding SummaryMetrics[2].AccessibleName}">
+            <StackPanel Spacing="{DynamicResource primitive.space.2}"><TextBlock FontSize="{DynamicResource component.redesign.metricSize}" FontWeight="SemiBold" Text="{Binding SummaryMetrics[2].FormattedCount}"/><TextBlock Classes="metadata" Text="{Binding SummaryMetrics[2].Label}"/></StackPanel>
+          </c:MetricCard>
         </Grid>
         <TextBlock Classes="level-one" Text="{Binding Text[RecentSignificant]}"/>
         <Border Name="QuietResult" Classes="action-surface" IsVisible="{Binding ShowQuietResult}">

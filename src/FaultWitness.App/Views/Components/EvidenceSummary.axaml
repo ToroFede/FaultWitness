@@ -1,4 +1,5 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.EvidenceSummary" x:DataType="p:IncidentDetailPresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Components.EvidenceSummary" x:DataType="p:IncidentDetailPresentation">
+  <c:SurfaceCard>
   <StackPanel Spacing="{DynamicResource primitive.space.2}">
     <TextBlock Classes="level-one" Text="{Binding Text[DetailEvidence]}"/>
     <StackPanel Name="EvidencePanel">
@@ -21,4 +22,5 @@
       </ItemsControl>
     </StackPanel>
   </StackPanel>
+  </c:SurfaceCard>
 </UserControl>

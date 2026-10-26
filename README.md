@@ -1,4 +1,6 @@
-# FaultWitness 0.9.0-beta.2
+# FaultWitness
+
+Development on this branch targets **0.9.0-beta.3**, including the desktop redesign. It is a release candidate, not a validated public release. The current public download remains beta.2. See [candidate release notes and validation gates](docs/release-notes-0.9.0-beta.3.md).
 
 FaultWitness helps you review Windows evidence after crashes, unexpected restarts, freezes or recurring instability. It examines supported diagnostic records; it is not a general PC health or maintenance checker.
 
@@ -39,6 +41,8 @@ Capture supports ASCII `.exe` basenames in the native Windows registry view. Ser
 No account, telemetry, analytics, automatic upload, cloud processing or background service. Scan summaries, settings and the Action Journal stay under local application data. Raw Event XML is not retained in the scan database.
 
 **Export / support** offers privacy-redacted Markdown, HTML, JSON and ZIP bundles. Profile paths, the computer name and IPv4 addresses are redacted by default; raw XML is opt-in and dumps are excluded. Inspect the preview before sharing. Deleting the program folder does not delete history, settings, journals or captured dumps.
+
+Diagnostic ZIP import is bounded: at most 64 MiB for the input file, 8 MiB per entry, 16 MiB expanded and 20,000 normalized records. A large exported support bundle can exceed these import limits and be rejected safely; exporting a selected incident can reduce its size. An export is not a complete backup or proof of source coverage.
 
 ## Screenshots
 

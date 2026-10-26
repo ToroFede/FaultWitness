@@ -65,7 +65,9 @@ public sealed class CommandFeedbackTests
             Assert.Equal("AnalysisComplete", window.ViewModel.StatusKey);
             Assert.Equal(AppPage.Home, window.ViewModel.Page);
             AssertSingleLiveOwner(window, "StatusText");
-            Assert.Equal(around ? TimeSpan.FromMinutes(10) : TimeSpan.FromDays(2).Subtract(TimeSpan.FromSeconds(1)), services.To - services.From);
+            // Two local calendar days can contain a DST transition (for example2026-10-25).
+            var offsetChange = TimeZoneInfo.Local.GetUtcOffset(services.From) - TimeZoneInfo.Local.GetUtcOffset(services.To);
+            Assert.Equal(around ? TimeSpan.FromMinutes(10) : TimeSpan.FromDays(2).Subtract(TimeSpan.FromSeconds(1)) + offsetChange, services.To - services.From);
         }
         finally { window.Close(); }
     }

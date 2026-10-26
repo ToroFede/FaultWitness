@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
+using FaultWitness.App.Views.Components;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
 using FaultWitness.App;
@@ -33,7 +33,7 @@ public sealed class SystemLayoutTests
         {
             vm.Navigate(AppPage.System); window.UpdateLayout();
             var inventory = window.GetVisualDescendants().OfType<ItemsControl>().Single(item => item.Name == "SystemInventory");
-            var layout = inventory.GetVisualDescendants().OfType<UniformGrid>().Single(item => item.Name == "SystemInventoryLayout");
+            var layout = inventory.GetVisualDescendants().OfType<IndependentColumnsPanel>().Single(item => item.Name == "SystemInventoryLayout");
             Assert.Equal(twoColumns ? 2 : 1, layout.Columns);
             Assert.Equal(3, layout.Children.Count);
             Assert.Contains(layout.Children[0].GetVisualDescendants().OfType<TextBlock>(), item => item.Text!.Contains("Synthetic Windows", StringComparison.Ordinal));

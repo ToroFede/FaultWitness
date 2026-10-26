@@ -504,4 +504,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Znaleziono zapisy kontekstowe, ale żaden nie odpowiada obecnej klasyfikacji incydentu wymagającego uwagi lub wartego odnotowania. Kontekst w tle nie dowodzi awarii.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Aplikacja / proces w zapisie: {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Analiza zakończona</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Ogranicz animacje</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Użyj tła systemowego, jeśli jest dostępne</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Uruchom analizę, aby wyświetlić podgląd, skopiować lub wyeksportować podsumowanie diagnostyczne z ukrytymi danymi wrażliwymi.</value></data>
 </root>

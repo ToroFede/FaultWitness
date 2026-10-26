@@ -9,7 +9,7 @@ public sealed partial class CaptureConfirmationWindow : Window
     public CaptureConfirmationWindow() => AvaloniaXamlLoader.Load(this);
     public void Prepare(LocalizationService text, Window owner, bool restore)
     {
-        RequestedThemeVariant = owner.RequestedThemeVariant;
+        Components.DialogVisualPreferences.Apply(this, owner);
         Title = text.Get(restore ? "CaptureRestore" : "CaptureConfigure");
         DataContext = new CaptureConfirmationPresentation(new(text), text.Get(restore ? "CaptureRestoreWarning" : "CaptureConfigureWarning"), text.Get(restore ? "CaptureConfirmRestore" : "CaptureConfirmConfigure"));
         var button = this.FindControl<Button>("CaptureConfirmButton")!;

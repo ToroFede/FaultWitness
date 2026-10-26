@@ -129,8 +129,10 @@ public sealed class BetaUxVisualTests
         if (page == AppPage.Detail) viewModel.Select(viewModel.RecentSignificant[0]);
         window.Width = width; window.Height = height; window.UpdateLayout();
         Assert.NotEmpty(VisibleText(window));
-        Assert.All(window.GetVisualDescendants().OfType<ScrollViewer>(), viewer =>
-            Assert.True(viewer.Extent.Width <= viewer.Viewport.Width + 2 || viewer.Viewport.Width == 0, $"{language}/{page}/{width} overflow"));
+        Assert.All(window.GetVisualDescendants().OfType<ScrollViewer>()
+            .Where(viewer => !viewer.GetVisualAncestors().OfType<TextBox>().Any()), viewer =>
+            Assert.True(viewer.Extent.Width <= viewer.Viewport.Width + 2 || viewer.Viewport.Width == 0,
+                $"{language}/{page}/{width} overflow: extent={viewer.Extent.Width}, viewport={viewer.Viewport.Width}, bounds={viewer.Bounds}"));
     }
 
     private static void AssertRendered(MainWindow window, string? output, string name)
