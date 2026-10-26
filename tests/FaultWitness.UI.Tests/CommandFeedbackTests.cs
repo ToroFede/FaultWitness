@@ -191,6 +191,24 @@ public sealed class CommandFeedbackTests
         }
     }
 
+    [AvaloniaFact]
+    public void ExportPreviewContentDoesNotAddPerLineKeyboardStops()
+    {
+        var window = Open(new TestServices());
+        try
+        {
+            window.ViewModel.SetResult(SyntheticResults.Create(1000));
+            window.ViewModel.Navigate(AppPage.Export);
+            var page = Current<ExportSupportView>(window);
+            var scope = page.FindControl<ComboBox>("ExportScope")!;
+            Assert.True(scope.Focus());
+            Tab(window);
+            Assert.True(page.FindControl<Button>("CopySupport")!.IsFocused,
+                "Tab from the export scope should skip the read-only preview lines and reach the first action.");
+        }
+        finally { window.Close(); }
+    }
+
     [AvaloniaTheory]
     [InlineData("success")]
     [InlineData("failure")]

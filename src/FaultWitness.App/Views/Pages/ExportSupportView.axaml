@@ -38,7 +38,7 @@
                 <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Spacing="{DynamicResource primitive.space.2}"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="p:ReportPreviewLine">
-                    <SelectableTextBlock Classes="report-preview-line" Classes.preview-title="{Binding IsTitle}" Classes.preview-heading="{Binding IsHeading}" IsVisible="{Binding !IsBlank}" Text="{Binding Text}" TextWrapping="Wrap"/>
+                    <SelectableTextBlock Classes="report-preview-line" Classes.preview-title="{Binding IsTitle}" Classes.preview-heading="{Binding IsHeading}" IsVisible="{Binding !IsBlank}" IsTabStop="False" Text="{Binding Text}" TextWrapping="Wrap"/>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
