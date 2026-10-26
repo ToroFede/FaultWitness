@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.SystemView" x:DataType="p:SystemPresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Pages.SystemView" x:DataType="p:SystemPresentation" Classes="redesigned">
   <ScrollViewer Name="SystemScroll" HorizontalScrollBarVisibility="Disabled">
     <StackPanel Name="SystemContent" Spacing="{DynamicResource primitive.space.4}">
       <StackPanel Spacing="{DynamicResource primitive.space.1}">
@@ -7,16 +7,18 @@
       </StackPanel>
       <c:SystemSubnavigation Name="SystemNavigation"/>
       <TextBlock Classes="level-one" Text="{Binding Text[SystemInformation]}"/>
-      <TextBlock Name="SystemInventoryStatus" IsVisible="{Binding HasInventoryStatus}" Text="{Binding InventoryStatus}"/>
+      <Border Name="SystemInventoryStatusRegion" Classes="action-surface" IsVisible="{Binding HasInventoryStatus}">
+        <TextBlock Name="SystemInventoryStatus" IsVisible="{Binding HasInventoryStatus}" Text="{Binding InventoryStatus}" AutomationProperties.LiveSetting="Polite"/>
+      </Border>
       <ItemsControl Name="SystemInventory" ItemsSource="{Binding Inventory.Groups}" AutomationProperties.Name="{Binding Text[SystemInformation]}">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
-            <UniformGrid Name="SystemInventoryLayout" Columns="{Binding Inventory.Columns}"/>
+            <c:IndependentColumnsPanel Name="SystemInventoryLayout" Columns="{Binding Inventory.Columns}" ColumnSpacing="{DynamicResource primitive.space.3}" RowSpacing="{DynamicResource primitive.space.3}"/>
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="p:InventoryGroupPresentation">
-            <Border Classes="action-surface" VerticalAlignment="Top" Margin="{DynamicResource UiCommandMargin}" AutomationProperties.Name="{Binding AccessibleName}">
+            <Border Classes="action-surface" VerticalAlignment="Top" AutomationProperties.Name="{Binding AccessibleName}">
               <StackPanel Spacing="{DynamicResource primitive.space.2}">
                 <TextBlock Classes="row-title" Text="{Binding Name}"/>
                 <TextBlock Classes="metadata" IsVisible="{Binding !HasDevices}" Text="{Binding EmptyText}"/>
@@ -33,7 +35,7 @@
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Expander Classes="semantic-disclosure" IsVisible="{Binding HasAdditionalDevices}" Header="{Binding MoreLabel}" AutomationProperties.Name="{Binding MoreLabel}">
+                <Expander Classes="semantic-disclosure" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" IsVisible="{Binding HasAdditionalDevices}" Header="{Binding MoreLabel}" AutomationProperties.Name="{Binding MoreLabel}">
                   <ItemsControl ItemsSource="{Binding AdditionalDevices}">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="p:InventoryDevicePresentation">

@@ -504,4 +504,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Se encontraron registros de contexto, pero ninguno cumple la clasificación actual de un incidente que requiere atención o merece una nota. El contexto en segundo plano no demuestra un fallo.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Aplicación / proceso en el registro: {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Análisis completado</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Reducir animaciones</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Usar el fondo del sistema cuando esté disponible</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Ejecuta un análisis para ver la vista previa, copiar o exportar un resumen de diagnóstico con los datos sensibles ocultos.</value></data>
 </root>

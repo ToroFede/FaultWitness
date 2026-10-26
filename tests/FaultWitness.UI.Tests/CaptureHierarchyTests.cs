@@ -33,7 +33,7 @@ public sealed class CaptureHierarchyTests
             Assert.DoesNotContain("verified", view.FindControl<Border>("CaptureResultRegion")!.Classes);
             Assert.Equal(text.Get("CapturePreviewReady"), view.FindControl<TextBlock>("CapturePreviewNotice")!.Text);
             AssertOwner(window, "CapturePreviewNotice");
-            var safety = view.FindControl<StackPanel>("CaptureSafetyRegion")!;
+            var safety = view.FindControl<Border>("CaptureSafetyRegion")!;
             Assert.True(safety.IsVisible);
             Assert.Empty(safety.GetVisualAncestors().OfType<Expander>());
             foreach (var key in new[] { "CaptureRequiresAdministrator", "CapturePreviewGuide", "CapturePrivacy", "CaptureFolder", "CaptureLimitations" })
@@ -114,7 +114,7 @@ public sealed class CaptureHierarchyTests
             Assert.Contains(journal.Items, item => item.Operation == CaptureOperation.RestoreApplicationCrashDumpConfiguration && item.Result == CaptureResultCode.Pending);
             Assert.DoesNotContain("verified", view.FindControl<Border>("CaptureResultRegion")!.Classes);
             Assert.False(view.FindControl<TextBlock>("CaptureLastResult")!.IsVisible);
-            Assert.False(view.FindControl<StackPanel>("CapturePreviewRegion")!.IsVisible);
+            Assert.False(view.FindControl<Border>("CapturePreviewRegion")!.IsVisible);
             AssertOwner(window, "CaptureOperationStatus");
             window.ViewModel.Navigate(AppPage.Home); window.ViewModel.Navigate(AppPage.Capture);
             CaptureAxamlTests.Settle(window);
@@ -177,7 +177,7 @@ public sealed class CaptureHierarchyTests
             var view = CaptureAxamlTests.View(window);
             var guard = view.FindControl<TextBlock>("CaptureRestoreGuard")!;
             Assert.True(guard.IsVisible);
-            Assert.Contains(guard, view.FindControl<StackPanel>("CaptureRestoreRegion")!.Children);
+            Assert.Contains(guard, view.FindControl<Border>("CaptureRestoreRegion")!.GetVisualDescendants());
             Assert.Equal(window.ViewModel.Text.Get("CaptureResultUnexpectedCurrentState"), guard.Text);
             Assert.Equal(guard.Text, AutomationProperties.GetName(guard));
             Assert.Equal(AutomationLiveSetting.Off, AutomationProperties.GetLiveSetting(guard));

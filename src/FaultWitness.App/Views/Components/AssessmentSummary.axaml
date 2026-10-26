@@ -1,6 +1,7 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Components.AssessmentSummary" x:DataType="p:IncidentDetailPresentation">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" xmlns:c="using:FaultWitness.App.Views.Components" x:Class="FaultWitness.App.Views.Components.AssessmentSummary" x:DataType="p:IncidentDetailPresentation">
+  <c:SurfaceCard>
   <StackPanel Spacing="{DynamicResource primitive.space.3}">
-    <StackPanel Name="AssessmentRegion" Spacing="{DynamicResource primitive.space.1}">
+    <Border Classes="interpretation-marker" BorderThickness="2,0,0,0" Padding="{DynamicResource UiNavPadding}"><StackPanel Name="AssessmentRegion" Spacing="{DynamicResource primitive.space.1}">
       <TextBlock Classes="level-one" Text="{Binding Text[DetailAssessment]}"/>
       <ItemsControl ItemsSource="{Binding Interpretations}">
         <ItemsControl.ItemTemplate>
@@ -10,7 +11,8 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
     </StackPanel>
-    <StackPanel Name="LimitsRegion" Spacing="{DynamicResource primitive.space.1}">
+    </Border>
+    <Border Classes="limit-marker" BorderThickness="2,0,0,0" Padding="{DynamicResource UiNavPadding}"><StackPanel Name="LimitsRegion" Spacing="{DynamicResource primitive.space.1}">
       <TextBlock Classes="level-one" Text="{Binding Text[CannotConclude]}"/>
       <ItemsControl ItemsSource="{Binding Limitations}">
         <ItemsControl.ItemTemplate>
@@ -20,6 +22,7 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
       <TextBlock Name="DetailBackgroundProcessGuidance" Text="{Binding Text[BackgroundProcessGuidance]}"/>
-    </StackPanel>
+    </StackPanel></Border>
   </StackPanel>
+  </c:SurfaceCard>
 </UserControl>

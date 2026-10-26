@@ -28,7 +28,7 @@ public sealed class SystemPresentation : PagePresentation
     public void Refresh(MainViewModel source, string layoutClass)
     {
         Text = new(source.Text);
-        Inventory = InventoryPresentation.From(source.SystemInventory, source.Text, layoutClass);
+        Inventory = InventoryPresentation.From(source.SystemInventory, source.Text, layoutClass, Inventory.Groups);
         IsBusy = source.IsBusy;
         InventoryStatus = source.Text.Get(source.IsBusy ? "ReadingSources" : "NotAvailable");
         RefreshLabel = source.Text.Get("ReadSystem");
@@ -42,7 +42,8 @@ public sealed class SystemPresentation : PagePresentation
         public IReadOnlyList<InventoryGroupPresentation> Groups { get; private set; } = [];
         public int Columns { get; private set; } = 1;
 
-        public static InventoryPresentation From(SystemInventorySnapshot snapshot, LocalizationService text, string layoutClass)
+        public static InventoryPresentation From(SystemInventorySnapshot snapshot, LocalizationService text, string layoutClass,
+            IReadOnlyList<InventoryGroupPresentation>? previous = null)
         {
             var ranks = InventoryOrder.Select((key, index) => (key, index)).ToDictionary(item => item.key, item => item.index, StringComparer.Ordinal);
             return new InventoryPresentation
@@ -50,7 +51,8 @@ public sealed class SystemPresentation : PagePresentation
                 Columns = ColumnsFor(layoutClass),
                 Groups = snapshot.Groups
                     .OrderBy(group => ranks.TryGetValue(group.Key, out var index) ? index : int.MaxValue)
-                    .Select(group => InventoryGroupPresentation.From(group, text))
+                    .Select(group => InventoryGroupPresentation.From(group, text) with
+                    { IsExpanded = previous?.FirstOrDefault(item => item.Key == group.Key)?.IsExpanded ?? false })
                     .ToArray()
             };
         }
@@ -68,6 +70,8 @@ public sealed record InventoryGroupPresentation(
 {
     public bool HasDevices => Devices.Count > 0;
     public bool HasAdditionalDevices => AdditionalDevices.Count > 0;
+    // Presentation state only; preserve disclosure choices when resizing or refreshing translated labels.
+    public bool IsExpanded { get; set; }
 
     public static InventoryGroupPresentation From(InventoryGroup group, LocalizationService text)
     {
@@ -124,6 +128,7 @@ public sealed class ReadinessPresentation : PagePresentation
 public sealed record ReadinessSourcePresentation(
     string Name,
     string Status,
+    DiagnosticCapabilityStatus CapabilityStatus,
     string AccessibleName,
     string Detail,
     string NextAction,
@@ -133,6 +138,8 @@ public sealed record ReadinessSourcePresentation(
     IReadOnlyList<ReadinessObservationPresentation> Observations)
 {
     public bool HasObservations => Observations.Count > 0;
+    public bool IsReady => CapabilityStatus == DiagnosticCapabilityStatus.Ready;
+    public bool IsLimited => CapabilityStatus == DiagnosticCapabilityStatus.Limited;
 
     public static ReadinessSourcePresentation From(DiagnosticReadinessItem item, LocalizationService text)
     {
@@ -145,7 +152,7 @@ public sealed record ReadinessSourcePresentation(
         var technical = text.Get("TechnicalDetails");
         var technicalName = name + " — " + technical + (observationNames.Length == 0 ? string.Empty : " — " + string.Join(", ", observationNames));
         var hasNextAction = !string.IsNullOrWhiteSpace(item.NextActionKey);
-        return new(name, status, name + " — " + status, text.Get(item.DetailKey),
+        return new(name, status, item.Status, name + " — " + status, text.Get(item.DetailKey),
             hasNextAction ? text.Get(item.NextActionKey!) : string.Empty, hasNextAction, technical, technicalName, observationRows);
     }
 }
@@ -164,6 +171,8 @@ public sealed class SettingsPresentation : PagePresentation
     public IReadOnlyList<string> RetentionOptions { get; private set; } = [];
     public int LanguageIndex { get; private set; }
     public int ThemeIndex { get; private set; }
+    public bool ReduceMotion { get; private set; }
+    public bool UseSystemBackdrop { get; private set; }
     public int PeriodIndex { get; private set; }
     public int RetentionIndex { get; private set; }
     public string Release { get; private set; } = string.Empty;
@@ -182,6 +191,8 @@ public sealed class SettingsPresentation : PagePresentation
         RetentionOptions = RetentionValues.Select(days => days == 0 ? text.Get("DoNotRetain") : text.Format("Days", days)).ToArray();
         LanguageIndex = Math.Max(0, Array.IndexOf(LanguageCodes, source.Settings.Language));
         ThemeIndex = (int)source.Settings.Theme;
+        ReduceMotion = source.Settings.ReduceMotion;
+        UseSystemBackdrop = source.Settings.UseSystemBackdrop;
         PeriodIndex = Math.Min(2, (int)source.Settings.Period);
         RetentionIndex = Math.Max(0, Array.IndexOf(RetentionValues, source.Settings.RetentionDays));
         Release = ReleaseIdentity.Display;
@@ -206,6 +217,8 @@ public sealed class ExportSupportPresentation : PagePresentation
     public int FormatIndex { get; private set; }
     public int ScopeIndex { get; private set; }
     public string Preview { get; private set; } = string.Empty;
+    public IReadOnlyList<ReportPreviewLine> PreviewLines { get; private set; } = [];
+    public bool IsJsonPreview => FormatIndex == (int)ExportFormat.Json;
     public string PreviewNote { get; private set; } = string.Empty;
     public bool HasAnalysis { get; private set; }
     public bool IsBusy { get; private set; }
@@ -224,6 +237,7 @@ public sealed class ExportSupportPresentation : PagePresentation
         FormatIndex = (int)format;
         ScopeIndex = selectedOnly && source.Selected is not null ? 1 : 0;
         Preview = preview.Length <= MainWindow.PreviewCharacterLimit ? preview : preview[..MainWindow.PreviewCharacterLimit];
+        PreviewLines = format == ExportFormat.Json ? [] : ReportPreviewLine.Format(Preview);
         PreviewNote = preview.Length > MainWindow.PreviewCharacterLimit ? source.Text.Get("PreviewExcerpt") : string.Empty;
         Changed();
     }

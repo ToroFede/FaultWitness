@@ -503,4 +503,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Найдены контекстные записи, но ни одна не соответствует текущей классификации инцидента, требующего внимания или заслуживающего упоминания. Фоновый контекст не доказывает сбой.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Приложение / процесс в записи: {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Анализ завершён</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Уменьшить анимацию</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Использовать системный фон, если доступен</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Выполните анализ, чтобы просмотреть, скопировать или экспортировать диагностическую сводку с удалёнными конфиденциальными данными.</value></data>
 </root>

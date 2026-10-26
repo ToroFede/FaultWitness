@@ -1,4 +1,6 @@
-# FaultWitness 0.9.0-beta.2
+# FaultWitness
+
+FaultWitness **0.9.0-beta.3** is the current public Windows pre-release, with the approved desktop redesign and System layout improvements. See the [beta.3 release notes](docs/release-notes-0.9.0-beta.3.md).
 
 FaultWitness helps you review Windows evidence after crashes, unexpected restarts, freezes or recurring instability. It examines supported diagnostic records; it is not a general PC health or maintenance checker.
 
@@ -8,7 +10,7 @@ It distinguishes recorded facts, correlations, interpretations, hypotheses and c
 
 **Supported:** Windows 11 on Intel/AMD 64-bit x64 PCs. This is still a beta. Windows ARM64/Snapdragon, Linux and macOS are not supported.
 
-[Download FaultWitness-0.9.0-beta.2-win-x64.zip](https://github.com/ToroFede/FaultWitness/releases/download/v0.9.0-beta.2/FaultWitness-0.9.0-beta.2-win-x64.zip). The matching **SHA256.txt** is on the [pre-release page](https://github.com/ToroFede/FaultWitness/releases/tag/v0.9.0-beta.2).
+[Download FaultWitness-0.9.0-beta.3-win-x64.zip](https://github.com/ToroFede/FaultWitness/releases/download/v0.9.0-beta.3/FaultWitness-0.9.0-beta.3-win-x64.zip). Verify the archive against **SHA256.txt** on the [beta.3 pre-release page](https://github.com/ToroFede/FaultWitness/releases/tag/v0.9.0-beta.3).
 
 This beta is unsigned. Windows may display Unknown publisher or a SmartScreen warning. A matching SHA-256 verifies package bytes against the published checksum; it does not authenticate the publisher. Keep normal Windows security protections enabled. Trusted signing is planned for a future release.
 
@@ -39,6 +41,8 @@ Capture supports ASCII `.exe` basenames in the native Windows registry view. Ser
 No account, telemetry, analytics, automatic upload, cloud processing or background service. Scan summaries, settings and the Action Journal stay under local application data. Raw Event XML is not retained in the scan database.
 
 **Export / support** offers privacy-redacted Markdown, HTML, JSON and ZIP bundles. Profile paths, the computer name and IPv4 addresses are redacted by default; raw XML is opt-in and dumps are excluded. Inspect the preview before sharing. Deleting the program folder does not delete history, settings, journals or captured dumps.
+
+Diagnostic ZIP import is bounded: at most 64 MiB for the input file, 8 MiB per entry, 16 MiB expanded and 20,000 normalized records. A large exported support bundle can exceed these import limits and be rejected safely; exporting a selected incident can reduce its size. An export is not a complete backup or proof of source coverage.
 
 ## Screenshots
 

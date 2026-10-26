@@ -19,6 +19,10 @@ public sealed class Application : Avalonia.Application
         Resources.ThemeDictionaries[ThemeVariant.Dark] = Palette(tokens, "dark");
         foreach (var key in tokens.Keys.Where(key => key.StartsWith("primitive.space.", StringComparison.Ordinal) || key.StartsWith("primitive.radius.", StringComparison.Ordinal) || key.StartsWith("primitive.fontSize.", StringComparison.Ordinal) || key.StartsWith("component.", StringComparison.Ordinal)))
             Resources[key] = tokens.Resolve(key);
+        Resources["UiCardPadding"] = new Thickness(tokens.Number("component.redesign.cardPadding"));
+        Resources["UiCompactCardPadding"] = new Thickness(tokens.Number("primitive.space.4"));
+        Resources["UiCardRadius"] = new CornerRadius(tokens.Number("component.redesign.cardRadius"));
+        Resources["UiInteractionDuration"] = TimeSpan.FromMilliseconds(tokens.Number("component.redesign.interactionMilliseconds"));
         Resources["UiSurfacePadding"] = new Thickness(tokens.Number("primitive.space.4"));
         Resources["UiSurfaceRadius"] = new CornerRadius(tokens.Number("primitive.radius.small"));
         Resources["UiActionRadius"] = new CornerRadius(tokens.Number("component.action.primary.radius"));
@@ -30,14 +34,18 @@ public sealed class Application : Avalonia.Application
         Resources["UiDestinationsMargin"] = new Thickness(0, tokens.Number("primitive.space.8"), 0, 0);
         Resources["UiStatusMargin"] = new Thickness(0, tokens.Number("primitive.space.4"), 0, 0);
         Styles.Add(new StyleInclude(new Uri("avares://FaultWitness/")) { Source = new Uri("avares://FaultWitness/Styles/SharedStyles.axaml") });
+        Styles.Add(new StyleInclude(new Uri("avares://FaultWitness/")) { Source = new Uri("avares://FaultWitness/Styles/RedesignStyles.axaml") });
     }
 
     private static ResourceDictionary Palette(DesignTokenCatalog tokens, string theme)
     {
         SolidColorBrush Brush(string name) => SolidColorBrush.Parse(tokens.Text($"semantic.{theme}.color.{name}"));
+        var shadow = Color.Parse(tokens.Text("primitive.color.shadow"));
         return new ResourceDictionary
         {
             ["AppBackground"] = Brush("canvas"), ["AppSurface"] = Brush("surface"), ["AppSurfaceMuted"] = Brush("surfaceMuted"),
+            ["AppNavigation"] = Brush("surface"), ["AppCard"] = Brush("surface"), ["AppHero"] = Brush("surfaceMuted"),
+            ["UiCardShadow"] = new BoxShadows(new BoxShadow { OffsetY = tokens.Number("component.redesign.shadowOffset"), Blur = tokens.Number("component.redesign.shadowBlur"), Color = Color.FromArgb((byte)(255 * tokens.Number("component.redesign.shadowOpacity")), shadow.R, shadow.G, shadow.B) }),
             ["AppText"] = Brush("text"), ["AppMuted"] = Brush("textMuted"), ["AppBorder"] = Brush("border"),
             ["AppAccent"] = Brush("accent"), ["AppAccentHover"] = Brush("accentHover"), ["AppAccentPressed"] = Brush("accentPressed"), ["AppAttention"] = Brush("attention"), ["AppError"] = Brush("error"),
             ["AppReady"] = Brush("ready"), ["AppContext"] = Brush("context"), ["AppUnknown"] = Brush("unknown"), ["AppSelection"] = Brush("selection")

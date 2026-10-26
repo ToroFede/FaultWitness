@@ -14,6 +14,7 @@ internal static class CommandFeedback
         text.Text = source.StatusText;
         AutomationProperties.SetName(text, source.StatusText);
         view.FindControl<StackPanel>(prefix + "FeedbackRegion")!.IsVisible = visible;
+        if (view.FindControl<Border>(prefix + "FeedbackSurface") is { } surface) surface.IsVisible = visible;
         var details = view.FindControl<Expander>(prefix + "FeedbackDetails")!;
         details.Header = source.Text.Get("TechnicalDetails");
         AutomationProperties.SetName(details, source.Text.Get("TechnicalDetails"));
@@ -28,7 +29,7 @@ internal static class CommandFeedback
             AutomationProperties.SetName(cancel, source.Text.Get("Cancel"));
             ((TextBlock)cancel.Content!).Text = source.Text.Get("Cancel");
             var progress = view.FindControl<ProgressBar>("AnalyzeLocalProgress")!;
-            progress.IsVisible = visible && source.IsBusy;
+            progress.IsVisible = visible && source.IsBusy && !source.Settings.ReduceMotion;
             AutomationProperties.SetName(progress, source.Text.Get("AnalysisInProgress"));
         }
     }

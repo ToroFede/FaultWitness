@@ -2,7 +2,7 @@
 param(
     [Parameter(Mandatory = $true)] [string] $PublishRoot,
     [Parameter(Mandatory = $true)] [string] $OutputRoot,
-    [string] $Version = '0.9.0-beta.2',
+    [string] $Version = '',
     [Parameter(Mandatory = $true)] [string] $LauncherPath,
     [string] $SourceRevision = '',
     [string] $Rid = 'win-x64'
@@ -10,6 +10,10 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+[xml]$productProps = Get-Content -LiteralPath (Join-Path (Split-Path -Parent $PSScriptRoot) 'Directory.Build.props')
+$productVersion = [string]$productProps.Project.PropertyGroup.Version
+if ([string]::IsNullOrWhiteSpace($Version)) { $Version = $productVersion }
+if ($Version -ne $productVersion) { throw 'Package version must match Directory.Build.props.' }
 
 function Get-Relative([string] $Root, [string] $Path) {
     return $Path.Substring($Root.Length).TrimStart('\', '/') -replace '\\', '/'
@@ -76,7 +80,7 @@ if ($launcherInfo.ProductVersion -ne "$Version+$SourceRevision") { throw 'Launch
 foreach ($document in @('LICENSE', 'THIRD-PARTY-NOTICES.txt', 'SECURITY.md')) {
     Copy-Item -LiteralPath (Join-Path $repoRoot $document) -Destination (Join-Path $documents $document)
 }
-foreach ($document in @('capture-next-crash-security.md', 'code-signing-policy.md', 'change-history-sources.md', 'release-notes-0.9.0-beta.2.md')) {
+foreach ($document in @('capture-next-crash-security.md', 'code-signing-policy.md', 'change-history-sources.md', "release-notes-$Version.md", "release-validation-$Version.md")) {
     Copy-Item -LiteralPath (Join-Path $repoRoot "docs/$document") -Destination (Join-Path $documents $document)
 }
 New-Item -ItemType Directory -Path (Join-Path $documents 'images') -Force | Out-Null
@@ -123,5 +127,20 @@ if (Test-Path -LiteralPath $zip) { throw 'Release ZIP already exists.' }
 New-DeterministicZip $staging $zip $productDirectory
 $hash = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant()
 Set-Content -LiteralPath (Join-Path $output 'SHA256.txt') -Value "$hash  $productDirectory.zip" -Encoding ASCII
-@([ordered]@{ artifact = (Split-Path $zip -Leaf); productDirectory = $productDirectory; version = $Version; rid = $Rid; sourceRevision = $SourceRevision; sha256 = $hash; fileCount = $manifestFiles.Count } | ConvertTo-Json -Compress) | Set-Content -LiteralPath (Join-Path $output 'release-summary.json') -Encoding UTF8
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$archive = [IO.Compression.ZipFile]::OpenRead($zip)
+try { $zipFileCount = @($archive.Entries | Where-Object { -not $_.FullName.EndsWith('/') }).Count }
+finally { $archive.Dispose() }
+@([ordered]@{
+    artifact = (Split-Path $zip -Leaf)
+    productDirectory = $productDirectory
+    version = $Version
+    rid = $Rid
+    sourceRevision = $SourceRevision
+    sha256 = $hash
+    fileCount = $zipFileCount
+    fileCountBasis = 'zip-file-entries'
+    manifestFileCount = $manifestFiles.Count
+    manifestExcludesItself = $true
+} | ConvertTo-Json -Compress) | Set-Content -LiteralPath (Join-Path $output 'release-summary.json') -Encoding UTF8
 Write-Output $zip

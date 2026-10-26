@@ -58,7 +58,7 @@ public sealed partial class HomeView : UserControl
             columns = buttons.Length;
         }
 
-        summary.ColumnDefinitions = new ColumnDefinitions(columns == buttons.Length ? "Auto,Auto,Auto" : "*");
+        summary.ColumnDefinitions = new ColumnDefinitions(columns == buttons.Length ? "*,*,*" : "*");
         summary.RowDefinitions = new RowDefinitions(columns == buttons.Length ? "Auto" : "Auto,Auto,Auto");
         for (var index = 0; index < buttons.Length; index++)
         {

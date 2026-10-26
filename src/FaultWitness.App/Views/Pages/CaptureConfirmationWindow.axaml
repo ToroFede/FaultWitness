@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.CaptureConfirmationWindow" x:DataType="p:CaptureConfirmationPresentation" Width="500" Height="240" CanResize="False" WindowStartupLocation="CenterOwner">
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="using:FaultWitness.App.Presentation" x:Class="FaultWitness.App.Views.Pages.CaptureConfirmationWindow" x:DataType="p:CaptureConfirmationPresentation" Width="500" Height="280" MinWidth="280" MinHeight="240" CanResize="True" WindowStartupLocation="CenterOwner" Classes="redesigned">
   <Window.Styles>
     <Style Selector="Button.primary-action">
       <Setter Property="MinHeight" Value="{DynamicResource component.action.primary.minHeight}"/>
@@ -6,9 +6,11 @@
   </Window.Styles>
   <Grid RowDefinitions="*,Auto" Margin="{DynamicResource UiSurfacePadding}" RowSpacing="{DynamicResource primitive.space.4}">
     <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-      <TextBlock Text="{Binding Warning}"/>
+      <Border Classes="action-surface" VerticalAlignment="Top">
+        <TextBlock Text="{Binding Warning}"/>
+      </Border>
     </ScrollViewer>
-    <WrapPanel Grid.Row="1">
+    <WrapPanel Name="ConfirmationActions" Grid.Row="1">
       <Button Name="CaptureConfirmButton" Click="Confirm" AutomationProperties.Name="{Binding ConfirmLabel}" Margin="{DynamicResource UiCommandMargin}">
         <TextBlock Text="{Binding ConfirmLabel}"/>
       </Button>

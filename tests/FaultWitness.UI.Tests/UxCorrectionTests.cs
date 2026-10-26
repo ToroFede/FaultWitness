@@ -97,7 +97,7 @@ public sealed class UxCorrectionTests
             Assert.All(SummaryMetricNames, name => Assert.True(Find<Button>(window, name).IsVisible));
             Assert.Equal(fitsAsStrip ? 3 : 1, summary.ColumnDefinitions.Count);
             Assert.Equal(fitsAsStrip ? 1 : 3, summary.RowDefinitions.Count);
-            Assert.Equal(Convert.ToDouble(Avalonia.Application.Current!.Resources["primitive.space.1"], CultureInfo.InvariantCulture), summary.RowSpacing);
+            Assert.Equal(Convert.ToDouble(Avalonia.Application.Current!.Resources["primitive.space.3"], CultureInfo.InvariantCulture), summary.RowSpacing);
             Assert.All(buttons, button => Assert.True(button.Bounds.Height >= Convert.ToDouble(Avalonia.Application.Current!.Resources["component.action.standard.minHeight"], CultureInfo.InvariantCulture)));
             Assert.Contains(fitsAsStrip ? "summary-strip" : "summary-stacked", summary.Classes);
         }

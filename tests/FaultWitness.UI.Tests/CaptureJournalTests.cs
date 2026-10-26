@@ -32,10 +32,13 @@ public sealed class CaptureJournalTests
         var rollback = Entry(); await store.SaveAsync(rollback, CancellationToken.None);
         await store.SaveAsync(rollback with { Result = CaptureResultCode.Success, RollbackAvailable = true }, CancellationToken.None);
         await store.SaveAsync(rollback with { Result = CaptureResultCode.Success, RollbackAvailable = false, RollbackStatus = "Complete" }, CancellationToken.None);
+        var automatic = Entry(); await store.SaveAsync(automatic, CancellationToken.None);
+        await store.SaveAsync(automatic with { Result = CaptureResultCode.AccessDenied, ObservedState = automatic.PreviousState, RollbackStatus = "AutomaticComplete" }, CancellationToken.None);
         var rows = await store.LoadAsync(CancellationToken.None);
         Assert.Contains(rows, x => x.Result == CaptureResultCode.ApplyFailed && x.NativeError == 5);
         Assert.Contains(rows, x => x.Result == CaptureResultCode.CancelledByUser);
         Assert.Contains(rows, x => x.RollbackStatus == "Complete" && !x.RollbackAvailable);
+        Assert.Contains(rows, x => x.Result == CaptureResultCode.AccessDenied && x.RollbackStatus == "AutomaticComplete" && x.ObservedState == x.PreviousState);
     }
 
     [Fact]

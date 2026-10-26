@@ -559,4 +559,7 @@
   <data name="BackgroundOnlyExplanation" xml:space="preserve"><value>Contextual records were found, but none matched the current classification for an incident needing attention or worth noting. Background context is not proof of a failure.</value></data>
   <data name="IncidentProcessValue" xml:space="preserve"><value>Application / process in record: {0}</value></data>
   <data name="QuietAnalysisComplete" xml:space="preserve"><value>Analysis completed</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Reduce motion</value></data>
+  <data name="UseSystemBackdrop" xml:space="preserve"><value>Use system backdrop when available</value></data>
+  <data name="ExportEmptyHelp" xml:space="preserve"><value>Run an analysis to preview, copy or export a redacted diagnostic summary.</value></data>
 </root>

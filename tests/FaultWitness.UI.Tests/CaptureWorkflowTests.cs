@@ -1,5 +1,6 @@
 using FaultWitness.App;
 using FaultWitness.Core;
+using FaultWitness.Platform.Windows;
 
 namespace FaultWitness.UI.Tests;
 
@@ -50,6 +51,27 @@ public sealed class CaptureWorkflowTests
         var journal = new MemoryJournal(); var service = new FakeService { ExecuteFailure = new UnauthorizedAccessException() }; var flow = new CaptureWorkflow(service, journal) { TargetExecutable = "demo.exe" };
         await flow.PreviewAsync(); await flow.ConfigureAsync();
         Assert.Equal(CaptureResultCode.AccessDenied, flow.LastResult!.Code); Assert.Equal(CaptureResultCode.AccessDenied, Assert.Single(flow.Entries).Result);
+    }
+    [Fact]
+    public async Task PartialRegistryWriteRollbackIsPersistedAsAutomaticComplete()
+    {
+        var registry = new PartialWriteRegistry();
+        var journal = new MemoryJournal();
+        var flow = new CaptureWorkflow(new EngineService(registry), journal) { TargetExecutable = "rollback-test.exe" };
+
+        await flow.PreviewAsync();
+        await flow.ConfigureAsync();
+
+        Assert.Equal(1, registry.ValuesWrittenBeforeFailure);
+        Assert.Equal(new LocalDumpState(false), registry.State);
+        Assert.Equal(CaptureResultCode.AccessDenied, flow.LastResult!.Code);
+        Assert.True(flow.LastResult.RollbackAttempted);
+        Assert.True(flow.LastResult.RollbackSucceeded);
+        var entry = Assert.Single(flow.Entries);
+        Assert.Equal(CaptureResultCode.AccessDenied, entry.Result);
+        Assert.Equal("AutomaticComplete", entry.RollbackStatus);
+        Assert.False(entry.RollbackAvailable);
+        Assert.Equal(new LocalDumpState(false), entry.ObservedState);
     }
     [Fact]
     public async Task ReadbackExceptionTransitionsPendingToVerificationFailure()
@@ -164,5 +186,26 @@ public sealed class CaptureWorkflowTests
             if (Result == CaptureResultCode.Success && !SkipWrite) State = request.DesiredState;
             return new(Result, State);
         }
+    }
+
+    private sealed class EngineService(ILocalDumpRegistry registry) : ICrashCaptureService
+    {
+        private readonly LocalDumpCaptureEngine engine = new(registry);
+        public Task<CaptureReadResult> ReadAsync(string executable, CancellationToken token) => Task.FromResult(engine.Read(executable));
+        public Task<CaptureResult> ExecuteAsync(CaptureRequest request, CancellationToken token) => Task.FromResult(engine.Execute(request));
+    }
+
+    private sealed class PartialWriteRegistry : ILocalDumpRegistry
+    {
+        public LocalDumpState State { get; private set; } = new(false);
+        public int ValuesWrittenBeforeFailure { get; private set; }
+        public LocalDumpState ReadState(string executable) => State;
+        public void Configure(string executable, LocalDumpState desired)
+        {
+            State = new LocalDumpState(true, desired.DumpType);
+            ValuesWrittenBeforeFailure = 1;
+            throw new UnauthorizedAccessException("Injected after writing DumpType in the test registry.");
+        }
+        public void Restore(string executable, LocalDumpState prior) => State = prior;
     }
 }

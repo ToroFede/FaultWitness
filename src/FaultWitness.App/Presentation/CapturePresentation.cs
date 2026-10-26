@@ -21,6 +21,7 @@ public sealed class CapturePresentation : PagePresentation
     public string PreviewNotice { get; private set; } = string.Empty;
     public bool HasVerifiedResult { get; private set; }
     public bool HasResult { get; private set; }
+    public bool ShowResult => IsBusy || HasResult;
     public bool ResultIsAttention { get; private set; }
     public bool ResultIsError { get; private set; }
     public AutomationLiveSetting PreviewLiveSetting => !IsBusy && !HasResult ? AutomationLiveSetting.Polite : AutomationLiveSetting.Off;

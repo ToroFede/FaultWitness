@@ -1,10 +1,11 @@
-<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="FaultWitness.App.MainWindow">
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="FaultWitness.App.MainWindow" Classes="redesigned">
   <Grid Name="Shell" ColumnDefinitions="Auto,*">
-    <Border Name="NavigationSurface" BorderThickness="0,0,1,0" Background="{DynamicResource AppSurface}" BorderBrush="{DynamicResource AppBorder}">
+    <Border Name="NavigationSurface" BorderThickness="0,0,1,0" Background="{DynamicResource AppNavigation}" BorderBrush="{DynamicResource AppBorder}">
       <Grid RowDefinitions="Auto,*,Auto" Margin="{DynamicResource UiNavMargin}">
         <StackPanel Spacing="{DynamicResource primitive.space.3}">
           <TextBlock Name="NavigationBrand" Classes="level-one" Text="FaultWitness" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" ToolTip.Tip="FaultWitness"/>
           <TextBlock Name="LocalFirstLabel" Classes="metadata"/>
+          <TextBlock Name="ReleaseLabel" Classes="eyebrow"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Spacing="{DynamicResource primitive.space.1}" Margin="{DynamicResource UiDestinationsMargin}">
           <Button Name="NavHome" Classes="navigation-item" Click="NavigateFromShell" Grid.Row="0">
@@ -48,7 +49,8 @@
     </Border>
     <Grid Name="MainRegion" Grid.Column="1" RowDefinitions="*,Auto">
       <ContentControl Name="PageHost" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
-      <Grid Name="StatusArea" Grid.Row="1" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" Margin="{DynamicResource UiStatusMargin}">
+      <Border Name="StatusSurface" Grid.Row="1" Classes="action-surface" Padding="0" BorderThickness="0" IsVisible="False">
+      <Grid Name="StatusArea" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="{DynamicResource primitive.space.2}">
         <TextBlock Name="StatusText" AutomationProperties.LiveSetting="Polite"/>
         <Button Name="CancelAnalysis" Grid.Column="1" Classes="secondary-action" Click="CancelFromShell">
           <TextBlock Name="CancelLabel"/>
@@ -58,6 +60,7 @@
           <TextBlock Name="TechnicalErrorText"/>
         </Expander>
       </Grid>
+      </Border>
     </Grid>
   </Grid>
 </Window>
