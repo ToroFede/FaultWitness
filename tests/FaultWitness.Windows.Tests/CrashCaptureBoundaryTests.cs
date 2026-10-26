@@ -80,9 +80,12 @@ public sealed class CrashCaptureBoundaryTests
         Assert.False(CaptureRequestProtocol.TryParse(Convert.ToBase64String(JsonSerializer.SerializeToUtf8Bytes(Request() with { SchemaVersion = 2 })), out _));
         Assert.False(CaptureRequestProtocol.TryParse(Convert.ToBase64String(JsonSerializer.SerializeToUtf8Bytes(Request() with { TargetExecutable = "..\\demo.exe" })), out _));
     }
-    [Fact] public void PartialWriteRollsBackWhenStateRemainsBounded() {
-        var f = new Fake(Empty) { ThrowAfterConfigure = true };
+    [Fact] public void PartialRegistryWriteRollsBackWhenStateRemainsBounded() {
+        var f = new Fake(Empty) { FailAfterFirstConfigureValue = true };
         var result = new LocalDumpCaptureEngine(f).Execute(Request());
+        Assert.Equal(CaptureResultCode.AccessDenied, result.Code);
+        Assert.Equal(1, f.ConfigureValuesWritten);
+        Assert.Equal(new LocalDumpState(true, CrashCapturePolicy.DumpType), result.ObservedState);
         Assert.True(result.RollbackAttempted); Assert.True(result.RollbackSucceeded); Assert.Equal(Empty, f.State);
     }
     [Fact] public void ExternalFingerprintDriftBlocksRollback() {
@@ -140,9 +143,19 @@ public sealed class CrashCaptureBoundaryTests
     }
     private sealed class Fake(LocalDumpState state) : ILocalDumpRegistry {
         public LocalDumpState State { get; private set; } = state;
-        public bool ThrowAfterConfigure; public bool DriftOnRead; public bool VerificationFailure; public bool RollbackFailure; public Exception? ReadFailure;
+        public bool ThrowAfterConfigure; public bool FailAfterFirstConfigureValue; public bool DriftOnRead; public bool VerificationFailure; public bool RollbackFailure; public Exception? ReadFailure;
+        public int ConfigureValuesWritten { get; private set; }
         public LocalDumpState ReadState(string executable) { if (ReadFailure is not null) throw ReadFailure; return VerificationFailure && State.KeyExists ? State with { DumpType = 2 } : DriftOnRead && State.KeyExists ? State with { OtherValuesFingerprint = "F" } : State; }
-        public void Configure(string executable, LocalDumpState desired) { State = desired; if (ThrowAfterConfigure) throw new InvalidOperationException(); }
+        public void Configure(string executable, LocalDumpState desired) {
+            if (FailAfterFirstConfigureValue) {
+                State = desired with { DumpCount = null, DumpFolder = null };
+                ConfigureValuesWritten = 1;
+                throw new UnauthorizedAccessException("Injected after the first registry value in this test fake.");
+            }
+            State = desired;
+            ConfigureValuesWritten = 3;
+            if (ThrowAfterConfigure) throw new InvalidOperationException();
+        }
         public void Restore(string executable, LocalDumpState prior) { if (RollbackFailure) throw new InvalidOperationException(); State = prior; }
     }
 }

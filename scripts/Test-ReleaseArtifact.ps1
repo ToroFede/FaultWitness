@@ -10,9 +10,13 @@ $productDirectory = "FaultWitness-$version-win-x64"
 $directory = Join-Path $root $productDirectory
 $zip = Join-Path $root "$productDirectory.zip"
 $checksum = Join-Path $root 'SHA256.txt'
+$summaryPath = Join-Path $root 'release-summary.json'
 if (-not (Test-Path $directory -PathType Container)) { throw 'Versioned product directory is missing.' }
 if (-not (Test-Path $zip -PathType Leaf)) { throw 'Versioned ZIP is missing.' }
 if (-not (Test-Path $checksum -PathType Leaf)) { throw 'SHA-256 sidecar is missing.' }
+if (-not (Test-Path $summaryPath -PathType Leaf)) { throw 'Release summary is missing.' }
+$summary = Get-Content -LiteralPath $summaryPath -Raw | ConvertFrom-Json
+if ($summary.artifact -ne (Split-Path $zip -Leaf) -or $summary.version -ne $version -or $summary.rid -ne 'win-x64') { throw 'Release summary identity is invalid.' }
 $manifestPath = Join-Path $directory 'app/docs/release-manifest.json'
 $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
 if ($manifest.product -ne 'FaultWitness' -or $manifest.version -ne $version -or $manifest.rid -ne 'win-x64') { throw 'Release manifest identity is invalid.' }
@@ -53,6 +57,9 @@ try {
     $zipPaths = @($archive.Entries | ForEach-Object FullName)
     $expectedZipPaths = @((Get-ChildItem $directory -File -Recurse | ForEach-Object { "$productDirectory/" + ($_.FullName.Substring($directory.Length).TrimStart('\','/') -replace '\\', '/') }))
     if ($zipPaths.Count -ne $expectedZipPaths.Count -or @(Compare-Object $zipPaths $expectedZipPaths).Count -ne 0) { throw 'ZIP inventory does not exactly match the staged product directory.' }
+    $zipFileCount = @($archive.Entries | Where-Object { -not $_.FullName.EndsWith('/') }).Count
+    if ([long]$summary.fileCount -ne $zipFileCount -or $summary.fileCountBasis -ne 'zip-file-entries') { throw 'Release summary file count does not match the ZIP file entries.' }
+    if ([long]$summary.manifestFileCount -ne $manifestPaths.Count -or $summary.manifestExcludesItself -ne $true -or $zipFileCount -ne ($manifestPaths.Count + 1)) { throw 'Release summary manifest count does not match the ZIP inventory.' }
     foreach ($entry in $archive.Entries) { if ($entry.FullName -match $forbidden) { throw "Forbidden ZIP content: $($entry.FullName)" } }
 } finally { $archive.Dispose() }
 Write-Output 'Release artifact content audit passed.'

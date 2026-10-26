@@ -127,5 +127,20 @@ if (Test-Path -LiteralPath $zip) { throw 'Release ZIP already exists.' }
 New-DeterministicZip $staging $zip $productDirectory
 $hash = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant()
 Set-Content -LiteralPath (Join-Path $output 'SHA256.txt') -Value "$hash  $productDirectory.zip" -Encoding ASCII
-@([ordered]@{ artifact = (Split-Path $zip -Leaf); productDirectory = $productDirectory; version = $Version; rid = $Rid; sourceRevision = $SourceRevision; sha256 = $hash; fileCount = $manifestFiles.Count } | ConvertTo-Json -Compress) | Set-Content -LiteralPath (Join-Path $output 'release-summary.json') -Encoding UTF8
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$archive = [IO.Compression.ZipFile]::OpenRead($zip)
+try { $zipFileCount = @($archive.Entries | Where-Object { -not $_.FullName.EndsWith('/') }).Count }
+finally { $archive.Dispose() }
+@([ordered]@{
+    artifact = (Split-Path $zip -Leaf)
+    productDirectory = $productDirectory
+    version = $Version
+    rid = $Rid
+    sourceRevision = $SourceRevision
+    sha256 = $hash
+    fileCount = $zipFileCount
+    fileCountBasis = 'zip-file-entries'
+    manifestFileCount = $manifestFiles.Count
+    manifestExcludesItself = $true
+} | ConvertTo-Json -Compress) | Set-Content -LiteralPath (Join-Path $output 'release-summary.json') -Encoding UTF8
 Write-Output $zip
